@@ -1,0 +1,24 @@
+{
+  "name": "crawler.plugins.downloader",
+  "version": "0.0.2",
+  "description": "爬虫下载插件",
+  "main": "out/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "crawler",
+    "typescript",
+    "nodejs"
+  ],
+  "author": "NICK",
+  "license": "ISC",
+  "dependencies": {
+    "inversify": "^4.2.0",
+    "reflect-metadata": "^0.1.10"
+  },
+  "devDependencies": {
+    "@types/inversify": "^2.0.33",
+    "@types/reflect-metadata": "0.0.5"
+  }
+}
