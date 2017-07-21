@@ -1,6 +1,6 @@
 {
   "name": "crawler.plugins.downloader",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "爬虫下载插件",
   "main": "out/index.js",
   "scripts": {
@@ -14,11 +14,20 @@
   "author": "NICK",
   "license": "ISC",
   "dependencies": {
+    "crawler.common": "^0.0.3",
     "inversify": "^4.2.0",
-    "reflect-metadata": "^0.1.10"
+    "modelproxy": "^0.5.19",
+    "reflect-metadata": "^0.1.10",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1",
+    "seneca": "^3.4.1"
   },
   "devDependencies": {
     "@types/inversify": "^2.0.33",
-    "@types/reflect-metadata": "0.0.5"
+    "@types/node": "^8.0.14",
+    "@types/reflect-metadata": "0.0.5",
+    "@types/request": "^2.0.0",
+    "@types/seneca": "^2.1.7",
+    "@types/tv4": "^1.2.28"
   }
 }

@@ -1,8 +1,8 @@
 {
   "name": "crawler.common",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "爬虫公共代码",
-  "main": "out/index.js",
+  "main": "out/src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,6 +11,7 @@
     "typescript",
     "javascript"
   ],
+  "types": "./out/src/index.d.ts",
   "author": "NICK",
   "license": "ISC",
   "dependencies": {
