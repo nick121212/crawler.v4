@@ -1,10 +1,14 @@
 {
   "name": "crawler.plugins.downloader",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "爬虫下载插件",
   "main": "out/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test",
+    "start": "node out/index.js",
+    "dock": "docker run  --network=host --name crawler.plugin.downloader -e HOST=0.0.0.0 crawler.plugin.downloader",
+    "dockfile": "docker build -t crawler.plugin.downloader .",
+    "curl": "curl -d '{\"role\":\"crawler.plugin.downloader\",\"cmd\":\"download\",\"id\":3}' http://0.0.0.0:9999/act"
   },
   "keywords": [
     "crawler",
@@ -14,13 +18,20 @@
   "author": "NICK",
   "license": "ISC",
   "dependencies": {
-    "crawler.common": "^0.0.3",
+    "crawler.common": "0.0.3",
     "inversify": "^4.2.0",
     "modelproxy": "^0.5.19",
     "reflect-metadata": "^0.1.10",
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
-    "seneca": "^3.4.1"
+    "seneca": "^3.4.1",
+    "seneca-amqp-transport": "^2.2.0",
+    "seneca-consul-registry": "^0.1.0",
+    "seneca-demo-logger": "^0.2.0",
+    "seneca-mesh": "^0.10.0",
+    "seneca-redis-queue-transport": "^0.3.0",
+    "seneca-redis-transport": "^0.3.0",
+    "seneca-transport": "^2.1.1"
   },
   "devDependencies": {
     "@types/inversify": "^2.0.33",
