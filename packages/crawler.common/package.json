@@ -1,6 +1,6 @@
 {
   "name": "crawler.common",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "爬虫公共代码",
   "main": "out/src/index.js",
   "scripts": {
