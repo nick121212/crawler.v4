@@ -1,2 +1,8 @@
 .vscode
+.history
+lerna-debug.log
+npm-debug.log
 node_modules
+packages/**/out
+packages/**/node_modules
+packages/**/.history
