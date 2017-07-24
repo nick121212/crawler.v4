@@ -1,6 +1,6 @@
 {
   "name": "crawler.plugins.mq",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -10,12 +10,13 @@
   "license": "ISC",
   "dependencies": {
     "amqplib": "^0.5.1",
-    "crawler.plugins.common": "^0.1.5",
+    "crawler.plugins.common": "^0.1.6",
     "inversify": "^4.2.0",
     "lodash": "^4.17.4",
     "reflect-metadata": "^0.1.10",
     "seneca": "^3.4.1",
     "seneca-consul-registry": "^0.1.0",
+    "seneca-entity": "^2.0.2",
     "seneca-mesh": "^0.10.0",
     "seneca-transport": "^2.1.1"
   },
