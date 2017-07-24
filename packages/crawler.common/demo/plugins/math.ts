@@ -20,8 +20,6 @@ export class MathPlugin {
         return new Promise(async (resolve: (value?: any | PromiseLike<any>) => void, reject: (reason?: any) => void) => {
             await bluebird.delay(2000);
 
-            console.log("math:init", this.aa, c);
-
             resolve();
         });
     }
