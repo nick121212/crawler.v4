@@ -11,7 +11,7 @@ var aaa = (function () {
     function aaa() {
     }
     aaa.prototype.add10 = function (n) {
-        return n += 10;
+        return n += 12;
     };
     return aaa;
 }());

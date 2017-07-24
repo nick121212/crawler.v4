@@ -1,0 +1,6 @@
+node_modules
+demo
+.vscode
+.history
+src
+fs
