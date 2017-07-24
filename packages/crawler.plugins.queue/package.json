@@ -14,7 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "blueimp-md5": "^2.7.0",
-    "crawler.common": "0.0.3",
+    "crawler.common": "^0.0.5",
     "inversify": "^4.2.0",
     "lodash": "^4.17.4",
     "path-to-regexp": "^1.7.0",
