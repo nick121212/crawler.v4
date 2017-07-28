@@ -1,6 +1,6 @@
 {
   "name": "crawler.plugins.mq",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "amqplib": "^0.5.1",
-    "crawler.plugins.common": "^0.1.5",
+    "crawler.plugins.common": "^0.1.7",
     "inversify": "^4.2.0",
     "lodash": "^4.17.4",
     "reflect-metadata": "^0.1.10",
