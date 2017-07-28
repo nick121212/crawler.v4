@@ -1,4 +1,12 @@
 "use strict";
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -77,20 +85,23 @@ var MQueuePlugin = (function () {
                             return [2 /*return*/];
                         }
                         mQueueService = new mq_1.MQueueService();
-                        task = options.seneca.make$('tasks', {
-                            id: config.key
-                        });
+                        task = options.seneca.make$('tasks', __assign({ id: config.key }, config));
                         return [4 /*yield*/, task.saveAsync()];
                     case 1:
                         instance = _a.sent();
                         this.mqs.push(mQueueService);
                         mQueueService.initConsume(globalOptions, config.key, config, 5);
-                        console.log(this.mqs);
                         return [2 /*return*/];
                 }
             });
         });
     };
+    /**
+     * 删除一个任务
+     * @param param0
+     * @param options
+     * @param globalOptions
+     */
     MQueuePlugin.prototype.removeFromQueue = function (_a, options, globalOptions) {
         var _b = _a.config, config = _b === void 0 ? {} : _b;
         return __awaiter(this, void 0, void 0, function () {
@@ -119,13 +130,32 @@ var MQueuePlugin = (function () {
     };
     MQueuePlugin.prototype.init = function (msg, options, globalOptions) {
         return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            var entity, tasks;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        console.log("init");
-                        return [4 /*yield*/, bluebird.delay(200)];
+                        entity = options.seneca.make$('tasks');
+                        return [4 /*yield*/, entity.listAsync({})];
                     case 1:
+                        tasks = _a.sent();
+                        _.forEach(tasks, function (task) { return __awaiter(_this, void 0, void 0, function () {
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0:
+                                        if (!(task.id && !this.mqs[task.id])) return [3 /*break*/, 2];
+                                        return [4 /*yield*/, this.addToQueue({ config: task }, options, globalOptions)];
+                                    case 1:
+                                        _a.sent();
+                                        _a.label = 2;
+                                    case 2: return [2 /*return*/];
+                                }
+                            });
+                        }); });
+                        return [4 /*yield*/, bluebird.delay(200)];
+                    case 2:
                         _a.sent();
+                        console.log("init");
                         return [2 /*return*/];
                 }
             });

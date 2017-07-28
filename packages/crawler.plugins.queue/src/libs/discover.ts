@@ -261,10 +261,10 @@ export class DiscoverLinks {
             belowMaxDepth = belowMaxDepth === false ? 0 : Infinity;
         }
 
-        let whitelistedDepth = queueItem.depth - belowMaxDepth;
+        let whitelistedDepth = ~~(queueItem.depth || 1) - belowMaxDepth;
 
         return this.maxDepth === 0 ||
-            queueItem.depth <= this.maxDepth ||
+            (queueItem.depth || 1) <= this.maxDepth ||
             whitelistedDepth <= this.maxDepth &&
             whitelistedMimeTypes.some(function (mimeCheck) {
                 return mimeCheck.test(queueItem.stateData.contentType);

@@ -28,25 +28,29 @@ export class MQueuePlugin {
      * @param globalOptions 
      */
     @Add(`role:${pluginName},cmd:add`)
-    async addToQueue({ config }: { config: any }, options: any, globalOptions: any) {
+    async addToQueue({ config }: { config: any }, options?: any, globalOptions?: any) {
         if (this.has(config.key)) {
             return;
         }
 
         let mQueueService = new MQueueService();
         let task = options.seneca.make$('tasks', {
-            id: config.key
+            id: config.key,
+            ...config
         });
         let instance = await task.saveAsync();
 
         this.mqs.push(mQueueService);
+
         mQueueService.initConsume(globalOptions, config.key, config, 5);
-
-        console.log(this.mqs);
-
-        return;
     }
 
+    /**
+     * 删除一个任务
+     * @param param0 
+     * @param options 
+     * @param globalOptions 
+     */
     @Add(`role:${pluginName},cmd:remove`)
     async removeFromQueue({ config = {} }: { config: any }, options: any, globalOptions: any) {
         let mQueueServie = _.first(_.filter(this.mqs, (mq: MQueueService) => {
@@ -63,13 +67,21 @@ export class MQueuePlugin {
         await mQueueServie.destroy();
 
         _.remove(this.mqs, mQueueServie);
-
-        return;
     }
 
     @Init()
     async init(msg: any, options: any, globalOptions: any) {
-        console.log("init");
+        let entity = options.seneca.make$('tasks');
+        let tasks = await entity.listAsync({});
+
+        _.forEach(tasks, async (task: any) => {
+            if (task.id && !this.mqs[task.id]) {
+                await this.addToQueue({ config: task }, options, globalOptions);
+            }
+        });
+
         await bluebird.delay(200);
+
+        console.log("init");
     }
 }

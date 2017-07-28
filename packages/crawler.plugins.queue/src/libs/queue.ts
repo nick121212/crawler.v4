@@ -1,8 +1,10 @@
 import * as uri from "urijs";
 import * as _ from "lodash";
 import * as qs from "qs";
-import * as md5 from "blueimp-md5";
+// import * as md5 from "blueimp-md5";
 import * as pathToRegexp from 'path-to-regexp';
+
+const md5 = require("blueimp-md5");
 
 import { IQueueItem } from './queueitem';
 
@@ -154,6 +156,9 @@ export class Queue {
         let parsedURL: any = typeof url === "object" ? url : this.processURL(url, queueItem);
 
         if (!parsedURL) return false;
+
+        if (!queueItem) queueItem = parsedURL;
+
         // 赋值一个ID
         queueItem._id = md5(queueItem.url || "");
 

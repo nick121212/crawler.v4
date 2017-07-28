@@ -2271,32 +2271,33 @@ document.getElementsByTagName("head")[0].appendChild(_BFD.script);
 `;
 
 const config = {
-    "queueConfig": {
-        "ignoreWWWDomain": false,
-        "stripWWWDomain": false,
-        "scanSubdomains": true,
-        "host": "www.yaolan.com",
-        "initialProtocol": "http",
-        "initialPort": 80,
-        "stripQuerystring": true,
-        "fetchConditions": [],
-        "domainWhiteList": ["(.*?).yaolan.com"],
-        "filterByDomain": true
-    },
-    "discoverConfig": {
-        "parseHTMLComments": false,
-        "parseScriptTags": false,
-        "allowedProtocols": ["http", "https"],
-        "whitePathList": [{ "path": "/(.*?)", "enable": true }],
-        "userAgent": "",
-        "fetchWhitelistedMimeTypesBelowMaxDepth": false,
-        "maxDepth": 0,
-        "ignoreRobots": true
-    },
-    "queueItem": {
-        responseBody: responseBody,
-        url: "http://www.yaolan.com"
-    }
+	"queueConfig": {
+		"ignoreWWWDomain": false,
+		"stripWWWDomain": false,
+		"scanSubdomains": true,
+		"host": "www.yaolan.com",
+		"initialProtocol": "http",
+		"initialPort": 80,
+		"stripQuerystring": true,
+		"fetchConditions": [],
+		"domainWhiteList": ["(.*?).yaolan.com"],
+		"filterByDomain": true
+	},
+	"discoverConfig": {
+		"parseHTMLComments": false,
+		"parseScriptTags": false,
+		"allowedProtocols": ["http", "https"],
+		"whitePathList": [{ "path": "/(.*?)", "enable": true }],
+		"userAgent": "",
+		"fetchWhitelistedMimeTypesBelowMaxDepth": false,
+		"maxDepth": 0,
+		"ignoreRobots": true
+	},
+	// "queueItem": {
+	// 	responseBody: responseBody,
+	// 	url: "http://www.yaolan.com"
+	// },
+	"urls": ["http://bbs.yaolan.com","http://www.yaolan.com"]
 };
 
 
@@ -2307,30 +2308,32 @@ const BROADCAST = process.env.BROADCAST;
 const REGISTRY = JSON.parse(process.env.REGISTRY || '{"active":true}');
 
 let seneca = new Seneca(container, {
-    tag: pluginName
+	tag: pluginName
 });
 
 seneca.initPlugin();
 seneca.seneca
-    .use('consul-registry', {
-        host: '47.92.126.120'
-    })
-    .use("mesh", {
-        auto: true,
-        isbase: true,
-        host: HOST,
-        port: PORT,
-        discover: {
-            registry: {
-                active: true
-            }
-        },
-        listen: [{
-            pin: `role:${pluginName},cmd:analyze`,
-        }]
-    }).ready(async () => {
-        console.log("ready");
-        console.log(seneca.seneca.list());
+	.use('consul-registry', {
+		host: '47.92.126.120'
+	})
+	.use("mesh", {
+		auto: true,
+		isbase: true,
+		// host: HOST,
+		// port: PORT,
+		discover: {
+			registry: {
+				active: true
+			}
+		},
+		listen: [{
+			pin: `role:${pluginName},cmd:*`,
+		}]
+	}).ready(async () => {
+		console.log("ready");
 
-        seneca.seneca.act(`role:${pluginName},cmd:analyze`, config, console.log);
-    });
+		// seneca.seneca.act(`role:${pluginName},cmd:analyze`, config, console.log);
+		seneca.seneca.act(`role:${pluginName},cmd:queue`, config, (err: any, res: any) => {
+			console.log(res);
+		});
+	});

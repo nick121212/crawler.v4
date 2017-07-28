@@ -239,9 +239,9 @@ var DiscoverLinks = (function () {
         if (typeof belowMaxDepth === "boolean") {
             belowMaxDepth = belowMaxDepth === false ? 0 : Infinity;
         }
-        var whitelistedDepth = queueItem.depth - belowMaxDepth;
+        var whitelistedDepth = ~~(queueItem.depth || 1) - belowMaxDepth;
         return this.maxDepth === 0 ||
-            queueItem.depth <= this.maxDepth ||
+            (queueItem.depth || 1) <= this.maxDepth ||
             whitelistedDepth <= this.maxDepth &&
                 whitelistedMimeTypes.some(function (mimeCheck) {
                     return mimeCheck.test(queueItem.stateData.contentType);

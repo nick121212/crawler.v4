@@ -1,6 +1,7 @@
 import * as Seneca from 'seneca';
 import inversify, { injectable, inject } from 'inversify';
 import { Plugin, Add, Wrap, Init } from 'crawler.common';
+import * as _ from 'lodash';
 
 import { pluginName } from "../constants";
 import { IQueueItem } from "../libs/queueitem";
@@ -11,10 +12,14 @@ import { Queue } from "../libs/queue";
 @injectable()
 export class QueuePlugin {
 
-     @Add(`role:${pluginName},cmd:analyze`)
-    async getUrls({ queueItem, discoverConfig, queueConfig }: { queueItem: IQueueItem, discoverConfig: any, queueConfig: any }) {
-        let discoverLink = new DiscoverLinks(discoverConfig || {});
-        let queue = new Queue(queueConfig || {});
+    /**
+     * 分析urls
+     * @param param0 
+     */
+    @Add(`role:${pluginName},cmd:analyze`)
+    async getUrls({ queueItem, discoverConfig = {}, queueConfig = {} }: { queueItem: IQueueItem, discoverConfig: any, queueConfig: any }) {
+        let discoverLink = new DiscoverLinks(discoverConfig);
+        let queue = new Queue(queueConfig);
         let urls: Array<string> = await discoverLink.discoverResources(queueItem);
         let allowUrls: Array<any> = [];
 
@@ -26,6 +31,19 @@ export class QueuePlugin {
         });
 
         return allowUrls;
+    }
+
+    /**
+     * 地址规范化
+     * @param param0 
+     */
+    @Add(`role:${pluginName},cmd:queue`)
+    async queueUrl({ urls, queueItem, queueConfig = {} }: any) {
+        let queue = new Queue(queueConfig);
+
+        return _.map(urls, (url: string) => {
+            return queue.queueURL(url, queueItem);
+        });
     }
 
 }

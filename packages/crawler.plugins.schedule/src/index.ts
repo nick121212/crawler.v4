@@ -18,12 +18,7 @@ let seneca = new Seneca(container, {
     tag: pluginName
 });
 
-seneca.initPlugin({
-    "crawler.plugin.mq": {
-        url: "amqp://nick:111111@47.92.126.120/%2Fcrawler",
-        options: {}
-    }
-});
+
 
 seneca.seneca
     .use('redis-store', {
@@ -44,20 +39,21 @@ seneca.seneca
             }
         },
         listen: [{
-            pin: `role:${pluginName},cmd:mq`,
+            pin: `role:${pluginName},cmd:*`,
         }]
     }).ready(async () => {
-        console.log("ready");
-        seneca.seneca.act(`role:${pluginName},cmd:add`, { config: config }, console.log);
 
-        setTimeout(async() => {
-            seneca.seneca.act(`role:${pluginName},cmd:remove`, { config: config }, console.log);
+        seneca.initPlugin({
+            "crawler.plugin.mq": {
+                url: "amqp://nick:111111@47.92.126.120/%2Fcrawler",
+                options: {}
+            }
+        });
 
-            await bluebird.delay(5000);
+        // seneca.seneca.act(`role:${pluginName},cmd:add`, { config: config });
+        setTimeout(async () => {
+            // await seneca.seneca.actAsync(`role:${pluginName},cmd:remove`, { config: config });
+            // await bluebird.delay(5000);
         }, 5000);
-
-        // 
-
-        // 
     });
 

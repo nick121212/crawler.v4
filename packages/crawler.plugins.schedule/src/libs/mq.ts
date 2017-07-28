@@ -16,9 +16,6 @@ export class MQueueService {
     private channel: amqplib.Channel;
     private consume: amqplib.Replies.Consume;
     private exchange: amqplib.Replies.AssertExchange;
-    // private msgs: Array<amqplib.Message> = [];
-    // private workerCtx: Map<number, any> = new Map();
-
     private queueName: string;
     public config: any;
 
@@ -36,7 +33,7 @@ export class MQueueService {
         this.channel = await this.connection.createConfirmChannel();
 
         this.channel.on("error", (err) => {
-            // $log.trace(err);
+            console.log("channel error", err);
         });
         this.channel.on("close", () => {
             console.log("channel closed!");
@@ -60,7 +57,9 @@ export class MQueueService {
 
         try {
             await this.channel.prefetch(prefetch);
-            await this.initInitilizeUrls(this.config.initUrls);
+            // await this.initInitilizeUrls(this.config.initUrls);
+
+            console.log(`开始消费queue:${this.config.key}`);
 
             this.consume = await this.channel.consume(queue.queue, (msg: amqplib.Message) => {
                 this.execute(msg).then(async (data: any) => {
@@ -76,22 +75,6 @@ export class MQueueService {
         } catch (e) {
             console.log(e);
         }
-    }
-
-    private async initInitilizeUrls(urls: Array<string>) {
-        urls = urls.concat([]);
-
-        // urls = urls.map((url) => {
-        //     return Object.assign({}, URI(url).normalize()._parts, {
-        //         _id: md5(url),
-        //         url
-        //     });
-        // });
-
-        // return await this.save({
-        //     queueItem: null,
-        //     url: urls
-        // });
     }
 
     /**
@@ -134,7 +117,7 @@ export class MQueueService {
             delete this.config;
             delete this.exchange;
 
-            console.log("stop queue!");
+            console.log("queue stoped!");
 
         } catch (e) {
             console.log(e);

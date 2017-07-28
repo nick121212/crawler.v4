@@ -9,7 +9,13 @@ export declare class MQueuePlugin {
      */
     addToQueue({config}: {
         config: any;
-    }, options: any, globalOptions: any): Promise<void>;
+    }, options?: any, globalOptions?: any): Promise<void>;
+    /**
+     * 删除一个任务
+     * @param param0
+     * @param options
+     * @param globalOptions
+     */
     removeFromQueue({config}: {
         config: any;
     }, options: any, globalOptions: any): Promise<void>;

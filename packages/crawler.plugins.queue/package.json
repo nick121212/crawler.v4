@@ -27,6 +27,7 @@
     "urijs": "^1.18.10"
   },
   "devDependencies": {
+    "@ryancavanaugh/blueimp-md5": "0.0.16-alpha",
     "@types/blueimp-md5": "^2.7.0",
     "@types/inversify": "^2.0.33",
     "@types/lodash": "^4.14.71",
@@ -36,6 +37,7 @@
     "@types/request": "^2.0.0",
     "@types/seneca": "^2.1.7",
     "@types/tv4": "^1.2.28",
-    "@types/urijs": "^1.15.33"
+    "@types/urijs": "^1.15.33",
+    "blueimp-md5": "^2.8.0"
   }
 }

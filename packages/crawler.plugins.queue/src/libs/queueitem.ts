@@ -2,7 +2,7 @@ import * as uri from "urijs";
 
 export interface IQueueItem {
     uriPath?: string;
-    depth: number;
+    depth?: number;
     port?: number;
     protocol?: string;
     host?: string;

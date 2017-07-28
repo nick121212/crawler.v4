@@ -29,7 +29,7 @@ export class RequestEngine extends modelProxy.BaseEngine {
                 params[key] && searchParams.append(key, params[key]);
             });
 
-            console.log(path + (searchParams.toString() ? "?" + searchParams.toString() : ""));
+            // console.log(path + (searchParams.toString() ? "?" + searchParams.toString() : ""));
 
             try {
                 ctx.result = await request(path + (searchParams.toString() ? "?" + searchParams.toString() : ""), {

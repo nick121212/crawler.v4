@@ -78,7 +78,7 @@ var MQueueService = (function () {
                     case 2:
                         _b.channel = _c.sent();
                         this.channel.on("error", function (err) {
-                            // $log.trace(err);
+                            console.log("channel error", err);
                         });
                         this.channel.on("close", function () {
                             console.log("channel closed!");
@@ -117,13 +117,12 @@ var MQueueService = (function () {
                         _b.sent();
                         _b.label = 5;
                     case 5:
-                        _b.trys.push([5, 9, , 10]);
+                        _b.trys.push([5, 8, , 9]);
                         return [4 /*yield*/, this.channel.prefetch(prefetch)];
                     case 6:
                         _b.sent();
-                        return [4 /*yield*/, this.initInitilizeUrls(this.config.initUrls)];
-                    case 7:
-                        _b.sent();
+                        // await this.initInitilizeUrls(this.config.initUrls);
+                        console.log("\u5F00\u59CB\u6D88\u8D39queue:" + this.config.key);
                         _a = this;
                         return [4 /*yield*/, this.channel.consume(queue.queue, function (msg) {
                                 _this.execute(msg).then(function (data) { return __awaiter(_this, void 0, void 0, function () {
@@ -150,24 +149,16 @@ var MQueueService = (function () {
                                     });
                                 }); });
                             }, { noAck: false, exclusive: false })];
-                    case 8:
+                    case 7:
                         _a.consume = _b.sent();
                         console.info(queue.consumerCount, queue.messageCount);
-                        return [3 /*break*/, 10];
-                    case 9:
+                        return [3 /*break*/, 9];
+                    case 8:
                         e_1 = _b.sent();
                         console.log(e_1);
-                        return [3 /*break*/, 10];
-                    case 10: return [2 /*return*/];
+                        return [3 /*break*/, 9];
+                    case 9: return [2 /*return*/];
                 }
-            });
-        });
-    };
-    MQueueService.prototype.initInitilizeUrls = function (urls) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                urls = urls.concat([]);
-                return [2 /*return*/];
             });
         });
     };
@@ -223,7 +214,7 @@ var MQueueService = (function () {
                         delete this.consume;
                         delete this.config;
                         delete this.exchange;
-                        console.log("stop queue!");
+                        console.log("queue stoped!");
                         return [3 /*break*/, 6];
                     case 5:
                         e_2 = _a.sent();

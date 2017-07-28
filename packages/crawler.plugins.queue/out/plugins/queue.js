@@ -46,21 +46,26 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var inversify_1 = require("inversify");
 var crawler_common_1 = require("crawler.common");
+var _ = require("lodash");
 var constants_1 = require("../constants");
 var discover_1 = require("../libs/discover");
 var queue_1 = require("../libs/queue");
 var QueuePlugin = (function () {
     function QueuePlugin() {
     }
+    /**
+     * 分析urls
+     * @param param0
+     */
     QueuePlugin.prototype.getUrls = function (_a) {
-        var queueItem = _a.queueItem, discoverConfig = _a.discoverConfig, queueConfig = _a.queueConfig;
+        var queueItem = _a.queueItem, _b = _a.discoverConfig, discoverConfig = _b === void 0 ? {} : _b, _c = _a.queueConfig, queueConfig = _c === void 0 ? {} : _c;
         return __awaiter(this, void 0, void 0, function () {
             var discoverLink, queue, urls, allowUrls;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        discoverLink = new discover_1.DiscoverLinks(discoverConfig || {});
-                        queue = new queue_1.Queue(queueConfig || {});
+                        discoverLink = new discover_1.DiscoverLinks(discoverConfig);
+                        queue = new queue_1.Queue(queueConfig);
                         return [4 /*yield*/, discoverLink.discoverResources(queueItem)];
                     case 1:
                         urls = _a.sent();
@@ -75,6 +80,22 @@ var QueuePlugin = (function () {
             });
         });
     };
+    /**
+     * 地址规范化
+     * @param param0
+     */
+    QueuePlugin.prototype.queueUrl = function (_a) {
+        var urls = _a.urls, queueItem = _a.queueItem, _b = _a.queueConfig, queueConfig = _b === void 0 ? {} : _b;
+        return __awaiter(this, void 0, void 0, function () {
+            var queue;
+            return __generator(this, function (_a) {
+                queue = new queue_1.Queue(queueConfig);
+                return [2 /*return*/, _.map(urls, function (url) {
+                        return queue.queueURL(url, queueItem);
+                    })];
+            });
+        });
+    };
     return QueuePlugin;
 }());
 __decorate([
@@ -83,6 +104,12 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], QueuePlugin.prototype, "getUrls", null);
+__decorate([
+    crawler_common_1.Add("role:" + constants_1.pluginName + ",cmd:queue"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], QueuePlugin.prototype, "queueUrl", null);
 QueuePlugin = __decorate([
     crawler_common_1.Plugin(constants_1.pluginName),
     inversify_1.injectable()

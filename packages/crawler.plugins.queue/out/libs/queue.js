@@ -3,8 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var uri = require("urijs");
 var _ = require("lodash");
 var qs = require("qs");
-var md5 = require("blueimp-md5");
+// import * as md5 from "blueimp-md5";
 var pathToRegexp = require("path-to-regexp");
+var md5 = require("blueimp-md5");
 var QUEUE_ITEM_INITIAL_DEPTH = 1;
 var Queue = (function () {
     /**
@@ -127,6 +128,8 @@ var Queue = (function () {
         var parsedURL = typeof url === "object" ? url : this.processURL(url, queueItem);
         if (!parsedURL)
             return false;
+        if (!queueItem)
+            queueItem = parsedURL;
         // 赋值一个ID
         queueItem._id = md5(queueItem.url || "");
         var fetchDenied = this._fetchConditions.reduce(function (prev, callback) {

@@ -23,7 +23,6 @@ export declare class MQueueService {
         url: string;
         options: any;
     }, queueName: string, config: any, prefetch?: number): Promise<void>;
-    private initInitilizeUrls(urls);
     /**
      * 发送socket消息
      * @param msg    一条queue的消息

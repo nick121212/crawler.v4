@@ -64,10 +64,11 @@ var config = {
         "maxDepth": 0,
         "ignoreRobots": true
     },
-    "queueItem": {
-        responseBody: responseBody,
-        url: "http://www.yaolan.com"
-    }
+    // "queueItem": {
+    // 	responseBody: responseBody,
+    // 	url: "http://www.yaolan.com"
+    // },
+    "urls": ["http://bbs.yaolan.com", "http://www.yaolan.com"]
 };
 var HOST = process.env.HOST || process.argv[2] || "0.0.0.0";
 var BASES = (process.env.BASES || process.argv[3] || '').split(',');
@@ -85,21 +86,23 @@ seneca.seneca
     .use("mesh", {
     auto: true,
     isbase: true,
-    host: HOST,
-    port: PORT,
+    // host: HOST,
+    // port: PORT,
     discover: {
         registry: {
             active: true
         }
     },
     listen: [{
-            pin: "role:" + constants_1.pluginName + ",cmd:analyze",
+            pin: "role:" + constants_1.pluginName + ",cmd:*",
         }]
 }).ready(function () { return __awaiter(_this, void 0, void 0, function () {
     return __generator(this, function (_a) {
         console.log("ready");
-        console.log(seneca.seneca.list());
-        seneca.seneca.act("role:" + constants_1.pluginName + ",cmd:analyze", config, console.log);
+        // seneca.seneca.act(`role:${pluginName},cmd:analyze`, config, console.log);
+        seneca.seneca.act("role:" + constants_1.pluginName + ",cmd:queue", config, function (err, res) {
+            console.log(res);
+        });
         return [2 /*return*/];
     });
 }); });
