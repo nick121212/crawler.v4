@@ -1,6 +1,6 @@
 {
   "name": "crawler.plugins.downloader",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "爬虫下载插件",
   "main": "out/index.js",
   "scripts": {
