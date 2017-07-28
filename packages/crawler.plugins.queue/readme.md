@@ -130,3 +130,84 @@ partten: **role:crawler.plugin.queue,cmd:analyze**
         }
     }
 ```
+
+2. 链接规范化
+
+partten: **role:crawler.plugin.queue,cmd:queue**
+
+返回数据结构:
+
+```
+    {
+        "type":"array",
+        "description":"返回的数据结构",
+        "items":{
+            "type":"object",
+            "properties":{
+                "url":{"type":"string","title":"下载链接的详细地址"},
+                "path":{"type":"string","title":"下载链接的路径"},
+                "query":{"type":"string","title":"下载链接的地址栏参数信息"},
+                "protocol":{"type":"string","title":"下载链接的协议"},
+                "port":{"type":"number","title":"下载链接的端口"},
+                "hostname":{"type":"string","title":"下载链接的域名",
+                "depth":{"type":"number","title":"下载链接深度"}, 
+            }
+        }
+    }
+```
+
+参数数据结构: 
+
+```
+    {
+        "type":"object",
+        "description":"参数",
+        "required":["queueItem"],
+        "properties":{
+            "queueConfig":{
+                "type":"object",
+                "description":"域名过滤配置",
+                "properties":{
+                    "ignoreWWWDomain":{"type":"boolean","title":"忽略www的域名"},
+                    "stripWWWDomain":{"type":"boolean","title":"是否去掉www域名，使用根域名"},
+                    "scanSubdomains":{"type":"boolean","title":"搜索子域名"},
+                    "host":{"type":"string","title":"初始host"},
+                    "initialProtocol":{"type":"string","title":"初始协议"},
+                    "initialPort":{"type":"number","title":"初始端口",
+                    "stripQuerystring":{"type":"boolean","title":"去掉地址栏后面的query参数"},
+                    "allowQueryParams":{"type":"array","title":"过滤query参数，选择需要的","items":{"type":"string","title":"单个参数"}},
+                    "domainWhiteList":{"type":"array","title":"域名白名单，支持正则","items":{"type":"string","title":"单个域名规则"}},
+                    "filterByDomain":{"type":"boolean","title":"是否开启过滤域名白名单"}
+                }
+            },
+            "urls":{
+                "type":"array",
+                "description":"下载的页面的链接信息",
+                "items":{
+                    "type":"string",
+                    "title":"链接"
+                }
+            }
+        }
+    }
+```
+
+测试数据
+
+```
+    {
+        "queueConfig": {
+            "ignoreWWWDomain": false,
+            "stripWWWDomain": false,
+            "scanSubdomains": true,
+            "host": "www.yaolan.com",
+            "initialProtocol": "http",
+            "initialPort": 80,
+            "stripQuerystring": true,
+            "fetchConditions": [],
+            "domainWhiteList": ["(.*?).yaolan.com"],
+            "filterByDomain": true
+        },
+        "urls": ["http://www.yaolan.com","http://bbs.yaolan.com"]
+    }
+```
