@@ -57,6 +57,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var modelproxy_1 = require("modelproxy");
 var request = require("request-promise");
 var inversify_1 = require("inversify");
+var url_1 = require("url");
 var RequestEngine = (function (_super) {
     __extends(RequestEngine, _super);
     /**
@@ -74,36 +75,42 @@ var RequestEngine = (function (_super) {
     RequestEngine.prototype.init = function () {
         var _this = this;
         this.use(function (ctx, next) { return __awaiter(_this, void 0, void 0, function () {
-            var path, _a, method, _b, _c, data, _d, settings, _e, timeout, _f, e_1;
-            return __generator(this, function (_g) {
-                switch (_g.label) {
+            var path, _a, method, _b, _c, data, _d, settings, _e, params, _f, timeout, searchParams, _g, e_1;
+            return __generator(this, function (_h) {
+                switch (_h.label) {
                     case 0:
                         path = this.getFullPath(ctx.instance || {}, ctx.executeInfo || {});
                         _a = (ctx.instance || {}).method, method = _a === void 0 ? "" : _a;
-                        _b = ctx.executeInfo || {}, _c = _b.data, data = _c === void 0 ? null : _c, _d = _b.settings, settings = _d === void 0 ? {} : _d;
-                        _e = (settings || {}).timeout, timeout = _e === void 0 ? 5000 : _e;
-                        _g.label = 1;
+                        _b = ctx.executeInfo || {}, _c = _b.data, data = _c === void 0 ? null : _c, _d = _b.settings, settings = _d === void 0 ? {} : _d, _e = _b.params, params = _e === void 0 ? {} : _e;
+                        _f = (settings || {}).timeout, timeout = _f === void 0 ? 5000 : _f;
+                        searchParams = new url_1.URLSearchParams();
+                        Object.keys(params).forEach(function (key) {
+                            params[key] && searchParams.append(key, params[key]);
+                        });
+                        console.log(path + (searchParams.toString() ? "?" + searchParams.toString() : ""));
+                        _h.label = 1;
                     case 1:
-                        _g.trys.push([1, 3, , 4]);
-                        _f = ctx;
-                        return [4 /*yield*/, request(path, {
+                        _h.trys.push([1, 3, , 4]);
+                        _g = ctx;
+                        return [4 /*yield*/, request(path + (searchParams.toString() ? "?" + searchParams.toString() : ""), {
                                 method: method.toString(),
                                 body: data,
-                                json: true,
+                                // json: true,
                                 resolveWithFullResponse: true,
                                 timeout: timeout
                             }, undefined)];
                     case 2:
-                        _f.result = _g.sent();
+                        _g.result = _h.sent();
                         return [3 /*break*/, 4];
                     case 3:
-                        e_1 = _g.sent();
+                        e_1 = _h.sent();
                         ctx.err = e_1;
                         ctx.isError = true;
+                        console.error(e_1);
                         return [3 /*break*/, 4];
                     case 4: return [4 /*yield*/, next()];
                     case 5:
-                        _g.sent();
+                        _h.sent();
                         return [2 /*return*/];
                 }
             });

@@ -36,14 +36,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
-var index_1 = require("../src/index");
+var index_1 = require("../index");
 var inversify_1 = require("inversify");
 var math_1 = require("./plugins/math");
-var config_1 = require("../src/libs/contansts/config");
+var config_1 = require("../libs/contansts/config");
 var aaa_1 = require("./aaa");
 var container = new inversify_1.Container();
 var seneca = new index_1.Seneca(container);
-container.bind(config_1.Types._plugin).to(math_1.MathPlugin);
+container.bind(config_1.Types._plugin).to(math_1.MathPlugin).inSingletonScope();
 container.bind(aaa_1.aaa).toSelf();
 seneca.initPlugin();
 seneca.seneca.ready(function () { return __awaiter(_this, void 0, void 0, function () {

@@ -16,6 +16,23 @@ export class Seneca {
         this._seneca = OriginSeneca(options);
 
         bluebird.promisifyAll(this._seneca);
+        this._seneca.use("entity");
+        let originMake = this._seneca.private$.entity.make$;
+
+        // 使得entity可以使用promise方法
+
+        bluebird.promisifyAll(this._seneca.private$.entity.__proto__, {
+            context: this._seneca.private$.entity,
+            filter: (name: string, func: any, target?: any) => {
+                let names = name.split('');
+
+                if (names.pop() === "$") {
+                    target[names.join("") + "Async"] = bluebird.promisify(func, { context: this._seneca.private$.entity });
+                }
+
+                return false;
+            }
+        });
     }
 
     public get seneca() {
@@ -31,9 +48,9 @@ export class Seneca {
      * options: 额外参数 
      */
     initAct(name: string, { target, partten, key, options = {} }: IAdd, globalOptions: any) {
-        this._seneca.add(partten, options, async (msg: Object, reply: Function) => {
+        this._seneca.add(partten, options, async (msg: Object, reply: any) => {
             try {
-                let result = await (this._container.getNamed(Types._plugin, name) as any)[key](msg, options, globalOptions);
+                let result = await (this._container.getNamed(Types._plugin, name) as any)[key](msg, Object.assign({ seneca: reply.seneca }, options, {}), globalOptions);
 
                 reply(null, result);
             } catch (e) {
@@ -53,7 +70,7 @@ export class Seneca {
     initWrap(name: string, { target, partten, key, options = {} }: IAdd, globalOptions: any) {
         this._seneca.wrap(partten, options, async (msg: Object, reply: any) => {
             try {
-                let result = await (this._container.getNamed(Types._plugin, name) as any)[key](msg, options, globalOptions);
+                let result = await (this._container.getNamed(Types._plugin, name) as any)[key](msg, Object.assign({ seneca: reply.seneca }, options, {}), globalOptions);
 
                 reply.seneca.prior(msg, reply);
             } catch (e) {

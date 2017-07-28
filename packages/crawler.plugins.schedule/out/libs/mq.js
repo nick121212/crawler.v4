@@ -70,7 +70,7 @@ var MQueueService = (function () {
                 switch (_c.label) {
                     case 0:
                         _a = this;
-                        return [4 /*yield*/, amqplib.connect(this.rabbitmqConfig.url, this.rabbitmqConfig.options)];
+                        return [4 /*yield*/, amqplib.connect(rabbitmqConfig.url, rabbitmqConfig.options)];
                     case 1:
                         _a.connection = _c.sent();
                         _b = this;
@@ -134,7 +134,7 @@ var MQueueService = (function () {
                                                 return [4 /*yield*/, bluebird.delay(3000)];
                                             case 1:
                                                 _a.sent();
-                                                this.channel.nack(msg);
+                                                this.channel && this.channel.nack(msg);
                                                 return [2 /*return*/];
                                         }
                                     });
@@ -144,7 +144,7 @@ var MQueueService = (function () {
                                             case 0: return [4 /*yield*/, bluebird.delay(3000)];
                                             case 1:
                                                 _a.sent();
-                                                this.channel.nack(msg);
+                                                this.channel && this.channel.nack(msg);
                                                 return [2 /*return*/];
                                         }
                                     });
@@ -223,6 +223,7 @@ var MQueueService = (function () {
                         delete this.consume;
                         delete this.config;
                         delete this.exchange;
+                        console.log("stop queue!");
                         return [3 /*break*/, 6];
                     case 5:
                         e_2 = _a.sent();

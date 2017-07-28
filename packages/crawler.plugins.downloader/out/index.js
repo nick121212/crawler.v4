@@ -55,20 +55,19 @@ seneca.seneca
     .use("mesh", {
     auto: true,
     isbase: true,
-    host: HOST,
-    port: PORT,
+    // host: HOST,
+    // port: PORT,
     discover: {
         registry: {
             active: true
         }
     },
     listen: [{
-            pin: "role: crawler.plugin.downloader, cmd: download",
+            pin: "role: crawler.plugin.downloader, cmd: *",
         }]
 }).ready(function () { return __awaiter(_this, void 0, void 0, function () {
     return __generator(this, function (_a) {
         console.log("ready");
-        console.log(seneca.seneca.list());
         return [2 /*return*/];
     });
 }); });

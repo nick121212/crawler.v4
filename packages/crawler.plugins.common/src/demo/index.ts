@@ -1,13 +1,13 @@
-import { Seneca } from "../src/index";
+import { Seneca } from "../index";
 import { Container } from "inversify";
 import { MathPlugin } from "./plugins/math";
-import { Types } from "../src/libs/contansts/config";
+import { Types } from "../libs/contansts/config";
 import { aaa } from "./aaa";
 
 let container = new Container();
 let seneca = new Seneca(container);
 
-container.bind<MathPlugin>(Types._plugin).to(MathPlugin);
+container.bind<MathPlugin>(Types._plugin).to(MathPlugin).inSingletonScope();
 container.bind<aaa>(aaa).toSelf();
 
 seneca.initPlugin();

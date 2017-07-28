@@ -40,9 +40,23 @@ var bluebird = require("bluebird");
 var config_1 = require("./contansts/config");
 var Seneca = (function () {
     function Seneca(container, options) {
+        var _this = this;
         this._container = container;
         this._seneca = OriginSeneca(options);
         bluebird.promisifyAll(this._seneca);
+        this._seneca.use("entity");
+        var originMake = this._seneca.private$.entity.make$;
+        // 使得entity可以使用promise方法
+        bluebird.promisifyAll(this._seneca.private$.entity.__proto__, {
+            context: this._seneca.private$.entity,
+            filter: function (name, func, target) {
+                var names = name.split('');
+                if (names.pop() === "$") {
+                    target[names.join("") + "Async"] = bluebird.promisify(func, { context: _this._seneca.private$.entity });
+                }
+                return false;
+            }
+        });
     }
     Object.defineProperty(Seneca.prototype, "seneca", {
         get: function () {
@@ -68,7 +82,7 @@ var Seneca = (function () {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this._container.getNamed(config_1.Types._plugin, name)[key](msg, options, globalOptions)];
+                        return [4 /*yield*/, this._container.getNamed(config_1.Types._plugin, name)[key](msg, Object.assign({ seneca: reply.seneca }, options, {}), globalOptions)];
                     case 1:
                         result = _a.sent();
                         reply(null, result);
@@ -99,7 +113,7 @@ var Seneca = (function () {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this._container.getNamed(config_1.Types._plugin, name)[key](msg, options, globalOptions)];
+                        return [4 /*yield*/, this._container.getNamed(config_1.Types._plugin, name)[key](msg, Object.assign({ seneca: reply.seneca }, options, {}), globalOptions)];
                     case 1:
                         result = _a.sent();
                         reply.seneca.prior(msg, reply);

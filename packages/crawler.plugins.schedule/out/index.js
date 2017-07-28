@@ -37,19 +37,30 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
-var crawler_common_1 = require("crawler.common");
+var crawler_plugins_common_1 = require("crawler.plugins.common");
 var container_1 = require("./container");
 var constants_1 = require("./constants");
+var test_1 = require("./config/test");
+var bluebird = require("bluebird");
 var HOST = process.env.HOST || process.argv[2] || "0.0.0.0";
 var BASES = (process.env.BASES || process.argv[3] || '').split(',');
 var PORT = process.env.PORT;
 var BROADCAST = process.env.BROADCAST;
 var REGISTRY = JSON.parse(process.env.REGISTRY || '{"active":true}');
-var seneca = new crawler_common_1.Seneca(container_1.container, {
+var seneca = new crawler_plugins_common_1.Seneca(container_1.container, {
     tag: constants_1.pluginName
 });
-seneca.initPlugin();
+seneca.initPlugin({
+    "crawler.plugin.mq": {
+        url: "amqp://nick:111111@47.92.126.120/%2Fcrawler",
+        options: {}
+    }
+});
 seneca.seneca
+    .use('redis-store', {
+    uri: "redis://47.92.126.120:6379",
+    options: {}
+})
     .use('consul-registry', {
     host: '47.92.126.120'
 })
@@ -67,10 +78,22 @@ seneca.seneca
             pin: "role:" + constants_1.pluginName + ",cmd:mq",
         }]
 }).ready(function () { return __awaiter(_this, void 0, void 0, function () {
+    var _this = this;
     return __generator(this, function (_a) {
         console.log("ready");
-        seneca.seneca.act("role:" + constants_1.pluginName + ",cmd:add", {}, console.log);
-        console.log(seneca.seneca.options());
+        seneca.seneca.act("role:" + constants_1.pluginName + ",cmd:add", { config: test_1.default }, console.log);
+        setTimeout(function () { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        seneca.seneca.act("role:" + constants_1.pluginName + ",cmd:remove", { config: test_1.default }, console.log);
+                        return [4 /*yield*/, bluebird.delay(5000)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        }); }, 5000);
         return [2 /*return*/];
     });
 }); });

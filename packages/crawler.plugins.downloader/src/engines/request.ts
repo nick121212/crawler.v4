@@ -1,6 +1,7 @@
 import { modelProxy, IProxyCtx, IInterfaceModel, IExecute } from 'modelproxy';
 import * as request from 'request-promise';
 import { injectable } from 'inversify';
+import { URLSearchParams } from "url";
 
 @injectable()
 export class RequestEngine extends modelProxy.BaseEngine {
@@ -20,20 +21,28 @@ export class RequestEngine extends modelProxy.BaseEngine {
         this.use(async (ctx: IProxyCtx, next: Function): Promise<any> => {
             let path = this.getFullPath(ctx.instance || {}, ctx.executeInfo || {});
             let { method = "" } = ctx.instance || {};
-            let { data = null, settings = {} } = ctx.executeInfo || {};
+            let { data = null, settings = {}, params = {} } = ctx.executeInfo || {};
             let { timeout = 5000 } = settings || {};
+            let searchParams = new URLSearchParams();
+
+            Object.keys(params).forEach((key) => {
+                params[key] && searchParams.append(key, params[key]);
+            });
+
+            console.log(path + (searchParams.toString() ? "?" + searchParams.toString() : ""));
 
             try {
-                ctx.result = await request(path, {
+                ctx.result = await request(path + (searchParams.toString() ? "?" + searchParams.toString() : ""), {
                     method: method.toString(),
                     body: data,
-                    json: true,
+                    // json: true,
                     resolveWithFullResponse: true,
                     timeout: timeout
                 }, undefined);
             } catch (e) {
                 ctx.err = e;
                 ctx.isError = true;
+                console.error(e);
             }
 
             await next();

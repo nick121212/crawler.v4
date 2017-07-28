@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var inversify_1 = require("inversify");
 var aaa = (function () {
     function aaa() {
+        this.aaaa = [];
     }
     aaa.prototype.add10 = function (n) {
         return n += 12;

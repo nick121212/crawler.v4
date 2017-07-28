@@ -5,14 +5,14 @@ import { injectable, inject } from "inversify";
 import * as Seneca from 'seneca';
 import * as bluebird from 'bluebird';
 
-import { Plugin, Add, Wrap, Init } from "../../src/index";
+import { Plugin, Add, Wrap, Init } from "../../index";
 import { aaa } from "../aaa";
 
 @Plugin("math-plugin", {})
 @injectable()
 export class MathPlugin {
     constructor( @inject(aaa) private aa: aaa) {
-
+        // aa.aaaa.push("234234");
     }
 
     @Init()
@@ -29,15 +29,20 @@ export class MathPlugin {
         if (!msg.ddd) {
             msg.ddd = 10;
         }
+
+        console.log(this.aa.aaaa.length);
     }
 
     @Add("role:math,cmd:add")
     add(msg: any): { data: number } {
+        this.aa.aaaa.push("234234");
         return { data: msg.left + msg.right };
     }
 
     @Add("role:math,cmd:remove")
     async remove(msg: any): Promise<{ data: number }> {
+        this.aa.aaaa.push("234234");
+        console.log(this.aa.aaaa.length);
 
         if (!msg.ddd) {
             throw new Error("缺少参数！");

@@ -7,7 +7,7 @@ export declare class MQueueService {
     private consume;
     private exchange;
     private queueName;
-    private config;
+    config: any;
     /**
      * 构造函数
      */

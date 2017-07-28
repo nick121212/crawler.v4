@@ -22,18 +22,18 @@ seneca.seneca
     .use("mesh", {
         auto: true,
         isbase: true,
-        host: HOST,
-        port: PORT,
+        // host: HOST,
+        // port: PORT,
         discover: {
             registry: {
                 active: true
             }
         },
         listen: [{
-            pin: "role: crawler.plugin.downloader, cmd: download",
+            pin: "role: crawler.plugin.downloader, cmd: *",
         }]
     }).ready(async () => {
         console.log("ready");
-        console.log(seneca.seneca.list());
+        // console.log(seneca.seneca.list());
     });
 

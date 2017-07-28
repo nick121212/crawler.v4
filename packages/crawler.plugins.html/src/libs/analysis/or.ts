@@ -16,6 +16,13 @@ export class Strategy extends Base {
      * @returns Promise
      */
     doDeal(queueItem: any, data: any, results: any, $: any, index: number): Promise<any> {
+
+        if(data.key){
+            _.each(data.data,(d)=>{
+                d.key = data.key;
+            });
+        }
+
         let promises = this.doDealData(queueItem, data.data.concat([]), results, $, index);
 
         return Promise.all(promises).then((cases) => {

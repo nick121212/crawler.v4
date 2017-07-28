@@ -3,7 +3,6 @@ var Seneca = require('seneca')
 let client = Seneca({
         log: 'debug'
     })
-    .test('print')
     .use("balance-client")
     .use('consul-registry', {
         host: '47.92.126.120'
@@ -14,13 +13,21 @@ let client = Seneca({
                 active: true
             }
         }
-    }).ready(function() {
+    }).ready(function () {
         setInterval(() => {
-            this.act("role:crawler.plugin.downloader,cmd:download", { queueItem: { url: "http://www.baidu.com" } }, (err, res) => {
+            this.act("role:crawler.plugin.downloader,cmd:interface", {
+                url: "http://47.92.126.120:9200",
+                path:"/index/_analyze",
+                method: "get",
+                params: {
+                    text: "中华人民共和国MN",
+                    tokenizer: "ik_smart"
+                }
+            }, (err, res) => {
                 if (err) {
                     console.log(err.message);
                 } else {
-                    console.log(res.statusCode);
+                    console.log(JSON.parse(res.responseBody));
                 }
             });
 

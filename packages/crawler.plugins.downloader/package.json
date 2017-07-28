@@ -34,6 +34,7 @@
     "seneca-transport": "^2.1.1"
   },
   "devDependencies": {
+    "@types/blueimp-md5": "^2.7.0",
     "@types/inversify": "^2.0.33",
     "@types/node": "^8.0.14",
     "@types/reflect-metadata": "0.0.5",

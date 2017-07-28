@@ -26,6 +26,11 @@ var Strategy = (function (_super) {
      * @returns Promise
      */
     Strategy.prototype.doDeal = function (queueItem, data, results, $, index) {
+        if (data.key) {
+            _.each(data.data, function (d) {
+                d.key = data.key;
+            });
+        }
         var promises = this.doDealData(queueItem, data.data.concat([]), results, $, index);
         return Promise.all(promises).then(function (cases) {
             var rtnResults = [];

@@ -49,11 +49,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var inversify_1 = require("inversify");
 var bluebird = require("bluebird");
-var index_1 = require("../../src/index");
+var index_1 = require("../../index");
 var aaa_1 = require("../aaa");
 var MathPlugin = (function () {
     function MathPlugin(aa) {
         this.aa = aa;
+        // aa.aaaa.push("234234");
     }
     MathPlugin.prototype.init = function (a, b, c) {
         var _this = this;
@@ -73,13 +74,17 @@ var MathPlugin = (function () {
         if (!msg.ddd) {
             msg.ddd = 10;
         }
+        console.log(this.aa.aaaa.length);
     };
     MathPlugin.prototype.add = function (msg) {
+        this.aa.aaaa.push("234234");
         return { data: msg.left + msg.right };
     };
     MathPlugin.prototype.remove = function (msg) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
+                this.aa.aaaa.push("234234");
+                console.log(this.aa.aaaa.length);
                 if (!msg.ddd) {
                     throw new Error("缺少参数！");
                 }

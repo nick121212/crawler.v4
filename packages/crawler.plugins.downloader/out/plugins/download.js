@@ -19,7 +19,7 @@ var DownloadPlugin = (function () {
      * 下载数据
      * @param param0
      */
-    DownloadPlugin.prototype.url = function (_a) {
+    DownloadPlugin.prototype.html = function (_a) {
         var queueItem = _a.queueItem, proxyInfo = _a.proxyInfo, engine = _a.engine;
         /**
          * 添加接口信息
@@ -27,10 +27,10 @@ var DownloadPlugin = (function () {
         this.proxy.proxy.loadConfig({
             "key": "download",
             "title": "download下载接口",
-            "state": "prod",
+            "state": "html",
             "engine": engine || "request",
             "states": {
-                "prod": queueItem.url
+                "html": queueItem.url
             },
             "interfaces": [{
                     "path": "/",
@@ -50,6 +50,41 @@ var DownloadPlugin = (function () {
             };
         });
     };
+    DownloadPlugin.prototype.inter = function (_a) {
+        var url = _a.url, _b = _a.path, path = _b === void 0 ? "" : _b, params = _a.params, data = _a.data, header = _a.header, _c = _a.method, method = _c === void 0 ? "get" : _c, _d = _a.engine, engine = _d === void 0 ? "request" : _d;
+        /**
+         * 添加接口信息
+         */
+        this.proxy.proxy.loadConfig({
+            "key": "download",
+            "title": "download下载接口",
+            "state": "interface",
+            "engine": engine,
+            "states": {
+                "interface": url
+            },
+            "interfaces": [{
+                    "path": path,
+                    "method": method,
+                    "key": "interface",
+                    "title": ""
+                }]
+        });
+        console.log(1);
+        /**
+         * 调用接口
+         */
+        return this.proxy.proxy.execute("/download/interface", {
+            data: data,
+            params: params,
+            settings: { header: header }
+        }).then(function (res) {
+            return {
+                statusCode: res.statusCode,
+                responseBody: res.body
+            };
+        });
+    };
     return DownloadPlugin;
 }());
 __decorate([
@@ -57,11 +92,17 @@ __decorate([
     __metadata("design:type", proxy_1.Proxy)
 ], DownloadPlugin.prototype, "proxy", void 0);
 __decorate([
-    crawler_common_1.Add("role:crawler.plugin.downloader,cmd:download"),
+    crawler_common_1.Add("role:crawler.plugin.downloader,cmd:html"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
-], DownloadPlugin.prototype, "url", null);
+], DownloadPlugin.prototype, "html", null);
+__decorate([
+    crawler_common_1.Add("role:crawler.plugin.downloader,cmd:interface"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], DownloadPlugin.prototype, "inter", null);
 DownloadPlugin = __decorate([
     crawler_common_1.Plugin("crawler.plugin.downloader"),
     inversify_1.injectable()

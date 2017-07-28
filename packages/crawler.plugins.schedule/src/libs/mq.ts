@@ -20,7 +20,7 @@ export class MQueueService {
     // private workerCtx: Map<number, any> = new Map();
 
     private queueName: string;
-    private config: any;
+    public config: any;
 
     /**
      * 构造函数
@@ -32,7 +32,7 @@ export class MQueueService {
      * 初始化队列
      */
     private async initQueue(rabbitmqConfig: { url: string, options: any }): Promise<void> {
-        this.connection = await amqplib.connect(this.rabbitmqConfig.url, this.rabbitmqConfig.options);
+        this.connection = await amqplib.connect(rabbitmqConfig.url, rabbitmqConfig.options);
         this.channel = await this.connection.createConfirmChannel();
 
         this.channel.on("error", (err) => {
@@ -66,10 +66,10 @@ export class MQueueService {
                 this.execute(msg).then(async (data: any) => {
                     console.log(data);
                     await bluebird.delay(3000);
-                    this.channel.nack(msg);
+                    this.channel && this.channel.nack(msg);
                 }).catch(async (err) => {
                     await bluebird.delay(3000);
-                    this.channel.nack(msg);
+                    this.channel && this.channel.nack(msg);
                 });
             }, { noAck: false, exclusive: false });
             console.info(queue.consumerCount, queue.messageCount);
@@ -133,6 +133,8 @@ export class MQueueService {
             delete this.consume;
             delete this.config;
             delete this.exchange;
+
+            console.log("stop queue!");
 
         } catch (e) {
             console.log(e);

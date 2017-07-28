@@ -2272,6 +2272,49 @@ document.getElementsByTagName("head")[0].appendChild(_BFD.script);
 
 const config = {
 	"pages": [{
+		"key": "main-123",
+		"path": "",
+		"areas": [],
+		"fieldKey": "",
+		"fields": {
+			"none": {
+				"data": [{
+					"key": "obj",
+					"selector": ["#ylNav2"],
+					"dealStrategy": "object",
+					"data": [{
+						"key": "title",
+						"selector": ["a.ylHdNavTt"],
+						"methodInfo": { "text": [] },
+						"dealStrategy": "normal"
+					}, {
+						"key": "title-1",
+						"selector": [".ylHdNavCon a"],
+						"dealStrategy": "array",
+						"data": [{
+							"key": "",
+							"selector": [],
+							"methodInfo": { "text": [] },
+							"dealStrategy": "normal"
+						}]
+					}]
+				}, {
+					"key": "cur-text",
+					"dealStrategy": "or",
+					"data": [{
+						"selector": [".zsTobTabUl .cur a"],
+						"methodInfo": { "text": [] },
+						"dealStrategy": "normal"
+					},{
+						"selector": [".key_main .key_ul .hover"],
+						"methodInfo": { "text": [] },
+						"dealStrategy": "normal"
+					}]
+				}]
+			}
+		},
+		"enabled": true
+	}, {
 		"key": "health-post",
 		"path": "/health/d+.shtml",
 		"areas": [],
@@ -2392,6 +2435,7 @@ seneca.seneca
 		}]
 	}).ready(async () => {
 		console.log("ready");
-		console.log(seneca.seneca.list());
-		seneca.seneca.act(`role:${pluginName},cmd:html`, config, console.log);
+		seneca.seneca.act(`role:${pluginName},cmd:html`, config, (err: Error, res: any) => {
+			console.log(res[0].result);
+		});
 	});

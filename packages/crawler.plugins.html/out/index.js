@@ -56,8 +56,8 @@ seneca.seneca
     .use("mesh", {
     auto: true,
     isbase: true,
-    host: HOST,
-    port: PORT,
+    // host: HOST,
+    // port: PORT,
     discover: {
         registry: {
             active: true
