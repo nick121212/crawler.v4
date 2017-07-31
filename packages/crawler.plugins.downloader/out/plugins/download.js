@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var inversify_1 = require("inversify");
-var crawler_common_1 = require("crawler.common");
+var crawler_plugins_common_1 = require("crawler.plugins.common");
 var proxy_1 = require("../proxy");
 var DownloadPlugin = (function () {
     function DownloadPlugin() {
@@ -92,19 +92,19 @@ __decorate([
     __metadata("design:type", proxy_1.Proxy)
 ], DownloadPlugin.prototype, "proxy", void 0);
 __decorate([
-    crawler_common_1.Add("role:crawler.plugin.downloader,cmd:html"),
+    crawler_plugins_common_1.Add("role:crawler.plugin.downloader,cmd:html"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], DownloadPlugin.prototype, "html", null);
 __decorate([
-    crawler_common_1.Add("role:crawler.plugin.downloader,cmd:interface"),
+    crawler_plugins_common_1.Add("role:crawler.plugin.downloader,cmd:interface"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], DownloadPlugin.prototype, "inter", null);
 DownloadPlugin = __decorate([
-    crawler_common_1.Plugin("crawler.plugin.downloader"),
+    crawler_plugins_common_1.Plugin("crawler.plugin.downloader"),
     inversify_1.injectable()
 ], DownloadPlugin);
 exports.DownloadPlugin = DownloadPlugin;

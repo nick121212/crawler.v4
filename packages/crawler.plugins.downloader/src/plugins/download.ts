@@ -1,7 +1,7 @@
 import inversify, { injectable, inject } from 'inversify';
 import * as Seneca from 'seneca';
 import * as request from 'request';
-import { Plugin, Add, Wrap, Init } from 'crawler.common';
+import { Plugin, Add, Wrap, Init } from 'crawler.plugins.common';
 
 import { Proxy } from "../proxy";
 
