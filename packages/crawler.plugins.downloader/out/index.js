@@ -37,14 +37,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
-var crawler_common_1 = require("crawler.common");
+var crawler_plugins_common_1 = require("crawler.plugins.common");
 var container_1 = require("./container");
 var HOST = process.env.HOST || process.argv[2] || "0.0.0.0";
 var BASES = (process.env.BASES || process.argv[3] || '').split(',');
 var PORT = process.env.PORT;
 var BROADCAST = process.env.BROADCAST;
 var REGISTRY = JSON.parse(process.env.REGISTRY || '{"active":true}');
-var seneca = new crawler_common_1.Seneca(container_1.container, {
+var seneca = new crawler_plugins_common_1.Seneca(container_1.container, {
     tag: "crawler.plugin.downloader"
 });
 seneca.initPlugin();

@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { injectable, inject } from 'inversify';
-import { Seneca } from 'crawler.common';
+import { Seneca } from 'crawler.plugins.common';
 
 import { container } from './container';
 
