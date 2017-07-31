@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var inversify_1 = require("inversify");
-var crawler_common_1 = require("crawler.common");
+var crawler_plugins_common_1 = require("crawler.plugins.common");
 // import { modelProxy, IProxyCtx, IInterfaceModel, IExecute } from 'modelproxy';
 var inversify_binding_decorators_1 = require("inversify-binding-decorators");
 // import { RequestEngine } from './engines/request';
@@ -19,5 +19,5 @@ exports.provider = inversify_binding_decorators_1.makeFluentProvideDecorator(exp
 //     };
 // });
 // container.bind<RequestEngine>(Types.engine).to(RequestEngine);
-exports.container.bind(crawler_common_1.Types._plugin).to(queue_1.QueuePlugin);
+exports.container.bind(crawler_plugins_common_1.Types._plugin).to(queue_1.QueuePlugin);
 //# sourceMappingURL=container.js.map

@@ -1,6 +1,6 @@
 import * as inversify from 'inversify';
 import { Container } from "inversify";
-import { Types as CommonTypes } from 'crawler.common';
+import { Types as CommonTypes } from 'crawler.plugins.common';
 // import { modelProxy, IProxyCtx, IInterfaceModel, IExecute } from 'modelproxy';
 import { makeFluentProvideDecorator } from "inversify-binding-decorators";
 
