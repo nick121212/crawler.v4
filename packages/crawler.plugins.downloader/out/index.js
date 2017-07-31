@@ -49,23 +49,10 @@ var seneca = new crawler_common_1.Seneca(container_1.container, {
 });
 seneca.initPlugin();
 seneca.seneca
-    .use('consul-registry', {
-    host: '47.92.126.120'
+    .listen({
+    port: 9001
 })
-    .use("mesh", {
-    auto: true,
-    isbase: true,
-    // host: HOST,
-    // port: PORT,
-    discover: {
-        registry: {
-            active: true
-        }
-    },
-    listen: [{
-            pin: "role: crawler.plugin.downloader, cmd: *",
-        }]
-}).ready(function () { return __awaiter(_this, void 0, void 0, function () {
+    .ready(function () { return __awaiter(_this, void 0, void 0, function () {
     return __generator(this, function (_a) {
         console.log("ready");
         return [2 /*return*/];

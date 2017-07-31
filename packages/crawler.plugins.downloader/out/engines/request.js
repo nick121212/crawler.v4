@@ -87,7 +87,6 @@ var RequestEngine = (function (_super) {
                         Object.keys(params).forEach(function (key) {
                             params[key] && searchParams.append(key, params[key]);
                         });
-                        console.log(path + (searchParams.toString() ? "?" + searchParams.toString() : ""));
                         _h.label = 1;
                     case 1:
                         _h.trys.push([1, 3, , 4]);
