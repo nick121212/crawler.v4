@@ -233,6 +233,8 @@ or模式；用于字段有多个不确定的地方可以取值，只命中一个
 
 partten: **role:crawler.plugin.html,cmd:html**
 
+测试地址：http://172.16.112.215:9002/act POST
+
 返回数据结构:
 
 ```

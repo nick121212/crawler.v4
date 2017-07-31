@@ -13,6 +13,8 @@
 
 partten: **role:crawler.plugin.downloader,cmd:html**
 
+测试地址：http://172.16.112.215:9001/act POST
+
 返回数据结构:
 
 ```
@@ -77,6 +79,8 @@ partten: **role:crawler.plugin.downloader,cmd:html**
 2. 调用接口
 
 partten: **role:crawler.plugin.downloader,cmd:interface**
+
+测试地址：http://172.16.112.215:9001/act POST
 
 返回数据结构:
 

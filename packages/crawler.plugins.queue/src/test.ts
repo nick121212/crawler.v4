@@ -2293,11 +2293,7 @@ const config = {
 		"maxDepth": 0,
 		"ignoreRobots": true
 	},
-	// "queueItem": {
-	// 	responseBody: responseBody,
-	// 	url: "http://www.yaolan.com"
-	// },
-	"urls": ["http://bbs.yaolan.com","http://www.yaolan.com"]
+	"urls": ["http://bbs.yaolan.com", "http://www.yaolan.com"]
 };
 
 
@@ -2311,25 +2307,30 @@ let seneca = new Seneca(container, {
 	tag: pluginName
 });
 
-seneca.initPlugin();
+// seneca.initPlugin();
 seneca.seneca
-	.use('consul-registry', {
-		host: '47.92.126.120'
+	// .use('consul-registry', {
+	// 	host: '47.92.126.120'
+	// })
+	// .use("mesh", {
+	// 	auto: true,
+	// 	isbase: true,
+	// 	// host: HOST,
+	// 	// port: PORT,
+	// 	discover: {
+	// 		registry: {
+	// 			active: true
+	// 		}
+	// 	},
+	// 	listen: [{
+	// 		pin: `role:${pluginName},cmd:*`,
+	// 	}]
+	// })
+	.client({
+		host: "172.16.112.215",
+		port: 9001
 	})
-	.use("mesh", {
-		auto: true,
-		isbase: true,
-		// host: HOST,
-		// port: PORT,
-		discover: {
-			registry: {
-				active: true
-			}
-		},
-		listen: [{
-			pin: `role:${pluginName},cmd:*`,
-		}]
-	}).ready(async () => {
+	.ready(async () => {
 		console.log("ready");
 
 		// seneca.seneca.act(`role:${pluginName},cmd:analyze`, config, console.log);

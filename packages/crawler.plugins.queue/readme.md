@@ -7,6 +7,7 @@
 1. 分析页面
 
 partten: **role:crawler.plugin.queue,cmd:analyze**
+测试地址：http://172.16.112.215:9003/act POST
 
 返回数据结构:
 
