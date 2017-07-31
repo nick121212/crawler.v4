@@ -1,6 +1,6 @@
 import * as Seneca from 'seneca';
 import inversify, { injectable, inject } from 'inversify';
-import { Plugin, Add, Wrap, Init } from 'crawler.common';
+import { Plugin, Add, Wrap, Init } from 'crawler.plugins.common';
 import * as _ from 'lodash';
 
 import { pluginName } from "../constants";

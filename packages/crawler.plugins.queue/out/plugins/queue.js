@@ -45,7 +45,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var inversify_1 = require("inversify");
-var crawler_common_1 = require("crawler.common");
+var crawler_plugins_common_1 = require("crawler.plugins.common");
 var _ = require("lodash");
 var constants_1 = require("../constants");
 var discover_1 = require("../libs/discover");
@@ -99,19 +99,19 @@ var QueuePlugin = (function () {
     return QueuePlugin;
 }());
 __decorate([
-    crawler_common_1.Add("role:" + constants_1.pluginName + ",cmd:analyze"),
+    crawler_plugins_common_1.Add("role:" + constants_1.pluginName + ",cmd:analyze"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], QueuePlugin.prototype, "getUrls", null);
 __decorate([
-    crawler_common_1.Add("role:" + constants_1.pluginName + ",cmd:queue"),
+    crawler_plugins_common_1.Add("role:" + constants_1.pluginName + ",cmd:queue"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], QueuePlugin.prototype, "queueUrl", null);
 QueuePlugin = __decorate([
-    crawler_common_1.Plugin(constants_1.pluginName),
+    crawler_plugins_common_1.Plugin(constants_1.pluginName),
     inversify_1.injectable()
 ], QueuePlugin);
 exports.QueuePlugin = QueuePlugin;

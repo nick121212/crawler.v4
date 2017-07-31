@@ -45,7 +45,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var inversify_1 = require("inversify");
-var crawler_common_1 = require("crawler.common");
+var crawler_plugins_common_1 = require("crawler.plugins.common");
 var _ = require("lodash");
 var pathToRegexp = require("path-to-regexp");
 var analysis_1 = require("../libs/analysis");
@@ -89,13 +89,13 @@ var HtmlPlugin = (function () {
     return HtmlPlugin;
 }());
 __decorate([
-    crawler_common_1.Add("role:" + constants_1.pluginName + ",cmd:html"),
+    crawler_plugins_common_1.Add("role:" + constants_1.pluginName + ",cmd:html"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], HtmlPlugin.prototype, "html", null);
 HtmlPlugin = __decorate([
-    crawler_common_1.Plugin(constants_1.pluginName),
+    crawler_plugins_common_1.Plugin(constants_1.pluginName),
     inversify_1.injectable()
 ], HtmlPlugin);
 exports.HtmlPlugin = HtmlPlugin;
