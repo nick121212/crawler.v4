@@ -13,7 +13,7 @@
   "author": "NICK",
   "license": "ISC",
   "dependencies": {
-    "crawler.common": "^0.1.2",
+    "crawler.plugins.common": "^0.1.2",
     "inversify": "^4.2.0",
     "jquery": "^3.2.1",
     "jsdom": "^9.8.3",
