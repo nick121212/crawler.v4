@@ -64,3 +64,13 @@ export class MathPlugin {
 }
 
 ```
+
+@log 打印参数类型，返回值类型，参数，返回值  `${方法名}被调用了！参数是什么，入参是什么，返回值是什么，返回值类型是什么！`
+@loading
+@proxy
+@route
+@reducer
+@action(async)
+@store
+
+redux

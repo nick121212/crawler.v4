@@ -19,7 +19,6 @@ let seneca = new Seneca(container, {
 });
 
 
-
 seneca.seneca
     .use('redis-store', {
         uri: "redis://47.92.126.120:6379",

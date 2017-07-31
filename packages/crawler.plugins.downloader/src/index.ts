@@ -16,23 +16,27 @@ let seneca = new Seneca(container, {
 
 seneca.initPlugin();
 seneca.seneca
-    .use('consul-registry', {
-        host: '47.92.126.120'
+    // .use('consul-registry', {
+    //     host: '47.92.126.120'
+    // })
+    // .use("mesh", {
+    //     auto: true,
+    //     isbase: true,
+    //     // host: HOST,
+    //     // port: PORT,
+    //     discover: {
+    //         registry: {
+    //             active: true
+    //         }
+    //     },
+    //     listen: [{
+    //         pin: "role: crawler.plugin.downloader, cmd: *",
+    //     }]
+    // })
+    .listen({
+        port: 9001
     })
-    .use("mesh", {
-        auto: true,
-        isbase: true,
-        // host: HOST,
-        // port: PORT,
-        discover: {
-            registry: {
-                active: true
-            }
-        },
-        listen: [{
-            pin: "role: crawler.plugin.downloader, cmd: *",
-        }]
-    }).ready(async () => {
+    .ready(async () => {
         console.log("ready");
         // console.log(seneca.seneca.list());
     });

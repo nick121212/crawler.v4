@@ -13,9 +13,12 @@ import { aaa } from "../aaa";
 export class MathPlugin {
     constructor( @inject(aaa) private aa: aaa) {
         // aa.aaaa.push("234234");
+
+        this.init(1, 1, 1);
     }
 
     @Init()
+    // @loading()
     init(a: any, b: any, c: any): Promise<any> {
         return new Promise(async (resolve: (value?: any | PromiseLike<any>) => void, reject: (reason?: any) => void) => {
             await bluebird.delay(2000);
@@ -51,3 +54,5 @@ export class MathPlugin {
         return { data: msg.left - msg.right + msg.ddd };
     }
 }
+
+// <Route path="/a/b" contet={atartet} >

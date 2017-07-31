@@ -53,9 +53,11 @@ var index_1 = require("../../index");
 var aaa_1 = require("../aaa");
 var MathPlugin = (function () {
     function MathPlugin(aa) {
-        this.aa = aa;
         // aa.aaaa.push("234234");
+        this.aa = aa;
+        this.init(1, 1, 1);
     }
+    // @loading()
     MathPlugin.prototype.init = function (a, b, c) {
         var _this = this;
         return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
@@ -95,7 +97,9 @@ var MathPlugin = (function () {
     return MathPlugin;
 }());
 __decorate([
-    index_1.Init(),
+    index_1.Init()
+    // @loading()
+    ,
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object, Object]),
     __metadata("design:returntype", Promise)
@@ -125,4 +129,5 @@ MathPlugin = __decorate([
     __metadata("design:paramtypes", [aaa_1.aaa])
 ], MathPlugin);
 exports.MathPlugin = MathPlugin;
+// <Route path="/a/b" contet={atartet} > 
 //# sourceMappingURL=math.js.map

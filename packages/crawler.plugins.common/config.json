@@ -1,0 +1,13 @@
+{
+    "plugins": {
+        "pre": {
+
+        },
+        "after": {
+            "redis-store": {
+                "uri": "redis://47.92.126.120:6379",
+                "options": {}
+            }
+        }
+    }
+}

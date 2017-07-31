@@ -1,4 +1,13 @@
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -37,12 +46,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var OriginSeneca = require("seneca");
 var bluebird = require("bluebird");
+var inversify = require("inversify");
+var inversify_1 = require("inversify");
+// import * as _ from 'lodash';
 var config_1 = require("./contansts/config");
+var config_2 = require("./config");
 var Seneca = (function () {
     function Seneca(container, options) {
         var _this = this;
         this._container = container;
         this._seneca = OriginSeneca(options);
+        this.config = new config_2.ConfigService();
         bluebird.promisifyAll(this._seneca);
         this._seneca.use("entity");
         var originMake = this._seneca.private$.entity.make$;
@@ -57,6 +71,8 @@ var Seneca = (function () {
                 return false;
             }
         });
+        this.prePlugins();
+        // this.config.
     }
     Object.defineProperty(Seneca.prototype, "seneca", {
         get: function () {
@@ -127,6 +143,22 @@ var Seneca = (function () {
             });
         }); });
     };
+    Seneca.prototype.prePlugins = function () {
+        if (this.config.config) {
+            for (var key in this.config.config.plugins.pre) {
+                if (this.config.config.plugins.pre.hasOwnProperty(key)) {
+                    var element = this.config.config.plugins.pre[key];
+                    this._seneca.use(key, element || {});
+                }
+            }
+            for (var key in this.config.config.plugins.after) {
+                if (this.config.config.plugins.after.hasOwnProperty(key)) {
+                    var element = this.config.config.plugins.after[key];
+                    this._seneca.use(key, element || {});
+                }
+            }
+        }
+    };
     /**
      * 初始化插件
      */
@@ -134,23 +166,26 @@ var Seneca = (function () {
         var _this = this;
         if (options === void 0) { options = {}; }
         var plugins = this._container.getAll(config_1.Types._plugin);
-        if (!plugins) {
-            return;
-        }
-        plugins.forEach(function (plugin) {
-            var pluginInfo = Reflect.getMetadata(config_1.SenecaConfig._plugin, plugin.constructor);
-            var addList = Reflect.getMetadata(config_1.SenecaConfig._add, plugin.constructor) || [];
-            var wrapList = Reflect.getMetadata(config_1.SenecaConfig._wrap, plugin.constructor) || [];
-            var initList = Reflect.getMetadata(config_1.SenecaConfig._init, plugin.constructor) || [];
-            _this._seneca.use(function () {
-                addList.forEach(function (add) { return _this.initAct(plugin.name, add, options[pluginInfo.name]); });
-                wrapList.forEach(function (wrap) { return _this.initWrap(plugin.name, wrap, options[pluginInfo.name]); });
-                initList.forEach(function (init) { return _this.initAct(plugin.name, Object.assign({ partten: "init:" + pluginInfo.name }, init, {}), options[pluginInfo.name]); });
-                return pluginInfo.name;
+        if (plugins) {
+            plugins.forEach(function (plugin) {
+                var pluginInfo = Reflect.getMetadata(config_1.SenecaConfig._plugin, plugin.constructor);
+                var addList = Reflect.getMetadata(config_1.SenecaConfig._add, plugin.constructor) || [];
+                var wrapList = Reflect.getMetadata(config_1.SenecaConfig._wrap, plugin.constructor) || [];
+                var initList = Reflect.getMetadata(config_1.SenecaConfig._init, plugin.constructor) || [];
+                _this._seneca.use(function () {
+                    addList.forEach(function (add) { return _this.initAct(plugin.name, add, options[pluginInfo.name]); });
+                    wrapList.forEach(function (wrap) { return _this.initWrap(plugin.name, wrap, options[pluginInfo.name]); });
+                    initList.forEach(function (init) { return _this.initAct(plugin.name, Object.assign({ partten: "init:" + pluginInfo.name }, init, {}), options[pluginInfo.name]); });
+                    return pluginInfo.name;
+                });
             });
-        });
+        }
     };
     return Seneca;
 }());
+Seneca = __decorate([
+    inversify_1.injectable(),
+    __metadata("design:paramtypes", [Object, Object])
+], Seneca);
 exports.Seneca = Seneca;
 //# sourceMappingURL=seneca.js.map
