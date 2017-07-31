@@ -1,6 +1,5 @@
 import inversify, { injectable } from 'inversify';
 import { modelProxy, IProxyCtx, IInterfaceModel, IExecute } from 'modelproxy';
-import { Init } from 'crawler.common';
 
 import { Types } from "./constants";
 import { container } from './container';
