@@ -24,7 +24,7 @@ module.exports = {
             "mesh": {
                 "isbase": true,
                 "auto": true,
-                "host": "127.0.0.1",
+                "host": process.env.HOST,
                 "discover": {
                     "registry": {
                         "active": true

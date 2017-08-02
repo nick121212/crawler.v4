@@ -6,7 +6,7 @@
   "scripts": {
     "test": "node test",
     "start": "node out/index.js",
-    "dock": "docker run -d  --network=host --name crawler.plugins.downloader -e CONFIG_PATH=/app/config.json crawler.plugins.downloader",
+    "dock": "docker run -it --rm --network=host --name crawler.plugins.downloader -e HOST=192.168.31.153 -e CONFIG_PATH=/app/config.js crawler.plugins.downloader",
     "dockfile": "docker build -t crawler.plugins.downloader .",
     "curl": "curl -d '{\"role\":\"crawler.plugin.downloader\",\"cmd\":\"download\",\"id\":3}' http://0.0.0.0:9999/act"
   },
