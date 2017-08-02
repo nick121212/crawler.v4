@@ -2307,7 +2307,7 @@ let seneca = new Seneca(container, {
 	tag: pluginName
 });
 
-seneca.initPlugin();
+// seneca.initPlugin();
 seneca.seneca
 	// .use('consul-registry', {
 	// 	host: '47.92.126.120'
@@ -2326,10 +2326,10 @@ seneca.seneca
 	// 		pin: `role:${pluginName},cmd:*`,
 	// 	}]
 	// })
-	.client({
-		host: "172.16.112.215",
-		port: 9001
-	})
+	// .client({
+	// 	host: "172.16.112.215",
+	// 	port: 9001
+	// })
 	.ready(async () => {
 		console.log("ready");
 

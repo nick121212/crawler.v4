@@ -53,10 +53,10 @@ var constants_1 = require("../constants");
 var HtmlPlugin = (function () {
     function HtmlPlugin() {
     }
-    HtmlPlugin.prototype.html = function (_a) {
+    HtmlPlugin.prototype.html = function (_a, options) {
         var queueItem = _a.queueItem, pages = _a.pages;
         return __awaiter(this, void 0, void 0, function () {
-            var urls, results, rules, _i, rules_1, rule, _a, _b;
+            var urls, results, rules, expireSeneca, entity, download, _i, rules_1, rule, _a, _b;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
@@ -67,21 +67,33 @@ var HtmlPlugin = (function () {
                             var pathToReg = pathToRegexp(path.toString(), []);
                             return pathToReg.test(queueItem.path);
                         });
-                        if (!(rules.length && queueItem.responseBody)) return [3 /*break*/, 4];
-                        _i = 0, rules_1 = rules;
-                        _c.label = 1;
+                        if (!(rules.length && !queueItem.responseBody)) return [3 /*break*/, 2];
+                        expireSeneca = options.seneca.delegate({ expire$: 15 });
+                        entity = expireSeneca.make('downloads');
+                        return [4 /*yield*/, entity.loadAsync({ id: queueItem._id })];
                     case 1:
-                        if (!(_i < rules_1.length)) return [3 /*break*/, 4];
+                        download = _c.sent();
+                        // console.log(download, queueItem);
+                        if (download) {
+                            queueItem.responseBody = download.responseBody;
+                        }
+                        _c.label = 2;
+                    case 2:
+                        if (!(rules.length && queueItem.responseBody)) return [3 /*break*/, 6];
+                        _i = 0, rules_1 = rules;
+                        _c.label = 3;
+                    case 3:
+                        if (!(_i < rules_1.length)) return [3 /*break*/, 6];
                         rule = rules_1[_i];
                         _b = (_a = results).push;
                         return [4 /*yield*/, analysis_1.default.doDeal(queueItem, rule)];
-                    case 2:
+                    case 4:
                         _b.apply(_a, [(_c.sent())]);
-                        _c.label = 3;
-                    case 3:
+                        _c.label = 5;
+                    case 5:
                         _i++;
-                        return [3 /*break*/, 1];
-                    case 4: return [2 /*return*/, results];
+                        return [3 /*break*/, 3];
+                    case 6: return [2 /*return*/, results];
                 }
             });
         });
@@ -91,7 +103,7 @@ var HtmlPlugin = (function () {
 __decorate([
     crawler_plugins_common_1.Add("role:" + constants_1.pluginName + ",cmd:html"),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], HtmlPlugin.prototype, "html", null);
 HtmlPlugin = __decorate([

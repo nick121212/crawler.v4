@@ -4,7 +4,8 @@
   "description": "nodejs爬虫",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "upc":"cd packages/crawler.plugins.downloader;npm up crawler.plugins.common;cd ../crawler.plugins.html;npm up crawler.plugins.common;cd ../crawler.plugins.queue;npm up crawler.plugins.common;cd ../crawler.plugins.schedule;npm up crawler.plugins.common;"
   },
   "repository": {
     "type": "git",

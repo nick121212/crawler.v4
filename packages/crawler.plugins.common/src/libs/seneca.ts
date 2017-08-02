@@ -23,9 +23,12 @@ export class Seneca<T extends IConfig> {
 
     constructor(container: inversify.interfaces.Container, options?: OriginSeneca.Options) {
         this._container = container;
-        this._seneca = OriginSeneca(options);
-
         this.config = new ConfigService<T>();
+
+        const { senecaOptions } = this.config.config.options;
+
+        this._seneca = OriginSeneca(Object.assign({}, options, senecaOptions));
+
         bluebird.promisifyAll(this._seneca);
         this._seneca.use("entity");
         // let originMake = this._seneca.private$.entity.make$;
@@ -37,7 +40,7 @@ export class Seneca<T extends IConfig> {
                 let names = name.split('');
 
                 if (names.pop() === "$") {
-                    target[names.join("") + "Async"] = bluebird.promisify(func, { context: this._seneca.private$.entity });
+                    target[names.join("") + "Async"] = bluebird.promisify(func);
                 }
 
                 return false;

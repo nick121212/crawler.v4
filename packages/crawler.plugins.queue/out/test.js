@@ -74,12 +74,8 @@ var REGISTRY = JSON.parse(process.env.REGISTRY || '{"active":true}');
 var seneca = new crawler_plugins_common_1.Seneca(container_1.container, {
     tag: constants_1.pluginName
 });
-seneca.initPlugin();
+// seneca.initPlugin();
 seneca.seneca
-    .client({
-    host: "172.16.112.215",
-    port: 9001
-})
     .ready(function () { return __awaiter(_this, void 0, void 0, function () {
     return __generator(this, function (_a) {
         console.log("ready");

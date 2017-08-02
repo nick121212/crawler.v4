@@ -23,40 +23,24 @@ export class SuperAgentEngine extends modelProxy.BaseEngine {
             let path = this.getFullPath(ctx.instance || {}, ctx.executeInfo || {});
             let { method = "" } = ctx.instance || {};
             let { data = null, settings = {}, params = {} } = ctx.executeInfo || {};
-            let { timeout = 5000, headers = {} } = settings || {};
-            let searchParams = new URLSearchParams();
-
-            Object.keys(params).forEach((key) => {
-                params[key] && searchParams.append(key, params[key]);
-            });
-
-            // console.log(path + (searchParams.toString() ? "?" + searchParams.toString() : ""));
+            let { timeout = 5000, header = {} } = settings || {};
 
             try {
-                // ctx.result = await request(path + (searchParams.toString() ? "?" + searchParams.toString() : ""), {
-                //     method: method.toString(),
-                //     body: data,
-                //     // json: true,
-                //     headers: headers,
-                //     resolveWithFullResponse: true,
-                //     timeout: timeout
-                // }, undefined);
                 let curReq: request.SuperAgentRequest = request(method.toString(), path);
 
-                if (params) {
-                    curReq.query(params);
-                }
-
-                if (data) {
-                    curReq.send(data);
-                }
+                params && curReq.query(params);
+                data && curReq.send(data);
+                header && curReq.set(header);
+                curReq.timeout({
+                    response: ~~timeout,
+                    deadline: 60000
+                })
 
                 ctx.result = await curReq;
                 ctx.result.body = ctx.result.text;
             } catch (e) {
                 ctx.err = e;
                 ctx.isError = true;
-                console.error(e);
             }
 
             await next();

@@ -2,6 +2,7 @@ import { injectable } from 'inversify';
 import * as fs from "fs";
 import * as util from "util";
 import { EventEmitter } from "events";
+import * as path from 'path';
 
 export interface IPlugin {
     pre: {
@@ -37,7 +38,14 @@ export class Configurator extends EventEmitter {
      * @param file 文件的路径
      */
     updateConfig(file: string) {
-        let config = JSON.parse(fs.readFileSync(file, "utf8"));
+        let filePath = path.resolve(file);
+        let config: any;
+
+        try {
+            config = require(filePath);
+        } catch (e) {
+            console.log("配置文件加载失败", e.message);
+        }
 
         fs.watch(file, (event, filename) => {
             if (event == 'change' && this.automaticConfigReload) {
@@ -73,9 +81,13 @@ export class ConfigService<T> extends Configurator implements IConfigService<T> 
     constructor() {
         super();
 
+        if (process.env.CONFIG_PATH) {
+            return this.initConfig(process.env.CONFIG_PATH as string);
+        }
+
         if (process.argv.length < 2 && !process.argv[2]) {
             // $log.error("没有定义config文件!");
-            process.exit(1);
+            // process.exit(1);
         } else {
             // 配置文件载入
             this.initConfig(process.argv[2]);
@@ -88,10 +100,10 @@ export class ConfigService<T> extends Configurator implements IConfigService<T> 
      * @param automaticConfigReload 
      */
     private initConfig(filePath: string, automaticConfigReload: boolean = false): void | any {
-        if (!fs.existsSync(filePath)) {
-            return;
-            // throw new Error(`${filePath}不存在！`);
-        }
+        // if (!fs.existsSync(filePath)) {
+        //     return;
+        //     // throw new Error(`${filePath}不存在！`);
+        // }
         this.configurator = new Configurator(automaticConfigReload);
         this.configurator.updateConfig(filePath);
     }

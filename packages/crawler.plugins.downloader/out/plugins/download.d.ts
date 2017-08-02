@@ -8,6 +8,9 @@ export declare class DownloadPlugin {
         queueItem: any;
         proxyInfo: any;
         engine: string;
-    }): any;
+    }, options: any): Promise<{
+        statusCode: number | undefined;
+        crawlerCount: number;
+    }>;
     inter({url, path, params, data, header, method, engine}: any): any;
 }

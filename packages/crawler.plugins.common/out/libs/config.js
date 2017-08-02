@@ -22,6 +22,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var inversify_1 = require("inversify");
 var fs = require("fs");
 var events_1 = require("events");
+var path = require("path");
 /**
  * 获取配置文件的信息
  */
@@ -43,7 +44,14 @@ var Configurator = (function (_super) {
      */
     Configurator.prototype.updateConfig = function (file) {
         var _this = this;
-        var config = JSON.parse(fs.readFileSync(file, "utf8"));
+        var filePath = path.resolve(file);
+        var config;
+        try {
+            config = require(filePath);
+        }
+        catch (e) {
+            console.log("配置文件加载失败", e.message);
+        }
         fs.watch(file, function (event, filename) {
             if (event == 'change' && _this.automaticConfigReload) {
                 _this.updateConfig(filename);
@@ -66,9 +74,12 @@ var ConfigService = (function (_super) {
     __extends(ConfigService, _super);
     function ConfigService() {
         var _this = _super.call(this) || this;
+        if (process.env.CONFIG_PATH) {
+            return _this.initConfig(process.env.CONFIG_PATH);
+        }
         if (process.argv.length < 2 && !process.argv[2]) {
             // $log.error("没有定义config文件!");
-            process.exit(1);
+            // process.exit(1);
         }
         else {
             // 配置文件载入

@@ -57,7 +57,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var request = require("superagent");
 var modelproxy_1 = require("modelproxy");
 var inversify_1 = require("inversify");
-var url_1 = require("url");
 var SuperAgentEngine = (function (_super) {
     __extends(SuperAgentEngine, _super);
     /**
@@ -75,28 +74,25 @@ var SuperAgentEngine = (function (_super) {
     SuperAgentEngine.prototype.init = function () {
         var _this = this;
         this.use(function (ctx, next) { return __awaiter(_this, void 0, void 0, function () {
-            var path, _a, method, _b, _c, data, _d, settings, _e, params, _f, _g, timeout, _h, headers, searchParams, curReq, _j, e_1;
+            var path, _a, method, _b, _c, data, _d, settings, _e, params, _f, _g, timeout, _h, header, curReq, _j, e_1;
             return __generator(this, function (_k) {
                 switch (_k.label) {
                     case 0:
                         path = this.getFullPath(ctx.instance || {}, ctx.executeInfo || {});
                         _a = (ctx.instance || {}).method, method = _a === void 0 ? "" : _a;
                         _b = ctx.executeInfo || {}, _c = _b.data, data = _c === void 0 ? null : _c, _d = _b.settings, settings = _d === void 0 ? {} : _d, _e = _b.params, params = _e === void 0 ? {} : _e;
-                        _f = settings || {}, _g = _f.timeout, timeout = _g === void 0 ? 5000 : _g, _h = _f.headers, headers = _h === void 0 ? {} : _h;
-                        searchParams = new url_1.URLSearchParams();
-                        Object.keys(params).forEach(function (key) {
-                            params[key] && searchParams.append(key, params[key]);
-                        });
+                        _f = settings || {}, _g = _f.timeout, timeout = _g === void 0 ? 5000 : _g, _h = _f.header, header = _h === void 0 ? {} : _h;
                         _k.label = 1;
                     case 1:
                         _k.trys.push([1, 3, , 4]);
                         curReq = request(method.toString(), path);
-                        if (params) {
-                            curReq.query(params);
-                        }
-                        if (data) {
-                            curReq.send(data);
-                        }
+                        params && curReq.query(params);
+                        data && curReq.send(data);
+                        header && curReq.set(header);
+                        curReq.timeout({
+                            response: ~~timeout,
+                            deadline: 60000
+                        });
                         _j = ctx;
                         return [4 /*yield*/, curReq];
                     case 2:
@@ -107,7 +103,6 @@ var SuperAgentEngine = (function (_super) {
                         e_1 = _k.sent();
                         ctx.err = e_1;
                         ctx.isError = true;
-                        console.error(e_1);
                         return [3 /*break*/, 4];
                     case 4: return [4 /*yield*/, next()];
                     case 5:

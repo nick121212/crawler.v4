@@ -13,7 +13,7 @@ import { pluginName } from "../constants";
 export class HtmlPlugin {
 
     @Add(`role:${pluginName},cmd:html`)
-    async html({ queueItem, pages }: { queueItem: any, pages: Array<any> }) {
+    async html({ queueItem, pages }: { queueItem: any, pages: Array<any> }, options: any) {
         let urls = [];
         let results: Array<any> = [];
         let rules = _.filter(pages, ({ path }) => {
@@ -21,6 +21,16 @@ export class HtmlPlugin {
 
             return pathToReg.test(queueItem.path);
         });
+
+        if (rules.length && !queueItem.responseBody) {
+            let expireSeneca = options.seneca.delegate({ expire$: 15 });
+            let entity = expireSeneca.make('downloads');
+            let download = await entity.loadAsync({ id: queueItem._id });
+            // console.log(download, queueItem);
+            if (download) {
+                queueItem.responseBody = download.responseBody;
+            }
+        }
 
         // 解析规则，分析页面中的字段
         if (rules.length && queueItem.responseBody) {

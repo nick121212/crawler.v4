@@ -53,10 +53,10 @@ var config_1 = require("./contansts/config");
 var config_2 = require("./config");
 var Seneca = (function () {
     function Seneca(container, options) {
-        var _this = this;
         this._container = container;
-        this._seneca = OriginSeneca(options);
         this.config = new config_2.ConfigService();
+        var senecaOptions = this.config.config.options.senecaOptions;
+        this._seneca = OriginSeneca(Object.assign({}, options, senecaOptions));
         bluebird.promisifyAll(this._seneca);
         this._seneca.use("entity");
         // let originMake = this._seneca.private$.entity.make$;
@@ -66,7 +66,7 @@ var Seneca = (function () {
             filter: function (name, func, target) {
                 var names = name.split('');
                 if (names.pop() === "$") {
-                    target[names.join("") + "Async"] = bluebird.promisify(func, { context: _this._seneca.private$.entity });
+                    target[names.join("") + "Async"] = bluebird.promisify(func);
                 }
                 return false;
             }
