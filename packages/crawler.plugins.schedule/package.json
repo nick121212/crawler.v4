@@ -1,16 +1,20 @@
 {
   "name": "crawler.plugins.mq",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node out/test",
+    "start": "node out/index.js",
+    "dock": "docker run  --net=host --name crawler.plugins.schedule -p 39999:39999/udp -e HOST=0.0.0.0 crawler.plugin.schedule",
+    "dockfile": "docker build -t crawler.plugin.schedule .",
+    "curl": "curl -d '{\"role\":\"crawler.plugin.schedule\",\"cmd\":\"download\",\"id\":3}' http://0.0.0.0:9999/act"
   },
   "author": "NICK",
   "license": "ISC",
   "dependencies": {
     "amqplib": "^0.5.1",
-    "crawler.plugins.common": "^0.1.8",
+    "crawler.plugins.common": "^0.1.9",
     "inversify": "^4.2.0",
     "lodash": "^4.17.4",
     "reflect-metadata": "^0.1.10",
