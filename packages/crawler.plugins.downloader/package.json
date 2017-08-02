@@ -1,6 +1,6 @@
 {
   "name": "crawler.plugins.downloader",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "爬虫下载插件",
   "main": "out/index.js",
   "scripts": {
@@ -18,7 +18,7 @@
   "author": "NICK",
   "license": "ISC",
   "dependencies": {
-    "crawler.plugins.common": "^0.1.9",
+    "crawler.plugins.common": "^0.1.10",
     "inversify": "^4.2.0",
     "modelproxy": "^0.5.19",
     "reflect-metadata": "^0.1.10",
@@ -31,7 +31,8 @@
     "seneca-mesh": "^0.10.0",
     "seneca-redis-queue-transport": "^0.3.0",
     "seneca-redis-transport": "^0.3.0",
-    "seneca-transport": "^2.1.1"
+    "seneca-transport": "^2.1.1",
+    "superagent": "^3.5.2"
   },
   "devDependencies": {
     "@types/blueimp-md5": "^2.7.0",
@@ -40,6 +41,7 @@
     "@types/reflect-metadata": "0.0.5",
     "@types/request": "^2.0.0",
     "@types/seneca": "^2.1.7",
+    "@types/superagent": "^3.5.3",
     "@types/tv4": "^1.2.28"
   }
 }

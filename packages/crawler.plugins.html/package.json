@@ -1,6 +1,6 @@
 {
   "name": "crawler.plugin.html",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -13,7 +13,7 @@
   "author": "NICK",
   "license": "ISC",
   "dependencies": {
-    "crawler.plugins.common": "^0.1.9",
+    "crawler.plugins.common": "^0.1.10",
     "inversify": "^4.2.0",
     "jquery": "^3.2.1",
     "jsdom": "^9.8.3",
