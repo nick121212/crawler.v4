@@ -1,6 +1,6 @@
 {
   "name": "crawler.plugin.html",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -13,7 +13,7 @@
   "author": "NICK",
   "license": "ISC",
   "dependencies": {
-    "crawler.plugins.common": "^0.1.10",
+    "crawler.plugins.common": "^0.1.11",
     "inversify": "^4.2.0",
     "jquery": "^3.2.1",
     "jsdom": "^9.8.3",
@@ -27,6 +27,7 @@
     "seneca": "^3.4.1",
     "seneca-consul-registry": "^0.1.0",
     "seneca-mesh": "^0.10.0",
+    "seneca-redis-store-expires": "^0.1.0",
     "seneca-transport": "^2.1.1"
   },
   "devDependencies": {
