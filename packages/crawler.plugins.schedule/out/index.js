@@ -39,45 +39,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 var crawler_plugins_common_1 = require("crawler.plugins.common");
 var container_1 = require("./container");
-var constants_1 = require("./constants");
-var HOST = process.env.HOST || process.argv[2] || "0.0.0.0";
-var BASES = (process.env.BASES || process.argv[3] || '').split(',');
-var PORT = process.env.PORT;
-var BROADCAST = process.env.BROADCAST;
-var REGISTRY = JSON.parse(process.env.REGISTRY || '{"active":true}');
+// import config from './config/test';
 var seneca = new crawler_plugins_common_1.Seneca(container_1.container, {
-    tag: constants_1.pluginName
+    tag: "crawler.plugins.schedule"
 });
 seneca.seneca
-    .use('redis-store', {
-    uri: "redis://47.92.126.120:6379",
-    options: {}
-})
-    .use('consul-registry', {
-    host: '47.92.126.120'
-})
-    .use("mesh", {
-    auto: true,
-    isbase: true,
-    host: HOST,
-    port: PORT,
-    discover: {
-        registry: {
-            active: true
-        }
-    },
-    listen: [{
-            pin: "role:" + constants_1.pluginName + ",cmd:*",
-        }]
-}).ready(function () { return __awaiter(_this, void 0, void 0, function () {
+    .ready(function () { return __awaiter(_this, void 0, void 0, function () {
     var _this = this;
     return __generator(this, function (_a) {
         seneca.initPlugin({
             "crawler.plugin.mq": {
-                url: "amqp://nick:111111@47.92.126.120/%2Fcrawler",
-                options: {}
+                "url": "amqp://nick:111111@47.92.126.120/%2Fcrawler",
+                "options": {}
             }
         });
+        console.log("ok");
         // seneca.seneca.act(`role:${pluginName},cmd:add`, { config: config });
         setTimeout(function () { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {

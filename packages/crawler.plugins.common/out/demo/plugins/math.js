@@ -1,4 +1,14 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -51,13 +61,13 @@ var inversify_1 = require("inversify");
 var bluebird = require("bluebird");
 var index_1 = require("../../index");
 var aaa_1 = require("../aaa");
-var MathPlugin = (function () {
+var MathPlugin = (function (_super) {
+    __extends(MathPlugin, _super);
     function MathPlugin(aa) {
-        // aa.aaaa.push("234234");
-        this.aa = aa;
-        this.init(1, 1, 1);
+        var _this = _super.call(this) || this;
+        _this.aa = aa;
+        return _this;
     }
-    // @loading()
     MathPlugin.prototype.init = function (a, b, c) {
         var _this = this;
         return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
@@ -95,11 +105,9 @@ var MathPlugin = (function () {
         });
     };
     return MathPlugin;
-}());
+}(index_1.PluginBase));
 __decorate([
-    index_1.Init()
-    // @loading()
-    ,
+    index_1.Init(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object, Object]),
     __metadata("design:returntype", Promise)

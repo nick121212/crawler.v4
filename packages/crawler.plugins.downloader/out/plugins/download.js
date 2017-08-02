@@ -20,7 +20,7 @@ var DownloadPlugin = (function () {
      * @param param0
      */
     DownloadPlugin.prototype.html = function (_a) {
-        var queueItem = _a.queueItem, proxyInfo = _a.proxyInfo, engine = _a.engine;
+        var queueItem = _a.queueItem, proxyInfo = _a.proxyInfo, _b = _a.engine, engine = _b === void 0 ? "superagent" : _b;
         /**
          * 添加接口信息
          */
@@ -28,7 +28,7 @@ var DownloadPlugin = (function () {
             "key": "download",
             "title": "download下载接口",
             "state": "html",
-            "engine": engine || "request",
+            "engine": engine,
             "states": {
                 "html": queueItem.url
             },
@@ -51,7 +51,7 @@ var DownloadPlugin = (function () {
         });
     };
     DownloadPlugin.prototype.inter = function (_a) {
-        var url = _a.url, _b = _a.path, path = _b === void 0 ? "" : _b, params = _a.params, data = _a.data, header = _a.header, _c = _a.method, method = _c === void 0 ? "get" : _c, _d = _a.engine, engine = _d === void 0 ? "request" : _d;
+        var url = _a.url, _b = _a.path, path = _b === void 0 ? "" : _b, params = _a.params, data = _a.data, header = _a.header, _c = _a.method, method = _c === void 0 ? "get" : _c, _d = _a.engine, engine = _d === void 0 ? "superagent" : _d;
         /**
          * 添加接口信息
          */
@@ -70,7 +70,6 @@ var DownloadPlugin = (function () {
                     "title": ""
                 }]
         });
-        console.log(1);
         /**
          * 调用接口
          */

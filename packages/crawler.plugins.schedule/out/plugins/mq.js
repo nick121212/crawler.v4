@@ -1,12 +1,4 @@
 "use strict";
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
-};
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -55,19 +47,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var inversify_1 = require("inversify");
 var crawler_plugins_common_1 = require("crawler.plugins.common");
 var bluebird = require("bluebird");
-var _ = require("lodash");
 var constants_1 = require("../constants");
 var mq_1 = require("../libs/mq");
 var MQueuePlugin = (function () {
     function MQueuePlugin() {
-        this.mqs = [];
     }
-    MQueuePlugin.prototype.has = function (key) {
-        var mQueueServie = _.first(_.filter(this.mqs, function (mq) {
-            return mq.config.key === key;
-        }));
-        return !!mQueueServie;
-    };
     /**
      * 启动一个任务
      * @param param0
@@ -77,85 +61,20 @@ var MQueuePlugin = (function () {
     MQueuePlugin.prototype.addToQueue = function (_a, options, globalOptions) {
         var config = _a.config;
         return __awaiter(this, void 0, void 0, function () {
-            var mQueueService, task, instance;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (this.has(config.key)) {
-                            return [2 /*return*/];
-                        }
-                        mQueueService = new mq_1.MQueueService();
-                        task = options.seneca.make$('tasks', __assign({ id: config.key }, config));
-                        return [4 /*yield*/, task.saveAsync()];
-                    case 1:
-                        instance = _a.sent();
-                        this.mqs.push(mQueueService);
-                        mQueueService.initConsume(globalOptions, config.key, config, 5);
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    /**
-     * 删除一个任务
-     * @param param0
-     * @param options
-     * @param globalOptions
-     */
-    MQueuePlugin.prototype.removeFromQueue = function (_a, options, globalOptions) {
-        var _b = _a.config, config = _b === void 0 ? {} : _b;
-        return __awaiter(this, void 0, void 0, function () {
-            var mQueueServie, entity;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        mQueueServie = _.first(_.filter(this.mqs, function (mq) {
-                            return mq.config.key === config.key;
-                        }));
-                        if (!mQueueServie) {
-                            return [2 /*return*/];
-                        }
-                        entity = options.seneca.make$('tasks');
-                        return [4 /*yield*/, entity.removeAsync({ id: config.key })];
-                    case 1:
-                        _a.sent();
-                        return [4 /*yield*/, mQueueServie.destroy()];
-                    case 2:
-                        _a.sent();
-                        _.remove(this.mqs, mQueueServie);
-                        return [2 /*return*/];
-                }
+                return [2 /*return*/];
             });
         });
     };
     MQueuePlugin.prototype.init = function (msg, options, globalOptions) {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            var entity, tasks;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        entity = options.seneca.make$('tasks');
-                        return [4 /*yield*/, entity.listAsync({})];
-                    case 1:
-                        tasks = _a.sent();
-                        _.forEach(tasks, function (task) { return __awaiter(_this, void 0, void 0, function () {
-                            return __generator(this, function (_a) {
-                                switch (_a.label) {
-                                    case 0:
-                                        if (!(task.id && !this.mqs[task.id])) return [3 /*break*/, 2];
-                                        return [4 /*yield*/, this.addToQueue({ config: task }, options, globalOptions)];
-                                    case 1:
-                                        _a.sent();
-                                        _a.label = 2;
-                                    case 2: return [2 /*return*/];
-                                }
-                            });
-                        }); });
-                        return [4 /*yield*/, bluebird.delay(200)];
-                    case 2:
-                        _a.sent();
                         console.log("init");
+                        return [4 /*yield*/, bluebird.delay(200)];
+                    case 1:
+                        _a.sent();
                         return [2 /*return*/];
                 }
             });
@@ -164,17 +83,15 @@ var MQueuePlugin = (function () {
     return MQueuePlugin;
 }());
 __decorate([
-    crawler_plugins_common_1.Add("role:" + constants_1.pluginName + ",cmd:add"),
+    inversify_1.inject(mq_1.MQueueService),
+    __metadata("design:type", mq_1.MQueueService)
+], MQueuePlugin.prototype, "mqService", void 0);
+__decorate([
+    crawler_plugins_common_1.Add("role:" + constants_1.pluginMqName + ",cmd:add"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object, Object]),
     __metadata("design:returntype", Promise)
 ], MQueuePlugin.prototype, "addToQueue", null);
-__decorate([
-    crawler_plugins_common_1.Add("role:" + constants_1.pluginName + ",cmd:remove"),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object]),
-    __metadata("design:returntype", Promise)
-], MQueuePlugin.prototype, "removeFromQueue", null);
 __decorate([
     crawler_plugins_common_1.Init(),
     __metadata("design:type", Function),
@@ -182,7 +99,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], MQueuePlugin.prototype, "init", null);
 MQueuePlugin = __decorate([
-    crawler_plugins_common_1.Plugin(constants_1.pluginName),
+    crawler_plugins_common_1.Plugin(constants_1.pluginMqName),
     inversify_1.injectable()
 ], MQueuePlugin);
 exports.MQueuePlugin = MQueuePlugin;

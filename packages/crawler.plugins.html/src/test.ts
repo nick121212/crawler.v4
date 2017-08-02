@@ -390,450 +390,7 @@ if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT 
 						</IFRAME>
 						<!-- 首页轮播图3（工作日不可配送）/End -->
                     </div>
-                    <div class="scrool_d">
-                        <!-- 首页轮播图4（工作日不可配送） -->
-						<IFRAME SRC="http://adpub.yaolan.com/afp/door/;ap=33;ct=if;pu=4c451ece10ff899d0001;/?" NAME="adFrame_33" WIDTH="260" HEIGHT="320" FRAMEBORDER="no" BORDER="0" MARGINWIDTH="0" MARGINHEIGHT="0" SCROLLING="no">
-						<SCRIPT LANGUAGE="JavaScript1.1">
-						var browVersion = parseInt(navigator.appVersion);
-						if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT LANGUAGE=\"Javascript1.1\" SRC=\" http://adpub.yaolan.com/afp/door/;ap=33;ct=js;pu=4c451ece10ff899d0001;/?\" charset="utf-8"><\/SCR"+"IPT>");
-						</SCRIPT>
-						</IFRAME>
-						<!-- 首页轮播图4（工作日不可配送）/End -->
-                    </div>
-                    <div class="scrool_d">
-                        <!-- 首页轮播图5（工作日不可配送） -->
-						<IFRAME SRC="http://adpub.yaolan.com/afp/door/;ap=34;ct=if;pu=4c451ece10ff899d0001;/?" NAME="adFrame_34" WIDTH="260" HEIGHT="320" FRAMEBORDER="no" BORDER="0" MARGINWIDTH="0" MARGINHEIGHT="0" SCROLLING="no">
-						<SCRIPT LANGUAGE="JavaScript1.1">
-						var browVersion = parseInt(navigator.appVersion);
-						if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT LANGUAGE=\"Javascript1.1\" SRC=\" http://adpub.yaolan.com/afp/door/;ap=34;ct=js;pu=4c451ece10ff899d0001;/?\" charset="utf-8"><\/SCR"+"IPT>");
-						</SCRIPT>
-						</IFRAME>
-						<!-- 首页轮播图5（工作日不可配送）/End -->
-                    </div>
-                    <div class="scrool_d">
-                        <!-- 首页轮播图6（临时广告位） -->
-						<IFRAME SRC="http://adpub.yaolan.com/afp/door/;ap=682;ct=if;pu=4c451ece10ff899d0001;/?" NAME="adFrame_682" WIDTH="260" HEIGHT="320" FRAMEBORDER="no" BORDER="0" MARGINWIDTH="0" MARGINHEIGHT="0" SCROLLING="no">
-						<SCRIPT LANGUAGE="JavaScript1.1">
-						var browVersion = parseInt(navigator.appVersion);
-						if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT LANGUAGE=\"Javascript1.1\" SRC=\" http://adpub.yaolan.com/afp/door/;ap=682;ct=js;pu=4c451ece10ff899d0001;/?\" charset="utf-8"><\/SCR"+"IPT>");
-						</SCRIPT>
-						</IFRAME>
-						<!-- 首页轮播图6（临时广告位）/End -->
-                    </div>
-					
-					
-                   <span class="ylJqueryEm"><em class="def"></em><em class=""></em><em class=""></em><em class=""></em><em class=""></em><em class=""></em></span>
-               </div>
-           </div>
-        </article>
-        <section class="ylAreaTops clearfix">
-        <article class="content fl index-sidecenter">
-            <div class="topArticle">
-                <div class="index-yuerlist">
-                    <div id="jquery-listdata">
-                            <div class="yueritem" >
-        <div class="index-yuersay">
-            <a href="http://www.yaolan.com/topic/yuerquhua/01/" target="_blank"><img src="http://pic.service.yaolan.com/32/20170117/90/1484618605402_1_w470_h220_o.jpg" alt="纳尼？湿疹的幕后黑手竟然是它！" /></a>
-            <div class="yuertool">
-                <div class="yuerspoton ylYouThink clearfix"><a href="http://www.yaolan.com/topic/yuerquhua/01/" target="_blank">看看专家怎么说</a>你认为是：</div>
-                <div  id="select-curr-1"     class="yuerspoton yuerspotons">
-                    <span scid="dkuiKJ0L1jw%3d" sid="8Fr%2f8iydTJc%3d" class="true" rel="1272">真相</span><span class="cf7">1272</span> <span class="index-rate"><em></em></span> <span class="c333">2376</span><span scid="P5bKJQ30IZo%3d" sid="8Fr%2f8iydTJc%3d" class="false" rel="2376">传言</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="yueritem" >
-        <div class="index-yuersay">
-            <a href="http://www.yaolan.com/topic/yuerzhenxiang101/" target="_blank"><img src="http://pic.service.yaolan.com/32/20161129/55/1480383894071_1_w470_h220_o.jpg" alt="宝宝哭吵不停影响健康吗？" /></a>
-            <div class="yuertool">
-                <div class="yuerspoton ylYouThink clearfix"><a href="http://www.yaolan.com/topic/yuerzhenxiang101/" target="_blank">看看专家怎么说</a>你认为是：</div>
-                <div   id="select-curr-2"    class="yuerspoton yuerspotons">
-                    <span scid="rQQIZ77ST2M%3d" sid="BGTs3idnDNA%3d" class="true" rel="1272">真相</span><span class="cf7">1272</span> <span class="index-rate"><em></em></span> <span class="c333">2376</span><span scid="QrocS7cAHK4%3d" sid="BGTs3idnDNA%3d" class="false" rel="2376">传言</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="yueritem" >
-        <div class="index-yuersay">
-            <a href="http://www.yaolan.com/topic/a2_landing/" target="_blank"><img src="http://pic.service.yaolan.com/32/20161111/106/1478828858218_1_w470_h220_o.jpg" alt="蛋白质有“大”不同" /></a>
-            <div class="yuertool">
-                <div class="yuerspoton ylYouThink clearfix"><a href="http://www.yaolan.com/topic/a2_landing/" target="_blank">看看专家怎么说</a>你认为是：</div>
-                <div    id="select-curr-3"   class="yuerspoton yuerspotons">
-                    <span scid="dkuiKJ0L1jw%3d" sid="8Fr%2f8iydTJc%3d" class="true" rel="1272">真相</span><span class="cf7">1272</span> <span class="index-rate"><em></em></span> <span class="c333">2376</span><span scid="P5bKJQ30IZo%3d" sid="8Fr%2f8iydTJc%3d" class="false" rel="2376">传言</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="yueritem" >
-        <div class="index-yuersay">
-            <a href="http://www.yaolan.com/topic/yuerzhenxiang100/" target="_blank"><img src="http://pic.service.yaolan.com/32/20160929/37/1475130328997_1_w470_h220_o.jpg" alt="宝宝“消化不良”，忍忍就好了？" /></a>
-            <div class="yuertool">
-                <div class="yuerspoton ylYouThink clearfix"><a href="http://www.yaolan.com/topic/yuerzhenxiang100/" target="_blank">看看专家怎么说</a>你认为是：</div>
-                <div     id="select-curr-4"  class="yuerspoton yuerspotons">
-                    <span scid="SfSUJJam%2ffw%3d" sid="5LL68x1zXVE%3d" class="true" rel="1272">真相</span><span class="cf7">1272</span> <span class="index-rate"><em></em></span> <span class="c333">2376</span><span scid="0UslpSIT%2fFo%3d" sid="5LL68x1zXVE%3d" class="false" rel="2376">传言</span>
-                </div>
-            </div>
-        </div>
-    </div>
-  
- 
-                    </div>
-                    <a href="javascript:void(0)" id="jquery-next" onClick="return false" class="next"></a>
-                    <a href="javascript:void(0)" id="jquery-prev" onClick="return false" class="prev"></a>
-                </div>
-            </div>
-        </article>
-        <article class="ylTrueR">
-            <ul class="ylTrueUl">
-                    <li  class="ylTrueF shover"    >
-    	<p><a href="http://www.yaolan.com/topic/yuerquhua/01/" target="_blank" title="纳尼？湿疹的幕后黑手竟然是它！">纳尼？湿疹的幕后黑手竟然是它！</a></p><span>宝宝湿疹的根源居然是...</span><em><i></i></em>
-    </li>
-    <li   class="ylTrueT"   >
-    	<p><a href="http://www.yaolan.com/topic/yuerzhenxiang101/" target="_blank" title="宝宝哭吵不停影响健康吗？">宝宝哭吵不停影响健康吗？</a></p><span>长时间无法安慰的哭吵...</span><em><i></i></em>
-    </li>
-    <li    class="ylTrueH"  >
-    	<p><a href="http://www.yaolan.com/topic/a2_landing/" target="_blank" title="蛋白质有“大”不同">蛋白质有“大”不同</a></p><span>你知道牛奶中的蛋白质...</span><em><i></i></em>
-    </li>
-    <li     class="ylTrueO" >
-    	<p><a href="http://www.yaolan.com/topic/yuerzhenxiang100/" target="_blank" title="宝宝“消化不良”，忍忍就好了？">宝宝“消化不良”，忍忍就好了？</a></p><span>宝宝“消化不良”，忍...</span><em><i></i></em>
-    </li>
-  
- 
-            </ul>
-        </article>
-        </section>
-        
-        </section>
-    </section>
-    <section class="area clearfix">
-        <div class="ylTalkTitle">
-            	<a href="http://www.yaolan.com/talk/" target="_blank">往期回顾</a>
 
- 
-        </div>
-        <ul class="ylTalkList clearfix">
-	<li >
-        <a href="http://www.yaolan.com/talk/yunfubugai/" class="ylTalkImg" title="妈咪钙营养失窃记"><img src="http://pic.service.yaolan.com/32/20160616/75/1466041781835_1_w80_h75_o.jpg" alt="妈咪钙营养失窃记"></a>
-        <div class="ylTalkWz">
-            <p class="h24f14 mb6"><a href="http://www.yaolan.com/talk/yunfubugai/" title="妈咪钙营养失窃记">妈咪钙营养失窃记</a></p>
-            <p class="h40 pr">准妈咪需要补钙，人人都晓得咯！可是问题来了，以前...<span class="pa more"><a title="妈咪钙营养失窃记" href="http://www.yaolan.com/talk/yunfubugai/" target="_blank">详情</a>&gt;</span></p>
-        </div>
-        <span class="ylTalkNum"></span>  
-    </li>
-	<li  class="ylTalkMiddle" >
-        <a href="http://www.yaolan.com/talk/jiatingri/" class="ylTalkImg" title="515，再忙也要陪TA！"><img src="http://pic.service.yaolan.com/32/20160514/54/1463234408246_1_w80_h75_o.jpg" alt="515，再忙也要陪TA！"></a>
-        <div class="ylTalkWz">
-            <p class="h24f14 mb6"><a href="http://www.yaolan.com/talk/jiatingri/" title="515，再忙也要陪TA！">515，再忙也要陪TA！</a></p>
-            <p class="h40 pr">既要轰轰烈烈的事业，又要其乐融融的家庭，可能有些...<span class="pa more"><a title="515，再忙也要陪TA！" href="http://www.yaolan.com/talk/jiatingri/" target="_blank">详情</a>&gt;</span></p>
-        </div>
-        <span class="ylTalkNum"></span>  
-    </li>
-	<li >
-        <a href="http://www.yaolan.com/talk/xiangxiang/" class="ylTalkImg" title="香香奶粉就是好奶粉？"><img src="http://pic.service.yaolan.com/32/20151207/26/1449453330074_1_w80_h75_o.jpg" alt="香香奶粉就是好奶粉？"></a>
-        <div class="ylTalkWz">
-            <p class="h24f14 mb6"><a href="http://www.yaolan.com/talk/xiangxiang/" title="香香奶粉就是好奶粉？">香香奶粉就是好奶粉？</a></p>
-            <p class="h40 pr">“好奶粉就是香”，听过身边许多宝妈发出过类似的感...<span class="pa more"><a title="香香奶粉就是好奶粉？" href="http://www.yaolan.com/talk/xiangxiang/" target="_blank">详情</a>&gt;</span></p>
-        </div>
-        <span class="ylTalkNum"></span>  
-    </li>
-</ul>
-
-    </section>
-    <section class="area ylHotArea">
-        <article class="ylAreaPleft">
-            <div class="ylAreaPw clearfix">
-                <div class="ylAreaPwleft">
-                        <a href="http://bbs.yaolan.com/thread-53316471-1-1.html" target="_blank" title="618海淘盛典︱网易考拉海外购"><img width="180" height="300" alt="618海淘盛典︱网易考拉海外购" src="http://pic.service.yaolan.com/32/20170616/110/1497609040878_1_w180_h300_o.jpg" /><div class="ylAreaDiv"><span class="ylAreaTbg"></span><span class="ylAreaT">618海淘盛典︱网易考拉海外购</span></div></a>
-    <a href="http://bbs.yaolan.com/thread-53314584-1-1.html" target="_blank" title="梦想中的礼物"><img width="180" height="300" alt="梦想中的礼物" src="http://pic.service.yaolan.com/32/20170531/23/1496199177495_1_w180_h300_o.jpg" /><div class="ylAreaDiv"><span class="ylAreaTbg"></span><span class="ylAreaT">梦想中的礼物</span></div></a>
-    <a href="http://bbs.yaolan.com/thread-53298177-1-1.html" target="_blank" title="带宝宝“梦幻花式”看牙医"><img width="180" height="300" alt="带宝宝“梦幻花式”看牙医" src="http://pic.service.yaolan.com/32/20170122/125/1485054116221_1_w180_h300_o.jpg" /><div class="ylAreaDiv"><span class="ylAreaTbg"></span><span class="ylAreaT">带宝宝“梦幻花式”看牙医</span></div></a>
-    <a href="http://bbs.yaolan.com/thread-53313646-1-1.html" target="_blank" title=" 通才教育与专才教育如何抉择"><img width="180" height="300" alt=" 通才教育与专才教育如何抉择" src="http://pic.service.yaolan.com/32/20170508/110/1494226021486_1_w180_h300_o.jpg" /><div class="ylAreaDiv"><span class="ylAreaTbg"></span><span class="ylAreaT"> 通才教育与专才教育如何抉择</span></div></a>
-    <a href="http://bbs.yaolan.com/thread-53303541-1-1.html" target="_blank" title="【家常小菜 】白菜可以这么做"><img width="180" height="300" alt="【家常小菜 】白菜可以这么做" src="http://pic.service.yaolan.com/32/20170302/37/1488439511461_1_w180_h300_o.jpg" /><div class="ylAreaDiv"><span class="ylAreaTbg"></span><span class="ylAreaT">【家常小菜 】白菜可以这么做</span></div></a>
-
-
-                </div>
-                <ul class="ylAreaPwright">
-                        <li  class="shover" ><a href="http://bbs.yaolan.com/forum-56-1.html" target="_blank" title="亲子时光">亲子时光</a></li>
-    <li ><a href="http://bbs.yaolan.com/forum-46-1.html" target="_blank" title="活动专区">活动专区</a></li>
-    <li ><a href="http://www.yaolan.com/parenting/travel/" target="_blank" title="生活百科">生活百科</a></li>
-    <li ><a href="http://bbs.yaolan.com/forum-390-1.html" target="_blank" title="婚姻家庭">婚姻家庭</a></li>
-    <li ><a href="http://bbs.yaolan.com/forum-26-1.html" target="_blank" title="美食厨房">美食厨房</a></li>
-
-
-                </ul>
-            </div>
-            <div class="bbsHot">
-                    <span class="bbsHotTitle"><a href="http://bbs.yaolan.com/" title="圈子话题" target="_blank">圈子话题</a></span>
-
-
-                <div class="bbsHotCon">
-                        <p class="h24 mb6"><a href="http://bbs.yaolan.com/thread-53108705-1-1.html" title="关于胎动需要了解的知识" target="关于胎动需要了解的知识">关于胎动需要了解的知识</a></p>
-    <p class="h40 pr"><a style="color:#999;" href="http://bbs.yaolan.com/thread-53108705-1-1.html">关于胎动，你所需要了解的知识，分享你的宝宝胎动！</a></p>
-
-
-                </div>
-             </div>
-        </article>
-        <article class="ylAreaPmiddle">
-            <div class="ylAreaTodayH">
-                 <dl class="ylAreaTodayHt">
-    <dt><span>今日热点</span><a href="http://www.yaolan.com/parenting/201707051539490.shtml" target="_blank" title="12星座脾气大起底，最好脾气排行揭晓！">12星座脾气大起底，最好脾气排行揭晓！</a></dt>
-    <dd>十二星座性格各不相同。有些星座特别记仇，而有的星座脾气很好。与脾气很好的星座交流，能很容易交心，不会...</dd>
-</dl>
-
-                <div class="ylAreaTodayB clearfix">
-                    <ul class="ylAreaTodayBleft">
-    <li><a href="http://www.yaolan.com/nutrition/201707050955537.shtml" target="_blank" title="夏天配盘黑豆芽加红豆饭">夏天配盘黑豆芽加红豆饭</a></li>
-    <li><a href="http://www.yaolan.com/health/201707050956362.shtml" target="_blank" title="宝宝出牙期乱咬妈妈乳头，何解？">宝宝出牙期乱咬妈妈乳头，何解？</a></li>
-
-
-<li><!-- 首页今日推荐1（工作日不可配送） -->
-<SCRIPT LANGUAGE="JavaScript1.1" SRC="http://adpub.yaolan.com/afp/door/;ap=40;ct=js;pu=4c451ece10ff899d0001;/?" charset="utf-8">
-</SCRIPT>
-<NOSCRIPT>
-<IFRAME SRC=" http://adpub.yaolan.com/afp/door/;ap=40;ct=if;pu=4c451ece10ff899d0001;/?" NAME="adFrame_40" WIDTH="0" HEIGHT="0" FRAMEBORDER="no" BORDER="0" MARGINWIDTH="0" MARGINHEIGHT="0" SCROLLING="no">
-</IFRAME>
-</NOSCRIPT>
-<!-- 首页今日推荐1（工作日不可配送）/End -->
-</li>
-<li><!-- 首页今日推荐2（工作日不可配送） -->
-<SCRIPT LANGUAGE="JavaScript1.1" SRC="http://adpub.yaolan.com/afp/door/;ap=41;ct=js;pu=4c451ece10ff899d0001;/?" charset="utf-8">
-</SCRIPT>
-<NOSCRIPT>
-<IFRAME SRC=" http://adpub.yaolan.com/afp/door/;ap=41;ct=if;pu=4c451ece10ff899d0001;/?" NAME="adFrame_41" WIDTH="0" HEIGHT="0" FRAMEBORDER="no" BORDER="0" MARGINWIDTH="0" MARGINHEIGHT="0" SCROLLING="no">
-</IFRAME>
-</NOSCRIPT>
-<!-- 首页今日推荐2（工作日不可配送）/End --></li>
-
-
-</ul>
-
-                    <div class="ylAreaTodayBright">
-    <a href="http://www.yaolan.com/zhishi/eat/" target="_blank" title="孕妇不能吃哪些水果？"><img alt="孕妇不能吃哪些水果？" width="150" height="100" src="http://pic.service.yaolan.com/32/20150212/120/1423734204920_1_o.jpg" />
-        <div class="ylAreaTodayIt"><span class="ylAreaTbg"></span><span class="ylAreaT">孕妇不能吃哪些水果？</span></div>
-    </a>
-</div>
-
-                </div>
-                <div class="ylAreaChildHtW">
-                        <div class="ylAreaChildHt">
-        <p><span>育儿热点</span><a href="http://www.yaolan.com/news/201706071000326.shtml" target="_blank" title="明星都在抢的澳洲保健品，你了解多少？">明星都在抢的澳洲保健品，你了解多少？</a></p>
-    </div>
-    <a class="ylAreaEduI" href="http://www.yaolan.com/news/201706071000326.shtml" target="_blank" title="明星都在抢的澳洲保健品，你了解多少？"><img alt="明星都在抢的澳洲保健品，你了解多少？" width="93" height="93" src="http://pic.service.yaolan.com/32/20170607/112/1496801662448_1_w94_h93_o.jpg" /></a>
-  
-
-                    <ul class="ylAreaEduU clearfix">
-    <li><a class="ylAreaTxtL" href="http://www.yaolan.com/edu/201705101001271.shtml" target="_blank" title="运动附加值：宝宝情商推动力">运动附加值：宝宝情商推动力</a><a class="ylAreaIR" href="" target="_blank" title=""></a></li>
-    <li><a class="ylAreaTxtL" href="http://www.yaolan.com/edu/201705081135592.shtml" target="_blank" title="家长花钱时，这个动作竟让孩子一生卑微？">家长花钱时，这个动作竟让孩子一生卑微？</a><a class="ylAreaIR" href="" target="_blank" title=""></a></li>
-    <li><a class="ylAreaTxtL" href="http://www.yaolan.com/edu/201705041003359.shtml" target="_blank" title="爸爸做到3点 女儿就不会遇渣男">爸爸做到3点 女儿就不会遇渣男</a><a class="ylAreaIR" href="" target="_blank" title=""></a></li>
-    <li><a class="ylAreaTxtL" href="http://www.yaolan.com/edu/201705101004232.shtml" target="_blank" title="看哪九类妈妈养的宝宝能成大器">看哪九类妈妈养的宝宝能成大器</a><a class="ylAreaIR" href="" target="_blank" title=""></a></li>
-</ul>
-
-                    <p class="ylAreaEduCi">
-    <a href="http://www.yaolan.com/bd/ruier/" target="_blank" title="宝宝牙齿健康">宝宝牙齿健康</a>
-    <a href="http://www.yaolan.com/zhishi/yunfushipu/" target="_blank" title="孕妇食谱">孕妇食谱</a>
-    <a href="http://www.yaolan.com/zhishi/yuganyou/" target="_blank" title="鱼肝油">鱼肝油</a>
-    <a href="http://www.yaolan.com/topic/jiatingzaojiao/" target="_blank" title="家庭早教">家庭早教</a>
-    <a href="http://www.yaolan.com/zhishi/yunfujiandang/" target="_blank" title="怀孕建档">怀孕建档</a>
-</p>
-
-                </div>
-            </div>
-        </article>
-        <article class="ylAreaPright">
-            <ul class="ylAreaPrU">
-                	<li class="ylFirst"><em>精品推荐<span></span></em></li>
-
-
-                <li class="sspace"><!-- 首页特别关注1 -->
-<SCRIPT LANGUAGE="JavaScript1.1" SRC="http://adpub.yaolan.com/afp/door/;ap=35;ct=js;pu=4c451ece10ff899d0001;/?" charset="utf-8">
-</SCRIPT>
-<NOSCRIPT>
-<IFRAME SRC=" http://adpub.yaolan.com/afp/door/;ap=35;ct=if;pu=4c451ece10ff899d0001;/?" NAME="adFrame_35" WIDTH="0" HEIGHT="0" FRAMEBORDER="no" BORDER="0" MARGINWIDTH="0" MARGINHEIGHT="0" SCROLLING="no">
-</IFRAME>
-</NOSCRIPT>
-<!-- 首页特别关注1/End -->
-<span></span>
-</li>
-<li class="sspace"><!-- 首页特别关注2 -->
-<SCRIPT LANGUAGE="JavaScript1.1" SRC="http://adpub.yaolan.com/afp/door/;ap=37;ct=js;pu=4c451ece10ff899d0001;/?" charset="utf-8">
-</SCRIPT>
-<NOSCRIPT>
-<IFRAME SRC=" http://adpub.yaolan.com/afp/door/;ap=37;ct=if;pu=4c451ece10ff899d0001;/?" NAME="adFrame_37" WIDTH="0" HEIGHT="0" FRAMEBORDER="no" BORDER="0" MARGINWIDTH="0" MARGINHEIGHT="0" SCROLLING="no">
-</IFRAME>
-</NOSCRIPT>
-<!-- 首页特别关注2/End -->
-<span></span>
-</li>
-<li class="sspace"><!-- 首页特别关注3 -->
-<SCRIPT LANGUAGE="JavaScript1.1" SRC="http://adpub.yaolan.com/afp/door/;ap=38;ct=js;pu=4c451ece10ff899d0001;/?" charset="utf-8">
-</SCRIPT>
-<NOSCRIPT>
-<IFRAME SRC=" http://adpub.yaolan.com/afp/door/;ap=38;ct=if;pu=4c451ece10ff899d0001;/?" NAME="adFrame_38" WIDTH="0" HEIGHT="0" FRAMEBORDER="no" BORDER="0" MARGINWIDTH="0" MARGINHEIGHT="0" SCROLLING="no">
-</IFRAME>
-</NOSCRIPT>
-<!-- 首页特别关注3/End -->
-<span></span>
-</li>
-<li class="sspace"><!-- 首页特别关注4 -->
-<SCRIPT LANGUAGE="JavaScript1.1" SRC="http://adpub.yaolan.com/afp/door/;ap=39;ct=js;pu=4c451ece10ff899d0001;/?" charset="utf-8">
-</SCRIPT>
-<NOSCRIPT>
-<IFRAME SRC=" http://adpub.yaolan.com/afp/door/;ap=39;ct=if;pu=4c451ece10ff899d0001;/?" NAME="adFrame_39" WIDTH="0" HEIGHT="0" FRAMEBORDER="no" BORDER="0" MARGINWIDTH="0" MARGINHEIGHT="0" SCROLLING="no">
-</IFRAME>
-</NOSCRIPT>
-<!-- 首页特别关注4/End --><span></span></li>
-<li class="sspace"><!-- 首页特别关注5 -->
-<SCRIPT LANGUAGE="JavaScript1.1" SRC="http://adpub.yaolan.com/afp/door/;ap=50;ct=js;pu=4c451ece10ff899d0001;/?" charset="utf-8">
-</SCRIPT>
-<NOSCRIPT>
-<IFRAME SRC=" http://adpub.yaolan.com/afp/door/;ap=50;ct=if;pu=4c451ece10ff899d0001;/?" NAME="adFrame_50" WIDTH="0" HEIGHT="0" FRAMEBORDER="no" BORDER="0" MARGINWIDTH="0" MARGINHEIGHT="0" SCROLLING="no">
-</IFRAME>
-</NOSCRIPT>
-<!-- 首页特别关注5/End -->
-<span></span>
-</li>
-<li class="sspace"><!-- 首页特别关注6 -->
-<SCRIPT LANGUAGE="JavaScript1.1" SRC="http://adpub.yaolan.com/afp/door/;ap=52;ct=js;pu=4c451ece10ff899d0001;/?" charset="utf-8">
-</SCRIPT>
-<NOSCRIPT>
-<IFRAME SRC=" http://adpub.yaolan.com/afp/door/;ap=52;ct=if;pu=4c451ece10ff899d0001;/?" NAME="adFrame_52" WIDTH="0" HEIGHT="0" FRAMEBORDER="no" BORDER="0" MARGINWIDTH="0" MARGINHEIGHT="0" SCROLLING="no">
-</IFRAME>
-</NOSCRIPT>
-<!-- 首页特别关注6/End -->
-<span></span>
-</li>
-<li class="sspace"><!-- 首页特别关注7 -->
-<SCRIPT LANGUAGE="JavaScript1.1" SRC="http://adpub.yaolan.com/afp/door/;ap=53;ct=js;pu=4c451ece10ff899d0001;/?" charset="utf-8">
-</SCRIPT>
-<NOSCRIPT>
-<IFRAME SRC=" http://adpub.yaolan.com/afp/door/;ap=53;ct=if;pu=4c451ece10ff899d0001;/?" NAME="adFrame_53" WIDTH="0" HEIGHT="0" FRAMEBORDER="no" BORDER="0" MARGINWIDTH="0" MARGINHEIGHT="0" SCROLLING="no">
-</IFRAME>
-</NOSCRIPT>
-<!-- 首页特别关注7/End -->
-<span></span>
-</li>
-<li class="sspace">
-<!-- 首页特别关注8 -->
-<SCRIPT LANGUAGE="JavaScript1.1" SRC="http://adpub.yaolan.com/afp/door/;ap=186272;ct=js;pu=4c451ece10ff899d0001;/?" charset="utf-8">
-</SCRIPT>
-<NOSCRIPT>
-<IFRAME SRC=" http://adpub.yaolan.com/afp/door/;ap=186272;ct=if;pu=4c451ece10ff899d0001;/?" NAME="adFrame_186272" WIDTH="0" HEIGHT="0" FRAMEBORDER="no" BORDER="0" MARGINWIDTH="0" MARGINHEIGHT="0" SCROLLING="no">
-</IFRAME>
-</NOSCRIPT>
-<!-- 首页特别关注8/End -->
-<span></span>
-</li>
-<li class="sspace sspaceLast">
-<!-- 首页定制入口flash -->
-<em><IFRAME SRC="http://adpub.yaolan.com/afp/door/;ap=630;ct=if;pu=4c451ece10ff899d0001;/?" NAME="adFrame_630" WIDTH="40" HEIGHT="30" FRAMEBORDER="no" BORDER="0" MARGINWIDTH="0" MARGINHEIGHT="0" SCROLLING="no">
-<SCRIPT LANGUAGE="JavaScript1.1">
-var browVersion = parseInt(navigator.appVersion);
-if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT LANGUAGE=\"Javascript1.1\" SRC=\" http://adpub.yaolan.com/afp/door/;ap=630;ct=js;pu=4c451ece10ff899d0001;/?\" charset="utf-8"><\/SCR"+"IPT>");
-</SCRIPT>
-</IFRAME>
-</em>
-<!-- 首页定制入口flash/End -->
-<!-- 首页定制入口文字 -->
-<SCRIPT LANGUAGE="JavaScript1.1" SRC="http://adpub.yaolan.com/afp/door/;ap=631;ct=js;pu=4c451ece10ff899d0001;/?" charset="utf-8">
-</SCRIPT>
-<NOSCRIPT>
-<IFRAME SRC=" http://adpub.yaolan.com/afp/door/;ap=631;ct=if;pu=4c451ece10ff899d0001;/?" NAME="adFrame_631" WIDTH="0" HEIGHT="0" FRAMEBORDER="no" BORDER="0" MARGINWIDTH="0" MARGINHEIGHT="0" SCROLLING="no">
-</IFRAME>
-</NOSCRIPT>
-<!-- 首页定制入口文字/End -->
-</li>
-            </ul>
-        </article>
-    </section>
-    <section class="brandArea">
-        <span class="brandTitle"><a href="http://www.yaolan.com/site/" title="品牌馆">品牌馆</a></span>
-        <div class="brandScroll">
-            <div class="brandScrollArea">
-                <ul>
-	<li><a href="http://site.yaolan.com/abckidsbrand/" title="ABC"><img src="http://pic.service.yaolan.com/32/20150917/17/1442479434129_1_w90_h32_o.jpg"  alt="ABC"/></a></li>           
-	<li><a href="http://tiny.yaolan.com/pampers/" title="帮宝适"><img src="http://f.yaolanimage.cn/cms/image/1128/2013112820282707.jpg"  alt="帮宝适"/></a></li>           
-	<li><a href="http://www.yaolan.com/brand/biostime/" title="合生元"><img src="http://pic.service.yaolan.com/32/20141106/39/1415240860583_1_o.jpg"  alt="合生元"/></a></li>           
-	<li><a href="http://www.yaolan.com/brand/dayin/" title="伊可新"><img src="http://f.yaolanimage.cn/cms/image/0522/20145221811907.jpg"  alt="伊可新"/></a></li>           
-	<li><a href="http://site.yaolan.com/cowala/" title="恒大咔哇熊"><img src="http://pic.service.yaolan.com/32/20150520/2/1432102898818_1_o.jpg"  alt="恒大咔哇熊"/></a></li>           
-	<li><a href="http://www.yaolan.com/brand/annil/" title="安奈儿"><img src="http://f.yaolanimage.cn/cms/image/1128/2013112820273618.jpg"  alt="安奈儿"/></a></li>           
-	<li><a href="http://www.yaolan.com/brand/elsker/" title="嗳呵"><img src="http://f.yaolanimage.cn/cms/image/1128/2013112820275468.jpg"  alt="嗳呵"/></a></li>           
-</ul>
- 
-            </div>
-            <a href="javascript:;" target="_self" class="brandScrollBtnL"></a>
-            <a href="javascript:;" target="_self" class="brandScrollBtnR"></a>
-        </div>
-    </section>  
-    <div class="adArea">
-    <div class="adLeft" id="topAd2_left"></div>
-    <div class="adRight" id="topAd2_right"></div>
-</div>
-    <section class="area">      
-        		<article class="knowledgeHead">
-        	<h2 class="knowledgeHeadTitle"><a href="http://www.yaolan.com/index/" title="育儿知识">育儿知识</a></h2>
-            <p class="knowledgeKeyword">
-                		<a href="http://poster.yaolan.com/" title="画报">画报</a>
-			<b class="kSlash"></b><a href="http://www.yaolan.com/parenting/" title="辣妈">辣妈</a>
-			<b class="kSlash"></b><a href="http://www.yaolan.com/news/" title="新闻">新闻</a>
-			<b class="kSlash"></b><a href="http://www.yaolan.com/edu/" title="早教">早教</a>
-			<b class="kSlash"></b><a href="http://www.yaolan.com/nutrition/" title="营养">营养</a>
-			<b class="kSlash"></b><a href="http://www.yaolan.com/zhishi/" title="百科">百科</a>
-			<b class="kSlash"></b><a href="http://www.yaolan.com/health/" title="健康">健康</a>
-	
-
-            </p>
-        </article>
-        <div class="clear">
-            <article class="mleft">
-                <div class="zsTop">
-                    					<div class="zsTopTab">                    	
-                    	<ul class="zsTobTabUl">
-                        	<li class="cur"><a href="http://www.yaolan.com/preconception/">备孕</a></li><li><a href="http://www.yaolan.com/pregnant/">孕期</a></li><li><a href="http://www.yaolan.com/infant/">0-1岁</a></li><li><a href="http://www.yaolan.com/toddler/">1-3岁</a></li><li><a href="http://www.yaolan.com/preschool/">3-6岁</a></li>
-                        </ul>  
-                        <span class="zsTopTabLine"></span>                      
-                    </div>
-                    					<div class="zsTopArea">
-                        ﻿<div class="zsTopCon" style="display:block">
-<div class="siderLeft">
-<div class="siderLeft">
-	<div class="askHeadline">
-		<em class="askHeadlineIcon">ASK精彩问答</em>
-						<p class="h24 mb6"><a href="http://ask.yaolan.com/question/17030215043317419197.html" title="多吃碱性食物可以分阶段性的调理身体吗？">多吃碱性食物可以分阶段性的调理身...</a></p>
-		<p class="h40"> 答案：是的，但是吃再多的碱性食品不吸收，吸收慢，食补也是无效，调理身体亚健康用一般传统的碱性品都是可以满足，不过备孕男宝吃碱孕宝比较专业，根据身体平衡机制，适应吸收，效果不错，2阶段调理两月</p>
-																					</div>
-	<dl class="askList">
-										<dt class="askListTitle"><b class="askListIcon"></b><a href="http://ask.yaolan.com/question/17030215034188958479.html" title="身体吸收不好，分阶段调理碱性体质需要多长时间？生男孩。" class="fl">身体吸收不好，分阶段调理碱性体质...</a></dt>
-								<dt class="askListTitle"><b class="askListIcon"></b><a href="http://ask.yaolan.com/question/17030214334713750443.html" title="宝宝经常长湿疹，" class="fl">宝宝经常长湿疹，</a></dt>
-								<dt class="askListTitle"><b class="askListIcon"></b><a href="http://ask.yaolan.com/question/17030214322083107652.html" title="婴幼儿体内的菌群是怎么来的？" class="fl">婴幼儿体内的菌群是怎么来的？</a></dt>
-								<dt class="askListTitle"><b class="askListIcon"></b><a href="http://ask.yaolan.com/question/17030214320489240466.html" title="酸奶、乳酸菌饮料可以补充益生菌吗？" class="fl">酸奶、乳酸菌饮料可以补充益生菌吗...</a></dt>
-					</dl>
-</div>
-
-
-</div>
-<ul class="picList">
-<li class="picListFirst">
-<em class="picListTitle">
-		备孕攻略
-	</em>
-
-<p class="picListWords">	<a target="_blank" title="女性附件炎严重吗 会造成哪些危" href="/health/201611111700472.shtml">女性附件炎严重吗 会造成哪些危</a>
-	<a target="_blank" title="这些食物导致胎儿畸型，准妈咪" href="/nutrition/201611071708326.shtml">这些食物导致胎儿畸型，准妈咪</a>
-	<a target="_blank" title="附件炎有什么症状表现 早知道早" href="/health/201611111654492.shtml">附件炎有什么症状表现 早知道早</a>
-
-</p>
-</li>
-<li>
-<a href="http://www.yaolan.com/nutrition/201703231056418.shtml" title="备孕第一步，从改正饮食习惯开始！"><img src="http://pic.service.yaolan.com/32/20170323/124/1490238338300_1_w200_h135_o.jpg"  class="picListImg"/><div class="picListShade"><span class="picListName">备孕第一步，从改正饮食习惯开始！</span><span class="picListBg"></span></div></a>
-</li>
-<li>
-<a href="http://www.yaolan.com/health/201703231053518.shtml" title="十个女人九个寒！说说宫寒的问题"><img src="http://pic.service.yaolan.com/32/20170323/44/1490238231980_1_w200_h135_o.jpg"  class="picListImg"/><div class="picListShade"><span class="picListName">十个女人九个寒！说说宫寒的问题</span><span class="picListBg"></span></div></a>
-</li>
-<li>
-<a href="http://www.yaolan.com/health/201703221144329.shtml" title="备孕妈妈：3个微变化助你判断排卵期"><img src="http://pic.service.yaolan.com/32/20170322/85/1490154736213_1_w200_h135_o.jpg"  class="picListImg"/><div class="picListShade"><span class="picListName">备孕妈妈：3个微变化助你判断排卵期</span><span class="picListBg"></span></div></a>
-</li>
-
-                            
 </ul>
 </div>
                         ﻿<div class="zsTopCon">
@@ -2305,7 +1862,7 @@ const config = {
 						"selector": [".zsTobTabUl .cur a"],
 						"methodInfo": { "text": [] },
 						"dealStrategy": "normal"
-					},{
+					}, {
 						"selector": [".key_main .key_ul .hover"],
 						"methodInfo": { "text": [] },
 						"dealStrategy": "normal"
@@ -2313,7 +1870,7 @@ const config = {
 				}]
 			}
 		},
-		"enabled": true
+		"enabled": false
 	}, {
 		"key": "health-post",
 		"path": "/health/d+.shtml",
@@ -2338,7 +1895,7 @@ const config = {
 				}]
 			}
 		},
-		"enabled": true
+		"enabled": false
 	}, {
 		"key": "main",
 		"path": "",
@@ -2374,7 +1931,7 @@ const config = {
 				}]
 			}
 		},
-		"enabled": true
+		"enabled": false
 	}, {
 		"key": "num",
 		"path": "",
@@ -2398,11 +1955,15 @@ const config = {
 		}
 	}],
 	"queueItem": {
-		responseBody: responseBody,
-		url: "http://www.yaolan.com",
-		path: "/"
+		"responseBody": responseBody,
+		"url": "http://www.yaolan.com",
+		"path": "/"
 	}
 };
+
+var fs = require("fs");
+
+fs.writeFile("./aaa.json", JSON.stringify(config))
 
 
 const HOST = process.env.HOST || process.argv[2] || "0.0.0.0";
@@ -2417,25 +1978,33 @@ let seneca = new Seneca(container, {
 
 seneca.initPlugin();
 seneca.seneca
-	.use('consul-registry', {
-		host: '47.92.126.120'
+	// .use('consul-registry', {
+	// 	host: '47.92.126.120'
+	// })
+	// .use("mesh", {
+	// 	auto: true,
+	// 	isbase: true,
+	// 	host: HOST,
+	// 	port: PORT,
+	// 	discover: {
+	// 		registry: {
+	// 			active: true
+	// 		}
+	// 	},
+	// 	listen: [{
+	// 		pin: `role:${pluginName},cmd:analyze`,
+	// 	}]
+	// })
+	.client({
+		"host": "172.16.112.215",
+		"port": 9002
 	})
-	.use("mesh", {
-		auto: true,
-		isbase: true,
-		host: HOST,
-		port: PORT,
-		discover: {
-			registry: {
-				active: true
-			}
-		},
-		listen: [{
-			pin: `role:${pluginName},cmd:analyze`,
-		}]
-	}).ready(async () => {
+	.ready(async () => {
 		console.log("ready");
+		let start = Date.now();
 		seneca.seneca.act(`role:${pluginName},cmd:html`, config, (err: Error, res: any) => {
 			console.log(res[0].result);
+
+			console.log(Date.now() - start);
 		});
 	});

@@ -1,6 +1,8 @@
 export declare class MQueuePlugin {
-    private mqs;
-    has(key: string): boolean;
+    /**
+     * 注入一个mq服务
+     */
+    private mqService;
     /**
      * 启动一个任务
      * @param param0
@@ -10,14 +12,5 @@ export declare class MQueuePlugin {
     addToQueue({config}: {
         config: any;
     }, options?: any, globalOptions?: any): Promise<void>;
-    /**
-     * 删除一个任务
-     * @param param0
-     * @param options
-     * @param globalOptions
-     */
-    removeFromQueue({config}: {
-        config: any;
-    }, options: any, globalOptions: any): Promise<void>;
     init(msg: any, options: any, globalOptions: any): Promise<void>;
 }

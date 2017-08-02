@@ -1,10 +1,12 @@
 import * as inversify from 'inversify';
 import { Container } from "inversify";
-import { Types as CommonTypes } from 'crawler.plugins.common';
 import { modelProxy, IProxyCtx, IInterfaceModel, IExecute } from 'modelproxy';
 import { makeFluentProvideDecorator } from "inversify-binding-decorators";
+import { Types as CommonTypes, PluginBase } from 'crawler.plugins.common';
 
 import { RequestEngine } from './engines/request';
+import { SuperAgentEngine } from './engines/superagent';
+
 import { Types } from "./constants";
 import { Proxy } from "./proxy";
 import { DownloadPlugin } from "./plugins/download";
@@ -17,11 +19,7 @@ inversify.decorate(inversify.injectable(), modelProxy.Compose);
 inversify.decorate(inversify.injectable(), modelProxy.BaseEngine);
 
 container.bind<Proxy>(Proxy).to(Proxy).inSingletonScope();
-// container.bind<inversify.interfaces.Factory<Proxy>>("Factory<Proxy>").toFactory<Proxy>((context: inversify.interfaces.Context) => {
-//     return () => {
-//         console.log("get Proxy");
-//         return container.get<Proxy>(Proxy);
-//     };
-// });
-container.bind<RequestEngine>(Types.engine).to(RequestEngine);
-container.bind<DownloadPlugin>(CommonTypes._plugin).to(DownloadPlugin);
+container.bind<RequestEngine>(Types.engine).to(RequestEngine).inSingletonScope();
+container.bind<SuperAgentEngine>(Types.engine).to(SuperAgentEngine).inSingletonScope();
+
+container.bind<PluginBase>(CommonTypes._plugin).to(DownloadPlugin).inSingletonScope().whenNoAncestorNamed("DownloadPlugin");

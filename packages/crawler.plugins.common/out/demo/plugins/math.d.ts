@@ -1,5 +1,6 @@
+import { PluginBase } from "../../index";
 import { aaa } from "../aaa";
-export declare class MathPlugin {
+export declare class MathPlugin extends PluginBase {
     private aa;
     constructor(aa: aaa);
     init(a: any, b: any, c: any): Promise<any>;

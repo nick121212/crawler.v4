@@ -1,0 +1,43 @@
+{
+    "options": {
+        "crawler.plugin.mq": {
+            "url": "amqp://nick:111111@47.92.126.120/%2Fcrawler",
+            "options": {}
+        },
+        "crawler.plugin.task": {
+            "url": "amqp://nick:111111@47.92.126.120/%2Fcrawler",
+            "options": {}
+        },
+        "seneca": {
+
+        }
+    },
+    "plugins": {
+        "pre": {
+            "redis-store": {
+                "uri": "redis://123.59.44.152:6379",
+                "options": {}
+            },
+            "consul-registry": {
+                "host": "123.59.44.152"
+            },
+            "mesh": {
+                "isbase": true,
+                "auto": true,
+                "discover": {
+                    "registry": {
+                        "active": true
+                    }
+                },
+                "listen": [{
+                    "pin": "role:crawler.plugin.mq,cmd:*"
+                }, {
+                    "pin": "role:crawler.plugin.task,cmd:*"
+                }]
+            }
+        },
+        "after": {
+
+        }
+    }
+}

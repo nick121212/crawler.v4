@@ -1,8 +1,8 @@
 import inversify, { injectable, inject } from 'inversify';
 import * as Seneca from 'seneca';
 import * as request from 'request';
-import { Plugin, Add, Wrap, Init } from 'crawler.plugins.common';
 
+import { Plugin, Add, Wrap, Init } from 'crawler.plugins.common';
 import { Proxy } from "../proxy";
 
 @Plugin("crawler.plugin.downloader")
@@ -16,7 +16,7 @@ export class DownloadPlugin {
      * @param param0 
      */
     @Add("role:crawler.plugin.downloader,cmd:html")
-    html({ queueItem, proxyInfo, engine }: { queueItem: any, proxyInfo: any, engine: string }) {
+    html({ queueItem, proxyInfo, engine = "superagent" }: { queueItem: any, proxyInfo: any, engine: string }) {
         /**
          * 添加接口信息
          */
@@ -24,7 +24,7 @@ export class DownloadPlugin {
             "key": "download",
             "title": "download下载接口",
             "state": "html",
-            "engine": engine || "request",
+            "engine": engine,
             "states": {
                 "html": queueItem.url
             },
@@ -50,7 +50,7 @@ export class DownloadPlugin {
 
     @Add("role:crawler.plugin.downloader,cmd:interface")
 
-    inter({ url, path = "", params, data, header, method = "get", engine = "request" }: any) {
+    inter({ url, path = "", params, data, header, method = "get", engine = "superagent" }: any) {
         /**
          * 添加接口信息
          */
@@ -69,8 +69,6 @@ export class DownloadPlugin {
                 "title": ""
             }]
         });
-
-        console.log(1);
 
         /**
          * 调用接口

@@ -1,11 +1,21 @@
 import { injectable } from 'inversify';
-// import { InjectorService, Service } from 'ts-express-decorators';
-// import { $log, Logger } from 'ts-log-debug';
 import * as fs from "fs";
 import * as util from "util";
 import { EventEmitter } from "events";
-// import * as redis from 'ioredis';
-// import { NotAcceptable, NotFound } from 'ts-httpexceptions';
+
+export interface IPlugin {
+    pre: {
+        [key: string]: any;
+    },
+    after: {
+        [key: string]: any;
+    }
+}
+
+export interface IConfig {
+    plugins: IPlugin;
+    options: any;
+}
 
 /**
  * 获取配置文件的信息
@@ -79,7 +89,8 @@ export class ConfigService<T> extends Configurator implements IConfigService<T> 
      */
     private initConfig(filePath: string, automaticConfigReload: boolean = false): void | any {
         if (!fs.existsSync(filePath)) {
-            throw new Error(`${filePath}不存在！`);
+            return;
+            // throw new Error(`${filePath}不存在！`);
         }
         this.configurator = new Configurator(automaticConfigReload);
         this.configurator.updateConfig(filePath);

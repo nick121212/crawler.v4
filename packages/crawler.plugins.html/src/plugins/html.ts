@@ -1,8 +1,8 @@
 import inversify, { injectable, inject } from 'inversify';
 import * as Seneca from 'seneca';
-import { Plugin, Add, Wrap, Init } from 'crawler.plugins.common';
 import * as _ from "lodash";
 import * as pathToRegexp from 'path-to-regexp';
+import { Plugin, Add, Wrap, Init } from 'crawler.plugins.common';
 
 import format from '../libs/format';
 import analysis from '../libs/analysis';
@@ -16,7 +16,6 @@ export class HtmlPlugin {
     async html({ queueItem, pages }: { queueItem: any, pages: Array<any> }) {
         let urls = [];
         let results: Array<any> = [];
-
         let rules = _.filter(pages, ({ path }) => {
             let pathToReg = pathToRegexp(path.toString(), []);
 

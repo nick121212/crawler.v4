@@ -45,9 +45,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var inversify_1 = require("inversify");
-var crawler_plugins_common_1 = require("crawler.plugins.common");
 var _ = require("lodash");
 var pathToRegexp = require("path-to-regexp");
+var crawler_plugins_common_1 = require("crawler.plugins.common");
 var analysis_1 = require("../libs/analysis");
 var constants_1 = require("../constants");
 var HtmlPlugin = (function () {

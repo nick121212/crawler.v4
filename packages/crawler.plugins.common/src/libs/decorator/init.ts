@@ -1,7 +1,11 @@
 
 
-import { IInit } from "../contansts/iinit";
 import { SenecaConfig } from "../contansts/config";
+
+export interface IInit {
+    target: any;
+    key: string;
+}
 
 export const Init = <T>() => {
     return (target: any, key: string, value: PropertyDescriptor) => {

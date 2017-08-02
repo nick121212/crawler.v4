@@ -27,7 +27,6 @@ var Proxy = (function () {
     Proxy.prototype.init = function () {
         var _this = this;
         var engines = container_1.container.getAll(constants_1.Types.engine);
-        console.log("init engine");
         this._proxy = new modelproxy_1.modelProxy.Proxy();
         engines.forEach(function (engine) {
             _this._proxy.addEngines((_a = {},

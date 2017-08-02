@@ -20,12 +20,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var inversify_1 = require("inversify");
-// import { InjectorService, Service } from 'ts-express-decorators';
-// import { $log, Logger } from 'ts-log-debug';
 var fs = require("fs");
 var events_1 = require("events");
-// import * as redis from 'ioredis';
-// import { NotAcceptable, NotFound } from 'ts-httpexceptions';
 /**
  * 获取配置文件的信息
  */
@@ -88,7 +84,8 @@ var ConfigService = (function (_super) {
     ConfigService.prototype.initConfig = function (filePath, automaticConfigReload) {
         if (automaticConfigReload === void 0) { automaticConfigReload = false; }
         if (!fs.existsSync(filePath)) {
-            throw new Error(filePath + "\u4E0D\u5B58\u5728\uFF01");
+            return;
+            // throw new Error(`${filePath}不存在！`);
         }
         this.configurator = new Configurator(automaticConfigReload);
         this.configurator.updateConfig(filePath);

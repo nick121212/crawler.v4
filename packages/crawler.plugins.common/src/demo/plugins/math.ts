@@ -5,20 +5,17 @@ import { injectable, inject } from "inversify";
 import * as Seneca from 'seneca';
 import * as bluebird from 'bluebird';
 
-import { Plugin, Add, Wrap, Init } from "../../index";
+import { Plugin, Add, Wrap, Init, PluginBase } from "../../index";
 import { aaa } from "../aaa";
 
 @Plugin("math-plugin", {})
 @injectable()
-export class MathPlugin {
+export class MathPlugin extends PluginBase{
     constructor( @inject(aaa) private aa: aaa) {
-        // aa.aaaa.push("234234");
-
-        this.init(1, 1, 1);
+        super();
     }
 
     @Init()
-    // @loading()
     init(a: any, b: any, c: any): Promise<any> {
         return new Promise(async (resolve: (value?: any | PromiseLike<any>) => void, reject: (reason?: any) => void) => {
             await bluebird.delay(2000);

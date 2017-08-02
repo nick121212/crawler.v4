@@ -59,7 +59,7 @@ var Seneca = (function () {
         this.config = new config_2.ConfigService();
         bluebird.promisifyAll(this._seneca);
         this._seneca.use("entity");
-        var originMake = this._seneca.private$.entity.make$;
+        // let originMake = this._seneca.private$.entity.make$;
         // 使得entity可以使用promise方法
         bluebird.promisifyAll(this._seneca.private$.entity.__proto__, {
             context: this._seneca.private$.entity,
@@ -72,7 +72,6 @@ var Seneca = (function () {
             }
         });
         this.prePlugins();
-        // this.config.
     }
     Object.defineProperty(Seneca.prototype, "seneca", {
         get: function () {
@@ -89,7 +88,7 @@ var Seneca = (function () {
      * key: 方法的名字
      * options: 额外参数
      */
-    Seneca.prototype.initAct = function (name, _a, globalOptions) {
+    Seneca.prototype.initAct = function (plugin, _a, globalOptions) {
         var _this = this;
         var target = _a.target, partten = _a.partten, key = _a.key, _b = _a.options, options = _b === void 0 ? {} : _b;
         this._seneca.add(partten, options, function (msg, reply) { return __awaiter(_this, void 0, void 0, function () {
@@ -98,13 +97,14 @@ var Seneca = (function () {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this._container.getNamed(config_1.Types._plugin, name)[key](msg, Object.assign({ seneca: reply.seneca }, options, {}), globalOptions)];
+                        return [4 /*yield*/, plugin[key](msg, Object.assign({ seneca: reply.seneca }, options, {}), globalOptions)];
                     case 1:
                         result = _a.sent();
                         reply(null, result);
                         return [3 /*break*/, 3];
                     case 2:
                         e_1 = _a.sent();
+                        console.log(e_1);
                         reply(e_1);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
@@ -120,7 +120,7 @@ var Seneca = (function () {
      * key: 方法的名字
      * options: 额外参数
      */
-    Seneca.prototype.initWrap = function (name, _a, globalOptions) {
+    Seneca.prototype.initWrap = function (plugin, _a, globalOptions) {
         var _this = this;
         var target = _a.target, partten = _a.partten, key = _a.key, _b = _a.options, options = _b === void 0 ? {} : _b;
         this._seneca.wrap(partten, options, function (msg, reply) { return __awaiter(_this, void 0, void 0, function () {
@@ -129,7 +129,7 @@ var Seneca = (function () {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this._container.getNamed(config_1.Types._plugin, name)[key](msg, Object.assign({ seneca: reply.seneca }, options, {}), globalOptions)];
+                        return [4 /*yield*/, plugin[key](msg, Object.assign({ seneca: reply.seneca }, options, {}), globalOptions)];
                     case 1:
                         result = _a.sent();
                         reply.seneca.prior(msg, reply);
@@ -143,20 +143,27 @@ var Seneca = (function () {
             });
         }); });
     };
+    /**
+     * 载入插件
+     */
     Seneca.prototype.prePlugins = function () {
-        if (this.config.config) {
+        if (this.config && this.config.config && this.config.config.plugins) {
             for (var key in this.config.config.plugins.pre) {
                 if (this.config.config.plugins.pre.hasOwnProperty(key)) {
                     var element = this.config.config.plugins.pre[key];
                     this._seneca.use(key, element || {});
                 }
             }
+            this.initPlugin(this.config.config.options);
             for (var key in this.config.config.plugins.after) {
                 if (this.config.config.plugins.after.hasOwnProperty(key)) {
                     var element = this.config.config.plugins.after[key];
                     this._seneca.use(key, element || {});
                 }
             }
+        }
+        else {
+            // this.initPlugin();
         }
     };
     /**
@@ -173,9 +180,9 @@ var Seneca = (function () {
                 var wrapList = Reflect.getMetadata(config_1.SenecaConfig._wrap, plugin.constructor) || [];
                 var initList = Reflect.getMetadata(config_1.SenecaConfig._init, plugin.constructor) || [];
                 _this._seneca.use(function () {
-                    addList.forEach(function (add) { return _this.initAct(plugin.name, add, options[pluginInfo.name]); });
-                    wrapList.forEach(function (wrap) { return _this.initWrap(plugin.name, wrap, options[pluginInfo.name]); });
-                    initList.forEach(function (init) { return _this.initAct(plugin.name, Object.assign({ partten: "init:" + pluginInfo.name }, init, {}), options[pluginInfo.name]); });
+                    addList.forEach(function (add) { return _this.initAct(plugin, add, options[pluginInfo.name]); });
+                    wrapList.forEach(function (wrap) { return _this.initWrap(plugin, wrap, options[pluginInfo.name]); });
+                    initList.forEach(function (init) { return _this.initAct(plugin, Object.assign({ partten: "init:" + pluginInfo.name }, init, {}), options[pluginInfo.name]); });
                     return pluginInfo.name;
                 });
             });

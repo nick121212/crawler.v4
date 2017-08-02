@@ -39,11 +39,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = require("../index");
 var inversify_1 = require("inversify");
 var math_1 = require("./plugins/math");
-var config_1 = require("../libs/contansts/config");
+var math_1_1 = require("./plugins/math.1");
 var aaa_1 = require("./aaa");
+var index_2 = require("../index");
 var container = new inversify_1.Container();
-var seneca = new index_1.Seneca(container);
-container.bind(config_1.Types._plugin).to(math_1.MathPlugin).inSingletonScope();
+var seneca = new index_1.Seneca(container, { log: "test" });
+container.bind(index_2.Types._plugin).to(math_1.MathPlugin).inSingletonScope().whenTargetNamed("MathPlugin");
+container.bind(index_2.Types._plugin).to(math_1_1.MathPlugin1).inSingletonScope().whenTargetNamed("MathPlugin1");
 container.bind(aaa_1.aaa).toSelf();
 seneca.initPlugin();
 seneca.seneca.ready(function () { return __awaiter(_this, void 0, void 0, function () {

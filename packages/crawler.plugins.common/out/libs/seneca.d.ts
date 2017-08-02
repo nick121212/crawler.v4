@@ -1,8 +1,9 @@
 /// <reference types="seneca" />
 import * as OriginSeneca from 'seneca';
 import * as inversify from 'inversify';
-import { IAdd } from "./contansts/iadd";
-import { IConfig } from './contansts/iconfig';
+import { IAdd } from "./decorator/add";
+import { IWrap } from "./decorator/wrap";
+import { IConfig } from './config';
 export declare class Seneca<T extends IConfig> {
     private _seneca;
     private _container;
@@ -17,7 +18,7 @@ export declare class Seneca<T extends IConfig> {
      * key: 方法的名字
      * options: 额外参数
      */
-    initAct(name: string, {target, partten, key, options}: IAdd, globalOptions: any): void;
+    initAct(plugin: any, {target, partten, key, options}: IAdd, globalOptions: any): void;
     /**
      * 包装wrap
      * @param 参数
@@ -26,7 +27,10 @@ export declare class Seneca<T extends IConfig> {
      * key: 方法的名字
      * options: 额外参数
      */
-    initWrap(name: string, {target, partten, key, options}: IAdd, globalOptions: Object): void;
+    initWrap(plugin: any, {target, partten, key, options}: IWrap, globalOptions: Object): void;
+    /**
+     * 载入插件
+     */
     prePlugins(): void;
     /**
      * 初始化插件

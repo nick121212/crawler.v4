@@ -1,7 +1,12 @@
 
 
-import { IPlugin } from "../contansts/iplugin";
 import { SenecaConfig } from "../contansts/config";
+
+export interface IPlugin {
+    name: string;
+    options?: any;
+    target: any;
+}
 
 export const Plugin = <T>(name: string, options?: T) => {
     return (target: any) => {

@@ -1,5 +1,17 @@
 /// <reference types="node" />
 import { EventEmitter } from "events";
+export interface IPlugin {
+    pre: {
+        [key: string]: any;
+    };
+    after: {
+        [key: string]: any;
+    };
+}
+export interface IConfig {
+    plugins: IPlugin;
+    options: any;
+}
 /**
  * 获取配置文件的信息
  */

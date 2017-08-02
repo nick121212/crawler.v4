@@ -4,4 +4,5 @@ export const Types = {
 };
 
 
-export const pluginName = "crawler.plugin.mq";
+export const pluginMqName = "crawler.plugin.mq";
+export const pluginTaskName = "crawler.plugin.task";

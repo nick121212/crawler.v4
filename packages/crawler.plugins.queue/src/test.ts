@@ -2307,7 +2307,7 @@ let seneca = new Seneca(container, {
 	tag: pluginName
 });
 
-// seneca.initPlugin();
+seneca.initPlugin();
 seneca.seneca
 	// .use('consul-registry', {
 	// 	host: '47.92.126.120'

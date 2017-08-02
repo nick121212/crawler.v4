@@ -19,7 +19,6 @@ export class Proxy {
     private init() {
         let engines = container.getAll(Types.engine);
 
-        console.log("init engine");
         this._proxy = new modelProxy.Proxy();
         
         engines.forEach((engine: any) => {
