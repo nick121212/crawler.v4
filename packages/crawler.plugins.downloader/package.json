@@ -1,12 +1,12 @@
 {
   "name": "crawler.plugins.downloader",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "爬虫下载插件",
   "main": "out/index.js",
   "scripts": {
     "test": "node test",
     "start": "node out/index.js",
-    "dock": "docker run  --network=host --name crawler.plugin.downloader -e HOST=0.0.0.0 crawler.plugin.downloader",
+    "dock": "docker run -d  --network=host --name crawler.plugins.downloader -e CONFIG_PATH=/app/config.json crawler.plugins.downloader",
     "dockfile": "docker build -t crawler.plugins.downloader .",
     "curl": "curl -d '{\"role\":\"crawler.plugin.downloader\",\"cmd\":\"download\",\"id\":3}' http://0.0.0.0:9999/act"
   },
@@ -18,7 +18,7 @@
   "author": "NICK",
   "license": "ISC",
   "dependencies": {
-    "crawler.plugins.common": "^0.1.12",
+    "crawler.plugins.common": "^0.1.13",
     "inversify": "^4.2.0",
     "modelproxy": "^0.5.19",
     "reflect-metadata": "^0.1.10",

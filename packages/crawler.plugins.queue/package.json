@@ -1,6 +1,6 @@
 {
   "name": "crawler.plugin.queue",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -8,13 +8,16 @@
     "dist/index.d.ts"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node out/index.js",
+    "dock": "docker run -d --network=host --name crawler.plugins.queue -e CONFIG_PATH=/app/config.json crawler.plugins.queue",
+    "dockfile": "docker build -t crawler.plugins.queue ."
   },
   "author": "NICK",
   "license": "ISC",
   "dependencies": {
     "blueimp-md5": "^2.7.0",
-    "crawler.plugins.common": "^0.1.12",
+    "crawler.plugins.common": "^0.1.13",
     "inversify": "^4.2.0",
     "lodash": "^4.17.4",
     "path-to-regexp": "^1.7.0",
@@ -23,6 +26,7 @@
     "seneca": "^3.4.1",
     "seneca-consul-registry": "^0.1.0",
     "seneca-mesh": "^0.10.0",
+    "seneca-redis-store": "^1.1.0",
     "seneca-transport": "^2.1.1",
     "urijs": "^1.18.10"
   },

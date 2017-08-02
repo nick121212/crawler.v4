@@ -1,6 +1,6 @@
 {
   "name": "crawler.plugin.html",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -8,12 +8,15 @@
     "dist/index.d.ts"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node out/index.js",
+    "dock": "docker run -d --network=host --name crawler.plugins.html -e CONFIG_PATH=/app/config.json crawler.plugins.html",
+    "dockfile": "docker build -t crawler.plugins.html ."
   },
   "author": "NICK",
   "license": "ISC",
   "dependencies": {
-    "crawler.plugins.common": "^0.1.12",
+    "crawler.plugins.common": "^0.1.13",
     "inversify": "^4.2.0",
     "jquery": "^3.2.1",
     "jsdom": "^9.8.3",
