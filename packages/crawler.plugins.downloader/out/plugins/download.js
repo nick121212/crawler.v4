@@ -64,7 +64,7 @@ var DownloadPlugin = (function () {
      * @param param0
      */
     DownloadPlugin.prototype.html = function (_a, options) {
-        var queueItem = _a.queueItem, proxyInfo = _a.proxyInfo, _b = _a.engine, engine = _b === void 0 ? "superagent" : _b;
+        var queueItem = _a.queueItem, proxyInfo = _a.proxyInfo, _b = _a.header, header = _b === void 0 ? {} : _b, _c = _a.engine, engine = _c === void 0 ? "superagent" : _c;
         return __awaiter(this, void 0, void 0, function () {
             var res, expireSeneca, download;
             return __generator(this, function (_a) {
@@ -88,7 +88,11 @@ var DownloadPlugin = (function () {
                                     "title": ""
                                 }]
                         });
-                        return [4 /*yield*/, this.proxy.proxy.execute("/download/download", proxyInfo || {})];
+                        return [4 /*yield*/, this.proxy.proxy.execute("/download/download", {
+                                settings: {
+                                    header: header
+                                }
+                            })];
                     case 1:
                         res = _a.sent();
                         expireSeneca = options.seneca.delegate({ expire$: 15 });
@@ -108,7 +112,7 @@ var DownloadPlugin = (function () {
         });
     };
     DownloadPlugin.prototype.inter = function (_a) {
-        var url = _a.url, _b = _a.path, path = _b === void 0 ? "" : _b, params = _a.params, data = _a.data, header = _a.header, _c = _a.method, method = _c === void 0 ? "get" : _c, _d = _a.engine, engine = _d === void 0 ? "superagent" : _d;
+        var url = _a.url, _b = _a.path, path = _b === void 0 ? "" : _b, params = _a.params, data = _a.data, header = _a.header, _c = _a.method, method = _c === void 0 ? "get" : _c, _d = _a.engine, engine = _d === void 0 ? "superagent" : _d, _e = _a._id, _id = _e === void 0 ? "" : _e;
         /**
          * 添加接口信息
          */

@@ -76,12 +76,25 @@ var seneca = new crawler_plugins_common_1.Seneca(container_1.container, {
 });
 // seneca.initPlugin();
 seneca.seneca
+    .client({
+    port: 9001,
+    host: "172.16.112.215"
+})
     .ready(function () { return __awaiter(_this, void 0, void 0, function () {
+    var a;
     return __generator(this, function (_a) {
         console.log("ready");
+        a = Date.now();
         // seneca.seneca.act(`role:${pluginName},cmd:analyze`, config, console.log);
-        seneca.seneca.act("role:" + constants_1.pluginName + ",cmd:queue", config, function (err, res) {
+        seneca.seneca.act("role:crawler.plugin.downloader,cmd:html", {
+            "queueItem": {
+                "protocol": "https",
+                "url": "https://search.jd.com/search?keyword=%E6%B2%99%E5%8F%91&enc=utf-8&ev=exbrand_%E8%8A%9D%E5%8D%8E%E4%BB%95%EF%BC%88CHEERS%EF%BC%89%2F",
+                "_id": "1fea1c20adb1fe1da0675a061b6d2c8d"
+            }
+        }, function (err, res) {
             console.log(res);
+            console.log(Date.now() - a);
         });
         return [2 /*return*/];
     });

@@ -338,8 +338,9 @@ partten: **role:crawler.plugin.html,cmd:html**
             "queueItem":{
                 "type":"object",
                 "description":"下载的页面的链接信息",
-                "required":["url","responseBody"],
+                "required":["url","_id"],
                 "properties":{
+                    "_id":{"type":"string","title":"链接对应的md5"},
                     "url":{"type":"string","title":"下载链接的详细地址"},
                     "path":{"type":"string","title":"下载链接的路径"},
                     "query":{"type":"string","title":"下载链接的地址栏参数信息"},

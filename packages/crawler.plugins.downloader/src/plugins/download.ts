@@ -17,7 +17,7 @@ export class DownloadPlugin {
      * @param param0 
      */
     @Add("role:crawler.plugin.downloader,cmd:html")
-    async html({ queueItem, proxyInfo, engine = "superagent" }: { queueItem: any, proxyInfo: any, engine: string }, options: any) {
+    async html({ queueItem, proxyInfo, header = {}, engine = "superagent" }: { header: any, queueItem: any, proxyInfo: any, engine: string }, options: any) {
         /**
          * 添加接口信息
          */
@@ -39,7 +39,11 @@ export class DownloadPlugin {
         /**
          * 调用接口
          */
-        let res: request.RequestResponse = await this.proxy.proxy.execute("/download/download", proxyInfo || {})
+        let res: request.RequestResponse = await this.proxy.proxy.execute("/download/download", {
+            settings: {
+                header
+            }
+        })
         let expireSeneca = options.seneca.delegate({ expire$: 15 });
         let download = expireSeneca.make$('downloads', {
             id: queueItem._id,
@@ -59,7 +63,7 @@ export class DownloadPlugin {
     }
 
     @Add("role:crawler.plugin.downloader,cmd:interface")
-    inter({ url, path = "", params, data, header, method = "get", engine = "superagent" }: any) {
+    inter({ url, path = "", params, data, header, method = "get", engine = "superagent", _id = "" }: any) {
         /**
          * 添加接口信息
          */
