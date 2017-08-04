@@ -1,11 +1,11 @@
-{
+module.exports = {
     "options": {
         "crawler.plugin.mq": {
-            "url": "amqp://nick:111111@47.92.126.120/%2Fcrawler",
+            "url": "amqp://nick:111111@47.92.126.120/crawler",
             "options": {}
         },
         "crawler.plugin.task": {
-            "url": "amqp://nick:111111@47.92.126.120/%2Fcrawler",
+            "url": "amqp://nick:111111@47.92.126.120/crawler",
             "options": {}
         },
         "seneca": {
@@ -24,14 +24,19 @@
             "mesh": {
                 "isbase": true,
                 "auto": true,
+                "host": process.env.HOST,
+                "stop": true,
+                "sneeze": {
+                    // "silent": JSON.parse(SILENT),
+                    "silent": true,
+                    "swim": { interval: 1111 }
+                },
                 "discover": {
                     "registry": {
                         "active": true
                     }
                 },
                 "listen": [{
-                    "pin": "role:crawler.plugin.mq,cmd:*"
-                }, {
                     "pin": "role:crawler.plugin.task,cmd:*"
                 }]
             }

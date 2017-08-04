@@ -86,8 +86,7 @@ var SuperAgentEngine = (function (_super) {
                         _l.label = 1;
                     case 1:
                         _l.trys.push([1, 3, , 4]);
-                        curReq = request(method.toString(), "https://item.jd.com/10468590470.html");
-                        // curReq.accept("text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
+                        curReq = request(method.toString(), path);
                         params && curReq.query(params);
                         data && curReq.send(data);
                         header && curReq.set(header);
@@ -95,7 +94,6 @@ var SuperAgentEngine = (function (_super) {
                             response: ~~timeout,
                             deadline: 60000
                         });
-                        console.log(charset);
                         charset && curReq.charset(charset);
                         _k = ctx;
                         return [4 /*yield*/, curReq];

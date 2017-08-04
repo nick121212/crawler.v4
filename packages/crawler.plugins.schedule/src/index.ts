@@ -12,43 +12,112 @@ let seneca = new Seneca(container, {
 });
 
 seneca.seneca
-    // .use('redis-store', {
-    //     uri: "redis://123.59.44.152:6379",
-    //     options: {}
-    // })
-    // .use('consul-registry', {
-    //     host: '123.59.44.152'
-    // })
-    // .use("mesh", {
-    //     // auto: true,
-    //     isbase: true,
-    //     host: "127.0.0.1",
-    //     port: 40001,
-    //     // discover: {
-    //     //     registry: {
-    //     //         active: true
-    //     //     }
-    //     // },
-    //     // pins: [`role:${pluginMqName},cmd:*`,`role:${pluginTaskName},cmd:*`]
-    //     listen: [{
-    //         pin: `role:${pluginMqName},cmd:*`
-    //     }, {
-    //         pin: `role:${pluginTaskName},cmd:*`
-    //     }]
-    // })
     .ready(async () => {
-        seneca.initPlugin({
-            "crawler.plugin.mq": {
-                "url": "amqp://nick:111111@47.92.126.120/%2Fcrawler",
-                "options": {}
-            }
+        console.log("ready");
+        await seneca.seneca.actAsync(`role:${pluginTaskName},cmd:add`, {
+            config: { key: "testplugin" },
+            plugins: [{
+                "partten": "role:crawler.plugin.queue,cmd:queue",
+                "data": {
+                    "queueConfig": {
+                        "ignoreWWWDomain": false,
+                        "stripWWWDomain": false,
+                        "scanSubdomains": true,
+                        "host": "www.jd.com",
+                        "initialProtocol": "https",
+                        "initialPort": 80,
+                        "stripQuerystring": false,
+                        "fetchConditions": [],
+                        "domainWhiteList": ["(.*?).jd.com"],
+                        "filterByDomain": true
+                    },
+                    "urls": ["https://search.jd.com/search?keyword=%E6%B2%99%E5%8F%91&enc=utf-8&ev=exbrand_%E8%8A%9D%E5%8D%8E%E4%BB%95%EF%BC%88CHEERS%EF%BC%89/"]
+                }
+            }, {
+                "partten": "role:crawler.plugin.downloader,cmd:html",
+                "data": {
+                    "queueItem": {
+                        "protocol": "https",
+                        "url": "https://search.jd.com/search?keyword=%E6%B2%99%E5%8F%91&enc=utf-8&ev=exbrand_%E8%8A%9D%E5%8D%8E%E4%BB%95%EF%BC%88CHEERS%EF%BC%89%2F",
+                        "_id": "1fea1c20adb1fe1da0675a061b6d2c8d"
+
+                    }
+                }
+            }, {
+                "partten": "role:crawler.plugin.html,cmd:html",
+                "data": {
+                    "pages": [{
+                        "key": "brandlist",
+                        "path": "*",
+                        "enabled": 1,
+                        "fields": {
+                            "none": {
+                                "data": [{
+                                    "key": "totalPage",
+                                    "dealStrategy": "normal",
+                                    "selector": [
+                                        "#J_topPage .fp-text i"
+                                    ],
+                                    "methodInfo": {
+                                        "text": []
+                                    }
+                                },
+                                {
+                                    "key": "skus",
+                                    "selector": ["#J_goodsList ul:eq(0) > li"],
+                                    "dealStrategy": "array",
+                                    "data": [{
+                                        "key": "sku",
+                                        "selector": [],
+                                        "dealStrategy": "normal",
+                                        "methodInfo": {
+                                            "attr": ["data-sku"]
+                                        }
+                                    },
+                                    {
+                                        "key": "price",
+                                        "selector": [".p-price i"],
+                                        "dealStrategy": "normal",
+                                        "methodInfo": {
+                                            "text": []
+                                        }
+                                    },
+                                    {
+                                        "key": "comment",
+                                        "selector": [".p-commit strong a"],
+                                        "dealStrategy": "normal",
+                                        "methodInfo": {
+                                            "text": []
+                                        },
+                                        "formats": [{
+                                            "key": "regexp",
+                                            "settings": {
+                                                "regexp": "/\\d+/",
+                                                "index": 0
+                                            }
+                                        }, {
+                                            "key": "num"
+                                        }]
+                                    }
+                                    ]
+                                }
+                                ]
+                            }
+                        }
+                    }],
+                    "queueItem": {
+                        "url": "https://search.jd.com/search?keyword=%E6%B2%99%E5%8F%91&enc=utf-8&ev=exbrand_%E8%8A%9D%E5%8D%8E%E4%BB%95%EF%BC%88CHEERS%EF%BC%89%2F",
+                        "_id": "1fea1c20adb1fe1da0675a061b6d2c8d"
+                    }
+                }
+            }]
         });
 
-        console.log("ok");
         // seneca.seneca.act(`role:${pluginName},cmd:add`, { config: config });
-        setTimeout(async () => {
-            // await seneca.seneca.actAsync(`role:${pluginName},cmd:remove`, { config: config });
-            // await bluebird.delay(5000);
-        }, 5000);
+        // setInterval(async () => {
+        //     console.log(seneca.seneca.has("role:crawler.plugin.downloader,cmd:html"));
+        //     // await seneca.seneca.actAsync(`role:${pluginName},cmd:remove`, { config: config });
+        //     // await bluebird.delay(5000);
+        // }, 5000);
     });
 

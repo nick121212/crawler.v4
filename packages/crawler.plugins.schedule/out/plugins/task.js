@@ -1,12 +1,4 @@
 "use strict";
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
-};
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -67,7 +59,7 @@ var TaskPlugin = (function () {
     }
     TaskPlugin.prototype.has = function (key) {
         var mQueueServie = _.first(_.filter(this.mqs, function (mq) {
-            return mq.config.key === key;
+            return mq.config && mq.config.key === key;
         }));
         return !!mQueueServie;
     };
@@ -78,7 +70,7 @@ var TaskPlugin = (function () {
      * @param globalOptions
      */
     TaskPlugin.prototype.addToTask = function (_a, options, globalOptions) {
-        var config = _a.config;
+        var config = _a.config, plugins = _a.plugins;
         return __awaiter(this, void 0, void 0, function () {
             var mQueueService, task, instance;
             return __generator(this, function (_a) {
@@ -88,12 +80,19 @@ var TaskPlugin = (function () {
                             return [2 /*return*/];
                         }
                         mQueueService = new mq_1.MQueueService();
-                        task = options.seneca.make$('tasks', __assign({ id: config.key }, config));
+                        task = options.seneca.make$('tasks', {
+                            id: config.key,
+                            plugins: plugins,
+                            config: config
+                        });
                         return [4 /*yield*/, task.saveAsync()];
                     case 1:
                         instance = _a.sent();
                         this.mqs.push(mQueueService);
-                        mQueueService.initConsume(globalOptions, config.key, config, 5);
+                        mQueueService.initConsume(options.seneca, globalOptions, config.key, {
+                            config: config,
+                            plugins: plugins
+                        }, 5);
                         return [2 /*return*/];
                 }
             });
@@ -139,7 +138,6 @@ var TaskPlugin = (function () {
      */
     TaskPlugin.prototype.init = function (msg, options, globalOptions) {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
             var entity, tasks;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -148,21 +146,18 @@ var TaskPlugin = (function () {
                         return [4 /*yield*/, entity.listAsync({})];
                     case 1:
                         tasks = _a.sent();
-                        _.forEach(tasks, function (task) { return __awaiter(_this, void 0, void 0, function () {
-                            return __generator(this, function (_a) {
-                                switch (_a.label) {
-                                    case 0:
-                                        if (!(task.id && !this.mqs[task.id])) return [3 /*break*/, 2];
-                                        return [4 /*yield*/, this.addToTask({ config: task }, options, globalOptions)];
-                                    case 1:
-                                        _a.sent();
-                                        _a.label = 2;
-                                    case 2: return [2 /*return*/];
-                                }
-                            });
-                        }); });
+                        // _.forEach(tasks, async (task: any) => {
+                        //     if (task.id && !this.mqs[task.id]) {
+                        //         await this.addToTask({ config: task.config, plugins: task.plugins }, options, globalOptions);
+                        //     }
+                        // });
                         return [4 /*yield*/, bluebird.delay(200)];
                     case 2:
+                        // _.forEach(tasks, async (task: any) => {
+                        //     if (task.id && !this.mqs[task.id]) {
+                        //         await this.addToTask({ config: task.config, plugins: task.plugins }, options, globalOptions);
+                        //     }
+                        // });
                         _a.sent();
                         return [2 /*return*/];
                 }

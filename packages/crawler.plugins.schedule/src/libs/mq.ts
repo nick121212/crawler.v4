@@ -1,3 +1,4 @@
+import * as seneca from 'seneca';
 import * as amqplib from 'amqplib';
 import * as bluebird from 'bluebird';
 import * as _ from 'lodash';
@@ -17,6 +18,7 @@ export class MQueueService {
     private consume: amqplib.Replies.Consume;
     private exchange: amqplib.Replies.AssertExchange;
     private queueName: string;
+    private seneca: any;
     public config: any;
 
     /**
@@ -38,43 +40,53 @@ export class MQueueService {
         this.channel.on("close", () => {
             console.log("channel closed!");
         });
+        console.log("mq connection ok!");
     }
 
     /**
      * 初始化消费队列
      */
-    async initConsume(rabbitmqConfig: { url: string, options: any }, queueName: string, config: any, prefetch: number = 1): Promise<void> {
+    async initConsume(seneca: seneca.Instance, rabbitmqConfig: { url: string, options: any }, queueName: string, config: any, prefetch: number = 1): Promise<boolean> {
         let count = 0, exchange: amqplib.Replies.AssertExchange, queue: amqplib.Replies.AssertQueue;
-        await this.initQueue(rabbitmqConfig);
 
         this.queueName = queueName;
         this.config = config;
-        exchange = await this.channel.assertExchange("amqp.topic", "topic", { durable: true });
-        queue = await this.channel.assertQueue(queueName, { durable: true, exclusive: false });
+        this.seneca = seneca;
 
-        this.exchange = exchange;
-        await this.channel.bindQueue(queue.queue, exchange.exchange, `crawler.url.${config.key}`);
+        try {
+            await this.initQueue(rabbitmqConfig);
+            exchange = await this.channel.assertExchange("amqp.topic", "topic", { durable: true });
+            queue = await this.channel.assertQueue(queueName, { durable: true, exclusive: false });
 
+            this.exchange = exchange;
+            await this.channel.bindQueue(queue.queue, exchange.exchange, `crawler.url.${config.key}`);
+        }
+        catch (e) {
+            console.log(e.message);
+            return false;
+        }
         try {
             await this.channel.prefetch(prefetch);
             // await this.initInitilizeUrls(this.config.initUrls);
-
             console.log(`开始消费queue:${this.config.key}`);
+            this.consume = await this.channel.consume(queue.queue, async (msg: amqplib.Message) => {
+                await bluebird.delay(3000);
 
-            this.consume = await this.channel.consume(queue.queue, (msg: amqplib.Message) => {
                 this.execute(msg).then(async (data: any) => {
                     console.log(data);
-                    await bluebird.delay(3000);
                     this.channel && this.channel.nack(msg);
                 }).catch(async (err) => {
-                    await bluebird.delay(3000);
                     this.channel && this.channel.nack(msg);
                 });
             }, { noAck: false, exclusive: false });
             console.info(queue.consumerCount, queue.messageCount);
         } catch (e) {
-            console.log(e);
+            console.log(e.message);
+
+            return false;
         }
+
+        return true;
     }
 
     /**
@@ -82,23 +94,19 @@ export class MQueueService {
      * @param msg    一条queue的消息
      */
     private async execute(msg: amqplib.Message) {
-        // 返回promise，超时时间为60秒
-        // return new bluebird(async (resolve, reject) => {
-        //     try {
-        //         let data = await this.socketService.emitCrawlerNodeExecute(Object.assign({},
-        //             this.config, {
-        //                 queueItem: JSON.parse(msg.content.toString())
-        //             }));
+        let queueItem = JSON.parse(msg.content.toString());
+        let datas: Array<any> = [];
+        let { plugins = [] } = this.config;
 
-        //         await this.save(data);
-        //         resolve(data);
-        //     }
-        //     catch (e) {
-        //         reject(e);
-        //     }
-        // }).timeout(10000);
+        plugins.forEach(async (plugin: { partten: string, data: any }) => {
+            if (this.seneca.has(plugin.partten)) {
+                datas.push(this.seneca.actAsync(plugin.partten, plugin.data));
+            }else{
+                console.log(`没有发现partten: ${plugin.partten}`);
+            }
+        });
 
-        return { a: 1 };
+        return await Promise.all(datas);
     }
 
     /**

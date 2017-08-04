@@ -10,8 +10,9 @@ export declare class TaskPlugin {
      * @param options
      * @param globalOptions
      */
-    addToTask({config}: {
+    addToTask({config, plugins}: {
         config: any;
+        plugins: Array<any>;
     }, options?: any, globalOptions?: any): Promise<void>;
     /**
      * 删除一个任务

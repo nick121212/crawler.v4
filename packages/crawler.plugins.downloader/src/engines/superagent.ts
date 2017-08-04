@@ -29,9 +29,7 @@ export class SuperAgentEngine extends modelProxy.BaseEngine {
             try {
 
 
-                let curReq: any = request(method.toString(), "https://item.jd.com/10468590470.html");
-
-                // curReq.accept("text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
+                let curReq: any = request(method.toString(), path);
                 params && curReq.query(params);
                 data && curReq.send(data);
                 header && curReq.set(header);
@@ -39,8 +37,6 @@ export class SuperAgentEngine extends modelProxy.BaseEngine {
                     response: ~~timeout,
                     deadline: 60000
                 });
-
-console.log(charset);
 
                 charset && curReq.charset(charset);
 

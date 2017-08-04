@@ -18,7 +18,7 @@ export class TaskPlugin {
 
     has(key: string): boolean {
         let mQueueServie = _.first(_.filter(this.mqs, (mq: MQueueService) => {
-            return mq.config.key === key
+            return mq.config && mq.config.key === key;
         }));
 
         return !!mQueueServie;
@@ -31,7 +31,7 @@ export class TaskPlugin {
      * @param globalOptions 
      */
     @Add(`role:${pluginTaskName},cmd:add`)
-    async addToTask({ config }: { config: any }, options?: any, globalOptions?: any) {
+    async addToTask({ config, plugins }: { config: any, plugins: Array<any> }, options?: any, globalOptions?: any) {
         if (this.has(config.key)) {
             return;
         }
@@ -39,13 +39,17 @@ export class TaskPlugin {
         let mQueueService = new MQueueService();
         let task = options.seneca.make$('tasks', {
             id: config.key,
-            ...config
+            plugins,
+            config
         });
         let instance = await task.saveAsync();
 
         this.mqs.push(mQueueService);
 
-        mQueueService.initConsume(globalOptions, config.key, config, 5);
+        mQueueService.initConsume(options.seneca, globalOptions, config.key, {
+            config,
+            plugins
+        }, 5);
     }
 
     /**
@@ -83,11 +87,11 @@ export class TaskPlugin {
         let entity = options.seneca.make$('tasks');
         let tasks = await entity.listAsync({});
 
-        _.forEach(tasks, async (task: any) => {
-            if (task.id && !this.mqs[task.id]) {
-                await this.addToTask({ config: task }, options, globalOptions);
-            }
-        });
+        // _.forEach(tasks, async (task: any) => {
+        //     if (task.id && !this.mqs[task.id]) {
+        //         await this.addToTask({ config: task.config, plugins: task.plugins }, options, globalOptions);
+        //     }
+        // });
 
         await bluebird.delay(200);
     }
