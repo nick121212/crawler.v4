@@ -25,7 +25,7 @@ module.exports = {
                 "isbase": false,
                 "auto": true,
                 "host": process.env.HOST,
-                "stop": false,
+                // "stop": false,
                 "discover": {
                     "registry": {
                         "active": true

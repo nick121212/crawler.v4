@@ -14,7 +14,6 @@ module.exports = {
                 "auto": true,
                 "host": process.env.HOST,
                 "discover": {
-                    "stop": false,
                     "registry": {
                         "active": true
                     },
@@ -22,11 +21,11 @@ module.exports = {
                         "active": true
                     }
                 },
-                "sneeze": {
-                    // "silent": JSON.parse(SILENT),
-                    "silent": true,
-                    "swim": { interval: 1111 }
-                },
+                // "sneeze": {
+                //     // "silent": JSON.parse(SILENT),
+                //     "silent": true,
+                //     "swim": { interval: 1111 }
+                // },
                 "listen": [{
                     "pin": "role:crawler.plugin.queue,cmd:*",
                     "port": 9003

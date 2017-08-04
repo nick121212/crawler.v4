@@ -24,7 +24,7 @@ module.exports = {
             "mesh": {
                 "isbase": true,
                 "auto": true,
-                "stop": false,
+                // "stop": false,
                 "host": process.env.HOST,
                 "discover": {
                     "registry": {
