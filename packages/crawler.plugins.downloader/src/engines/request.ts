@@ -35,6 +35,7 @@ export class RequestEngine extends modelProxy.BaseEngine {
                 ctx.result = await request(path + (searchParams.toString() ? "?" + searchParams.toString() : ""), {
                     method: method.toString(),
                     body: data,
+                    charset: "auto",
                     // json: true,
                     headers: headers,
                     resolveWithFullResponse: true,

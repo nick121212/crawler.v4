@@ -4,7 +4,9 @@ export declare class DownloadPlugin {
      * 下载数据
      * @param param0
      */
-    html({queueItem, proxyInfo, header, engine}: {
+    html({queueItem, proxyInfo, save, header, charset, engine}: {
+        charset: string;
+        save: boolean;
         header: any;
         queueItem: any;
         proxyInfo: any;

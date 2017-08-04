@@ -24,6 +24,7 @@ module.exports = {
             "mesh": {
                 "isbase": true,
                 "auto": true,
+                "stop": false,
                 "host": process.env.HOST,
                 "discover": {
                     "registry": {
@@ -31,7 +32,7 @@ module.exports = {
                     }
                 },
                 "listen": [{
-                    "pin": "role:crawler.plugins.downloader,cmd:*",
+                    "pin": "role:crawler.plugin.downloader,cmd:*",
                     "port": 9001
                 }]
             }

@@ -94,6 +94,7 @@ var RequestEngine = (function (_super) {
                         return [4 /*yield*/, request(path + (searchParams.toString() ? "?" + searchParams.toString() : ""), {
                                 method: method.toString(),
                                 body: data,
+                                charset: "auto",
                                 // json: true,
                                 headers: headers,
                                 resolveWithFullResponse: true,

@@ -4,9 +4,10 @@ import * as request from 'request';
 
 import { Plugin, Add, Wrap, Init } from 'crawler.plugins.common';
 import { Proxy } from "../proxy";
+import { pluginName } from "../constants";
 // import * as bluebird from 'bluebird';
 
-@Plugin("crawler.plugin.downloader")
+@Plugin(pluginName)
 @injectable()
 export class DownloadPlugin {
     @inject(Proxy)
@@ -16,8 +17,8 @@ export class DownloadPlugin {
      * 下载数据
      * @param param0 
      */
-    @Add("role:crawler.plugin.downloader,cmd:html")
-    async html({ queueItem, proxyInfo, header = {}, engine = "superagent" }: { header: any, queueItem: any, proxyInfo: any, engine: string }, options: any) {
+    @Add(`role:${pluginName},cmd:html`)
+    async html({ queueItem, proxyInfo, save = true, header = {}, charset, engine = "superagent" }: { charset: string, save: boolean, header: any, queueItem: any, proxyInfo: any, engine: string }, options: any) {
         /**
          * 添加接口信息
          */
@@ -30,7 +31,7 @@ export class DownloadPlugin {
                 "html": queueItem.url
             },
             "interfaces": [{
-                "path": "/",
+                "path": "",
                 "method": "get",
                 "key": "download",
                 "title": ""
@@ -41,20 +42,24 @@ export class DownloadPlugin {
          */
         let res: request.RequestResponse = await this.proxy.proxy.execute("/download/download", {
             settings: {
-                header
+                header,
+                charset
             }
         })
-        let expireSeneca = options.seneca.delegate({ expire$: 15 });
-        let download = expireSeneca.make$('downloads', {
-            id: queueItem._id,
-            data: res.statusCode,
-            ...queueItem,
-            responseBody: res.body
-        });
+        if (save) {
+            let expireSeneca = options.seneca.delegate({ expire$: 15 });
+            let download = expireSeneca.make$('downloads', {
+                id: queueItem._id,
+                data: res.statusCode,
+                ...queueItem,
+                responseBody: res.body
+            });
 
-        await download.saveAsync();
-        // download = expireSeneca.make$('downloads');
-        // console.log(await download.loadAsync({ id: queueItem._id }));
+            await download.saveAsync();
+        }
+
+        console.log(res.body);
+
         return {
             statusCode: res.statusCode,
             // responseBody: res.body,
@@ -62,7 +67,7 @@ export class DownloadPlugin {
         };
     }
 
-    @Add("role:crawler.plugin.downloader,cmd:interface")
+    @Add(`role:${pluginName},cmd:interfaces`)
     inter({ url, path = "", params, data, header, method = "get", engine = "superagent", _id = "" }: any) {
         /**
          * 添加接口信息

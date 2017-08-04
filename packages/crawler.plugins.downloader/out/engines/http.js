@@ -54,63 +54,49 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var request = require("superagent");
 var modelproxy_1 = require("modelproxy");
 var inversify_1 = require("inversify");
-require('superagent-charset')(request);
-var SuperAgentEngine = (function (_super) {
-    __extends(SuperAgentEngine, _super);
+var url_1 = require("url");
+var RequestEngine = (function (_super) {
+    __extends(RequestEngine, _super);
     /**
      * 构造
      */
-    function SuperAgentEngine() {
+    function RequestEngine() {
         var _this = _super.call(this) || this;
-        _this.engineName = "superagent";
+        _this.engineName = "http";
         _this.init();
         return _this;
     }
     /**
      * 初始化中间件
      */
-    SuperAgentEngine.prototype.init = function () {
+    RequestEngine.prototype.init = function () {
         var _this = this;
         this.use(function (ctx, next) { return __awaiter(_this, void 0, void 0, function () {
-            var path, _a, method, _b, _c, data, _d, settings, _e, params, _f, _g, timeout, _h, header, _j, charset, curReq, _k, e_1;
-            return __generator(this, function (_l) {
-                switch (_l.label) {
+            var path, _a, method, _b, _c, data, _d, settings, _e, params, _f, _g, timeout, _h, headers, searchParams;
+            return __generator(this, function (_j) {
+                switch (_j.label) {
                     case 0:
                         path = this.getFullPath(ctx.instance || {}, ctx.executeInfo || {});
                         _a = (ctx.instance || {}).method, method = _a === void 0 ? "" : _a;
-                        _b = ctx.executeInfo || {}, _c = _b.data, data = _c === void 0 ? null : _c, _d = _b.settings, settings = _d === void 0 ? {} : _d, _e = _b.params, params = _e === void 0 ? null : _e;
-                        _f = settings || {}, _g = _f.timeout, timeout = _g === void 0 ? 5000 : _g, _h = _f.header, header = _h === void 0 ? {} : _h, _j = _f.charset, charset = _j === void 0 ? "utf-8" : _j;
-                        _l.label = 1;
-                    case 1:
-                        _l.trys.push([1, 3, , 4]);
-                        curReq = request(method.toString(), "https://item.jd.com/10468590470.html");
-                        // curReq.accept("text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
-                        params && curReq.query(params);
-                        data && curReq.send(data);
-                        header && curReq.set(header);
-                        curReq.timeout({
-                            response: ~~timeout,
-                            deadline: 60000
+                        _b = ctx.executeInfo || {}, _c = _b.data, data = _c === void 0 ? null : _c, _d = _b.settings, settings = _d === void 0 ? {} : _d, _e = _b.params, params = _e === void 0 ? {} : _e;
+                        _f = settings || {}, _g = _f.timeout, timeout = _g === void 0 ? 5000 : _g, _h = _f.headers, headers = _h === void 0 ? {} : _h;
+                        searchParams = new url_1.URLSearchParams();
+                        Object.keys(params).forEach(function (key) {
+                            params[key] && searchParams.append(key, params[key]);
                         });
-                        console.log(charset);
-                        charset && curReq.charset(charset);
-                        _k = ctx;
-                        return [4 /*yield*/, curReq];
-                    case 2:
-                        _k.result = _l.sent();
-                        ctx.result.body = ctx.result.text;
-                        return [3 /*break*/, 4];
-                    case 3:
-                        e_1 = _l.sent();
-                        ctx.err = e_1;
-                        ctx.isError = true;
-                        return [3 /*break*/, 4];
-                    case 4: return [4 /*yield*/, next()];
-                    case 5:
-                        _l.sent();
+                        // console.log(path + (searchParams.toString() ? "?" + searchParams.toString() : ""));
+                        try {
+                        }
+                        catch (e) {
+                            ctx.err = e;
+                            ctx.isError = true;
+                            console.error(e);
+                        }
+                        return [4 /*yield*/, next()];
+                    case 1:
+                        _j.sent();
                         return [2 /*return*/];
                 }
             });
@@ -121,7 +107,7 @@ var SuperAgentEngine = (function (_super) {
      * @param instance 接口的实例
      * @param options  参数
      */
-    SuperAgentEngine.prototype.proxy = function (instance, options) {
+    RequestEngine.prototype.proxy = function (instance, options) {
         return __awaiter(this, void 0, void 0, function () {
             var fn, ctx;
             return __generator(this, function (_a) {
@@ -143,11 +129,11 @@ var SuperAgentEngine = (function (_super) {
             });
         });
     };
-    return SuperAgentEngine;
+    return RequestEngine;
 }(modelproxy_1.modelProxy.BaseEngine));
-SuperAgentEngine = __decorate([
+RequestEngine = __decorate([
     inversify_1.injectable(),
     __metadata("design:paramtypes", [])
-], SuperAgentEngine);
-exports.SuperAgentEngine = SuperAgentEngine;
-//# sourceMappingURL=superagent.js.map
+], RequestEngine);
+exports.RequestEngine = RequestEngine;
+//# sourceMappingURL=http.js.map

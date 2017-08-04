@@ -1,13 +1,12 @@
-import * as request from 'superagent';
-
 import { modelProxy, IProxyCtx, IInterfaceModel, IExecute } from 'modelproxy';
+import * as request from 'request-promise';
 import { injectable } from 'inversify';
 import { URLSearchParams } from "url";
+import * as http from 'http';
 
-require('superagent-charset')(request);
 @injectable()
-export class SuperAgentEngine extends modelProxy.BaseEngine {
-    public engineName: string = "superagent";
+export class RequestEngine extends modelProxy.BaseEngine {
+    public engineName: string = "http";
     /**
      * 构造
      */
@@ -23,32 +22,22 @@ export class SuperAgentEngine extends modelProxy.BaseEngine {
         this.use(async (ctx: IProxyCtx, next: Function): Promise<any> => {
             let path = this.getFullPath(ctx.instance || {}, ctx.executeInfo || {});
             let { method = "" } = ctx.instance || {};
-            let { data = null, settings = {}, params = null } = ctx.executeInfo || {};
-            let { timeout = 5000, header = {}, charset = "utf-8" } = settings || {};
+            let { data = null, settings = {}, params = {} } = ctx.executeInfo || {};
+            let { timeout = 5000, headers = {} } = settings || {};
+            let searchParams = new URLSearchParams();
+
+            Object.keys(params).forEach((key) => {
+                params[key] && searchParams.append(key, params[key]);
+            });
+
+            // console.log(path + (searchParams.toString() ? "?" + searchParams.toString() : ""));
 
             try {
-
-
-                let curReq: any = request(method.toString(), "https://item.jd.com/10468590470.html");
-
-                // curReq.accept("text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
-                params && curReq.query(params);
-                data && curReq.send(data);
-                header && curReq.set(header);
-                curReq.timeout({
-                    response: ~~timeout,
-                    deadline: 60000
-                });
-
-console.log(charset);
-
-                charset && curReq.charset(charset);
-
-                ctx.result = await curReq;
-                ctx.result.body = ctx.result.text;
+               
             } catch (e) {
                 ctx.err = e;
                 ctx.isError = true;
+                console.error(e);
             }
 
             await next();

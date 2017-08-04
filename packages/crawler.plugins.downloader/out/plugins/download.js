@@ -55,6 +55,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var inversify_1 = require("inversify");
 var crawler_plugins_common_1 = require("crawler.plugins.common");
 var proxy_1 = require("../proxy");
+var constants_1 = require("../constants");
 // import * as bluebird from 'bluebird';
 var DownloadPlugin = (function () {
     function DownloadPlugin() {
@@ -64,7 +65,7 @@ var DownloadPlugin = (function () {
      * @param param0
      */
     DownloadPlugin.prototype.html = function (_a, options) {
-        var queueItem = _a.queueItem, proxyInfo = _a.proxyInfo, _b = _a.header, header = _b === void 0 ? {} : _b, _c = _a.engine, engine = _c === void 0 ? "superagent" : _c;
+        var queueItem = _a.queueItem, proxyInfo = _a.proxyInfo, _b = _a.save, save = _b === void 0 ? true : _b, _c = _a.header, header = _c === void 0 ? {} : _c, charset = _a.charset, _d = _a.engine, engine = _d === void 0 ? "superagent" : _d;
         return __awaiter(this, void 0, void 0, function () {
             var res, expireSeneca, download;
             return __generator(this, function (_a) {
@@ -82,7 +83,7 @@ var DownloadPlugin = (function () {
                                 "html": queueItem.url
                             },
                             "interfaces": [{
-                                    "path": "/",
+                                    "path": "",
                                     "method": "get",
                                     "key": "download",
                                     "title": ""
@@ -90,18 +91,21 @@ var DownloadPlugin = (function () {
                         });
                         return [4 /*yield*/, this.proxy.proxy.execute("/download/download", {
                                 settings: {
-                                    header: header
+                                    header: header,
+                                    charset: charset
                                 }
                             })];
                     case 1:
                         res = _a.sent();
+                        if (!save) return [3 /*break*/, 3];
                         expireSeneca = options.seneca.delegate({ expire$: 15 });
                         download = expireSeneca.make$('downloads', __assign({ id: queueItem._id, data: res.statusCode }, queueItem, { responseBody: res.body }));
                         return [4 /*yield*/, download.saveAsync()];
                     case 2:
                         _a.sent();
-                        // download = expireSeneca.make$('downloads');
-                        // console.log(await download.loadAsync({ id: queueItem._id }));
+                        _a.label = 3;
+                    case 3:
+                        console.log(res.body);
                         return [2 /*return*/, {
                                 statusCode: res.statusCode,
                                 // responseBody: res.body,
@@ -152,19 +156,19 @@ __decorate([
     __metadata("design:type", proxy_1.Proxy)
 ], DownloadPlugin.prototype, "proxy", void 0);
 __decorate([
-    crawler_plugins_common_1.Add("role:crawler.plugin.downloader,cmd:html"),
+    crawler_plugins_common_1.Add("role:" + constants_1.pluginName + ",cmd:html"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], DownloadPlugin.prototype, "html", null);
 __decorate([
-    crawler_plugins_common_1.Add("role:crawler.plugin.downloader,cmd:interface"),
+    crawler_plugins_common_1.Add("role:" + constants_1.pluginName + ",cmd:interfaces"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], DownloadPlugin.prototype, "inter", null);
 DownloadPlugin = __decorate([
-    crawler_plugins_common_1.Plugin("crawler.plugin.downloader"),
+    crawler_plugins_common_1.Plugin(constants_1.pluginName),
     inversify_1.injectable()
 ], DownloadPlugin);
 exports.DownloadPlugin = DownloadPlugin;
