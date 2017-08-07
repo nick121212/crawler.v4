@@ -1,6 +1,6 @@
 {
   "name": "crawler.plugins.common",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "description": "爬虫公共代码",
   "main": "out/index.js",
   "scripts": {

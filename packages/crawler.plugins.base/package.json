@@ -6,9 +6,8 @@
   "scripts": {
     "test": "node out/test",
     "start": "node out/index.js",
-    "dock": "docker run  --net=host --name crawler.plugins.schedule -p 39999:39999/udp -e HOST=0.0.0.0 crawler.plugin.schedule",
-    "dockfile": "docker build -t crawler.plugin.schedule .",
-    "curl": "curl -d '{\"role\":\"crawler.plugin.schedule\",\"cmd\":\"download\",\"id\":3}' http://0.0.0.0:9999/act"
+    "dock": "docker run  --net=host --name crawler.plugins.base -p 39999:39999/udp -e HOST=0.0.0.0 crawler.plugin.base",
+    "dockfile": "docker build -t crawler.plugin.base ."
   },
   "author": "NICK",
   "license": "ISC",
