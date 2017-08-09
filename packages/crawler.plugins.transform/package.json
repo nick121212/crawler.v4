@@ -1,38 +1,39 @@
 {
-  "name": "crawler.plugins.common",
+  "name": "crawler.plugins.transform",
   "version": "0.1.15",
-  "description": "爬虫公共代码",
+  "description": "json 数据的变换",
   "main": "out/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "crawler",
-    "typescript",
-    "javascript"
+    "json",
+    "transform",
+    "query"
   ],
-  "types": "./out/index.d.ts",
   "author": "NICK",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
-    "bluebird": "^3.5.0",
+    "crawler.plugins.common": "^0.1.15",
     "inversify": "^4.2.0",
-    "inversify-binding-decorators": "^3.0.0",
     "joi": "^10.6.0",
+    "jsonata": "^1.2.6",
+    "lodash": "^4.17.4",
+    "moment": "^2.18.1",
     "reflect-metadata": "^0.1.10",
     "seneca": "^3.4.1",
-    "seneca-balance-client": "^0.6.1",
     "seneca-consul-registry": "^0.1.0",
     "seneca-entity": "^2.0.2",
     "seneca-mesh": "^0.10.0",
-    "seneca-repl": "^1.1.2",
+    "seneca-redis-store": "^1.1.0",
     "seneca-transport": "^2.1.1"
   },
   "devDependencies": {
-    "@types/bluebird": "^3.5.8",
-    "@types/inversify-devtools": "^1.0.2",
+    "@types/inversify": "^2.0.33",
     "@types/joi": "^10.4.0",
-    "@types/node": "^8.0.14",
+    "@types/lodash": "^4.14.71",
+    "@types/moment": "^2.13.0",
+    "@types/node": "^8.0.19",
     "@types/reflect-metadata": "0.0.5",
     "@types/seneca": "^2.1.7"
   }

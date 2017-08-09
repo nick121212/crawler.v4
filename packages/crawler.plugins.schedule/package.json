@@ -1,6 +1,6 @@
 {
   "name": "crawler.plugins.mq",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -14,8 +14,9 @@
   "license": "ISC",
   "dependencies": {
     "amqplib": "^0.5.1",
-    "crawler.plugins.common": "^0.1.14",
+    "crawler.plugins.common": "^0.1.15",
     "inversify": "^4.2.0",
+    "json-pointer": "^0.6.0",
     "lodash": "^4.17.4",
     "reflect-metadata": "^0.1.10",
     "seneca": "^3.4.1",
@@ -28,6 +29,7 @@
   "devDependencies": {
     "@types/amqplib": "^0.5.3",
     "@types/inversify": "^2.0.33",
+    "@types/json-pointer": "^1.0.30",
     "@types/lodash": "^4.14.71",
     "@types/node": "^8.0.10",
     "@types/reflect-metadata": "0.0.5",

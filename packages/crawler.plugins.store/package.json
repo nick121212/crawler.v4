@@ -1,18 +1,19 @@
 {
-  "name": "crawler.plugins.base",
+  "name": "crawler.plugins.store",
   "version": "0.1.15",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "node out/test",
     "start": "node out/index.js",
-    "dock": "docker run  --net=host --name crawler.plugins.base -p 39999:39999/udp -e HOST=0.0.0.0 crawler.plugin.base",
-    "dockfile": "docker build -t crawler.plugin.base ."
+    "dock": "docker run  --net=host --name crawler.plugins.store  -e HOST=0.0.0.0 crawler.plugin.store",
+    "dockfile": "docker build -t crawler.plugin.store ."
   },
   "author": "NICK",
   "license": "ISC",
   "dependencies": {
     "crawler.plugins.common": "^0.1.15",
+    "elasticsearch": "^13.2.0",
     "inversify": "^4.2.0",
     "lodash": "^4.17.4",
     "reflect-metadata": "^0.1.10",
@@ -24,6 +25,7 @@
     "seneca-transport": "^2.1.1"
   },
   "devDependencies": {
+    "@types/elasticsearch": "^5.0.14",
     "@types/inversify": "^2.0.33",
     "@types/lodash": "^4.14.71",
     "@types/node": "^8.0.10",
