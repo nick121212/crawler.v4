@@ -39,7 +39,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 var crawler_plugins_common_1 = require("crawler.plugins.common");
 var container_1 = require("./container");
-var constants_1 = require("./constants");
 // import config from './config/test';
 var seneca = new crawler_plugins_common_1.Seneca(container_1.container, {
     tag: "crawler.plugins.schedule"
@@ -47,110 +46,8 @@ var seneca = new crawler_plugins_common_1.Seneca(container_1.container, {
 seneca.seneca
     .ready(function () { return __awaiter(_this, void 0, void 0, function () {
     return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                console.log("ready");
-                return [4 /*yield*/, seneca.seneca.actAsync("role:" + constants_1.pluginTaskName + ",cmd:add", {
-                        config: { key: "testplugin" },
-                        plugins: [{
-                                "partten": "role:crawler.plugin.queue,cmd:queue",
-                                "data": {
-                                    "queueConfig": {
-                                        "ignoreWWWDomain": false,
-                                        "stripWWWDomain": false,
-                                        "scanSubdomains": true,
-                                        "host": "www.jd.com",
-                                        "initialProtocol": "https",
-                                        "initialPort": 80,
-                                        "stripQuerystring": false,
-                                        "fetchConditions": [],
-                                        "domainWhiteList": ["(.*?).jd.com"],
-                                        "filterByDomain": true
-                                    },
-                                    "urls": ["https://search.jd.com/search?keyword=%E6%B2%99%E5%8F%91&enc=utf-8&ev=exbrand_%E8%8A%9D%E5%8D%8E%E4%BB%95%EF%BC%88CHEERS%EF%BC%89/"]
-                                }
-                            }, {
-                                "partten": "role:crawler.plugin.downloader,cmd:html",
-                                "data": {
-                                    "queueItem": {
-                                        "protocol": "https",
-                                        "url": "https://search.jd.com/search?keyword=%E6%B2%99%E5%8F%91&enc=utf-8&ev=exbrand_%E8%8A%9D%E5%8D%8E%E4%BB%95%EF%BC%88CHEERS%EF%BC%89%2F",
-                                        "_id": "1fea1c20adb1fe1da0675a061b6d2c8d"
-                                    }
-                                }
-                            }, {
-                                "partten": "role:crawler.plugin.html,cmd:html",
-                                "data": {
-                                    "pages": [{
-                                            "key": "brandlist",
-                                            "path": "*",
-                                            "enabled": 1,
-                                            "fields": {
-                                                "none": {
-                                                    "data": [{
-                                                            "key": "totalPage",
-                                                            "dealStrategy": "normal",
-                                                            "selector": [
-                                                                "#J_topPage .fp-text i"
-                                                            ],
-                                                            "methodInfo": {
-                                                                "text": []
-                                                            }
-                                                        },
-                                                        {
-                                                            "key": "skus",
-                                                            "selector": ["#J_goodsList ul:eq(0) > li"],
-                                                            "dealStrategy": "array",
-                                                            "data": [{
-                                                                    "key": "sku",
-                                                                    "selector": [],
-                                                                    "dealStrategy": "normal",
-                                                                    "methodInfo": {
-                                                                        "attr": ["data-sku"]
-                                                                    }
-                                                                },
-                                                                {
-                                                                    "key": "price",
-                                                                    "selector": [".p-price i"],
-                                                                    "dealStrategy": "normal",
-                                                                    "methodInfo": {
-                                                                        "text": []
-                                                                    }
-                                                                },
-                                                                {
-                                                                    "key": "comment",
-                                                                    "selector": [".p-commit strong a"],
-                                                                    "dealStrategy": "normal",
-                                                                    "methodInfo": {
-                                                                        "text": []
-                                                                    },
-                                                                    "formats": [{
-                                                                            "key": "regexp",
-                                                                            "settings": {
-                                                                                "regexp": "/\\d+/",
-                                                                                "index": 0
-                                                                            }
-                                                                        }, {
-                                                                            "key": "num"
-                                                                        }]
-                                                                }
-                                                            ]
-                                                        }
-                                                    ]
-                                                }
-                                            }
-                                        }],
-                                    "queueItem": {
-                                        "url": "https://search.jd.com/search?keyword=%E6%B2%99%E5%8F%91&enc=utf-8&ev=exbrand_%E8%8A%9D%E5%8D%8E%E4%BB%95%EF%BC%88CHEERS%EF%BC%89%2F",
-                                        "_id": "1fea1c20adb1fe1da0675a061b6d2c8d"
-                                    }
-                                }
-                            }]
-                    })];
-            case 1:
-                _a.sent();
-                return [2 /*return*/];
-        }
+        console.log("ready");
+        return [2 /*return*/];
     });
 }); });
 //# sourceMappingURL=index.js.map

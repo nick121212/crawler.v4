@@ -1,11 +1,11 @@
-import * as inversify from 'inversify';
+import * as inversify from "inversify";
 import { Container } from "inversify";
-import { modelProxy, IProxyCtx, IInterfaceModel, IExecute } from 'modelproxy';
+import { modelProxy, IProxyCtx, IInterfaceModel, IExecute } from "modelproxy";
 import { makeFluentProvideDecorator } from "inversify-binding-decorators";
-import { Types as CommonTypes, PluginBase } from 'crawler.plugins.common';
+import { Types as CommonTypes, PluginBase } from "crawler.plugins.common";
 
-import { RequestEngine } from './engines/request';
-import { SuperAgentEngine } from './engines/superagent';
+import { RequestEngine } from "./engines/request";
+import { SuperAgentEngine } from "./engines/superagent";
 
 import { Types } from "./constants";
 import { Proxy } from "./proxy";

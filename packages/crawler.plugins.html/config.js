@@ -6,20 +6,18 @@ module.exports = {
     },
     "plugins": {
         "pre": {
-            "redis-store-expires": {
-                "uri": "redis://123.59.44.152:6379",
-                "host": "123.59.44.152",
-                "port": 6379,
-                "options": {},
-                "expire": 2,
-                "entityspec": {
-                    "-/-/downloads": {
-                        "expire": 2
-                    }
-                }
-            },
+            // "redis-store-expires": {
+            //     "uri": "redis://:crawler@47.92.126.120:6379",
+            //     "options": {},
+            //     "expire": 2,
+            //     "entityspec": {
+            //         "-/-/downloads": {
+            //             "expire": 2
+            //         }
+            //     }
+            // },
             "consul-registry": {
-                "host": "123.59.44.152"
+                "host": "47.92.126.120"
             },
             "mesh": {
                 "isbase": false,
@@ -32,8 +30,7 @@ module.exports = {
                     }
                 },
                 "listen": [{
-                    "pin": "role:crawler.plugin.html,cmd:*",
-                    "port": 9002
+                    "pin": "role:crawler.plugin.html,cmd:*"
                 }]
             }
         },

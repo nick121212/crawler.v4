@@ -7,7 +7,7 @@ module.exports = {
     "plugins": {
         "pre": {
             "consul-registry": {
-                "host": "123.59.44.152"
+                "host": "47.92.126.120"
             },
             "mesh": {
                 "isbase": false,
@@ -27,8 +27,7 @@ module.exports = {
                 //     "swim": { interval: 1111 }
                 // },
                 "listen": [{
-                    "pin": "role:crawler.plugin.queue,cmd:*",
-                    "port": 9003
+                    "pin": "role:crawler.plugin.queue,cmd:*"
                 }]
             }
         },

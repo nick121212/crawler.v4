@@ -94,10 +94,10 @@ var ConfigService = (function (_super) {
      */
     ConfigService.prototype.initConfig = function (filePath, automaticConfigReload) {
         if (automaticConfigReload === void 0) { automaticConfigReload = false; }
-        if (!fs.existsSync(filePath)) {
-            return;
-            // throw new Error(`${filePath}不存在！`);
-        }
+        // if (!fs.existsSync(filePath)) {
+        //     return;
+        //     // throw new Error(`${filePath}不存在！`);
+        // }
         this.configurator = new Configurator(automaticConfigReload);
         this.configurator.updateConfig(filePath);
     };

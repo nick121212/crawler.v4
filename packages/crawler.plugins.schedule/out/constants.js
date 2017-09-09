@@ -5,4 +5,5 @@ exports.Types = {
 };
 exports.pluginMqName = "crawler.plugin.mq";
 exports.pluginTaskName = "crawler.plugin.task";
+exports.pluginResultName = "crawler.plugin.result";
 //# sourceMappingURL=constants.js.map

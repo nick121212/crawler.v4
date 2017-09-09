@@ -56,7 +56,6 @@ var inversify_1 = require("inversify");
 var crawler_plugins_common_1 = require("crawler.plugins.common");
 var proxy_1 = require("../proxy");
 var constants_1 = require("../constants");
-// import * as bluebird from 'bluebird';
 var DownloadPlugin = (function () {
     function DownloadPlugin() {
     }
@@ -98,19 +97,17 @@ var DownloadPlugin = (function () {
                     case 1:
                         res = _a.sent();
                         if (!save) return [3 /*break*/, 3];
-                        expireSeneca = options.seneca.delegate({ expire$: 15 });
+                        expireSeneca = options.seneca.delegate({ expire$: 60 });
                         download = expireSeneca.make$('downloads', __assign({ id: queueItem._id, data: res.statusCode }, queueItem, { responseBody: res.body }));
                         return [4 /*yield*/, download.saveAsync()];
                     case 2:
                         _a.sent();
                         _a.label = 3;
-                    case 3:
-                        console.log(res.body);
-                        return [2 /*return*/, {
-                                statusCode: res.statusCode,
-                                // responseBody: res.body,
-                                crawlerCount: ~~queueItem.crawlerCount + 1
-                            }];
+                    case 3: return [2 /*return*/, {
+                            statusCode: res.statusCode,
+                            responseBody: save ? null : res.body,
+                            crawlerCount: ~~queueItem.crawlerCount + 1
+                        }];
                 }
             });
         });

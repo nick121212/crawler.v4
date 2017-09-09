@@ -1,6 +1,6 @@
-import * as inversify from 'inversify';
+import * as inversify from "inversify";
 import { Container } from "inversify";
-import { Types as CommonTypes, PluginBase } from 'crawler.plugins.common';
+import { Types as CommonTypes, PluginBase } from "crawler.plugins.common";
 
 import { QueuePlugin } from "./plugins/queue";
 

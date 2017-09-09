@@ -17,9 +17,8 @@ export class MQueueService {
     private channel: amqplib.Channel;
     private consume: amqplib.Replies.Consume;
     private exchange: amqplib.Replies.AssertExchange;
-    private queueName: string;
-    private seneca: any;
-    public config: any;
+    public queueName: string;
+    // public config: any;
 
     /**
      * 构造函数
@@ -31,6 +30,10 @@ export class MQueueService {
      * 初始化队列
      */
     private async initQueue(rabbitmqConfig: { url: string, options: any }): Promise<void> {
+        if (this.channel) {
+            return;
+        }
+
         this.connection = await amqplib.connect(rabbitmqConfig.url, rabbitmqConfig.options);
         this.channel = await this.connection.createConfirmChannel();
 
@@ -46,12 +49,11 @@ export class MQueueService {
     /**
      * 初始化消费队列
      */
-    async initConsume(seneca: seneca.Instance, rabbitmqConfig: { url: string, options: any }, queueName: string, config: any, prefetch: number = 1): Promise<boolean> {
+    async initConsume(rabbitmqConfig: { url: string, options: any }, queueName: string, consumeMsg: Function, prefetch: number = 1): Promise<boolean> {
         let count = 0, exchange: amqplib.Replies.AssertExchange, queue: amqplib.Replies.AssertQueue;
 
         this.queueName = queueName;
-        this.config = config;
-        this.seneca = seneca;
+        // this.config = config;
 
         try {
             await this.initQueue(rabbitmqConfig);
@@ -59,7 +61,7 @@ export class MQueueService {
             queue = await this.channel.assertQueue(queueName, { durable: true, exclusive: false });
 
             this.exchange = exchange;
-            await this.channel.bindQueue(queue.queue, exchange.exchange, `crawler.url.${config.key}`);
+            await this.channel.bindQueue(queue.queue, exchange.exchange, queueName);
         }
         catch (e) {
             console.log(e.message);
@@ -67,15 +69,14 @@ export class MQueueService {
         }
         try {
             await this.channel.prefetch(prefetch);
-            // await this.initInitilizeUrls(this.config.initUrls);
-            console.log(`开始消费queue:${this.config.key}`);
+            console.log(`开始消费queue:${queue.queue}`);
             this.consume = await this.channel.consume(queue.queue, async (msg: amqplib.Message) => {
                 await bluebird.delay(3000);
-
-                this.execute(msg).then(async (data: any) => {
-                    console.log(data);
+                await consumeMsg(msg).then((data: any) => {
+                    // console.log(data);
                     this.channel && this.channel.nack(msg);
-                }).catch(async (err) => {
+                }).catch((err: Error) => {
+                    console.log(err);
                     this.channel && this.channel.nack(msg);
                 });
             }, { noAck: false, exclusive: false });
@@ -86,27 +87,13 @@ export class MQueueService {
             return false;
         }
 
-        return true;
+        return queue.consumerCount + queue.messageCount == 0;
     }
 
-    /**
-     * 发送socket消息
-     * @param msg    一条queue的消息
-     */
-    private async execute(msg: amqplib.Message) {
-        let queueItem = JSON.parse(msg.content.toString());
-        let datas: Array<any> = [];
-        let { plugins = [] } = this.config;
-
-        plugins.forEach(async (plugin: { partten: string, data: any }) => {
-            if (this.seneca.has(plugin.partten)) {
-                datas.push(this.seneca.actAsync(plugin.partten, plugin.data));
-            }else{
-                console.log(`没有发现partten: ${plugin.partten}`);
-            }
+    addItemsToQueue(items: Array<any>) {
+        items.forEach((item) => {
+            this.channel.publish(this.exchange.exchange, this.queueName, new Buffer(JSON.stringify(item)), {});
         });
-
-        return await Promise.all(datas);
     }
 
     /**
@@ -122,7 +109,7 @@ export class MQueueService {
             delete this.channel;
             delete this.connection;
             delete this.consume;
-            delete this.config;
+            // delete this.config;
             delete this.exchange;
 
             console.log("queue stoped!");

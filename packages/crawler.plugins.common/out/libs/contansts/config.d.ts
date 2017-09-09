@@ -3,6 +3,7 @@ export declare const SenecaConfig: {
     _add: string;
     _wrap: string;
     _init: string;
+    _validate: string;
 };
 export declare const Types: {
     _plugin: symbol;

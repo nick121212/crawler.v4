@@ -13,6 +13,7 @@ export declare class DownloadPlugin {
         engine: string;
     }, options: any): Promise<{
         statusCode: number | undefined;
+        responseBody: any;
         crawlerCount: number;
     }>;
     inter({url, path, params, data, header, method, engine, _id}: any): any;

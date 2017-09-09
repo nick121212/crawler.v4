@@ -4,7 +4,8 @@ exports.SenecaConfig = {
     _plugin: "seneca-plugin",
     _add: "seneca-add",
     _wrap: "seneca-wrap",
-    _init: "seneca-init"
+    _init: "seneca-init",
+    _validate: "seneca-validate"
 };
 exports.Types = {
     _plugin: Symbol(exports.SenecaConfig._plugin),

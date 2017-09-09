@@ -55,7 +55,7 @@ var Seneca = (function () {
     function Seneca(container, options) {
         this._container = container;
         this.config = new config_2.ConfigService();
-        var senecaOptions = this.config.config.options.senecaOptions;
+        var _a = (this.config.config.options || {}).senecaOptions, senecaOptions = _a === void 0 ? {} : _a;
         this._seneca = OriginSeneca(Object.assign({}, options, senecaOptions));
         bluebird.promisifyAll(this._seneca);
         this._seneca.use("entity");
@@ -81,6 +81,40 @@ var Seneca = (function () {
         configurable: true
     });
     /**
+     * 包装验证方法
+     * @param plugin
+     */
+    Seneca.prototype.executeValudate = function (plugin) {
+        var _this = this;
+        var validateList = Reflect.getMetadata(config_1.SenecaConfig._validate, plugin.constructor) || [];
+        validateList && validateList.forEach(function (validate) {
+            var originFun = plugin[validate.key];
+            plugin[validate.key] = function () {
+                var args = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    args[_i] = arguments[_i];
+                }
+                return __awaiter(_this, void 0, void 0, function () {
+                    var result;
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0:
+                                if (validate.joi) {
+                                    result = validate.joi.validate(args[validate.index], validate.options);
+                                    if (result.error) {
+                                        throw result.error;
+                                    }
+                                }
+                                return [4 /*yield*/, originFun.apply(plugin, args)];
+                            case 1: return [2 /*return*/, _a.sent()];
+                        }
+                    });
+                });
+            };
+        });
+        return plugin;
+    };
+    /**
      * 包装act
      * @param 参数
      * target: 包装的方法所在的类
@@ -91,6 +125,7 @@ var Seneca = (function () {
     Seneca.prototype.initAct = function (plugin, _a, globalOptions) {
         var _this = this;
         var target = _a.target, partten = _a.partten, key = _a.key, _b = _a.options, options = _b === void 0 ? {} : _b;
+        // plugin = this.executeValudate(plugin);
         this._seneca.add(partten, options, function (msg, reply) { return __awaiter(_this, void 0, void 0, function () {
             var result, e_1;
             return __generator(this, function (_a) {
@@ -100,12 +135,11 @@ var Seneca = (function () {
                         return [4 /*yield*/, plugin[key](msg, Object.assign({ seneca: reply.seneca }, options, {}), globalOptions)];
                     case 1:
                         result = _a.sent();
-                        reply(null, result);
+                        reply && reply(null, result);
                         return [3 /*break*/, 3];
                     case 2:
                         e_1 = _a.sent();
-                        console.log(e_1);
-                        reply(e_1);
+                        reply && reply(e_1);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
@@ -123,6 +157,7 @@ var Seneca = (function () {
     Seneca.prototype.initWrap = function (plugin, _a, globalOptions) {
         var _this = this;
         var target = _a.target, partten = _a.partten, key = _a.key, _b = _a.options, options = _b === void 0 ? {} : _b;
+        // plugin = this.executeValudate(plugin);
         this._seneca.wrap(partten, options, function (msg, reply) { return __awaiter(_this, void 0, void 0, function () {
             var result, e_2;
             return __generator(this, function (_a) {
@@ -136,7 +171,7 @@ var Seneca = (function () {
                         return [3 /*break*/, 3];
                     case 2:
                         e_2 = _a.sent();
-                        reply(e_2);
+                        reply && reply(e_2);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
@@ -154,7 +189,7 @@ var Seneca = (function () {
                     this._seneca.use(key, element || {});
                 }
             }
-            this.initPlugin(this.config.config.options);
+            this.initPlugin(this.config.config.options || {});
             for (var key in this.config.config.plugins.after) {
                 if (this.config.config.plugins.after.hasOwnProperty(key)) {
                     var element = this.config.config.plugins.after[key];
@@ -163,7 +198,7 @@ var Seneca = (function () {
             }
         }
         else {
-            // this.initPlugin();
+            this.initPlugin({});
         }
     };
     /**
@@ -172,7 +207,13 @@ var Seneca = (function () {
     Seneca.prototype.initPlugin = function (options) {
         var _this = this;
         if (options === void 0) { options = {}; }
-        var plugins = this._container.getAll(config_1.Types._plugin);
+        var plugins;
+        try {
+            plugins = this._container.getAll(config_1.Types._plugin);
+        }
+        catch (e) {
+            return;
+        }
         if (plugins) {
             plugins.forEach(function (plugin) {
                 var pluginInfo = Reflect.getMetadata(config_1.SenecaConfig._plugin, plugin.constructor);
@@ -180,9 +221,9 @@ var Seneca = (function () {
                 var wrapList = Reflect.getMetadata(config_1.SenecaConfig._wrap, plugin.constructor) || [];
                 var initList = Reflect.getMetadata(config_1.SenecaConfig._init, plugin.constructor) || [];
                 _this._seneca.use(function () {
-                    addList.forEach(function (add) { return _this.initAct(plugin, add, options[pluginInfo.name]); });
-                    wrapList.forEach(function (wrap) { return _this.initWrap(plugin, wrap, options[pluginInfo.name]); });
-                    initList.forEach(function (init) { return _this.initAct(plugin, Object.assign({ partten: "init:" + pluginInfo.name }, init, {}), options[pluginInfo.name]); });
+                    addList.forEach(function (add) { return _this.initAct(_this.executeValudate(plugin), add, options[pluginInfo.name]); });
+                    wrapList.forEach(function (wrap) { return _this.initWrap(_this.executeValudate(plugin), wrap, options[pluginInfo.name]); });
+                    initList.forEach(function (init) { return _this.initAct(_this.executeValudate(plugin), Object.assign({ partten: "init:" + pluginInfo.name }, init, {}), options[pluginInfo.name]); });
                     return pluginInfo.name;
                 });
             });

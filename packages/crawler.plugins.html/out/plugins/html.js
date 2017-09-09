@@ -60,6 +60,9 @@ var HtmlPlugin = (function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
+                        if (!queueItem) {
+                            return [2 /*return*/, []];
+                        }
                         urls = [];
                         results = [];
                         rules = _.filter(pages, function (_a) {

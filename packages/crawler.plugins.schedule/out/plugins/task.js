@@ -1,4 +1,12 @@
 "use strict";
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -50,6 +58,7 @@ var bluebird = require("bluebird");
 var _ = require("lodash");
 var constants_1 = require("../constants");
 var mq_1 = require("../libs/mq");
+var plugin_1 = require("../libs/plugin");
 var TaskPlugin = (function () {
     function TaskPlugin() {
         /**
@@ -57,11 +66,24 @@ var TaskPlugin = (function () {
          */
         this.mqs = [];
     }
-    TaskPlugin.prototype.has = function (key) {
+    TaskPlugin.prototype.getUrlQueueName = function (config) {
+        return "crawler.url." + config.key;
+    };
+    TaskPlugin.prototype.has = function (queueName) {
         var mQueueServie = _.first(_.filter(this.mqs, function (mq) {
-            return mq.config && mq.config.key === key;
+            return mq.queueName === queueName;
         }));
         return !!mQueueServie;
+    };
+    TaskPlugin.prototype.getQueueService = function (config) {
+        var queueName = this.getUrlQueueName(config);
+        if (this.has(queueName)) {
+            var mQueueServie = _.first(_.filter(this.mqs, function (mq) {
+                return mq.queueName === queueName;
+            }));
+            return mQueueServie;
+        }
+        return null;
     };
     /**
      * 启动一个任务
@@ -69,31 +91,25 @@ var TaskPlugin = (function () {
      * @param options
      * @param globalOptions
      */
-    TaskPlugin.prototype.addToTask = function (_a, options, globalOptions) {
-        var config = _a.config, plugins = _a.plugins;
+    TaskPlugin.prototype.addToTask = function (config, options, globalOptions) {
         return __awaiter(this, void 0, void 0, function () {
-            var mQueueService, task, instance;
+            var queueName, mQueueService, task, instance;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (this.has(config.key)) {
-                            return [2 /*return*/];
-                        }
+                        queueName = this.getUrlQueueName(config);
+                        if (!!this.has(queueName)) return [3 /*break*/, 2];
                         mQueueService = new mq_1.MQueueService();
-                        task = options.seneca.make$('tasks', {
-                            id: config.key,
-                            plugins: plugins,
-                            config: config
-                        });
+                        task = options.seneca.make$('tasks', __assign({ id: config.key }, config));
                         return [4 /*yield*/, task.saveAsync()];
                     case 1:
                         instance = _a.sent();
                         this.mqs.push(mQueueService);
-                        mQueueService.initConsume(options.seneca, globalOptions, config.key, {
-                            config: config,
-                            plugins: plugins
-                        }, 5);
-                        return [2 /*return*/];
+                        if (mQueueService.initConsume(globalOptions, queueName, this.pluginService.execute.bind(this.pluginService, options.seneca, config.msgPlugins), 5)) {
+                            this.pluginService.execute(options.seneca, config.initPlugins);
+                        }
+                        _a.label = 2;
+                    case 2: return [2 /*return*/];
                 }
             });
         });
@@ -111,9 +127,7 @@ var TaskPlugin = (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        mQueueServie = _.first(_.filter(this.mqs, function (mq) {
-                            return mq.config.key === config.key;
-                        }));
+                        mQueueServie = this.getQueueService(config);
                         if (!mQueueServie) {
                             return [2 /*return*/];
                         }
@@ -126,6 +140,26 @@ var TaskPlugin = (function () {
                         _a.sent();
                         _.remove(this.mqs, mQueueServie);
                         return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * 删除一个任务
+     * @param param0
+     * @param options
+     * @param globalOptions
+     */
+    TaskPlugin.prototype.listTask = function (_a, options, globalOptions) {
+        var _b = _a.config, config = _b === void 0 ? {} : _b;
+        return __awaiter(this, void 0, void 0, function () {
+            var entity;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        entity = options.seneca.make$('tasks');
+                        return [4 /*yield*/, entity.listAsync(config)];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
@@ -148,14 +182,14 @@ var TaskPlugin = (function () {
                         tasks = _a.sent();
                         // _.forEach(tasks, async (task: any) => {
                         //     if (task.id && !this.mqs[task.id]) {
-                        //         await this.addToTask({ config: task.config, plugins: task.plugins }, options, globalOptions);
+                        //         await this.addToTask(task, options, globalOptions);
                         //     }
                         // });
                         return [4 /*yield*/, bluebird.delay(200)];
                     case 2:
                         // _.forEach(tasks, async (task: any) => {
                         //     if (task.id && !this.mqs[task.id]) {
-                        //         await this.addToTask({ config: task.config, plugins: task.plugins }, options, globalOptions);
+                        //         await this.addToTask(task, options, globalOptions);
                         //     }
                         // });
                         _a.sent();
@@ -166,6 +200,16 @@ var TaskPlugin = (function () {
     };
     return TaskPlugin;
 }());
+__decorate([
+    inversify_1.inject(plugin_1.ExecutePluginService),
+    __metadata("design:type", plugin_1.ExecutePluginService)
+], TaskPlugin.prototype, "pluginService", void 0);
+__decorate([
+    crawler_plugins_common_1.Add("role:" + constants_1.pluginTaskName + ",cmd:getOne"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", mq_1.MQueueService)
+], TaskPlugin.prototype, "getQueueService", null);
 __decorate([
     crawler_plugins_common_1.Add("role:" + constants_1.pluginTaskName + ",cmd:add"),
     __metadata("design:type", Function),
@@ -178,6 +222,12 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object, Object]),
     __metadata("design:returntype", Promise)
 ], TaskPlugin.prototype, "removeFromTask", null);
+__decorate([
+    crawler_plugins_common_1.Add("role:" + constants_1.pluginTaskName + ",cmd:list"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:returntype", Promise)
+], TaskPlugin.prototype, "listTask", null);
 __decorate([
     crawler_plugins_common_1.Init(),
     __metadata("design:type", Function),

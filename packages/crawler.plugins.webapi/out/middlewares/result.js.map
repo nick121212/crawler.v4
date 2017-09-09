@@ -1,0 +1,1 @@
+{"version":3,"file":"result.js","sourceRoot":"","sources":["../../src/middlewares/result.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;AAAA,2CAA4D;AAG5D,IAAa,gBAAgB,GAA7B;IACW,OAAO;QACV,MAAM,CAAC,CAAO,GAAG,EAAE,GAAG,EAAE,IAAI;YAGxB,IAAI,EAAE,CAAC;QACX,CAAC,CAAA,CAAC;IACN,CAAC;CACJ,CAAA;AARY,gBAAgB;IAD5B,mBAAU,EAAE;GACA,gBAAgB,CAQ5B;AARY,4CAAgB"}

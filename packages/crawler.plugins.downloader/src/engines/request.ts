@@ -1,6 +1,6 @@
-import { modelProxy, IProxyCtx, IInterfaceModel, IExecute } from 'modelproxy';
-import * as request from 'request-promise';
-import { injectable } from 'inversify';
+import { modelProxy, IProxyCtx, IInterfaceModel, IExecute } from "modelproxy";
+import * as request from "request-promise";
+import { injectable } from "inversify";
 import { URLSearchParams } from "url";
 
 @injectable()

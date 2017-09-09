@@ -11,6 +11,11 @@ export declare class Seneca<T extends IConfig> {
     constructor(container: inversify.interfaces.Container, options?: OriginSeneca.Options);
     readonly seneca: any;
     /**
+     * 包装验证方法
+     * @param plugin
+     */
+    executeValudate(plugin: any): any;
+    /**
      * 包装act
      * @param 参数
      * target: 包装的方法所在的类

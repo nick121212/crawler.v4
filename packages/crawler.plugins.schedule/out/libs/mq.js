@@ -54,6 +54,7 @@ process.on('unhandledRejection', function (reason, p) {
  * agenda服务
  */
 var MQueueService = (function () {
+    // public config: any;
     /**
      * 构造函数
      */
@@ -69,6 +70,9 @@ var MQueueService = (function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
+                        if (this.channel) {
+                            return [2 /*return*/];
+                        }
                         _a = this;
                         return [4 /*yield*/, amqplib.connect(rabbitmqConfig.url, rabbitmqConfig.options)];
                     case 1:
@@ -92,7 +96,7 @@ var MQueueService = (function () {
     /**
      * 初始化消费队列
      */
-    MQueueService.prototype.initConsume = function (seneca, rabbitmqConfig, queueName, config, prefetch) {
+    MQueueService.prototype.initConsume = function (rabbitmqConfig, queueName, consumeMsg, prefetch) {
         if (prefetch === void 0) { prefetch = 1; }
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
@@ -102,8 +106,6 @@ var MQueueService = (function () {
                     case 0:
                         count = 0;
                         this.queueName = queueName;
-                        this.config = config;
-                        this.seneca = seneca;
                         _b.label = 1;
                     case 1:
                         _b.trys.push([1, 6, , 7]);
@@ -117,7 +119,7 @@ var MQueueService = (function () {
                     case 4:
                         queue = _b.sent();
                         this.exchange = exchange;
-                        return [4 /*yield*/, this.channel.bindQueue(queue.queue, exchange.exchange, "crawler.url." + config.key)];
+                        return [4 /*yield*/, this.channel.bindQueue(queue.queue, exchange.exchange, queueName)];
                     case 5:
                         _b.sent();
                         return [3 /*break*/, 7];
@@ -130,8 +132,7 @@ var MQueueService = (function () {
                         return [4 /*yield*/, this.channel.prefetch(prefetch)];
                     case 8:
                         _b.sent();
-                        // await this.initInitilizeUrls(this.config.initUrls);
-                        console.log("\u5F00\u59CB\u6D88\u8D39queue:" + this.config.key);
+                        console.log("\u5F00\u59CB\u6D88\u8D39queue:" + queue.queue);
                         _a = this;
                         return [4 /*yield*/, this.channel.consume(queue.queue, function (msg) { return __awaiter(_this, void 0, void 0, function () {
                                 var _this = this;
@@ -140,18 +141,15 @@ var MQueueService = (function () {
                                         case 0: return [4 /*yield*/, bluebird.delay(3000)];
                                         case 1:
                                             _a.sent();
-                                            this.execute(msg).then(function (data) { return __awaiter(_this, void 0, void 0, function () {
-                                                return __generator(this, function (_a) {
-                                                    console.log(data);
-                                                    this.channel && this.channel.nack(msg);
-                                                    return [2 /*return*/];
-                                                });
-                                            }); }).catch(function (err) { return __awaiter(_this, void 0, void 0, function () {
-                                                return __generator(this, function (_a) {
-                                                    this.channel && this.channel.nack(msg);
-                                                    return [2 /*return*/];
-                                                });
-                                            }); });
+                                            return [4 /*yield*/, consumeMsg(msg).then(function (data) {
+                                                    // console.log(data);
+                                                    _this.channel && _this.channel.nack(msg);
+                                                }).catch(function (err) {
+                                                    console.log(err);
+                                                    _this.channel && _this.channel.nack(msg);
+                                                })];
+                                        case 2:
+                                            _a.sent();
                                             return [2 /*return*/];
                                     }
                                 });
@@ -164,40 +162,15 @@ var MQueueService = (function () {
                         e_2 = _b.sent();
                         console.log(e_2.message);
                         return [2 /*return*/, false];
-                    case 11: return [2 /*return*/, true];
+                    case 11: return [2 /*return*/, queue.consumerCount + queue.messageCount == 0];
                 }
             });
         });
     };
-    /**
-     * 发送socket消息
-     * @param msg    一条queue的消息
-     */
-    MQueueService.prototype.execute = function (msg) {
-        return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            var queueItem, datas, _a, plugins;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        queueItem = JSON.parse(msg.content.toString());
-                        datas = [];
-                        _a = this.config.plugins, plugins = _a === void 0 ? [] : _a;
-                        plugins.forEach(function (plugin) { return __awaiter(_this, void 0, void 0, function () {
-                            return __generator(this, function (_a) {
-                                if (this.seneca.has(plugin.partten)) {
-                                    datas.push(this.seneca.actAsync(plugin.partten, plugin.data));
-                                }
-                                else {
-                                    console.log("\u6CA1\u6709\u53D1\u73B0partten: " + plugin.partten);
-                                }
-                                return [2 /*return*/];
-                            });
-                        }); });
-                        return [4 /*yield*/, Promise.all(datas)];
-                    case 1: return [2 /*return*/, _b.sent()];
-                }
-            });
+    MQueueService.prototype.addItemsToQueue = function (items) {
+        var _this = this;
+        items.forEach(function (item) {
+            _this.channel.publish(_this.exchange.exchange, _this.queueName, new Buffer(JSON.stringify(item)), {});
         });
     };
     /**
@@ -225,7 +198,7 @@ var MQueueService = (function () {
                         delete this.channel;
                         delete this.connection;
                         delete this.consume;
-                        delete this.config;
+                        // delete this.config;
                         delete this.exchange;
                         console.log("queue stoped!");
                         return [3 /*break*/, 6];

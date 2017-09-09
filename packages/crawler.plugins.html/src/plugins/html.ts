@@ -1,11 +1,11 @@
-import inversify, { injectable, inject } from 'inversify';
-import * as Seneca from 'seneca';
+import inversify, { injectable, inject } from "inversify";
+import * as Seneca from "seneca";
 import * as _ from "lodash";
-import * as pathToRegexp from 'path-to-regexp';
-import { Plugin, Add, Wrap, Init } from 'crawler.plugins.common';
+import * as pathToRegexp from "path-to-regexp";
+import { Plugin, Add, Wrap, Init } from "crawler.plugins.common";
 
-import format from '../libs/format';
-import analysis from '../libs/analysis';
+import format from "../libs/format";
+import analysis from "../libs/analysis";
 import { pluginName } from "../constants";
 
 @Plugin(pluginName)
@@ -13,7 +13,11 @@ import { pluginName } from "../constants";
 export class HtmlPlugin {
 
     @Add(`role:${pluginName},cmd:html`)
-    async html({ queueItem, pages }: { queueItem: any, pages: Array<any> }, options: any) {
+    public async html({ queueItem, pages }: { queueItem: any, pages: Array<any> }, options: any) {
+        if (!queueItem) {
+            return [];
+        }
+
         let urls = [];
         let results: Array<any> = [];
         let rules = _.filter(pages, ({ path }) => {
@@ -24,7 +28,7 @@ export class HtmlPlugin {
 
         if (rules.length && !queueItem.responseBody) {
             let expireSeneca = options.seneca.delegate({ expire$: 15 });
-            let entity = expireSeneca.make('downloads');
+            let entity = expireSeneca.make("downloads");
             let download = await entity.loadAsync({ id: queueItem._id });
             // console.log(download, queueItem);
             if (download) {
@@ -41,5 +45,4 @@ export class HtmlPlugin {
 
         return results;
     }
-
 }

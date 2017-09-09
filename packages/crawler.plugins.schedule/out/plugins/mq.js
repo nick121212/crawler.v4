@@ -58,11 +58,19 @@ var MQueuePlugin = (function () {
      * @param options
      * @param globalOptions
      */
-    MQueuePlugin.prototype.addToQueue = function (_a, options, globalOptions) {
-        var config = _a.config;
+    MQueuePlugin.prototype.addToQueue = function (config, options, globalOptions) {
         return __awaiter(this, void 0, void 0, function () {
+            var mqService;
             return __generator(this, function (_a) {
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, options.seneca.actAsync("role:" + constants_1.pluginTaskName + ",cmd:getOne", config)];
+                    case 1:
+                        mqService = _a.sent();
+                        if (mqService && config.items && config.items.length) {
+                            mqService.addItemsToQueue(config.items);
+                        }
+                        return [2 /*return*/];
+                }
             });
         });
     };
@@ -70,9 +78,7 @@ var MQueuePlugin = (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        console.log("init");
-                        return [4 /*yield*/, bluebird.delay(200)];
+                    case 0: return [4 /*yield*/, bluebird.delay(200)];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];
@@ -87,7 +93,7 @@ __decorate([
     __metadata("design:type", mq_1.MQueueService)
 ], MQueuePlugin.prototype, "mqService", void 0);
 __decorate([
-    crawler_plugins_common_1.Add("role:" + constants_1.pluginMqName + ",cmd:add"),
+    crawler_plugins_common_1.Add("role:" + constants_1.pluginMqName + ",cmd:addItemToQueue"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object, Object]),
     __metadata("design:returntype", Promise)

@@ -1,0 +1,15 @@
+@import "./modules/app/index.scss";
+
+:global {
+    .root {
+        display: flex;
+        height: 100%;
+        width: 100%;
+    }
+    .ant-modal-body {
+        overflow: auto;
+    }
+    .ant-layout {
+        background-color: transparent !important;
+    }
+}

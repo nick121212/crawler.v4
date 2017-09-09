@@ -4,7 +4,7 @@ import { Plugin, Add, Wrap, Init } from 'crawler.plugins.common';
 import * as bluebird from 'bluebird';
 import * as _ from 'lodash';
 
-import { pluginMqName } from '../constants';
+import { pluginMqName, pluginTaskName } from '../constants';
 import { MQueueService } from '../libs/mq';
 
 @Plugin(pluginMqName)
@@ -23,14 +23,19 @@ export class MQueuePlugin {
      * @param options 
      * @param globalOptions 
      */
-    @Add(`role:${pluginMqName},cmd:add`)
-    async addToQueue({ config }: { config: any }, options?: any, globalOptions?: any) {
+    @Add(`role:${pluginMqName},cmd:addItemToQueue`)
+    async addToQueue(config: any, options?: any, globalOptions?: any) {
+        let mqService: any = await options.seneca.actAsync(`role:${pluginTaskName},cmd:getOne`, config);
 
+        if(mqService && config.items && config.items.length){
+            mqService.addItemsToQueue(config.items);
+        }
+
+        return ;
     }
 
     @Init()
     async init(msg: any, options: any, globalOptions: any) {
-        console.log("init");
         await bluebird.delay(200);
     }
 }

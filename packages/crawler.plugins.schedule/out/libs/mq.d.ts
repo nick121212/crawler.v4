@@ -1,5 +1,3 @@
-/// <reference types="seneca" />
-import * as seneca from 'seneca';
 /**
  * agenda服务
  */
@@ -8,9 +6,7 @@ export declare class MQueueService {
     private channel;
     private consume;
     private exchange;
-    private queueName;
-    private seneca;
-    config: any;
+    queueName: string;
     /**
      * 构造函数
      */
@@ -22,15 +18,11 @@ export declare class MQueueService {
     /**
      * 初始化消费队列
      */
-    initConsume(seneca: seneca.Instance, rabbitmqConfig: {
+    initConsume(rabbitmqConfig: {
         url: string;
         options: any;
-    }, queueName: string, config: any, prefetch?: number): Promise<boolean>;
-    /**
-     * 发送socket消息
-     * @param msg    一条queue的消息
-     */
-    private execute(msg);
+    }, queueName: string, consumeMsg: Function, prefetch?: number): Promise<boolean>;
+    addItemsToQueue(items: Array<any>): void;
     /**
      * 销毁队列
      */

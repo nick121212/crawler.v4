@@ -1,7 +1,7 @@
-import * as inversify from 'inversify';
+import * as inversify from "inversify";
 import { Container } from "inversify";
 import { makeFluentProvideDecorator } from "inversify-binding-decorators";
-import { Types as CommonTypes, PluginBase } from 'crawler.plugins.common';
+import { Types as CommonTypes, PluginBase } from "crawler.plugins.common";
 
 import { HtmlPlugin } from "./plugins/html";
 

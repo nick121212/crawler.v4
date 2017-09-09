@@ -1,11 +1,10 @@
-import inversify, { injectable, inject } from 'inversify';
-import * as Seneca from 'seneca';
-import * as request from 'request';
+import inversify, { injectable, inject } from "inversify";
+import * as Seneca from "seneca";
+import * as request from "request";
+import { Plugin, Add, Wrap, Init } from "crawler.plugins.common";
 
-import { Plugin, Add, Wrap, Init } from 'crawler.plugins.common';
 import { Proxy } from "../proxy";
 import { pluginName } from "../constants";
-// import * as bluebird from 'bluebird';
 
 @Plugin(pluginName)
 @injectable()
@@ -15,27 +14,30 @@ export class DownloadPlugin {
 
     /**
      * 下载数据
-     * @param param0 
+     * @param param0
      */
     @Add(`role:${pluginName},cmd:html`)
-    async html({ queueItem, proxyInfo, save = true, header = {}, charset, engine = "superagent" }: { charset: string, save: boolean, header: any, queueItem: any, proxyInfo: any, engine: string }, options: any) {
+    public async html(
+        { queueItem, proxyInfo, save = true, header = {}, charset, engine = "superagent" }:
+            { charset: string, save: boolean, header: any, queueItem: any, proxyInfo: any, engine: string }, options: any) {
         /**
          * 添加接口信息
          */
         this.proxy.proxy.loadConfig({
-            "key": "download",
-            "title": "download下载接口",
-            "state": "html",
             "engine": engine,
+            "interfaces": [{
+                "key": "download",
+                "method": "get",
+                "path": "",
+                "title": ""
+            }],
+            "key": "download",
+            "state": "html",
             "states": {
                 "html": queueItem.url
             },
-            "interfaces": [{
-                "path": "",
-                "method": "get",
-                "key": "download",
-                "title": ""
-            }]
+            "title": "download下载接口",
+
         });
         /**
          * 调用接口
@@ -45,12 +47,13 @@ export class DownloadPlugin {
                 header,
                 charset
             }
-        })
+        });
+
         if (save) {
-            let expireSeneca = options.seneca.delegate({ expire$: 15 });
-            let download = expireSeneca.make$('downloads', {
-                id: queueItem._id,
+            let expireSeneca = options.seneca.delegate({ expire$: 60 });
+            let download = expireSeneca.make$("downloads", {
                 data: res.statusCode,
+                id: queueItem._id,
                 ...queueItem,
                 responseBody: res.body
             });
@@ -58,34 +61,33 @@ export class DownloadPlugin {
             await download.saveAsync();
         }
 
-        console.log(res.body);
-
         return {
+            crawlerCount: 1 * queueItem.crawlerCount + 1,
+            responseBody: save ? null : res.body,
             statusCode: res.statusCode,
-            // responseBody: res.body,
-            crawlerCount: ~~queueItem.crawlerCount + 1
         };
     }
 
     @Add(`role:${pluginName},cmd:interfaces`)
-    inter({ url, path = "", params, data, header, method = "get", engine = "superagent", _id = "" }: any) {
+    public inter({ url, path = "", params, data, header, method = "get", engine = "superagent", _id = "" }: any) {
         /**
          * 添加接口信息
          */
         this.proxy.proxy.loadConfig({
-            "key": "download",
-            "title": "download下载接口",
-            "state": "interface",
             "engine": engine,
+            "interfaces": [{
+                "key": "interface",
+                "method": method,
+                "path": path,
+                "title": ""
+            }],
+            "key": "download",
+            "state": "interface",
             "states": {
                 "interface": url
             },
-            "interfaces": [{
-                "path": path,
-                "method": method,
-                "key": "interface",
-                "title": ""
-            }]
+            "title": "download下载接口",
+
         });
         /**
          * 调用接口
@@ -96,11 +98,9 @@ export class DownloadPlugin {
             settings: { header }
         }).then((res: request.RequestResponse) => {
             return {
+                responseBody: res.body,
                 statusCode: res.statusCode,
-                responseBody: res.body
             };
         });
-
     }
-
 }

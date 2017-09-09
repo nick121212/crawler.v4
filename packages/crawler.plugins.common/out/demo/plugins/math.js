@@ -61,6 +61,7 @@ var inversify_1 = require("inversify");
 var bluebird = require("bluebird");
 var index_1 = require("../../index");
 var aaa_1 = require("../aaa");
+var joi = require("joi");
 var MathPlugin = (function (_super) {
     __extends(MathPlugin, _super);
     function MathPlugin(aa) {
@@ -68,7 +69,7 @@ var MathPlugin = (function (_super) {
         _this.aa = aa;
         return _this;
     }
-    MathPlugin.prototype.init = function (a, b, c) {
+    MathPlugin.prototype.init = function (msg) {
         var _this = this;
         return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {
@@ -86,7 +87,7 @@ var MathPlugin = (function (_super) {
         if (!msg.ddd) {
             msg.ddd = 10;
         }
-        console.log(this.aa.aaaa.length);
+        // console.log(this.aa.aaaa.length);
     };
     MathPlugin.prototype.add = function (msg) {
         this.aa.aaaa.push("234234");
@@ -96,7 +97,6 @@ var MathPlugin = (function (_super) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 this.aa.aaaa.push("234234");
-                console.log(this.aa.aaaa.length);
                 if (!msg.ddd) {
                     throw new Error("缺少参数！");
                 }
@@ -109,11 +109,14 @@ var MathPlugin = (function (_super) {
 __decorate([
     index_1.Init(),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], MathPlugin.prototype, "init", null);
 __decorate([
     index_1.Wrap("role:math"),
+    __param(0, index_1.Validate(joi.object().keys({
+        add: joi.number().integer().min(0).max(100),
+    }), { allowUnknown: false })),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)

@@ -1,0 +1,1 @@
+{"version":3,"file":"seneca.module.js","sourceRoot":"","sources":["../../../src/modules/seneca/seneca.module.ts"],"names":[],"mappings":";;;;;;;;AAAA,2CAAwF;AACxF,qDAAiD;AACjD,2DAAuD;AASvD,IAAa,YAAY,GAAzB;CACC,CAAA;AADY,YAAY;IAPxB,eAAM,CAAC;QACJ,UAAU,EAAE;YACR,8BAAa;SAChB;QACD,WAAW,EAAE,CAAC,oCAAgB,CAAC;QAC/B,OAAO,EAAE,EAAE;KACd,CAAC;GACW,YAAY,CACxB;AADY,oCAAY"}

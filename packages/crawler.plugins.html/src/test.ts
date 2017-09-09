@@ -1,9 +1,9 @@
-import 'reflect-metadata';
-import { injectable, inject } from 'inversify';
-import { Seneca } from 'crawler.plugins.common';
+import "reflect-metadata";
+import { injectable, inject } from "inversify";
+import { Seneca } from "crawler.plugins.common";
 
-import { container } from './container';
-import { pluginName } from './constants';
+import { container } from "./container";
+import { pluginName } from "./constants";
 
 
 const responseBody = `
@@ -28,21 +28,21 @@ const responseBody = `
 <script src="http://ya1.yaolan.com/mpids.mini.js" type="text/javascript"></script>
 <script type="text/javascript">
   var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-319257-1']);
-  _gaq.push(['_addOrganic', 'baidu', 'word']);
-  _gaq.push(['_addOrganic', 'soso', 'w']);
-  _gaq.push(['_addOrganic', '3721', 'name']);
-  _gaq.push(['_addOrganic', 'yodao', 'q']);
-  _gaq.push(['_addOrganic', 'vnet', 'kw']);
-  _gaq.push(['_addOrganic', 'sogou', 'query']);
-  _gaq.push(['_setDomainName', '.yaolan.com']);
-  _gaq.push(['_setAllowHash', false]);
-  _gaq.push(['_addIgnoredRef', 'yaolan.com']);
-  _gaq.push(['_trackPageview']);
+  _gaq.push(["_setAccount", "UA-319257-1"]);
+  _gaq.push(["_addOrganic", "baidu", "word"]);
+  _gaq.push(["_addOrganic", "soso", "w"]);
+  _gaq.push(["_addOrganic", "3721", "name"]);
+  _gaq.push(["_addOrganic", "yodao", "q"]);
+  _gaq.push(["_addOrganic", "vnet", "kw"]);
+  _gaq.push(["_addOrganic", "sogou", "query"]);
+  _gaq.push(["_setDomainName", ".yaolan.com"]);
+  _gaq.push(["_setAllowHash", false]);
+  _gaq.push(["_addIgnoredRef", "yaolan.com"]);
+  _gaq.push(["_trackPageview"]);
   (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
+    ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+    var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
   })();
 </script>
 <script id="jstj140113" src="http://adnetpub.yaolan.com/js/adpubs.js" type="text/javascript"></script>
@@ -51,7 +51,7 @@ const responseBody = `
 	var ie6=!-[1,]&&!window.XMLHttpRequest;
   if(!ie6){
       var _bdhmprotocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-      var getUrl = '%3Cscript  src="' +_bdhmprotocol + 'hm.baidu.com/h.js%3f04a8007d069875ec6d7ac710d65c2b92" type="text/javascript"%3E%3C/script%3E ';
+      var getUrl = "%3Cscript  src="" +_bdhmprotocol + "hm.baidu.com/h.js%3f04a8007d069875ec6d7ac710d65c2b92" type="text/javascript"%3E%3C/script%3E ";
       document.write(unescape(getUrl));
     
   }
@@ -132,7 +132,7 @@ const responseBody = `
           	</div>
         </div>
         <div class="fr"   id="ylTopMenu" >
-			<div class="ylDown" id="ylTopUser"><img  src='http://g.yaolanimage.cn/global/head/images/loading.gif?ver=20120711'  alt='loading' id="ylLoading" /></div>
+			<div class="ylDown" id="ylTopUser"><img  src="http://g.yaolanimage.cn/global/head/images/loading.gif?ver=20120711"  alt="loading" id="ylLoading" /></div>
 			<div class="ylDown" id="ylTopMsg">
 				<div id="ylTopItem1" class="">
 					<a class="hdUlink hdMyMsg" target="_self" href="http://my.yaolan.com/message/notification.aspx" id="hdMyMsg">消息</a>													
@@ -166,8 +166,8 @@ const responseBody = `
                 </div>
             </div>
             <a href="javascript:register();" title="注册" class="hdLoginLink hdReg" target="_self">注册</a>
-            <a href="javascript:goConnector('weibo');" title="微博登录" class="ylLoginWb"  target="_self">微博登录</a>
-            <a href="javascript:goConnector('qq');" title="QQ登录" class="ylLoginQq" target="_self">QQ登录</a>             
+            <a href="javascript:goConnector("weibo");" title="微博登录" class="ylLoginWb"  target="_self">微博登录</a>
+            <a href="javascript:goConnector("qq");" title="QQ登录" class="ylLoginQq" target="_self">QQ登录</a>             
 			<iframe id="inner_login" name="inner_login" style="display:none"></iframe>
         </div>
     </div>
@@ -202,11 +202,11 @@ swfobject.registerObject("topadswf1", "9.0.0", "expressInstall.swf");
 swfobject.registerObject("topadswf2", "9.0.0", "expressInstall.swf");
 
 $(function(){
-    $('#ylTopAd').show();
+    $("#ylTopAd").show();
     var oTime = null;
     oTime = setTimeout(function(){
-        $('.ylTopAd-big').slideUp(function(){
-            $('.ylTopAd-small').slideDown();
+        $(".ylTopAd-big").slideUp(function(){
+            $(".ylTopAd-small").slideDown();
         });
     },5000)
 })
@@ -346,7 +346,7 @@ $(function(){
     <div class="adLeft"><!-- 一屏banner1 --><IFRAME src="http://adpub.yaolan.com/afp/door/;ap=21;ct=if;pu=4c451ece10ff899d0001;/?" NAME="adFrame_21" WIDTH="715" HEIGHT="90" FRAMEBORDER="no" BORDER="0" MARGINWIDTH="0" MARGINHEIGHT="0" SCROLLING="no">
 <SCRIPT LANGUAGE="JavaScript1.1">
 var browVersion = parseInt(navigator.appVersion);
-if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT LANGUAGE=\"Javascript1.1\" SRC=\" http://adpub.yaolan.com/afp/door/;ap=21;ct=js;pu=4c451ece10ff899d0001;/?\" charset='utf-8'><\/SCR"+"IPT>");
+if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT LANGUAGE=\"Javascript1.1\" SRC=\" http://adpub.yaolan.com/afp/door/;ap=21;ct=js;pu=4c451ece10ff899d0001;/?\" charset="utf-8"><\/SCR"+"IPT>");
 </SCRIPT>
 </IFRAME><!-- 一屏banner1/End -->
     </div>
@@ -354,7 +354,7 @@ if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT 
     <!-- 一屏button1 --><IFRAME src="http://adpub.yaolan.com/afp/door/;ap=27;ct=if;pu=4c451ece10ff899d0001;/?" NAME="adFrame_27" WIDTH="220" HEIGHT="90" FRAMEBORDER="no" BORDER="0" MARGINWIDTH="0" MARGINHEIGHT="0" SCROLLING="no">
 <SCRIPT LANGUAGE="JavaScript1.1">
 var browVersion = parseInt(navigator.appVersion);
-if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT LANGUAGE=\"Javascript1.1\" SRC=\" http://adpub.yaolan.com/afp/door/;ap=27;ct=js;pu=4c451ece10ff899d0001;/?\" charset='utf-8'><\/SCR"+"IPT>");
+if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT LANGUAGE=\"Javascript1.1\" SRC=\" http://adpub.yaolan.com/afp/door/;ap=27;ct=js;pu=4c451ece10ff899d0001;/?\" charset="utf-8"><\/SCR"+"IPT>");
 </SCRIPT>
 </IFRAME><!-- 一屏button1/End -->
     </div>
@@ -607,7 +607,7 @@ if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT 
                     <div class="siderLeft">                     
                                                 <form method="post" action="http://ask.yaolan.com/ask.html" name="fastask" id="fastask">
                         <div class="askArea">
-                        	<input type="text" class="askInput" value="" name="QuestionTitle"  id="askInput" onfocus="erasenm(this);" onblur="recovery(this);" /><input name="AskType" type="hidden" value="fast" /><a   class="askLink" href="javascript:void(0);" onclick="document.getElementById('fastask').submit();"  target="_self">提问</a><a href="javascript:void(0);" onclick="if (document.getElementById('askInput').value.replace(/^\s*|\s*$/g, '') == '') {document.getElementById('askInput').focus(); return false;} else {window.open('http://search.yaolan.com/ask/' + encodeURI(document.getElementById('askInput').value.replace(/\s+/g,' ')) + '/');}" target="_self"  class="searchAnswer">搜答案</a>
+                        	<input type="text" class="askInput" value="" name="QuestionTitle"  id="askInput" onfocus="erasenm(this);" onblur="recovery(this);" /><input name="AskType" type="hidden" value="fast" /><a   class="askLink" href="javascript:void(0);" onclick="document.getElementById("fastask").submit();"  target="_self">提问</a><a href="javascript:void(0);" onclick="if (document.getElementById("askInput").value.replace(/^\s*|\s*$/g, "") == "") {document.getElementById("askInput").focus(); return false;} else {window.open("http://search.yaolan.com/ask/" + encodeURI(document.getElementById("askInput").value.replace(/\s+/g," ")) + "/");}" target="_self"  class="searchAnswer">搜答案</a>
                         </div></form>                        
                         						<div class="guessLike">
                         	<div class="aTitle clear"><span class="fl">猜你喜欢</span><span class="changeUserInfo" style="display:none">推送不准确？<a href="javascript:;" id="changeUserInfo" target="_self">修改信息</a></span></div>
@@ -1550,7 +1550,7 @@ jQuery(document).ready(function() {
 </div>
 
 <style>
-	.yl_jinguan {height:260px; padding:0; position: fixed; right:2px; top:150px; width:50px; z-index:1000;_position:absolute;_top:expression(eval(document.compatMode && document.compatMode=='CSS1Compat') ? documentElement.scrollTop + 150px :/*IE6*/document.body.scrollTop + (document.body.clientHeight - this.clientHeight)/2);}
+	.yl_jinguan {height:260px; padding:0; position: fixed; right:2px; top:150px; width:50px; z-index:1000;_position:absolute;_top:expression(eval(document.compatMode && document.compatMode=="CSS1Compat") ? documentElement.scrollTop + 150px :/*IE6*/document.body.scrollTop + (document.body.clientHeight - this.clientHeight)/2);}
 	.yl_jinguan span {background: url(/homepage/images/index_close.png) no-repeat; cursor: pointer; display: block; height: 16px; line-height: 999em; overflow: hidden;
 	position: absolute; right:-3px; top: 7px; width: 16px;}
 </style>--> 
@@ -1566,7 +1566,7 @@ jQuery(document).ready(function() {
 <IFRAME src="http://adpub.yaolan.com/afp/door/;ap=31;ct=if;pu=4c451ece10ff899d0001;/?" NAME="adFrame_31" WIDTH="380" HEIGHT="210" FRAMEBORDER="no" BORDER="0" MARGINWIDTH="0" MARGINHEIGHT="0" SCROLLING="no">
 <SCRIPT LANGUAGE="JavaScript1.1">
 var browVersion = parseInt(navigator.appVersion);
-if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT LANGUAGE=\"Javascript1.1\" SRC=\" http://adpub.yaolan.com/afp/door/;ap=31;ct=js;pu=4c451ece10ff899d0001;/?\" charset='utf-8'><\/SCR"+"IPT>");
+if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT LANGUAGE=\"Javascript1.1\" SRC=\" http://adpub.yaolan.com/afp/door/;ap=31;ct=js;pu=4c451ece10ff899d0001;/?\" charset="utf-8"><\/SCR"+"IPT>");
 </SCRIPT>
 </IFRAME>
 <!-- 首页轮播图2（工作日不可配送）/End -->
@@ -1620,7 +1620,7 @@ if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT 
 <IFRAME src="http://adpub.yaolan.com/afp/door/;ap=585;ct=if;pu=4c451ece10ff899d0001;/?" NAME="adFrame_585" WIDTH="400" HEIGHT="90" FRAMEBORDER="no" BORDER="0" MARGINWIDTH="0" MARGINHEIGHT="0" SCROLLING="no">
 <SCRIPT LANGUAGE="JavaScript1.1">
 var browVersion = parseInt(navigator.appVersion);
-if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT LANGUAGE=\"Javascript1.1\" SRC=\" http://adpub.yaolan.com/afp/door/;ap=585;ct=js;pu=4c451ece10ff899d0001;/?\" charset='utf-8'><\/SCR"+"IPT>");
+if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT LANGUAGE=\"Javascript1.1\" SRC=\" http://adpub.yaolan.com/afp/door/;ap=585;ct=js;pu=4c451ece10ff899d0001;/?\" charset="utf-8"><\/SCR"+"IPT>");
 </SCRIPT>
 </IFRAME>
 <!-- 首页button2/End --></div>
@@ -1638,7 +1638,7 @@ if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT 
 <IFRAME src="http://adpub.yaolan.com/afp/door/;ap=22;ct=if;pu=4c451ece10ff899d0001;/?" NAME="adFrame_22" WIDTH="715" HEIGHT="90" FRAMEBORDER="no" BORDER="0" MARGINWIDTH="0" MARGINHEIGHT="0" SCROLLING="no">
 <SCRIPT LANGUAGE="JavaScript1.1">
 var browVersion = parseInt(navigator.appVersion);
-if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT LANGUAGE=\"Javascript1.1\" SRC=\" http://adpub.yaolan.com/afp/door/;ap=22;ct=js;pu=4c451ece10ff899d0001;/?\" charset='utf-8'><\/SCR"+"IPT>");
+if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT LANGUAGE=\"Javascript1.1\" SRC=\" http://adpub.yaolan.com/afp/door/;ap=22;ct=js;pu=4c451ece10ff899d0001;/?\" charset="utf-8"><\/SCR"+"IPT>");
 </SCRIPT>
 </IFRAME>
 <!-- 首页banner2（工作日不可配送）轮播1/End --><!-- 一屏banner2/End -->
@@ -1648,7 +1648,7 @@ if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT 
 <IFRAME src="http://adpub.yaolan.com/afp/door/;ap=28;ct=if;pu=4c451ece10ff899d0001;/?" NAME="adFrame_28" WIDTH="220" HEIGHT="90" FRAMEBORDER="no" BORDER="0" MARGINWIDTH="0" MARGINHEIGHT="0" SCROLLING="no">
 <SCRIPT LANGUAGE="JavaScript1.1">
 var browVersion = parseInt(navigator.appVersion);
-if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT LANGUAGE=\"Javascript1.1\" SRC=\" http://adpub.yaolan.com/afp/door/;ap=28;ct=js;pu=4c451ece10ff899d0001;/?\" charset='utf-8'><\/SCR"+"IPT>");
+if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT LANGUAGE=\"Javascript1.1\" SRC=\" http://adpub.yaolan.com/afp/door/;ap=28;ct=js;pu=4c451ece10ff899d0001;/?\" charset="utf-8"><\/SCR"+"IPT>");
 </SCRIPT>
 </IFRAME>
 <!-- 首页button3/End -->
@@ -1658,7 +1658,7 @@ if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT 
 <IFRAME src="http://adpub.yaolan.com/afp/door/;ap=23;ct=if;pu=4c451ece10ff899d0001;/?" NAME="adFrame_23" WIDTH="715" HEIGHT="90" FRAMEBORDER="no" BORDER="0" MARGINWIDTH="0" MARGINHEIGHT="0" SCROLLING="no">
 <SCRIPT LANGUAGE="JavaScript1.1">
 var browVersion = parseInt(navigator.appVersion);
-if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT LANGUAGE=\"Javascript1.1\" SRC=\" http://adpub.yaolan.com/afp/door/;ap=23;ct=js;pu=4c451ece10ff899d0001;/?\" charset='utf-8'><\/SCR"+"IPT>");
+if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT LANGUAGE=\"Javascript1.1\" SRC=\" http://adpub.yaolan.com/afp/door/;ap=23;ct=js;pu=4c451ece10ff899d0001;/?\" charset="utf-8"><\/SCR"+"IPT>");
 </SCRIPT>
 </IFRAME>
 <!-- 首页banner3（工作日不可配送）/End -->
@@ -1668,7 +1668,7 @@ if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT 
 <IFRAME src="http://adpub.yaolan.com/afp/door/;ap=29;ct=if;pu=4c451ece10ff899d0001;/?" NAME="adFrame_29" WIDTH="220" HEIGHT="90" FRAMEBORDER="no" BORDER="0" MARGINWIDTH="0" MARGINHEIGHT="0" SCROLLING="no">
 <SCRIPT LANGUAGE="JavaScript1.1">
 var browVersion = parseInt(navigator.appVersion);
-if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT LANGUAGE=\"Javascript1.1\" SRC=\" http://adpub.yaolan.com/afp/door/;ap=29;ct=js;pu=4c451ece10ff899d0001;/?\" charset='utf-8'><\/SCR"+"IPT>");
+if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT LANGUAGE=\"Javascript1.1\" SRC=\" http://adpub.yaolan.com/afp/door/;ap=29;ct=js;pu=4c451ece10ff899d0001;/?\" charset="utf-8"><\/SCR"+"IPT>");
 </SCRIPT>
 </IFRAME>
 <!-- 首页button4/End -->
@@ -1681,7 +1681,7 @@ if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT 
 <IFRAME src="http://adpub.yaolan.com/afp/door/;ap=25;ct=if;pu=4c451ece10ff899d0001;/?" NAME="adFrame_25" WIDTH="715" HEIGHT="90" FRAMEBORDER="no" BORDER="0" MARGINWIDTH="0" MARGINHEIGHT="0" SCROLLING="no">
 <SCRIPT LANGUAGE="JavaScript1.1">
 var browVersion = parseInt(navigator.appVersion);
-if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT LANGUAGE=\"Javascript1.1\" SRC=\" http://adpub.yaolan.com/afp/door/;ap=25;ct=js;pu=4c451ece10ff899d0001;/?\" charset='utf-8'><\/SCR"+"IPT>");
+if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT LANGUAGE=\"Javascript1.1\" SRC=\" http://adpub.yaolan.com/afp/door/;ap=25;ct=js;pu=4c451ece10ff899d0001;/?\" charset="utf-8"><\/SCR"+"IPT>");
 </SCRIPT>
 </IFRAME>
 <!-- 首页banner5/End -->
@@ -1691,7 +1691,7 @@ if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT 
 <IFRAME src="http://adpub.yaolan.com/afp/door/;ap=30;ct=if;pu=4c451ece10ff899d0001;/?" NAME="adFrame_30" WIDTH="220" HEIGHT="90" FRAMEBORDER="no" BORDER="0" MARGINWIDTH="0" MARGINHEIGHT="0" SCROLLING="no">
 <SCRIPT LANGUAGE="JavaScript1.1">
 var browVersion = parseInt(navigator.appVersion);
-if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT LANGUAGE=\"Javascript1.1\" SRC=\" http://adpub.yaolan.com/afp/door/;ap=30;ct=js;pu=4c451ece10ff899d0001;/?\" charset='utf-8'><\/SCR"+"IPT>");
+if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT LANGUAGE=\"Javascript1.1\" SRC=\" http://adpub.yaolan.com/afp/door/;ap=30;ct=js;pu=4c451ece10ff899d0001;/?\" charset="utf-8"><\/SCR"+"IPT>");
 </SCRIPT>
 </IFRAME>
 <!-- 首页button5/End -->
@@ -1739,12 +1739,12 @@ if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT 
 <script type="text/javascript">
 	//window.onload=function(){
 
-	//var ClinkBtn=document.getElementById('click_close');
-	//var CloseBox=document.getElementById('close_box');
+	//var ClinkBtn=document.getElementById("click_close");
+	//var CloseBox=document.getElementById("close_box");
 	//ClinkBtn.onclick=function(){
 
-	//	if(CloseBox.style.display=='block'){
-	//		CloseBox.style.display='none';
+	//	if(CloseBox.style.display=="block"){
+	//		CloseBox.style.display="none";
 	//		}
 	//	else{}
 		
@@ -1754,20 +1754,20 @@ if (navigator.appName=="Netscape" && browVersion<=4) document.write("<SCR"+"IPT 
 	
 	window.onload=function(){
 
-		var ClinkBtn=document.getElementById('click_close');
-		var CloseBox=document.getElementById('close_box');
+		var ClinkBtn=document.getElementById("click_close");
+		var CloseBox=document.getElementById("close_box");
 		var oFuce=document.getElementById("fuce");
 		var oF=document.getElementById("fuceng_5.1");
 		ClinkBtn.onclick=function(){
-			if(CloseBox.style.display=='block'){
-				CloseBox.style.display='none';
-				oF.style.display='block';
+			if(CloseBox.style.display=="block"){
+				CloseBox.style.display="none";
+				oF.style.display="block";
 			}
 		
 		};
 		oFuce.onclick=function(){
-			CloseBox.style.display='block';
-			oF.style.display='none';
+			CloseBox.style.display="block";
+			oF.style.display="none";
 		}
 	};
 
@@ -1791,7 +1791,7 @@ _BFD.script = document.createElement("script");
 _BFD.script.type = "text/javascript";
 _BFD.script.async = true;
 _BFD.script.charset = "utf-8";
-_BFD.script.src = (('https:' == document.location.protocol?'https://ssl-static1':'http://static1')+'.baifendian.com/service/yaolan/yl_wenku.js');
+_BFD.script.src = (("https:" == document.location.protocol?"https://ssl-static1":"http://static1")+".baifendian.com/service/yaolan/yl_wenku.js");
 document.getElementsByTagName("head")[0].appendChild(_BFD.script);
 </script>
 <script type="text/javascript" src="http://f.yaolanimage.cn/assets/js/lyDialog.js"></script>
@@ -1967,10 +1967,10 @@ fs.writeFile("./aaa.json", JSON.stringify(config))
 
 
 const HOST = process.env.HOST || process.argv[2] || "0.0.0.0";
-const BASES = (process.env.BASES || process.argv[3] || '').split(',');
+const BASES = (process.env.BASES || process.argv[3] || "").split(",");
 const PORT = process.env.PORT;
 const BROADCAST = process.env.BROADCAST;
-const REGISTRY = JSON.parse(process.env.REGISTRY || '{"active":true}');
+const REGISTRY = JSON.parse(process.env.REGISTRY || "{"active":true}");
 
 let seneca = new Seneca(container, {
 	tag: pluginName
@@ -1978,8 +1978,8 @@ let seneca = new Seneca(container, {
 
 seneca.initPlugin();
 seneca.seneca
-	// .use('consul-registry', {
-	// 	host: '47.92.126.120'
+	// .use("consul-registry", {
+	// 	host: "47.92.126.120"
 	// })
 	// .use("mesh", {
 	// 	auto: true,

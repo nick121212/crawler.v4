@@ -9,8 +9,6 @@ export declare class MQueuePlugin {
      * @param options
      * @param globalOptions
      */
-    addToQueue({config}: {
-        config: any;
-    }, options?: any, globalOptions?: any): Promise<void>;
+    addToQueue(config: any, options?: any, globalOptions?: any): Promise<void>;
     init(msg: any, options: any, globalOptions: any): Promise<void>;
 }

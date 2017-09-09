@@ -15,19 +15,18 @@ module.exports = {
     "plugins": {
         "pre": {
             "redis-store": {
-                "uri": "redis://123.59.44.152:6379",
+                "uri": "redis://:crawler@47.92.126.120:6379",
                 "options": {}
             },
             "consul-registry": {
-                "host": "123.59.44.152"
+                "host": "47.92.126.120"
             },
             "mesh": {
-                "isbase": true,
+                "isbase": false,
                 "auto": true,
                 "host": process.env.HOST,
                 "stop": true,
                 "sneeze": {
-                    // "silent": JSON.parse(SILENT),
                     "silent": true,
                     "swim": { interval: 1111 }
                 },

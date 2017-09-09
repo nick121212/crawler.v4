@@ -1,7 +1,7 @@
 
 
 export const Types = {
-    engine: 'modelproxy-engine'
+    engine: "modelproxy-engine"
 };
 
 

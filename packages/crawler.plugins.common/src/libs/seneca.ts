@@ -13,6 +13,7 @@ import { IConfigService, ConfigService } from './config';
 import { IConfig } from './config';
 import { PluginBase } from "../index";
 import { MathPlugin } from "../demo/plugins/math";
+import { IValidate } from "./decorator/validate";
 
 @injectable()
 export class Seneca<T extends IConfig> {
@@ -25,7 +26,7 @@ export class Seneca<T extends IConfig> {
         this._container = container;
         this.config = new ConfigService<T>();
 
-        const { senecaOptions } = this.config.config.options;
+        const { senecaOptions = {} } = this.config.config.options || {};
 
         this._seneca = OriginSeneca(Object.assign({}, options, senecaOptions));
 
@@ -55,6 +56,32 @@ export class Seneca<T extends IConfig> {
     }
 
     /**
+     * 包装验证方法
+     * @param plugin 
+     */
+    executeValudate(plugin: any) {
+        let validateList: Array<IValidate> = Reflect.getMetadata(SenecaConfig._validate, plugin.constructor) || [];
+
+        validateList && validateList.forEach((validate: IValidate) => {
+            let originFun = plugin[validate.key];
+
+            plugin[validate.key] = async (...args: Array<any>) => {
+                if (validate.joi) {
+                    let result = validate.joi.validate(args[validate.index], validate.options);
+
+                    if (result.error) {
+                        throw result.error;
+                    }
+                }
+
+                return await originFun.apply(plugin, args);
+            }
+        });
+
+        return plugin;
+    }
+
+    /**
      * 包装act
      * @param 参数
      * target: 包装的方法所在的类
@@ -63,14 +90,14 @@ export class Seneca<T extends IConfig> {
      * options: 额外参数 
      */
     initAct(plugin: any, { target, partten, key, options = {} }: IAdd, globalOptions: any) {
+        // plugin = this.executeValudate(plugin);
         this._seneca.add(partten, options, async (msg: Object, reply: any) => {
             try {
                 let result = await plugin[key](msg, Object.assign({ seneca: reply.seneca }, options, {}), globalOptions);
 
-                reply(null, result);
+                reply && reply(null, result);
             } catch (e) {
-                console.log(e);
-                reply(e);
+                reply && reply(e);
             }
         });
     }
@@ -84,13 +111,14 @@ export class Seneca<T extends IConfig> {
      * options: 额外参数 
      */
     initWrap(plugin: any, { target, partten, key, options = {} }: IWrap, globalOptions: Object) {
+        // plugin = this.executeValudate(plugin);
         this._seneca.wrap(partten, options, async (msg: Object, reply: any) => {
             try {
                 let result = await plugin[key](msg, Object.assign({ seneca: reply.seneca }, options, {}), globalOptions);
 
                 reply.seneca.prior(msg, reply);
             } catch (e) {
-                reply(e);
+                reply && reply(e);
             }
         });
     }
@@ -107,7 +135,7 @@ export class Seneca<T extends IConfig> {
                     this._seneca.use(key, element || {});
                 }
             }
-            this.initPlugin(this.config.config.options);
+            this.initPlugin(this.config.config.options || {});
             for (let key in this.config.config.plugins.after) {
                 if (this.config.config.plugins.after.hasOwnProperty(key)) {
                     let element = this.config.config.plugins.after[key];
@@ -116,7 +144,7 @@ export class Seneca<T extends IConfig> {
                 }
             }
         } else {
-            // this.initPlugin();
+            this.initPlugin({});
         }
     }
 
@@ -124,7 +152,13 @@ export class Seneca<T extends IConfig> {
      * 初始化插件
      */
     initPlugin(options: { [key: string]: any } = {}): void {
-        const plugins: Array<PluginBase> = this._container.getAll<PluginBase>(Types._plugin);
+        let plugins: Array<PluginBase>;
+
+        try {
+            plugins = this._container.getAll<PluginBase>(Types._plugin);
+        } catch (e) {
+            return;
+        }
 
         if (plugins) {
             plugins.forEach((plugin: PluginBase) => {
@@ -134,9 +168,9 @@ export class Seneca<T extends IConfig> {
                 let initList: Array<IAdd> = Reflect.getMetadata(SenecaConfig._init, plugin.constructor) || [];
 
                 this._seneca.use(() => {
-                    addList.forEach((add: IAdd) => this.initAct(plugin, add, options[pluginInfo.name]));
-                    wrapList.forEach((wrap: IWrap) => this.initWrap(plugin, wrap, options[pluginInfo.name]));
-                    initList.forEach((init: IInit) => this.initAct(plugin, Object.assign({ partten: `init:${pluginInfo.name}` }, init, {}), options[pluginInfo.name]));
+                    addList.forEach((add: IAdd) => this.initAct(this.executeValudate(plugin), add, options[pluginInfo.name]));
+                    wrapList.forEach((wrap: IWrap) => this.initWrap(this.executeValudate(plugin), wrap, options[pluginInfo.name]));
+                    initList.forEach((init: IInit) => this.initAct(this.executeValudate(plugin), Object.assign({ partten: `init:${pluginInfo.name}` }, init, {}), options[pluginInfo.name]));
 
                     return pluginInfo.name;
                 });

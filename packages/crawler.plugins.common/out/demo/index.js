@@ -43,23 +43,29 @@ var math_1_1 = require("./plugins/math.1");
 var aaa_1 = require("./aaa");
 var index_2 = require("../index");
 var container = new inversify_1.Container();
-var seneca = new index_1.Seneca(container, { log: "test" });
 container.bind(index_2.Types._plugin).to(math_1.MathPlugin).inSingletonScope().whenTargetNamed("MathPlugin");
 container.bind(index_2.Types._plugin).to(math_1_1.MathPlugin1).inSingletonScope().whenTargetNamed("MathPlugin1");
 container.bind(aaa_1.aaa).toSelf();
-seneca.initPlugin();
+var seneca = new index_1.Seneca(container, { log: "test" });
 seneca.seneca.ready(function () { return __awaiter(_this, void 0, void 0, function () {
-    var add, remove;
+    var add, remove, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, seneca.seneca.actAsync("role:math,cmd:add", { left: 1, right: 2 })];
+            case 0:
+                _a.trys.push([0, 3, , 4]);
+                return [4 /*yield*/, seneca.seneca.actAsync("role:math,cmd:add", { left: 1, right: 2 })];
             case 1:
                 add = _a.sent();
                 return [4 /*yield*/, seneca.seneca.actAsync("role:math,cmd:remove", { left: 1, right: 2 })];
             case 2:
                 remove = _a.sent();
                 console.log(add.data + remove.data);
-                return [2 /*return*/];
+                return [3 /*break*/, 4];
+            case 3:
+                e_1 = _a.sent();
+                console.log(e_1.message);
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); });

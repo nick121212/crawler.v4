@@ -3,7 +3,7 @@ import { aaa } from "../aaa";
 export declare class MathPlugin extends PluginBase {
     private aa;
     constructor(aa: aaa);
-    init(a: any, b: any, c: any): Promise<any>;
+    init(msg: any): Promise<any>;
     wrap(msg: any): void;
     add(msg: any): {
         data: number;
