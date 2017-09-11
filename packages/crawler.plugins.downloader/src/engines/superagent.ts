@@ -1,13 +1,13 @@
-import * as request from 'superagent';
+import * as request from "superagent";
 
-import { modelProxy, IProxyCtx, IInterfaceModel, IExecute } from 'modelproxy';
-import { injectable } from 'inversify';
+import { modelProxy, IProxyCtx, IInterfaceModel, IExecute } from "modelproxy";
+import { injectable } from "inversify";
 import { URLSearchParams } from "url";
 
-require('superagent-charset')(request);
+require("superagent-charset")(request);
 @injectable()
 export class SuperAgentEngine extends modelProxy.BaseEngine {
-    public engineName: string = "superagent";
+    public engineName = "superagent";
     /**
      * 构造
      */
@@ -19,7 +19,7 @@ export class SuperAgentEngine extends modelProxy.BaseEngine {
     /**
      * 初始化中间件
      */
-    init(): void {
+    public init(): void {
         this.use(async (ctx: IProxyCtx, next: Function): Promise<any> => {
             let path = this.getFullPath(ctx.instance || {}, ctx.executeInfo || {});
             let { method = "" } = ctx.instance || {};
@@ -55,7 +55,7 @@ export class SuperAgentEngine extends modelProxy.BaseEngine {
      * @param instance 接口的实例
      * @param options  参数
      */
-    async proxy(instance: IInterfaceModel, options: IExecute): Promise<any> {
+    public async proxy(instance: IInterfaceModel, options: IExecute): Promise<any> {
         const fn = this.callback(() => { });
         const ctx: IProxyCtx = {
             instance: instance,

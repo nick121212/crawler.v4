@@ -49,31 +49,39 @@ export class ExecutePluginService {
             let plugin = plugins[index];
             let jsonata = {};
 
-            // 处理需要的数据
-            if (plugin.jsonata) {
-                let ddd = await seneca.actAsync(`role:crawler.plugin.transform,cmd:muti`, {
-                    data: rtn,
-                    expressions: plugin.jsonata
-                });
-                ddd.result.forEach((r: any) => {
-                    jsonata = Object.assign({}, jsonata, r || {});
-                });
-                // console.log(`${plugin.partten}`, "调用transform:", jsonata);
-            }
+            try {
 
-            console.log(`开始调用${plugin.partten}-----------------;`);
-            // 调用接口
-            let ccc = await seneca.actAsync(plugin.partten, Object.assign({}, jsonata, plugin.data));
 
-            console.log(`调用${plugin.partten}成功！----------------`);
+                // 处理需要的数据
+                if (plugin.jsonata) {
+                    let ddd = await seneca.actAsync(`role:crawler.plugin.transform,cmd:muti`, {
+                        data: rtn,
+                        expressions: plugin.jsonata
+                    });
+                    ddd.result.forEach((r: any) => {
+                        jsonata = Object.assign({}, jsonata, r || {});
+                    });
+                    // console.log(`${plugin.partten}`, "调用transform:", jsonata);
+                }
 
-            if (plugin.result) {
-                let ddd = await seneca.actAsync(`role:crawler.plugin.transform,cmd:single`, {
-                    data: ccc,
-                    expression: plugin.result
-                });
+                console.log(`开始调用${plugin.partten}-----------------;`);
+                // 调用接口
+                let ccc = await seneca.actAsync(plugin.partten, Object.assign({}, jsonata, plugin.data));
 
-                rtn = seneca.util.deepextend({}, rtn, ddd.result || {});
+                console.log(`调用${plugin.partten}成功！----------------`);
+
+                if (plugin.result) {
+                    let ddd = await seneca.actAsync(`role:crawler.plugin.transform,cmd:single`, {
+                        data: ccc,
+                        expression: plugin.result
+                    });
+
+                    rtn = seneca.util.deepextend({}, rtn, ddd.result || {});
+                }
+
+            } catch (e) {
+                console.log(`调用${plugin.partten}失败！----------------`);
+                throw e;
             }
 
             index++;
