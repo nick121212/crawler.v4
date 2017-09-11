@@ -18,7 +18,7 @@ export class HtmlPlugin {
             return [];
         }
 
-        console.log("crawler.plugins.html  分析html开始！----------------");
+        console.log("crawler.plugins.html  分析html开始！----------------", queueItem, pages);
 
         let urls = [];
         let results: Array<any> = [];

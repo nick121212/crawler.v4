@@ -63,7 +63,7 @@ var HtmlPlugin = (function () {
                         if (!queueItem) {
                             return [2 /*return*/, []];
                         }
-                        console.log("crawler.plugins.html  分析html开始！----------------");
+                        console.log("crawler.plugins.html  分析html开始！----------------", queueItem, pages);
                         urls = [];
                         results = [];
                         rules = _.filter(pages, function (_a) {
