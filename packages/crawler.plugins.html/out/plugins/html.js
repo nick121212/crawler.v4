@@ -72,7 +72,7 @@ var HtmlPlugin = (function () {
                         });
                         if (!(rules.length && !queueItem.responseBody)) return [3 /*break*/, 2];
                         expireSeneca = options.seneca.delegate({ expire$: 15 });
-                        entity = expireSeneca.make('downloads');
+                        entity = expireSeneca.make("downloads");
                         return [4 /*yield*/, entity.loadAsync({ id: queueItem._id })];
                     case 1:
                         download = _c.sent();

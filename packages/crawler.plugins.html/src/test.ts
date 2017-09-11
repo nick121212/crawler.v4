@@ -1961,40 +1961,12 @@ const config = {
 	}
 };
 
-var fs = require("fs");
-
-fs.writeFile("./aaa.json", JSON.stringify(config))
-
-
-const HOST = process.env.HOST || process.argv[2] || "0.0.0.0";
-const BASES = (process.env.BASES || process.argv[3] || "").split(",");
-const PORT = process.env.PORT;
-const BROADCAST = process.env.BROADCAST;
-const REGISTRY = JSON.parse(process.env.REGISTRY || "{"active":true}");
-
 let seneca = new Seneca(container, {
 	tag: pluginName
 });
 
 seneca.initPlugin();
 seneca.seneca
-	// .use("consul-registry", {
-	// 	host: "47.92.126.120"
-	// })
-	// .use("mesh", {
-	// 	auto: true,
-	// 	isbase: true,
-	// 	host: HOST,
-	// 	port: PORT,
-	// 	discover: {
-	// 		registry: {
-	// 			active: true
-	// 		}
-	// 	},
-	// 	listen: [{
-	// 		pin: `role:${pluginName},cmd:analyze`,
-	// 	}]
-	// })
 	.client({
 		"host": "172.16.112.215",
 		"port": 9002

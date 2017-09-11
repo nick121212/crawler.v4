@@ -40,19 +40,13 @@ require("reflect-metadata");
 var crawler_plugins_common_1 = require("crawler.plugins.common");
 var container_1 = require("./container");
 var constants_1 = require("./constants");
-var HOST = process.env.HOST || process.argv[2] || "0.0.0.0";
-var BASES = (process.env.BASES || process.argv[3] || '').split(',');
-var PORT = process.env.PORT;
-var BROADCAST = process.env.BROADCAST;
-var REGISTRY = JSON.parse(process.env.REGISTRY || '{"active":true}');
 var seneca = new crawler_plugins_common_1.Seneca(container_1.container, {
     tag: constants_1.pluginName
 });
-// seneca.initPlugin();
 seneca.seneca
     .ready(function () { return __awaiter(_this, void 0, void 0, function () {
     return __generator(this, function (_a) {
-        console.log("ready");
+        console.log(" crawler.plugins.html ready");
         return [2 /*return*/];
     });
 }); });
