@@ -54,7 +54,7 @@ var HtmlPlugin = (function () {
     function HtmlPlugin() {
     }
     HtmlPlugin.prototype.html = function (_a, options) {
-        var queueItem = _a.queueItem, pages = _a.pages;
+        var _b = _a.queueItem, queueItem = _b === void 0 ? {} : _b, _c = _a.pages, pages = _c === void 0 ? [] : _c;
         return __awaiter(this, void 0, void 0, function () {
             var urls, results, rules, expireSeneca, entity, download, _i, rules_1, rule, _a, _b;
             return __generator(this, function (_c) {
@@ -63,6 +63,7 @@ var HtmlPlugin = (function () {
                         if (!queueItem) {
                             return [2 /*return*/, []];
                         }
+                        console.log("crawler.plugins.html  分析html开始！----------------");
                         urls = [];
                         results = [];
                         rules = _.filter(pages, function (_a) {
@@ -76,7 +77,6 @@ var HtmlPlugin = (function () {
                         return [4 /*yield*/, entity.loadAsync({ id: queueItem._id })];
                     case 1:
                         download = _c.sent();
-                        // console.log(download, queueItem);
                         if (download) {
                             queueItem.responseBody = download.responseBody;
                         }
@@ -96,7 +96,9 @@ var HtmlPlugin = (function () {
                     case 5:
                         _i++;
                         return [3 /*break*/, 3];
-                    case 6: return [2 /*return*/, results];
+                    case 6:
+                        console.log("crawler.plugins.html  分析html结束！----------------");
+                        return [2 /*return*/, results];
                 }
             });
         });

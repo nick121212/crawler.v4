@@ -13,10 +13,12 @@ import { pluginName } from "../constants";
 export class HtmlPlugin {
 
     @Add(`role:${pluginName},cmd:html`)
-    public async html({ queueItem, pages }: { queueItem: any, pages: Array<any> }, options: any) {
+    public async html({ queueItem = {}, pages = [] }: { queueItem: any, pages: Array<any> }, options: any) {
         if (!queueItem) {
             return [];
         }
+
+        console.log("crawler.plugins.html  分析html开始！----------------");
 
         let urls = [];
         let results: Array<any> = [];
@@ -30,7 +32,7 @@ export class HtmlPlugin {
             let expireSeneca = options.seneca.delegate({ expire$: 15 });
             let entity = expireSeneca.make("downloads");
             let download = await entity.loadAsync({ id: queueItem._id });
-            // console.log(download, queueItem);
+
             if (download) {
                 queueItem.responseBody = download.responseBody;
             }
@@ -42,6 +44,8 @@ export class HtmlPlugin {
                 results.push((await analysis.doDeal(queueItem, rule)));
             }
         }
+
+        console.log("crawler.plugins.html  分析html结束！----------------");
 
         return results;
     }
