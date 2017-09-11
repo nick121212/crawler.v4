@@ -61,11 +61,11 @@ export class ExecutePluginService {
                 // console.log(`${plugin.partten}`, "调用transform:", jsonata);
             }
 
-            // console.log(`开始调用${plugin.partten};参数为：${JSON.stringify(Object.assign({}, jsonata, plugin.data))}`);
+            console.log(`开始调用${plugin.partten}-----------------;`);
             // 调用接口
             let ccc = await seneca.actAsync(plugin.partten, Object.assign({}, jsonata, plugin.data));
 
-            // console.log(`调用${plugin.partten}成功！`);
+            console.log(`调用${plugin.partten}成功！----------------`);
 
             if (plugin.result) {
                 let ddd = await seneca.actAsync(`role:crawler.plugin.transform,cmd:single`, {
