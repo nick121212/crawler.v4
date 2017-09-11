@@ -1,10 +1,10 @@
-import * as seneca from 'seneca';
-import * as amqplib from 'amqplib';
-import * as bluebird from 'bluebird';
-import * as _ from 'lodash';
+import * as seneca from "seneca";
+import * as amqplib from "amqplib";
+import * as bluebird from "bluebird";
+import * as _ from "lodash";
 import { injectable } from "inversify";
 
-process.on('unhandledRejection', (reason, p) => {
+process.on("unhandledRejection", (reason, p) => {
     console.log("Unhandled Rejection at: Promise ", p, " reason: ", reason);
 });
 
@@ -13,12 +13,12 @@ process.on('unhandledRejection', (reason, p) => {
  */
 @injectable()
 export class MQueueService {
+    public queueName: string;
+
     private connection: amqplib.Connection;
     private channel: amqplib.Channel;
     private consume: amqplib.Replies.Consume;
     private exchange: amqplib.Replies.AssertExchange;
-    public queueName: string;
-    // public config: any;
 
     /**
      * 构造函数
@@ -26,30 +26,16 @@ export class MQueueService {
     constructor() {
         return this;
     }
-    /**
-     * 初始化队列
-     */
-    private async initQueue(rabbitmqConfig: { url: string, options: any }): Promise<void> {
-        if (this.channel) {
-            return;
-        }
-
-        this.connection = await amqplib.connect(rabbitmqConfig.url, rabbitmqConfig.options);
-        this.channel = await this.connection.createConfirmChannel();
-
-        this.channel.on("error", (err) => {
-            console.log("channel error", err);
-        });
-        this.channel.on("close", () => {
-            console.log("channel closed!");
-        });
-        console.log("mq connection ok!");
-    }
 
     /**
      * 初始化消费队列
      */
-    async initConsume(rabbitmqConfig: { url: string, options: any }, queueName: string, consumeMsg: Function, prefetch: number = 1): Promise<boolean> {
+    public async initConsume(
+        rabbitmqConfig: { url: string, options: any },
+        queueName: string,
+        consumeMsg: Function,
+        prefetch = 1
+    ): Promise<boolean> {
         let count = 0, exchange: amqplib.Replies.AssertExchange, queue: amqplib.Replies.AssertQueue;
 
         this.queueName = queueName;
@@ -62,22 +48,20 @@ export class MQueueService {
 
             this.exchange = exchange;
             await this.channel.bindQueue(queue.queue, exchange.exchange, queueName);
-        }
-        catch (e) {
-            console.log(e.message);
-            return false;
-        }
-        try {
+
             await this.channel.prefetch(prefetch);
             console.log(`开始消费queue:${queue.queue}`);
             this.consume = await this.channel.consume(queue.queue, async (msg: amqplib.Message) => {
                 await bluebird.delay(3000);
                 await consumeMsg(msg).then((data: any) => {
-                    // console.log(data);
-                    this.channel && this.channel.nack(msg);
+                    if (this.channel) {
+                        this.channel.ack(msg);
+                    }
                 }).catch((err: Error) => {
-                    console.log(err);
-                    this.channel && this.channel.nack(msg);
+                    console.log("爬取失败！");
+                    if (this.channel) {
+                        this.channel.nack(msg);
+                    }
                 });
             }, { noAck: false, exclusive: false });
             console.info(queue.consumerCount, queue.messageCount);
@@ -87,12 +71,12 @@ export class MQueueService {
             return false;
         }
 
-        return queue.consumerCount + queue.messageCount == 0;
+        return queue.consumerCount + queue.messageCount === 0;
     }
 
-    addItemsToQueue(items: Array<any>) {
+    public addItemsToQueue(items: Array<any>, routingKey?: string) {
         items.forEach((item) => {
-            this.channel.publish(this.exchange.exchange, this.queueName, new Buffer(JSON.stringify(item)), {});
+            this.channel.publish(this.exchange.exchange, routingKey || this.queueName, new Buffer(JSON.stringify(item)), {});
         });
     }
 
@@ -117,5 +101,25 @@ export class MQueueService {
         } catch (e) {
             console.log(e);
         }
+    }
+
+    /**
+    * 初始化队列
+    */
+    private async initQueue(rabbitmqConfig: { url: string, options: any }): Promise<void> {
+        if (this.channel) {
+            return;
+        }
+
+        this.connection = await amqplib.connect(rabbitmqConfig.url, rabbitmqConfig.options);
+        this.channel = await this.connection.createConfirmChannel();
+
+        this.channel.on("error", (err) => {
+            console.log("channel error", err);
+        });
+        this.channel.on("close", () => {
+            console.log("channel closed!");
+        });
+        console.log("mq connection ok!");
     }
 }

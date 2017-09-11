@@ -39,15 +39,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 var crawler_plugins_common_1 = require("crawler.plugins.common");
 var container_1 = require("./container");
-// import config from './config/test';
+var constants_1 = require("./constants");
+// import config from "./config/test";
 var seneca = new crawler_plugins_common_1.Seneca(container_1.container, {
     tag: "crawler.plugins.schedule"
 });
 seneca.seneca
     .ready(function () { return __awaiter(_this, void 0, void 0, function () {
     return __generator(this, function (_a) {
-        console.log("ready");
-        return [2 /*return*/];
+        switch (_a.label) {
+            case 0:
+                console.log("crawler.plugins.schedule ready!");
+                return [4 /*yield*/, seneca.seneca.actAsync("role:" + constants_1.pluginTaskName + ",cmd:add", require("./config/milove").default)];
+            case 1:
+                _a.sent();
+                return [4 /*yield*/, seneca.seneca.actAsync("role:" + constants_1.pluginTaskName + ",cmd:add", require("./config/milove.blog").default)];
+            case 2:
+                _a.sent();
+                return [2 /*return*/];
+        }
     });
 }); });
 //# sourceMappingURL=index.js.map

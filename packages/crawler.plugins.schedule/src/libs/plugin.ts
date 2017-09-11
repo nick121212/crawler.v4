@@ -1,10 +1,11 @@
-import * as Seneca from 'seneca';
-import * as bluebird from 'bluebird';
-import * as _ from 'lodash';
-import * as amqplib from 'amqplib';
+import * as Seneca from "seneca";
+import * as bluebird from "bluebird";
+import * as _ from "lodash";
+import * as amqplib from "amqplib";
 import { injectable } from "inversify";
+import * as pathToRegexp from "path-to-regexp";
 
-import { pluginTaskName, pluginResultName } from '../constants';
+import { pluginTaskName, pluginResultName } from "../constants";
 
 export interface IPlugin {
     partten: string;
@@ -14,21 +15,11 @@ export interface IPlugin {
 @injectable()
 
 export class ExecutePluginService {
-    /**
-     * 从message中提取queueItem数据
-     * @param msg   消息
-     */
-    public getQueueItemFromMsg(msg: amqplib.Message): any {
-        let queueItem;
+    public async preExecute(seneca: any, config: any, msg?: amqplib.Message): Promise<any> {
+        let queueItem = msg ? this.getQueueItemFromMsg(msg) : null;
+        let msgFlow: Array<any> = this.getFieldFlow(queueItem || {}, config.pages || []);
 
-        try {
-            queueItem = JSON.parse(msg.content.toString());
-        } catch (e) {
-            console.log(e);
-            throw e;
-        }
-
-        return queueItem;
+        return this.execute(seneca, msgFlow, msg);
     }
 
     /**
@@ -37,11 +28,15 @@ export class ExecutePluginService {
      * @param plugins 
      * @param msg 
      */
-    public async execute(seneca: any, plugins: Array<any>, msg?: amqplib.Message) {
+    public async execute(seneca: any, plugins: Array<any>, msg?: amqplib.Message): Promise<any> {
         let rtn: any = {
             queueItem: msg ? this.getQueueItemFromMsg(msg) : null
         }, index = 0;
         let nn = Date.now();
+
+        if (rtn.queueItem) {
+            console.log(rtn.queueItem.url);
+        }
 
         // 验证partten的合法性
         this.checkParttens(seneca, plugins);
@@ -80,7 +75,7 @@ export class ExecutePluginService {
             index++;
         }
 
-        console.log(Date.now() - nn);
+        console.log("调用时间", Date.now() - nn);
 
         return rtn;
     }
@@ -99,5 +94,39 @@ export class ExecutePluginService {
         });
 
         return true;
+    }
+    /**
+    * 从message中提取queueItem数据
+    * @param msg   消息
+    */
+    private getQueueItemFromMsg(msg: amqplib.Message): any {
+        let queueItem;
+
+        try {
+            queueItem = JSON.parse(msg.content.toString());
+        } catch (e) {
+            console.log(e);
+            throw e;
+        }
+
+        return queueItem;
+    }
+
+    private getFieldFlow(queueItem: any, pages: Array<any>): Array<any> {
+        let rules = _.filter(pages, ({ path }) => {
+            let pathToReg = pathToRegexp(path.toString(), []);
+
+            return pathToReg.test(queueItem.path || "");
+        });
+
+        if (!rules.length) {
+            console.error(`没有找到${queueItem.url}的匹配规则！`);
+
+            return [];
+        }
+
+        console.log(_.first(rules).title || "");
+
+        return _.first(rules).msgFlow || [];
     }
 };

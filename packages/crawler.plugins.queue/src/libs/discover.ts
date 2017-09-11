@@ -161,7 +161,7 @@ export class DiscoverLinks {
             if (res) {
                 return false;
             }
-        })
+        });
 
         return res;
     }

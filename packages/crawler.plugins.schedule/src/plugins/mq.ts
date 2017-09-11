@@ -10,7 +10,6 @@ import { MQueueService } from '../libs/mq';
 @Plugin(pluginMqName)
 @injectable()
 export class MQueuePlugin {
-
     /**
      * 注入一个mq服务
      */
@@ -24,18 +23,18 @@ export class MQueuePlugin {
      * @param globalOptions 
      */
     @Add(`role:${pluginMqName},cmd:addItemToQueue`)
-    async addToQueue(config: any, options?: any, globalOptions?: any) {
+    private async addToQueue(config: any, options?: any, globalOptions?: any) {
         let mqService: any = await options.seneca.actAsync(`role:${pluginTaskName},cmd:getOne`, config);
 
-        if(mqService && config.items && config.items.length){
-            mqService.addItemsToQueue(config.items);
+        if (mqService && config.items && config.items.length) {
+            mqService.addItemsToQueue(config.items, config.routingKey);
         }
 
-        return ;
+        return;
     }
 
     @Init()
-    async init(msg: any, options: any, globalOptions: any) {
+    private async init(msg: any, options: any, globalOptions: any) {
         await bluebird.delay(200);
     }
 }

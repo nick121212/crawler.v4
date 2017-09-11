@@ -17,7 +17,7 @@ export class QueuePlugin {
      * @param param0 
      */
     @Add(`role:${pluginName},cmd:analyze`)
-    async getUrls({ queueItem, discoverConfig = {}, queueConfig = {} }: { queueItem: IQueueItem, discoverConfig: any, queueConfig: any }) {
+    private async getUrls({ queueItem, discoverConfig = {}, queueConfig = {} }: { queueItem: IQueueItem, discoverConfig: any, queueConfig: any }) {
         let discoverLink = new DiscoverLinks(discoverConfig);
         let queue = new Queue(queueConfig);
         let urls: Array<string> = await discoverLink.discoverResources(queueItem);
@@ -38,7 +38,7 @@ export class QueuePlugin {
      * @param param0 
      */
     @Add(`role:${pluginName},cmd:queue`)
-    async queueUrl({ urls, queueItem, queueConfig = {} }: any) {
+    private async queueUrl({ urls, queueItem, queueConfig = {} }: any) {
         let queue = new Queue(queueConfig);
 
         return _.map(urls, (url: string) => {

@@ -67,7 +67,7 @@ var MQueuePlugin = (function () {
                     case 1:
                         mqService = _a.sent();
                         if (mqService && config.items && config.items.length) {
-                            mqService.addItemsToQueue(config.items);
+                            mqService.addItemsToQueue(config.items, config.routingKey);
                         }
                         return [2 /*return*/];
                 }

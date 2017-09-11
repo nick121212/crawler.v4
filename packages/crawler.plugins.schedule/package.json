@@ -19,6 +19,7 @@
     "inversify": "^4.2.0",
     "json-pointer": "^0.6.0",
     "lodash": "^4.17.4",
+    "path-to-regexp": "^2.0.0",
     "reflect-metadata": "^0.1.10",
     "seneca": "^3.4.1",
     "seneca-consul-registry": "^0.1.0",

@@ -47,14 +47,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var amqplib = require("amqplib");
 var bluebird = require("bluebird");
 var inversify_1 = require("inversify");
-process.on('unhandledRejection', function (reason, p) {
+process.on("unhandledRejection", function (reason, p) {
     console.log("Unhandled Rejection at: Promise ", p, " reason: ", reason);
 });
 /**
  * agenda服务
  */
 var MQueueService = (function () {
-    // public config: any;
     /**
      * 构造函数
      */
@@ -62,8 +61,122 @@ var MQueueService = (function () {
         return this;
     }
     /**
-     * 初始化队列
+     * 初始化消费队列
      */
+    MQueueService.prototype.initConsume = function (rabbitmqConfig, queueName, consumeMsg, prefetch) {
+        if (prefetch === void 0) { prefetch = 1; }
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            var count, exchange, queue, _a, e_1;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        count = 0;
+                        this.queueName = queueName;
+                        _b.label = 1;
+                    case 1:
+                        _b.trys.push([1, 8, , 9]);
+                        return [4 /*yield*/, this.initQueue(rabbitmqConfig)];
+                    case 2:
+                        _b.sent();
+                        return [4 /*yield*/, this.channel.assertExchange("amqp.topic", "topic", { durable: true })];
+                    case 3:
+                        exchange = _b.sent();
+                        return [4 /*yield*/, this.channel.assertQueue(queueName, { durable: true, exclusive: false })];
+                    case 4:
+                        queue = _b.sent();
+                        this.exchange = exchange;
+                        return [4 /*yield*/, this.channel.bindQueue(queue.queue, exchange.exchange, queueName)];
+                    case 5:
+                        _b.sent();
+                        return [4 /*yield*/, this.channel.prefetch(prefetch)];
+                    case 6:
+                        _b.sent();
+                        console.log("\u5F00\u59CB\u6D88\u8D39queue:" + queue.queue);
+                        _a = this;
+                        return [4 /*yield*/, this.channel.consume(queue.queue, function (msg) { return __awaiter(_this, void 0, void 0, function () {
+                                var _this = this;
+                                return __generator(this, function (_a) {
+                                    switch (_a.label) {
+                                        case 0: return [4 /*yield*/, bluebird.delay(3000)];
+                                        case 1:
+                                            _a.sent();
+                                            return [4 /*yield*/, consumeMsg(msg).then(function (data) {
+                                                    if (_this.channel) {
+                                                        _this.channel.ack(msg);
+                                                    }
+                                                }).catch(function (err) {
+                                                    console.log("爬取失败！");
+                                                    if (_this.channel) {
+                                                        _this.channel.nack(msg);
+                                                    }
+                                                })];
+                                        case 2:
+                                            _a.sent();
+                                            return [2 /*return*/];
+                                    }
+                                });
+                            }); }, { noAck: false, exclusive: false })];
+                    case 7:
+                        _a.consume = _b.sent();
+                        console.info(queue.consumerCount, queue.messageCount);
+                        return [3 /*break*/, 9];
+                    case 8:
+                        e_1 = _b.sent();
+                        console.log(e_1.message);
+                        return [2 /*return*/, false];
+                    case 9: return [2 /*return*/, queue.consumerCount + queue.messageCount === 0];
+                }
+            });
+        });
+    };
+    MQueueService.prototype.addItemsToQueue = function (items, routingKey) {
+        var _this = this;
+        items.forEach(function (item) {
+            _this.channel.publish(_this.exchange.exchange, routingKey || _this.queueName, new Buffer(JSON.stringify(item)), {});
+        });
+    };
+    /**
+     * 销毁队列
+     */
+    MQueueService.prototype.destroy = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var e_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 5, , 6]);
+                        return [4 /*yield*/, this.channel.nackAll(true)];
+                    case 1:
+                        _a.sent();
+                        return [4 /*yield*/, this.channel.cancel(this.consume.consumerTag)];
+                    case 2:
+                        _a.sent();
+                        return [4 /*yield*/, this.channel.close()];
+                    case 3:
+                        _a.sent();
+                        return [4 /*yield*/, this.connection.close()];
+                    case 4:
+                        _a.sent();
+                        delete this.channel;
+                        delete this.connection;
+                        delete this.consume;
+                        // delete this.config;
+                        delete this.exchange;
+                        console.log("queue stoped!");
+                        return [3 /*break*/, 6];
+                    case 5:
+                        e_2 = _a.sent();
+                        console.log(e_2);
+                        return [3 /*break*/, 6];
+                    case 6: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+    * 初始化队列
+    */
     MQueueService.prototype.initQueue = function (rabbitmqConfig) {
         return __awaiter(this, void 0, void 0, function () {
             var _a, _b;
@@ -89,124 +202,6 @@ var MQueueService = (function () {
                         });
                         console.log("mq connection ok!");
                         return [2 /*return*/];
-                }
-            });
-        });
-    };
-    /**
-     * 初始化消费队列
-     */
-    MQueueService.prototype.initConsume = function (rabbitmqConfig, queueName, consumeMsg, prefetch) {
-        if (prefetch === void 0) { prefetch = 1; }
-        return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            var count, exchange, queue, e_1, _a, e_2;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        count = 0;
-                        this.queueName = queueName;
-                        _b.label = 1;
-                    case 1:
-                        _b.trys.push([1, 6, , 7]);
-                        return [4 /*yield*/, this.initQueue(rabbitmqConfig)];
-                    case 2:
-                        _b.sent();
-                        return [4 /*yield*/, this.channel.assertExchange("amqp.topic", "topic", { durable: true })];
-                    case 3:
-                        exchange = _b.sent();
-                        return [4 /*yield*/, this.channel.assertQueue(queueName, { durable: true, exclusive: false })];
-                    case 4:
-                        queue = _b.sent();
-                        this.exchange = exchange;
-                        return [4 /*yield*/, this.channel.bindQueue(queue.queue, exchange.exchange, queueName)];
-                    case 5:
-                        _b.sent();
-                        return [3 /*break*/, 7];
-                    case 6:
-                        e_1 = _b.sent();
-                        console.log(e_1.message);
-                        return [2 /*return*/, false];
-                    case 7:
-                        _b.trys.push([7, 10, , 11]);
-                        return [4 /*yield*/, this.channel.prefetch(prefetch)];
-                    case 8:
-                        _b.sent();
-                        console.log("\u5F00\u59CB\u6D88\u8D39queue:" + queue.queue);
-                        _a = this;
-                        return [4 /*yield*/, this.channel.consume(queue.queue, function (msg) { return __awaiter(_this, void 0, void 0, function () {
-                                var _this = this;
-                                return __generator(this, function (_a) {
-                                    switch (_a.label) {
-                                        case 0: return [4 /*yield*/, bluebird.delay(3000)];
-                                        case 1:
-                                            _a.sent();
-                                            return [4 /*yield*/, consumeMsg(msg).then(function (data) {
-                                                    // console.log(data);
-                                                    _this.channel && _this.channel.nack(msg);
-                                                }).catch(function (err) {
-                                                    console.log(err);
-                                                    _this.channel && _this.channel.nack(msg);
-                                                })];
-                                        case 2:
-                                            _a.sent();
-                                            return [2 /*return*/];
-                                    }
-                                });
-                            }); }, { noAck: false, exclusive: false })];
-                    case 9:
-                        _a.consume = _b.sent();
-                        console.info(queue.consumerCount, queue.messageCount);
-                        return [3 /*break*/, 11];
-                    case 10:
-                        e_2 = _b.sent();
-                        console.log(e_2.message);
-                        return [2 /*return*/, false];
-                    case 11: return [2 /*return*/, queue.consumerCount + queue.messageCount == 0];
-                }
-            });
-        });
-    };
-    MQueueService.prototype.addItemsToQueue = function (items) {
-        var _this = this;
-        items.forEach(function (item) {
-            _this.channel.publish(_this.exchange.exchange, _this.queueName, new Buffer(JSON.stringify(item)), {});
-        });
-    };
-    /**
-     * 销毁队列
-     */
-    MQueueService.prototype.destroy = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var e_3;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 5, , 6]);
-                        return [4 /*yield*/, this.channel.nackAll(true)];
-                    case 1:
-                        _a.sent();
-                        return [4 /*yield*/, this.channel.cancel(this.consume.consumerTag)];
-                    case 2:
-                        _a.sent();
-                        return [4 /*yield*/, this.channel.close()];
-                    case 3:
-                        _a.sent();
-                        return [4 /*yield*/, this.connection.close()];
-                    case 4:
-                        _a.sent();
-                        delete this.channel;
-                        delete this.connection;
-                        delete this.consume;
-                        // delete this.config;
-                        delete this.exchange;
-                        console.log("queue stoped!");
-                        return [3 /*break*/, 6];
-                    case 5:
-                        e_3 = _a.sent();
-                        console.log(e_3);
-                        return [3 /*break*/, 6];
-                    case 6: return [2 /*return*/];
                 }
             });
         });

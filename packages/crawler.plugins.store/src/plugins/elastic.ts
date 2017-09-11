@@ -68,7 +68,7 @@ export class EsStorePlugin {
 
         // console.log(urlsById,urls);
 
-        _.forEach(urlsById, (url,key) => {
+        _.forEach(urlsById, (url, key) => {
             docs.push({
                 _index: esIndex,
                 _type: esType,
@@ -163,14 +163,14 @@ export class EsStorePlugin {
         return {};
     }
 
-     /**
-     * 存储当前的地址
-     * @param result 
-     * @param esIndex 
-     * @param esType 
-     */
+    /**
+    * 存储当前的地址
+    * @param result 
+    * @param esIndex 
+    * @param esType 
+    */
     @Add(`role:${pluginEsName},cmd:saveResult`)
-    async saveResult({result,id,esIndex,esType}: { id:string,result: any, esIndex: string, esType: string }): Promise<any> {
+    async saveResult({ result, id, esIndex, esType }: { id: string, result: any, esIndex: string, esType: string }): Promise<any> {
         let docs: Array<any> = [];
 
         if (result && id) {

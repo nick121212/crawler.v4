@@ -43,37 +43,19 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var _ = require("lodash");
 var inversify_1 = require("inversify");
+var pathToRegexp = require("path-to-regexp");
 var ExecutePluginService = (function () {
     function ExecutePluginService() {
     }
-    /**
-     * 检测当前配置的模式是否存在，不存在则报错
-     * @param seneca
-     * @param plugins
-     */
-    ExecutePluginService.prototype.checkParttens = function (seneca, plugins) {
-        _.each(plugins, function (plugin) {
-            if (!seneca.has(plugin.partten)) {
-                console.log("\u6CA1\u6709\u53D1\u73B0partten: " + plugin.partten);
-                return new Error("\u6CA1\u6709\u627E\u5230partten:" + plugin.partten);
-            }
+    ExecutePluginService.prototype.preExecute = function (seneca, config, msg) {
+        return __awaiter(this, void 0, void 0, function () {
+            var queueItem, msgFlow;
+            return __generator(this, function (_a) {
+                queueItem = msg ? this.getQueueItemFromMsg(msg) : null;
+                msgFlow = this.getFieldFlow(queueItem || {}, config.pages || []);
+                return [2 /*return*/, this.execute(seneca, msgFlow, msg)];
+            });
         });
-        return true;
-    };
-    /**
-     * 从message中提取queueItem数据
-     * @param msg
-     */
-    ExecutePluginService.prototype.getQueueItemFromMsg = function (msg) {
-        var queueItem;
-        try {
-            msg && (queueItem = JSON.parse(msg.content.toString()));
-        }
-        catch (e) {
-            console.log(e);
-            throw e;
-        }
-        return queueItem;
     };
     /**
      * 执行插件列表
@@ -88,9 +70,12 @@ var ExecutePluginService = (function () {
                 switch (_a.label) {
                     case 0:
                         rtn = {
-                            queueItem: this.getQueueItemFromMsg(msg)
+                            queueItem: msg ? this.getQueueItemFromMsg(msg) : null
                         }, index = 0;
                         nn = Date.now();
+                        if (rtn.queueItem) {
+                            console.log(rtn.queueItem.url);
+                        }
                         // 验证partten的合法性
                         this.checkParttens(seneca, plugins);
                         _loop_1 = function () {
@@ -102,8 +87,8 @@ var ExecutePluginService = (function () {
                                         jsonata = {};
                                         if (!plugin.jsonata) return [3 /*break*/, 2];
                                         return [4 /*yield*/, seneca.actAsync("role:crawler.plugin.transform,cmd:muti", {
-                                                expressions: plugin.jsonata,
-                                                data: rtn
+                                                data: rtn,
+                                                expressions: plugin.jsonata
                                             })];
                                     case 1:
                                         ddd = _a.sent();
@@ -117,8 +102,8 @@ var ExecutePluginService = (function () {
                                         console.log("\u8C03\u7528" + plugin.partten + "\u6210\u529F\uFF01");
                                         if (!plugin.result) return [3 /*break*/, 5];
                                         return [4 /*yield*/, seneca.actAsync("role:crawler.plugin.transform,cmd:single", {
-                                                expression: plugin.result,
-                                                data: ccc
+                                                data: ccc,
+                                                expression: plugin.result
                                             })];
                                     case 4:
                                         ddd = _a.sent();
@@ -138,11 +123,53 @@ var ExecutePluginService = (function () {
                         _a.sent();
                         return [3 /*break*/, 1];
                     case 3:
-                        console.log(Date.now() - nn);
+                        console.log("调用时间", Date.now() - nn);
                         return [2 /*return*/, rtn];
                 }
             });
         });
+    };
+    /**
+     * 检测当前配置的模式是否存在，不存在则报错
+     * @param seneca   seneca实例
+     * @param plugins  插件列表
+     */
+    ExecutePluginService.prototype.checkParttens = function (seneca, plugins) {
+        _.each(plugins, function (plugin) {
+            if (!seneca.has(plugin.partten)) {
+                console.log("\u6CA1\u6709\u53D1\u73B0partten: " + plugin.partten);
+                return new Error("\u6CA1\u6709\u627E\u5230partten:" + plugin.partten);
+            }
+        });
+        return true;
+    };
+    /**
+    * 从message中提取queueItem数据
+    * @param msg   消息
+    */
+    ExecutePluginService.prototype.getQueueItemFromMsg = function (msg) {
+        var queueItem;
+        try {
+            queueItem = JSON.parse(msg.content.toString());
+        }
+        catch (e) {
+            console.log(e);
+            throw e;
+        }
+        return queueItem;
+    };
+    ExecutePluginService.prototype.getFieldFlow = function (queueItem, pages) {
+        var rules = _.filter(pages, function (_a) {
+            var path = _a.path;
+            var pathToReg = pathToRegexp(path.toString(), []);
+            return pathToReg.test(queueItem.path || "");
+        });
+        if (!rules.length) {
+            console.error("\u6CA1\u6709\u627E\u5230" + queueItem.url + "\u7684\u5339\u914D\u89C4\u5219\uFF01");
+            return [];
+        }
+        console.log(_.first(rules).title || "");
+        return _.first(rules).msgFlow || [];
     };
     return ExecutePluginService;
 }());
@@ -150,4 +177,5 @@ ExecutePluginService = __decorate([
     inversify_1.injectable()
 ], ExecutePluginService);
 exports.ExecutePluginService = ExecutePluginService;
+;
 //# sourceMappingURL=plugin.js.map

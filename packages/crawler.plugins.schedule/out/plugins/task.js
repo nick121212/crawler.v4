@@ -100,13 +100,13 @@ var TaskPlugin = (function () {
                         queueName = this.getUrlQueueName(config);
                         if (!!this.has(queueName)) return [3 /*break*/, 2];
                         mQueueService = new mq_1.MQueueService();
-                        task = options.seneca.make$('tasks', __assign({ id: config.key }, config));
+                        task = options.seneca.make$("tasks", __assign({ id: config.key }, config));
                         return [4 /*yield*/, task.saveAsync()];
                     case 1:
                         instance = _a.sent();
                         this.mqs.push(mQueueService);
-                        if (mQueueService.initConsume(globalOptions, queueName, this.pluginService.execute.bind(this.pluginService, options.seneca, config.msgPlugins), 5)) {
-                            this.pluginService.execute(options.seneca, config.initPlugins);
+                        if (mQueueService.initConsume(globalOptions, queueName, this.pluginService.preExecute.bind(this.pluginService, options.seneca, config), 1)) {
+                            this.pluginService.execute(options.seneca, config.initFlow);
                         }
                         _a.label = 2;
                     case 2: return [2 /*return*/];
@@ -131,7 +131,7 @@ var TaskPlugin = (function () {
                         if (!mQueueServie) {
                             return [2 /*return*/];
                         }
-                        entity = options.seneca.make$('tasks');
+                        entity = options.seneca.make$("tasks");
                         return [4 /*yield*/, entity.removeAsync({ id: config.key })];
                     case 1:
                         _a.sent();
@@ -157,7 +157,7 @@ var TaskPlugin = (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        entity = options.seneca.make$('tasks');
+                        entity = options.seneca.make$("tasks");
                         return [4 /*yield*/, entity.listAsync(config)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
@@ -176,7 +176,7 @@ var TaskPlugin = (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        entity = options.seneca.make$('tasks');
+                        entity = options.seneca.make$("tasks");
                         return [4 /*yield*/, entity.listAsync({})];
                     case 1:
                         tasks = _a.sent();
