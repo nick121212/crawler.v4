@@ -10,6 +10,7 @@ export declare class TaskPlugin {
     private getUrlQueueName(config);
     private has(queueName);
     private getQueueService(config);
+    private testFlow(config, options?, globalOptions?);
     /**
      * 启动一个任务
      * @param param0

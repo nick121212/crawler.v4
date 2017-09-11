@@ -106,7 +106,7 @@ var MQueueService = (function () {
                                                         _this.channel.ack(msg);
                                                     }
                                                 }).catch(function (err) {
-                                                    console.log("爬取失败！");
+                                                    console.log("爬取失败！", err.message);
                                                     if (_this.channel) {
                                                         _this.channel.nack(msg);
                                                     }
@@ -119,7 +119,7 @@ var MQueueService = (function () {
                             }); }, { noAck: false, exclusive: false })];
                     case 7:
                         _a.consume = _b.sent();
-                        console.info(queue.consumerCount, queue.messageCount);
+                        console.log(queue.consumerCount, queue.messageCount);
                         return [3 /*break*/, 9];
                     case 8:
                         e_1 = _b.sent();

@@ -17,7 +17,11 @@ export interface IPlugin {
 export class ExecutePluginService {
     public async preExecute(seneca: any, config: any, msg?: amqplib.Message): Promise<any> {
         let queueItem = msg ? this.getQueueItemFromMsg(msg) : null;
-        let msgFlow: Array<any> = this.getFieldFlow(queueItem || {}, config.pages || []);
+        let msgFlow: Array<any> | null = this.getFieldFlow(queueItem || {}, config.pages || []);
+
+        if (!msgFlow || !msg) {
+            return;
+        }
 
         return this.execute(seneca, msgFlow, msg);
     }
@@ -61,7 +65,7 @@ export class ExecutePluginService {
             // 调用接口
             let ccc = await seneca.actAsync(plugin.partten, Object.assign({}, jsonata, plugin.data));
 
-            console.log(`调用${plugin.partten}成功！`);
+            // console.log(`调用${plugin.partten}成功！`);
 
             if (plugin.result) {
                 let ddd = await seneca.actAsync(`role:crawler.plugin.transform,cmd:single`, {
@@ -75,7 +79,9 @@ export class ExecutePluginService {
             index++;
         }
 
-        console.log("调用时间", Date.now() - nn);
+        if (rtn.queueItem) {
+            console.log(`调用${rtn.queueItem.url}用时${Date.now() - nn}`);
+        }
 
         return rtn;
     }
@@ -112,7 +118,7 @@ export class ExecutePluginService {
         return queueItem;
     }
 
-    private getFieldFlow(queueItem: any, pages: Array<any>): Array<any> {
+    private getFieldFlow(queueItem: any, pages: Array<any>): Array<any> | null {
         let rules = _.filter(pages, ({ path }) => {
             let pathToReg = pathToRegexp(path.toString(), []);
 
@@ -122,10 +128,10 @@ export class ExecutePluginService {
         if (!rules.length) {
             console.error(`没有找到${queueItem.url}的匹配规则！`);
 
-            return [];
+            return null;
         }
 
-        console.log(_.first(rules).title || "");
+        // console.log(_.first(rules).title || "");
 
         return _.first(rules).msgFlow || [];
     }

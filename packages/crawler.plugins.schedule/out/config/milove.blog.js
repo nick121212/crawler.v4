@@ -14,9 +14,9 @@ var queueConfig = {
     "filterByDomain": true
 };
 exports.default = {
-    key: "mamilove.blog",
-    prefech: 3,
-    initFlow: [{
+    "key": "mamilove.blog",
+    "prefech": 3,
+    "initFlow": [{
             "key": "queue",
             "partten": "role:crawler.plugin.queue,cmd:queue",
             "title": "把地址queue化",
@@ -43,10 +43,10 @@ exports.default = {
                 "key": "mamilove.blog",
             }
         }],
-    pages: [{
-            path: "/blog",
-            title: "妈咪love专栏列表页",
-            msgFlow: [{
+    "pages": [{
+            "path": "/blog",
+            "title": "妈咪love专栏列表页",
+            "msgFlow": [{
                     "partten": "role:crawler.plugin.downloader,cmd:html",
                     "title": "下载页面",
                     "jsonata": ["$.queueItem.{'queueItem':$}"],
@@ -61,7 +61,7 @@ exports.default = {
                     "data": {
                         "queueConfig": queueConfig,
                         "discoverConfig": {
-                            whitePathList: [{ path: "/blog", enable: 1 }, { path: "/blog/(\\d+)/:title", enable: 1 }]
+                            "whitePathList": [{ "path": "/blog", "enable": 1 }, { "path": "/blog/(\\d+)/:title", "enable": 1 }]
                         }
                     },
                     "result": "${'queues':$}"
@@ -91,9 +91,9 @@ exports.default = {
                     }
                 }]
         }, {
-            path: "/blog/(\\d+)/:title",
-            title: "妈咪love专栏详情页",
-            msgFlow: [{
+            "path": "/blog/(\\d+)/:title",
+            "title": "妈咪love专栏详情页",
+            "msgFlow": [{
                     "partten": "role:crawler.plugin.downloader,cmd:html",
                     "title": "下载页面",
                     "jsonata": ["$.queueItem.{'queueItem':$}"],

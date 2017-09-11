@@ -85,6 +85,18 @@ var TaskPlugin = (function () {
         }
         return null;
     };
+    TaskPlugin.prototype.testFlow = function (config, options, globalOptions) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.pluginService.execute(options.seneca, config.msgFlow)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/, null];
+                }
+            });
+        });
+    };
     /**
      * 启动一个任务
      * @param param0
@@ -172,6 +184,7 @@ var TaskPlugin = (function () {
      */
     TaskPlugin.prototype.init = function (msg, options, globalOptions) {
         return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
             var entity, tasks;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -180,18 +193,21 @@ var TaskPlugin = (function () {
                         return [4 /*yield*/, entity.listAsync({})];
                     case 1:
                         tasks = _a.sent();
-                        // _.forEach(tasks, async (task: any) => {
-                        //     if (task.id && !this.mqs[task.id]) {
-                        //         await this.addToTask(task, options, globalOptions);
-                        //     }
-                        // });
+                        _.forEach(tasks, function (task) { return __awaiter(_this, void 0, void 0, function () {
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0:
+                                        if (!(task.id && !this.mqs[task.id])) return [3 /*break*/, 2];
+                                        return [4 /*yield*/, this.addToTask(task, options, globalOptions)];
+                                    case 1:
+                                        _a.sent();
+                                        _a.label = 2;
+                                    case 2: return [2 /*return*/];
+                                }
+                            });
+                        }); });
                         return [4 /*yield*/, bluebird.delay(200)];
                     case 2:
-                        // _.forEach(tasks, async (task: any) => {
-                        //     if (task.id && !this.mqs[task.id]) {
-                        //         await this.addToTask(task, options, globalOptions);
-                        //     }
-                        // });
                         _a.sent();
                         return [2 /*return*/];
                 }
@@ -210,6 +226,12 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", mq_1.MQueueService)
 ], TaskPlugin.prototype, "getQueueService", null);
+__decorate([
+    crawler_plugins_common_1.Add("role:" + constants_1.pluginTaskName + ",cmd:testFlow"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:returntype", Promise)
+], TaskPlugin.prototype, "testFlow", null);
 __decorate([
     crawler_plugins_common_1.Add("role:" + constants_1.pluginTaskName + ",cmd:add"),
     __metadata("design:type", Function),

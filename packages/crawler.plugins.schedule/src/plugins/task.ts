@@ -50,6 +50,13 @@ export class TaskPlugin {
         return null;
     }
 
+    @Add(`role:${pluginTaskName},cmd:testFlow`)
+    private async testFlow(config: any, options?: any, globalOptions?: any): Promise<any> {
+        await this.pluginService.execute(options.seneca, config.msgFlow);
+
+        return null;
+    }
+
     /**
      * 启动一个任务
      * @param param0
@@ -120,11 +127,11 @@ export class TaskPlugin {
         let entity = options.seneca.make$("tasks");
         let tasks = await entity.listAsync({});
 
-        // _.forEach(tasks, async (task: any) => {
-        //     if (task.id && !this.mqs[task.id]) {
-        //         await this.addToTask(task, options, globalOptions);
-        //     }
-        // });
+        _.forEach(tasks, async (task: any) => {
+            if (task.id && !this.mqs[task.id]) {
+                await this.addToTask(task, options, globalOptions);
+            }
+        });
 
         await bluebird.delay(200);
     }

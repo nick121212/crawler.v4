@@ -58,13 +58,14 @@ export class MQueueService {
                         this.channel.ack(msg);
                     }
                 }).catch((err: Error) => {
-                    console.log("爬取失败！");
+                    console.log("爬取失败！", err.message);
                     if (this.channel) {
                         this.channel.nack(msg);
                     }
                 });
             }, { noAck: false, exclusive: false });
-            console.info(queue.consumerCount, queue.messageCount);
+
+            console.log(queue.consumerCount, queue.messageCount);
         } catch (e) {
             console.log(e.message);
 

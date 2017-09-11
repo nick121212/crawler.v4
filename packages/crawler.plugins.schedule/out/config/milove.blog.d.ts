@@ -1,7 +1,7 @@
 declare const _default: {
-    key: string;
-    prefech: number;
-    initFlow: ({
+    "key": string;
+    "prefech": number;
+    "initFlow": ({
         "key": string;
         "partten": string;
         "title": string;
@@ -40,10 +40,10 @@ declare const _default: {
             "key": string;
         };
     })[];
-    pages: ({
-        path: string;
-        title: string;
-        msgFlow: ({
+    "pages": ({
+        "path": string;
+        "title": string;
+        "msgFlow": ({
             "partten": string;
             "title": string;
             "jsonata": string[];
@@ -70,9 +70,9 @@ declare const _default: {
                     "filterByDomain": boolean;
                 };
                 "discoverConfig": {
-                    whitePathList: {
-                        path: string;
-                        enable: number;
+                    "whitePathList": {
+                        "path": string;
+                        "enable": number;
                     }[];
                 };
             };
@@ -103,9 +103,9 @@ declare const _default: {
             };
         })[];
     } | {
-        path: string;
-        title: string;
-        msgFlow: ({
+        "path": string;
+        "title": string;
+        "msgFlow": ({
             "partten": string;
             "title": string;
             "jsonata": string[];

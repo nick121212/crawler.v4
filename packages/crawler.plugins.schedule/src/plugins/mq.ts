@@ -1,11 +1,11 @@
-import * as Seneca from 'seneca';
-import inversify, { injectable, inject } from 'inversify';
-import { Plugin, Add, Wrap, Init } from 'crawler.plugins.common';
-import * as bluebird from 'bluebird';
-import * as _ from 'lodash';
+import * as Seneca from "seneca";
+import inversify, { injectable, inject } from "inversify";
+import { Plugin, Add, Wrap, Init } from "crawler.plugins.common";
+import * as bluebird from "bluebird";
+import * as _ from "lodash";
 
-import { pluginMqName, pluginTaskName } from '../constants';
-import { MQueueService } from '../libs/mq';
+import { pluginMqName, pluginTaskName } from "../constants";
+import { MQueueService } from "../libs/mq";
 
 @Plugin(pluginMqName)
 @injectable()

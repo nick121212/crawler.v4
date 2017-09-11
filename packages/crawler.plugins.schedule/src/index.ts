@@ -15,6 +15,6 @@ seneca.seneca
     .ready(async () => {
         console.log("crawler.plugins.schedule ready!");
 
-        await seneca.seneca.actAsync(`role:${pluginTaskName},cmd:add`, require("./config/milove").default);
-        await seneca.seneca.actAsync(`role:${pluginTaskName},cmd:add`, require("./config/milove.blog").default);
+        // await seneca.seneca.actAsync(`role:${pluginTaskName},cmd:add`, require("./config/milove").default);
+        // await seneca.seneca.actAsync(`role:${pluginTaskName},cmd:add`, require("./config/milove.blog").default);
     });

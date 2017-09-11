@@ -53,6 +53,9 @@ var ExecutePluginService = (function () {
             return __generator(this, function (_a) {
                 queueItem = msg ? this.getQueueItemFromMsg(msg) : null;
                 msgFlow = this.getFieldFlow(queueItem || {}, config.pages || []);
+                if (!msgFlow || !msg) {
+                    return [2 /*return*/];
+                }
                 return [2 /*return*/, this.execute(seneca, msgFlow, msg)];
             });
         });
@@ -99,7 +102,6 @@ var ExecutePluginService = (function () {
                                     case 2: return [4 /*yield*/, seneca.actAsync(plugin.partten, Object.assign({}, jsonata, plugin.data))];
                                     case 3:
                                         ccc = _a.sent();
-                                        console.log("\u8C03\u7528" + plugin.partten + "\u6210\u529F\uFF01");
                                         if (!plugin.result) return [3 /*break*/, 5];
                                         return [4 /*yield*/, seneca.actAsync("role:crawler.plugin.transform,cmd:single", {
                                                 data: ccc,
@@ -123,7 +125,9 @@ var ExecutePluginService = (function () {
                         _a.sent();
                         return [3 /*break*/, 1];
                     case 3:
-                        console.log("调用时间", Date.now() - nn);
+                        if (rtn.queueItem) {
+                            console.log("\u8C03\u7528" + rtn.queueItem.url + "\u7528\u65F6" + (Date.now() - nn));
+                        }
                         return [2 /*return*/, rtn];
                 }
             });
@@ -166,9 +170,9 @@ var ExecutePluginService = (function () {
         });
         if (!rules.length) {
             console.error("\u6CA1\u6709\u627E\u5230" + queueItem.url + "\u7684\u5339\u914D\u89C4\u5219\uFF01");
-            return [];
+            return null;
         }
-        console.log(_.first(rules).title || "");
+        // console.log(_.first(rules).title || "");
         return _.first(rules).msgFlow || [];
     };
     return ExecutePluginService;
