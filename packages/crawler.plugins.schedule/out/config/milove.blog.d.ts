@@ -1,5 +1,6 @@
 declare const _default: {
     key: string;
+    prefech: number;
     initFlow: ({
         "key": string;
         "partten": string;

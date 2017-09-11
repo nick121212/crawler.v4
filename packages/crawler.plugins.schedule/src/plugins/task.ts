@@ -57,7 +57,7 @@ export class TaskPlugin {
      * @param globalOptions
      */
     @Add(`role:${pluginTaskName},cmd:add`)
-    private async addToTask(config: { key: string, msgPlugins: Array<any>, initFlow: Array<any> }, options?: any, globalOptions?: any) {
+    private async addToTask(config: { key: string, prefech: number, msgPlugins: Array<any>, initFlow: Array<any> }, options?: any, globalOptions?: any) {
         let queueName = this.getUrlQueueName(config);
 
         if (!this.has(queueName)) {
@@ -68,7 +68,7 @@ export class TaskPlugin {
             });
             let instance = await task.saveAsync();
             this.mqs.push(mQueueService);
-            if (mQueueService.initConsume(globalOptions, queueName, this.pluginService.preExecute.bind(this.pluginService, options.seneca, config), 1)) {
+            if (mQueueService.initConsume(globalOptions, queueName, this.pluginService.preExecute.bind(this.pluginService, options.seneca, config), config.prefech || 1)) {
                 this.pluginService.execute(options.seneca, config.initFlow);
             }
         }

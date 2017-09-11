@@ -105,7 +105,7 @@ var TaskPlugin = (function () {
                     case 1:
                         instance = _a.sent();
                         this.mqs.push(mQueueService);
-                        if (mQueueService.initConsume(globalOptions, queueName, this.pluginService.preExecute.bind(this.pluginService, options.seneca, config), 1)) {
+                        if (mQueueService.initConsume(globalOptions, queueName, this.pluginService.preExecute.bind(this.pluginService, options.seneca, config), config.prefech || 1)) {
                             this.pluginService.execute(options.seneca, config.initFlow);
                         }
                         _a.label = 2;
