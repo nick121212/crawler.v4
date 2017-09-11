@@ -17,7 +17,7 @@
     "basei": "cd packages/crawler.plugins.base && npm i",
     "downloaderi": "cd packages/crawler.plugins.downloader && npm i",
     "htmli": "cd packages/crawler.plugins.html && npm i",
-    "queuei": "fcd packages/crawler.plugins.queue && npm i",
+    "queuei": "cd packages/crawler.plugins.queue && npm i",
     "schedulei": "cd packages/crawler.plugins.schedule && npm i",
     "storei": "cd packages/crawler.plugins.store && npm i",
     "transformi": "cd packages/crawler.plugins.transform && npm i",
