@@ -13,6 +13,16 @@
     "store": "forever start ./packages/crawler.plugins.store/out/index.js ./packages/crawler.plugins.store/config.js",
     "transform": "forever start ./packages/crawler.plugins.transform/out/start.js ./packages/crawler.plugins.transform/config.js",
     "webapi": "forever start ./packages/crawler.plugins.webapi/out/server.js ./packages/crawler.plugins.webapi/config.js",
+
+    "basei": "cd packages/crawler.plugins.base && npm i",
+    "downloaderi": "cd packages/crawler.plugins.downloader && npm i",
+    "htmli": "cd packages/crawler.plugins.html && npm i",
+    "queuei": "fcd packages/crawler.plugins.queue && npm i",
+    "schedulei": "cd packages/crawler.plugins.schedule && npm i",
+    "storei": "cd packages/crawler.plugins.store && npm i",
+    "transformi": "cd packages/crawler.plugins.transform && npm i",
+    "webapii": "cd packages/crawler.plugins.webapi && npm i",
+    "ins": "npm run basei && npm run downloaderi && npm run queuei && npm run schedulei && npm run storei && npm run transformi && npm run webapii && npm run htmli",
     "startall": "forever stopall &&  npm run base && npm run downloader && npm run queue && npm run schedule && npm run store && npm run transform && npm run webapi && npm run html",
     "upc": "cd packages/crawler.plugins.downloader;npm up crawler.plugins.common;cd ../crawler.plugins.html;npm up crawler.plugins.common;cd ../crawler.plugins.queue;npm up crawler.plugins.common;cd ../crawler.plugins.schedule;npm up crawler.plugins.common;"
   },
