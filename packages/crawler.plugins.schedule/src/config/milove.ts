@@ -14,7 +14,7 @@ let queueConfig = {
 
 export default {
     "key": "mamilove",
-    "prefech": 30,
+    "prefech": 10,
     "initFlow": [{
         "key": "queue",
         "partten": "role:crawler.plugin.queue,cmd:queue",

@@ -15,7 +15,7 @@ var queueConfig = {
 };
 exports.default = {
     "key": "mamilove",
-    "prefech": 30,
+    "prefech": 10,
     "initFlow": [{
             "key": "queue",
             "partten": "role:crawler.plugin.queue,cmd:queue",
@@ -47,7 +47,7 @@ exports.default = {
             "path": "/qa/:id",
             "title": "妈咪love详情页",
             "msgFlow": [{
-                    "partten": "role:crawler.plugin.downloader,cmd:html",
+                    "partten": "role:crawler.plugin.downloader,cmd:html,timeout$:60000",
                     "title": "下载页面",
                     "jsonata": ["$.queueItem.{'queueItem':$}"],
                     "data": {
