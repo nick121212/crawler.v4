@@ -47,7 +47,7 @@ export class HtmlPlugin {
         // 解析规则，分析页面中的字段
         if (rules.length && queueItem.responseBody) {
             for (let rule of rules) {
-                results.push((await analysis.doDeal(queueItem, rule)));
+                // results.push((await analysis.doDeal(queueItem, rule)));
             }
         }
         count--;

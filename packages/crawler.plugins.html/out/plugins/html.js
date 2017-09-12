@@ -48,8 +48,6 @@ var inversify_1 = require("inversify");
 var _ = require("lodash");
 var pathToRegexp = require("path-to-regexp");
 var crawler_plugins_common_1 = require("crawler.plugins.common");
-// import format from "../libs/format";
-var analysis_1 = require("../libs/analysis");
 var constants_1 = require("../constants");
 var count = 0;
 var HtmlPlugin = (function () {
@@ -58,9 +56,9 @@ var HtmlPlugin = (function () {
     HtmlPlugin.prototype.html = function (_a, options) {
         var _b = _a.queueItem, queueItem = _b === void 0 ? {} : _b, _c = _a.pages, pages = _c === void 0 ? [] : _c;
         return __awaiter(this, void 0, void 0, function () {
-            var urls, results, rules, expireSeneca, entity, download, _i, rules_1, rule, _a, _b;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
+            var urls, results, rules, expireSeneca, entity, download, _i, rules_1, rule;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0:
                         if (!queueItem) {
                             return [2 /*return*/, []];
@@ -79,28 +77,20 @@ var HtmlPlugin = (function () {
                         entity = expireSeneca.make("downloads");
                         return [4 /*yield*/, entity.loadAsync({ id: queueItem._id })];
                     case 1:
-                        download = _c.sent();
+                        download = _a.sent();
                         if (download) {
                             queueItem.responseBody = download.responseBody;
                         }
                         console.log(queueItem.url, "crawler.plugins.html  获取responseBody成功----------------");
-                        _c.label = 2;
+                        _a.label = 2;
                     case 2:
-                        if (!(rules.length && queueItem.responseBody)) return [3 /*break*/, 6];
-                        _i = 0, rules_1 = rules;
-                        _c.label = 3;
-                    case 3:
-                        if (!(_i < rules_1.length)) return [3 /*break*/, 6];
-                        rule = rules_1[_i];
-                        _b = (_a = results).push;
-                        return [4 /*yield*/, analysis_1.default.doDeal(queueItem, rule)];
-                    case 4:
-                        _b.apply(_a, [(_c.sent())]);
-                        _c.label = 5;
-                    case 5:
-                        _i++;
-                        return [3 /*break*/, 3];
-                    case 6:
+                        // 解析规则，分析页面中的字段
+                        if (rules.length && queueItem.responseBody) {
+                            for (_i = 0, rules_1 = rules; _i < rules_1.length; _i++) {
+                                rule = rules_1[_i];
+                                // results.push((await analysis.doDeal(queueItem, rule)));
+                            }
+                        }
                         count--;
                         console.log(queueItem.url, "crawler.plugins.html  分析html结束！----------------当前连接数：", count, "；分析结果数量：", results.length);
                         return [2 /*return*/, results];
