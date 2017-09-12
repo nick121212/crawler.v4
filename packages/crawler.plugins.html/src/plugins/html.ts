@@ -14,7 +14,7 @@ let count = 0;
 @injectable()
 export class HtmlPlugin {
     @Add(`role:${pluginName},cmd:html`)
-    public async html({ queueItem = {}, pages = [] }: { queueItem: any, pages: Array<any> }, options: any) {
+    private async html({ queueItem = {}, pages = [] }: { queueItem: any, pages: Array<any> }, options: any) {
         if (!queueItem) {
             return [];
         }
