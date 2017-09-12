@@ -103,7 +103,7 @@ var ExecutePluginService = (function () {
                                     case 2: return [4 /*yield*/, seneca.actAsync(plugin.partten, Object.assign({}, jsonata, plugin.data))];
                                     case 3:
                                         ccc = _a.sent();
-                                        seneca.log.info("\u8C03\u7528" + plugin.partten + "\u6210\u529F\uFF01\u8017\u65F6\uFF1A", Date.now() - start, "ms");
+                                        console.log("\u8C03\u7528" + plugin.partten + "\u6210\u529F\uFF01\u8017\u65F6\uFF1A", Date.now() - start, "ms");
                                         if (!plugin.result) return [3 /*break*/, 5];
                                         return [4 /*yield*/, seneca.actAsync("role:crawler.plugin.transform,cmd:single", {
                                                 data: ccc,

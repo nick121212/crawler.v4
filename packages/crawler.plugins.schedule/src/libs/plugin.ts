@@ -63,7 +63,7 @@ export class ExecutePluginService {
                 // 调用接口
                 let ccc = await seneca.actAsync(plugin.partten, Object.assign({}, jsonata, plugin.data));
 
-                seneca.log.info(`调用${plugin.partten}成功！耗时：`, Date.now() - start, "ms");
+                console.log(`调用${plugin.partten}成功！耗时：`, Date.now() - start, "ms");
 
                 if (plugin.result) {
                     let ddd = await seneca.actAsync(`role:crawler.plugin.transform,cmd:single`, {
