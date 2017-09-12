@@ -66,10 +66,11 @@ var DownloadPlugin = (function () {
     DownloadPlugin.prototype.html = function (_a, options) {
         var queueItem = _a.queueItem, proxyInfo = _a.proxyInfo, _b = _a.save, save = _b === void 0 ? true : _b, _c = _a.header, header = _c === void 0 ? {} : _c, charset = _a.charset, _d = _a.engine, engine = _d === void 0 ? "superagent" : _d;
         return __awaiter(this, void 0, void 0, function () {
-            var res, expireSeneca, download;
+            var start, res, expireSeneca, download;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        start = Date.now();
                         /**
                          * 添加接口信息
                          */
@@ -103,11 +104,13 @@ var DownloadPlugin = (function () {
                     case 2:
                         _a.sent();
                         _a.label = 3;
-                    case 3: return [2 /*return*/, {
-                            crawlerCount: 1 * queueItem.crawlerCount + 1,
-                            responseBody: save ? null : res.body,
-                            statusCode: res.statusCode,
-                        }];
+                    case 3:
+                        console.log("downloader 成功；耗时：", Date.now() - start, "ms");
+                        return [2 /*return*/, {
+                                crawlerCount: 1 * queueItem.crawlerCount + 1,
+                                responseBody: save ? null : res.body,
+                                statusCode: res.statusCode,
+                            }];
                 }
             });
         });

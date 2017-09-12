@@ -20,6 +20,8 @@ export class DownloadPlugin {
     public async html(
         { queueItem, proxyInfo, save = true, header = {}, charset, engine = "superagent" }:
             { charset: string, save: boolean, header: any, queueItem: any, proxyInfo: any, engine: string }, options: any) {
+        let start = Date.now();
+
         /**
          * 添加接口信息
          */
@@ -60,6 +62,8 @@ export class DownloadPlugin {
 
             await download.saveAsync();
         }
+
+        console.log("downloader 成功；耗时：", Date.now() - start, "ms");
 
         return {
             crawlerCount: 1 * queueItem.crawlerCount + 1,
