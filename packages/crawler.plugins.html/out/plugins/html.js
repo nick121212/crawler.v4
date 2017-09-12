@@ -56,7 +56,7 @@ var HtmlPlugin = (function () {
     HtmlPlugin.prototype.html = function (_a, options) {
         var _b = _a.queueItem, queueItem = _b === void 0 ? {} : _b, _c = _a.pages, pages = _c === void 0 ? [] : _c;
         return __awaiter(this, void 0, void 0, function () {
-            var urls, results, rules, expireSeneca, entity, download, _i, rules_1, rule, _a, _b;
+            var urls, results, rules, expireSeneca, entity, download, index, _a, _b;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
@@ -82,21 +82,18 @@ var HtmlPlugin = (function () {
                         }
                         _c.label = 2;
                     case 2:
-                        if (!(rules.length && queueItem.responseBody)) return [3 /*break*/, 6];
-                        _i = 0, rules_1 = rules;
+                        if (!(rules.length && queueItem.responseBody)) return [3 /*break*/, 5];
+                        index = 0;
                         _c.label = 3;
                     case 3:
-                        if (!(_i < rules_1.length)) return [3 /*break*/, 6];
-                        rule = rules_1[_i];
+                        if (!(index < rules.length)) return [3 /*break*/, 5];
                         _b = (_a = results).push;
-                        return [4 /*yield*/, analysis_1.default.doDeal(queueItem, rule)];
+                        return [4 /*yield*/, analysis_1.default.doDeal(queueItem, rules[index])];
                     case 4:
                         _b.apply(_a, [(_c.sent())]);
-                        _c.label = 5;
-                    case 5:
-                        _i++;
+                        index++;
                         return [3 /*break*/, 3];
-                    case 6:
+                    case 5:
                         console.log("crawler.plugins.html  分析html结束！----------------");
                         return [2 /*return*/, results];
                 }
