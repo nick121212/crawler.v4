@@ -193,7 +193,7 @@ var TaskPlugin = (function () {
                         return [4 /*yield*/, entity.listAsync({})];
                     case 1:
                         tasks = _a.sent();
-                        setTimeout(function () {
+                        setInterval(function () {
                             _.forEach(tasks, function (task) { return __awaiter(_this, void 0, void 0, function () {
                                 return __generator(this, function (_a) {
                                     switch (_a.label) {
@@ -207,7 +207,7 @@ var TaskPlugin = (function () {
                                     }
                                 });
                             }); });
-                        }, 5000);
+                        }, 60000);
                         return [4 /*yield*/, bluebird.delay(200)];
                     case 2:
                         _a.sent();

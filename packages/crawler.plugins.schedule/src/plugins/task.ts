@@ -127,13 +127,13 @@ export class TaskPlugin {
         let entity = options.seneca.make$("tasks");
         let tasks = await entity.listAsync({});
 
-        setTimeout(() => {
+        setInterval(() => {
             _.forEach(tasks, async (task: any) => {
                 if (task.id && !this.mqs[task.id]) {
                     await this.addToTask(task, options, globalOptions);
                 }
             });
-        }, 5000);
+        }, 60000);
 
 
         await bluebird.delay(200);
