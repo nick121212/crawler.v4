@@ -68,7 +68,7 @@ var ExecutePluginService = (function () {
      */
     ExecutePluginService.prototype.execute = function (seneca, plugins, msg) {
         return __awaiter(this, void 0, void 0, function () {
-            var rtn, index, nn, _loop_1;
+            var rtn, index, nn, _loop_1, e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -76,60 +76,59 @@ var ExecutePluginService = (function () {
                             queueItem: msg ? this.getQueueItemFromMsg(msg) : null
                         }, index = 0;
                         nn = Date.now();
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 5, , 6]);
                         // 验证partten的合法性
                         this.checkParttens(seneca, plugins);
                         _loop_1 = function () {
-                            var plugin, jsonata, ddd, ccc, ddd, e_1;
+                            var plugin, jsonata, ddd, ccc, ddd;
                             return __generator(this, function (_a) {
                                 switch (_a.label) {
                                     case 0:
                                         plugin = plugins[index];
                                         jsonata = {};
-                                        _a.label = 1;
-                                    case 1:
-                                        _a.trys.push([1, 7, , 8]);
-                                        if (!plugin.jsonata) return [3 /*break*/, 3];
+                                        if (!plugin.jsonata) return [3 /*break*/, 2];
                                         return [4 /*yield*/, seneca.actAsync("role:crawler.plugin.transform,cmd:muti", {
                                                 data: rtn,
                                                 expressions: plugin.jsonata
                                             })];
-                                    case 2:
+                                    case 1:
                                         ddd = _a.sent();
                                         ddd.result.forEach(function (r) {
                                             jsonata = Object.assign({}, jsonata, r || {});
                                         });
-                                        _a.label = 3;
-                                    case 3: return [4 /*yield*/, seneca.actAsync(plugin.partten, Object.assign({}, jsonata, plugin.data))];
-                                    case 4:
+                                        _a.label = 2;
+                                    case 2: return [4 /*yield*/, seneca.actAsync(plugin.partten, Object.assign({}, jsonata, plugin.data))];
+                                    case 3:
                                         ccc = _a.sent();
-                                        if (!plugin.result) return [3 /*break*/, 6];
+                                        if (!plugin.result) return [3 /*break*/, 5];
                                         return [4 /*yield*/, seneca.actAsync("role:crawler.plugin.transform,cmd:single", {
                                                 data: ccc,
                                                 expression: plugin.result
                                             })];
-                                    case 5:
+                                    case 4:
                                         ddd = _a.sent();
                                         rtn = seneca.util.deepextend({}, rtn, ddd.result || {});
-                                        _a.label = 6;
-                                    case 6: return [3 /*break*/, 8];
-                                    case 7:
-                                        e_1 = _a.sent();
-                                        seneca.log.error("\u8C03\u7528" + plugin.partten + "\u5931\u8D25\uFF01----------------");
-                                        throw e_1;
-                                    case 8:
+                                        _a.label = 5;
+                                    case 5:
                                         index++;
                                         return [2 /*return*/];
                                 }
                             });
                         };
-                        _a.label = 1;
-                    case 1:
-                        if (!(index < plugins.length)) return [3 /*break*/, 3];
-                        return [5 /*yield**/, _loop_1()];
+                        _a.label = 2;
                     case 2:
-                        _a.sent();
-                        return [3 /*break*/, 1];
+                        if (!(index < plugins.length)) return [3 /*break*/, 4];
+                        return [5 /*yield**/, _loop_1()];
                     case 3:
+                        _a.sent();
+                        return [3 /*break*/, 2];
+                    case 4: return [3 /*break*/, 6];
+                    case 5:
+                        e_1 = _a.sent();
+                        throw e_1;
+                    case 6:
                         if (rtn.queueItem) {
                             seneca.log.info("\u8C03\u7528" + rtn.queueItem.url + "\u7528\u65F6" + (Date.now() - nn));
                         }

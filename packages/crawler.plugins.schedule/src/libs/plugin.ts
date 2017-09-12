@@ -38,14 +38,15 @@ export class ExecutePluginService {
         }, index = 0;
         let nn = Date.now();
 
-        // 验证partten的合法性
-        this.checkParttens(seneca, plugins);
-        // 执行单个插件
-        while (index < plugins.length) {
-            let plugin = plugins[index];
-            let jsonata = {};
+        try {
+            // 验证partten的合法性
+            this.checkParttens(seneca, plugins);
+            // 执行单个插件
+            while (index < plugins.length) {
+                let plugin = plugins[index];
+                let jsonata = {};
 
-            try {
+
                 // 处理需要的数据
                 if (plugin.jsonata) {
                     let ddd = await seneca.actAsync(`role:crawler.plugin.transform,cmd:muti`, {
@@ -71,13 +72,11 @@ export class ExecutePluginService {
 
                     rtn = seneca.util.deepextend({}, rtn, ddd.result || {});
                 }
-
-            } catch (e) {
-                seneca.log.error(`调用${plugin.partten}失败！----------------`);
-                throw e;
+                index++;
             }
 
-            index++;
+        } catch (e) {
+            throw e;
         }
 
         if (rtn.queueItem) {
