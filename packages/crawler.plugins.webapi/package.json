@@ -1,6 +1,6 @@
 {
   "name": "test",
-  "version": "1.0.0",
+  "version": "0.1.17",
   "description": "Nest TypeScript starter repository",
   "license": "MIT",
   "scripts": {
@@ -19,7 +19,7 @@
     "auth-token-header": "0.0.1",
     "body-parser": "^1.17.2",
     "cookie-parser": "^1.4.3",
-    "crawler.plugins.common": "^0.1.16",
+    "crawler.plugins.common": "^0.1.17",
     "ejs": "^2.5.7",
     "express-session": "^1.15.5",
     "joi": "^10.6.0",

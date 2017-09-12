@@ -1,6 +1,6 @@
 {
   "name": "crawler.plugins.admin",
-  "version": "1.0.0",
+  "version": "0.1.17",
   "description": "爬虫管理界面",
   "main": "index.js",
   "scripts": {
