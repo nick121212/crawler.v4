@@ -16,12 +16,6 @@ const config = {
 	}
 };
 
-const HOST = process.env.HOST || process.argv[2] || "0.0.0.0";
-const BASES = (process.env.BASES || process.argv[3] || "").split(",");
-const PORT = process.env.PORT;
-const BROADCAST = process.env.BROADCAST;
-const REGISTRY = JSON.parse(process.env.REGISTRY || "{"active":true}");
-
 let seneca = new Seneca(container, {
 	tag: pluginName
 });
