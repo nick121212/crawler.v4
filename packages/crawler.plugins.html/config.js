@@ -26,9 +26,13 @@ module.exports = {
                 "host": process.env.HOST,
                 "stop": true,
                 "discover": {
-                    // "registry": {
-                    //     "active": true
-                    // }
+                    "multicast": { active: false },
+                    "defined": { active: false },
+                    "multicast": { active: false },
+                    "guess": { active: false },
+                    "registry": {
+                        "active": true
+                    }
                 },
                 "listen": [{
                     "pin": "role:crawler.plugin.html,cmd:*"
