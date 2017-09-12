@@ -1,4 +1,4 @@
-import { modelProxy, IInterfaceModel, IExecute } from 'modelproxy';
+import { modelProxy, IInterfaceModel, IExecute } from "modelproxy";
 export declare class SuperAgentEngine extends modelProxy.BaseEngine {
     engineName: string;
     /**

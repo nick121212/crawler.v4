@@ -10,6 +10,6 @@ let seneca = new Seneca(container, {
 
 seneca.seneca
     .ready(async () => {
-        console.log("crawler.plugins.downloader plugin ready!");
+        console.log("crawler.plugins.downloader ready!");
     });
 

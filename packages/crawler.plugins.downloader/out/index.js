@@ -45,22 +45,7 @@ var seneca = new crawler_plugins_common_1.Seneca(container_1.container, {
 seneca.seneca
     .ready(function () { return __awaiter(_this, void 0, void 0, function () {
     return __generator(this, function (_a) {
-        seneca.seneca.act("role:crawler.plugin.downloader,cmd:html", {
-            "queueItem": {
-                "protocol": "https",
-                "host": "item.jd.com",
-                "query": "",
-                "port": 80,
-                "path": "/10468590470.html",
-                "depth": 2,
-                "url": "https://item.jd.com/10468590470.html",
-                "_id": "14ca64908864d9a0fbc173eed901b289"
-            },
-            "engine": "superagent",
-            "charset": "gbk",
-            "header": {}
-        }, console.log);
-        console.log("crawler.plugins.downloader plugin ready!");
+        console.log("crawler.plugins.downloader ready!");
         return [2 /*return*/];
     });
 }); });

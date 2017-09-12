@@ -74,19 +74,19 @@ var DownloadPlugin = (function () {
                          * 添加接口信息
                          */
                         this.proxy.proxy.loadConfig({
-                            "key": "download",
-                            "title": "download下载接口",
-                            "state": "html",
                             "engine": engine,
+                            "interfaces": [{
+                                    "key": "download",
+                                    "method": "get",
+                                    "path": "",
+                                    "title": ""
+                                }],
+                            "key": "download",
+                            "state": "html",
                             "states": {
                                 "html": queueItem.url
                             },
-                            "interfaces": [{
-                                    "path": "",
-                                    "method": "get",
-                                    "key": "download",
-                                    "title": ""
-                                }]
+                            "title": "download下载接口",
                         });
                         return [4 /*yield*/, this.proxy.proxy.execute("/download/download", {
                                 settings: {
@@ -98,15 +98,15 @@ var DownloadPlugin = (function () {
                         res = _a.sent();
                         if (!save) return [3 /*break*/, 3];
                         expireSeneca = options.seneca.delegate({ expire$: 60 });
-                        download = expireSeneca.make$('downloads', __assign({ id: queueItem._id, data: res.statusCode }, queueItem, { responseBody: res.body }));
+                        download = expireSeneca.make$("downloads", __assign({ data: res.statusCode, id: queueItem._id }, queueItem, { responseBody: res.body }));
                         return [4 /*yield*/, download.saveAsync()];
                     case 2:
                         _a.sent();
                         _a.label = 3;
                     case 3: return [2 /*return*/, {
-                            statusCode: res.statusCode,
+                            crawlerCount: 1 * queueItem.crawlerCount + 1,
                             responseBody: save ? null : res.body,
-                            crawlerCount: ~~queueItem.crawlerCount + 1
+                            statusCode: res.statusCode,
                         }];
                 }
             });
@@ -118,19 +118,19 @@ var DownloadPlugin = (function () {
          * 添加接口信息
          */
         this.proxy.proxy.loadConfig({
-            "key": "download",
-            "title": "download下载接口",
-            "state": "interface",
             "engine": engine,
+            "interfaces": [{
+                    "key": "interface",
+                    "method": method,
+                    "path": path,
+                    "title": ""
+                }],
+            "key": "download",
+            "state": "interface",
             "states": {
                 "interface": url
             },
-            "interfaces": [{
-                    "path": path,
-                    "method": method,
-                    "key": "interface",
-                    "title": ""
-                }]
+            "title": "download下载接口",
         });
         /**
          * 调用接口
@@ -141,8 +141,8 @@ var DownloadPlugin = (function () {
             settings: { header: header }
         }).then(function (res) {
             return {
+                responseBody: res.body,
                 statusCode: res.statusCode,
-                responseBody: res.body
             };
         });
     };

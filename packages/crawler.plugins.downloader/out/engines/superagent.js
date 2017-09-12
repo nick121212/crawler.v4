@@ -57,7 +57,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var request = require("superagent");
 var modelproxy_1 = require("modelproxy");
 var inversify_1 = require("inversify");
-require('superagent-charset')(request);
+require("superagent-charset")(request);
 var SuperAgentEngine = (function (_super) {
     __extends(SuperAgentEngine, _super);
     /**

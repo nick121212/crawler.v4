@@ -12,9 +12,9 @@ export declare class DownloadPlugin {
         proxyInfo: any;
         engine: string;
     }, options: any): Promise<{
-        statusCode: number | undefined;
-        responseBody: any;
         crawlerCount: number;
+        responseBody: any;
+        statusCode: number | undefined;
     }>;
     inter({url, path, params, data, header, method, engine, _id}: any): any;
 }
