@@ -53,6 +53,9 @@ seneca.seneca
                 return [4 /*yield*/, seneca.seneca.actAsync("role:" + constants_1.pluginTaskName + ",cmd:add", require("./config/milove").default)];
             case 1:
                 _a.sent();
+                return [4 /*yield*/, seneca.seneca.actAsync("role:" + constants_1.pluginTaskName + ",cmd:add", require("./config/milove.blog").default)];
+            case 2:
+                _a.sent();
                 return [2 /*return*/];
         }
     });
