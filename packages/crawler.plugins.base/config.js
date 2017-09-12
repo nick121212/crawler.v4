@@ -11,14 +11,9 @@ module.exports = {
             },
             "mesh": {
                 "isbase": true,
-                "auto": true,
+                "auto": false,
                 "host": process.env.HOST,
                 "stop": true,
-                "sneeze": {
-                    // "silent": JSON.parse(SILENT),
-                    "silent": true,
-                    "swim": { interval: 1111 }
-                },
                 "discover": {
                     "registry": {
                         "active": true
