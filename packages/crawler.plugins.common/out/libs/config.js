@@ -53,7 +53,7 @@ var Configurator = (function (_super) {
             console.log("配置文件加载失败", e.message);
         }
         fs.watch(file, function (event, filename) {
-            if (event == 'change' && _this.automaticConfigReload) {
+            if (event === "change" && _this.automaticConfigReload) {
                 _this.updateConfig(filename);
                 _this.emit("cofigFileChange");
             }

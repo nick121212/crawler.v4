@@ -132,9 +132,11 @@ var Seneca = (function () {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
+                        console.log("执行前", msg.id$, msg.$tx);
                         return [4 /*yield*/, plugin[key](msg, Object.assign({ seneca: reply.seneca }, options, {}), globalOptions)];
                     case 1:
                         result = _a.sent();
+                        console.log("执行后", msg.id$, msg.$tx);
                         reply && reply(null, result);
                         return [3 /*break*/, 3];
                     case 2:

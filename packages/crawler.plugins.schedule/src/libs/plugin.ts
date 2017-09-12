@@ -62,10 +62,16 @@ export class ExecutePluginService {
                     });
                     // console.log(`${plugin.partten}`, "调用transform:", jsonata);
                 }
-
+                let ccc = null;
                 // seneca.log.info(`开始调用${plugin.partten}-----------------;`);
+                try {
+                    ccc = await seneca.actAsync(plugin.partten, Object.assign({ timeout$: 60000 }, jsonata, plugin.data));
+
+                    console.log(ccc);
+                } catch (e) {
+                    console.log(e);
+                }
                 // 调用接口
-                let ccc = await seneca.actAsync(plugin.partten, Object.assign({}, jsonata, plugin.data));
 
                 console.log(`调用${plugin.partten}成功！耗时：`, Date.now() - start, "ms");
 
