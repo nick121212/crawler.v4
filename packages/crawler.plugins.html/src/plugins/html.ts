@@ -39,17 +39,17 @@ export class HtmlPlugin {
 
         // 解析规则，分析页面中的字段
         if (rules.length && queueItem.responseBody) {
-            let index = 0;
+            // let index = 0;
 
-            while (index < rules.length) {
-                results.push((await analysis.doDeal(queueItem, rules[index])));
-                index++;
-            }
-
-
-            // for (let rule of rules) {
-            //     results.push((await analysis.doDeal(queueItem, rule)));
+            // while (index < rules.length) {
+            //     results.push((await analysis.doDeal(queueItem, rules[index])));
+            //     index++;
             // }
+
+
+            for (let rule of rules) {
+                results.push((await analysis.doDeal(queueItem, rule)));
+            }
         }
 
         console.log("crawler.plugins.html  分析html结束！----------------");

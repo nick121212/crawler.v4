@@ -25,9 +25,9 @@ module.exports = {
                 "auto": true,
                 "host": process.env.HOST,
                 "discover": {
-                    "registry": {
-                        "active": true
-                    }
+                    // "registry": {
+                    //     "active": true
+                    // }
                 },
                 "listen": [{
                     "pin": "role:crawler.plugin.html,cmd:*"

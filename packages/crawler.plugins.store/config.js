@@ -2,7 +2,7 @@ module.exports = {
     "options": {
         "crawler.plugin.store.es": {
             "host": "47.92.126.120:9500",
-            "log": ["error","trace"],
+            "log": [],
             "sniffInterval": 30000,
             "requestTimeout": 20000
         },
