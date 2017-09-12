@@ -51,6 +51,7 @@ var crawler_plugins_common_1 = require("crawler.plugins.common");
 // import format from "../libs/format";
 var analysis_1 = require("../libs/analysis");
 var constants_1 = require("../constants");
+var count = 0;
 var HtmlPlugin = (function () {
     function HtmlPlugin() {
     }
@@ -64,7 +65,8 @@ var HtmlPlugin = (function () {
                         if (!queueItem) {
                             return [2 /*return*/, []];
                         }
-                        console.log("crawler.plugins.html  分析html开始！----------------", queueItem.path, queueItem._id, pages);
+                        count++;
+                        console.log("crawler.plugins.html  分析html开始！----------------当前连接数：", count);
                         urls = [];
                         results = [];
                         rules = _.filter(pages, function (_a) {
@@ -99,7 +101,8 @@ var HtmlPlugin = (function () {
                         _i++;
                         return [3 /*break*/, 3];
                     case 6:
-                        console.log(queueItem.url, "crawler.plugins.html  分析html结束！----------------", results.length);
+                        count--;
+                        console.log(queueItem.url, "crawler.plugins.html  分析html结束！----------------当前连接数：", count, "；分析结果数量：", results.length);
                         return [2 /*return*/, results];
                 }
             });

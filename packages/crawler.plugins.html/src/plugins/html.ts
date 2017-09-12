@@ -8,6 +8,8 @@ import { Plugin, Add, Wrap, Init } from "crawler.plugins.common";
 import analysis from "../libs/analysis";
 import { pluginName } from "../constants";
 
+let count = 0;
+
 @Plugin(pluginName)
 @injectable()
 export class HtmlPlugin {
@@ -17,7 +19,9 @@ export class HtmlPlugin {
             return [];
         }
 
-        console.log("crawler.plugins.html  分析html开始！----------------", queueItem.path, queueItem._id, pages);
+        count++;
+
+        console.log("crawler.plugins.html  分析html开始！----------------当前连接数：", count);
 
         let urls = [];
         let results: Array<any> = [];
@@ -46,8 +50,9 @@ export class HtmlPlugin {
                 results.push((await analysis.doDeal(queueItem, rule)));
             }
         }
+        count--;
 
-        console.log(queueItem.url, "crawler.plugins.html  分析html结束！----------------", results.length);
+        console.log(queueItem.url, "crawler.plugins.html  分析html结束！----------------当前连接数：", count, "；分析结果数量：", results.length);
 
         return results;
     }
