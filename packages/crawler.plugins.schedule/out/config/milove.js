@@ -55,7 +55,7 @@ exports.default = {
                     },
                     "result": "${'queueItem':$}"
                 }, {
-                    "partten": "role:crawler.plugin.html,cmd:html",
+                    "partten": "role:crawler.plugin.html,cmd:html,timeout$:5000",
                     "jsonata": ["$.queueItem.{'queueItem':$}"],
                     "result": "${'results':$}",
                     "data": {
