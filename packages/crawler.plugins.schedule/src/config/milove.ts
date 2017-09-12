@@ -46,7 +46,7 @@ export default {
         "path": "/qa/:id",
         "title": "妈咪love详情页",
         "msgFlow": [{
-            "partten": "role:crawler.plugin.downloader,cmd:html,timeout$:60000",
+            "partten": "role:crawler.plugin.downloader,cmd:html",
             "title": "下载页面",
             "jsonata": ["$.queueItem.{'queueItem':$}"],
             "data": {
@@ -54,7 +54,7 @@ export default {
             },
             "result": "${'queueItem':$}"
         }, {
-            "partten": "role:crawler.plugin.html,cmd:html,timeout$:3000",
+            "partten": "role:crawler.plugin.html,cmd:html",
             "jsonata": ["$.queueItem.{'queueItem':$}"],
             "result": "${'results':$}",
             "data": {
