@@ -22,4 +22,4 @@ export const Add = <T>(partten: string | Object, options?: T) => {
 
         metadataList.push(metadata);
     };
-}
+};

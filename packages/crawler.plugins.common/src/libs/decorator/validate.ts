@@ -22,5 +22,5 @@ export const Validate = <T>(joi?: joi.AnySchema<any>, options?: any) => {
         }
 
         metadataList.push(metadata);
-    }
-}
+    };
+};

@@ -63,7 +63,7 @@ export class DownloadPlugin {
             await download.saveAsync();
         }
 
-        console.log("downloader 成功；耗时：", Date.now() - start, "ms");
+        console.log(queueItem.url, "-----downloader 成功；耗时：", Date.now() - start, "ms");
 
         return {
             crawlerCount: 1 * queueItem.crawlerCount + 1,

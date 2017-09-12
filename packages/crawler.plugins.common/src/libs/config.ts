@@ -1,16 +1,16 @@
-import { injectable } from 'inversify';
+import { injectable } from "inversify";
 import * as fs from "fs";
 import * as util from "util";
 import { EventEmitter } from "events";
-import * as path from 'path';
+import * as path from "path";
 
 export interface IPlugin {
     pre: {
         [key: string]: any;
-    },
+    };
     after: {
         [key: string]: any;
-    }
+    };
 }
 
 export interface IConfig {
@@ -29,7 +29,7 @@ export class Configurator extends EventEmitter {
      * 构造
      * @param automaticConfigReload 是否自动获取配置文件的更改
      */
-    constructor(private automaticConfigReload: boolean = false) {
+    constructor(private automaticConfigReload = false) {
         super();
     }
 
@@ -37,7 +37,7 @@ export class Configurator extends EventEmitter {
      * 更新配置文件信息
      * @param file 文件的路径
      */
-    updateConfig(file: string) {
+    public updateConfig(file: string) {
         let filePath = path.resolve(file);
         let config: any;
 
@@ -48,7 +48,7 @@ export class Configurator extends EventEmitter {
         }
 
         fs.watch(file, (event, filename) => {
-            if (event == 'change' && this.automaticConfigReload) {
+            if (event === "change" && this.automaticConfigReload) {
                 this.updateConfig(filename);
                 this.emit("cofigFileChange");
             }
@@ -72,7 +72,7 @@ export interface IConfigService<T> {
 /**
  * 读取配置文件服务
  *     redis
- *     mq          
+ *     mq
  */
 @injectable()
 export class ConfigService<T> extends Configurator implements IConfigService<T> {
@@ -99,7 +99,7 @@ export class ConfigService<T> extends Configurator implements IConfigService<T> 
      * @param filePath 配置文件路径
      * @param automaticConfigReload 
      */
-    private initConfig(filePath: string, automaticConfigReload: boolean = false): void | any {
+    private initConfig(filePath: string, automaticConfigReload = false): void | any {
         // if (!fs.existsSync(filePath)) {
         //     return;
         //     // throw new Error(`${filePath}不存在！`);

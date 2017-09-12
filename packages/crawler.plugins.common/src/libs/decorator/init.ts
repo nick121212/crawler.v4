@@ -20,4 +20,4 @@ export const Init = <T>() => {
 
         metadataList.push(metadata);
     };
-}
+};

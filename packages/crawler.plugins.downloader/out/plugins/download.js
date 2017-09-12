@@ -105,7 +105,7 @@ var DownloadPlugin = (function () {
                         _a.sent();
                         _a.label = 3;
                     case 3:
-                        console.log("downloader 成功；耗时：", Date.now() - start, "ms");
+                        console.log(queueItem.url, "-----downloader 成功；耗时：", Date.now() - start, "ms");
                         return [2 /*return*/, {
                                 crawlerCount: 1 * queueItem.crawlerCount + 1,
                                 responseBody: save ? null : res.body,

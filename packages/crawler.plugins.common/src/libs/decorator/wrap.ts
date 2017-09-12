@@ -22,4 +22,4 @@ export const Wrap = <T>(partten: string | Object, options?: T) => {
 
         metadataList.push(metadata);
     };
-}
+};

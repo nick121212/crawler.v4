@@ -34,8 +34,7 @@ module.exports = {
                     }
                 },
                 "listen": [{
-                    "pin": "role:crawler.plugin.html,cmd:*",
-                    "type": "tcp"
+                    "pin": "role:crawler.plugin.html,cmd:*"
                 }]
             }
         },

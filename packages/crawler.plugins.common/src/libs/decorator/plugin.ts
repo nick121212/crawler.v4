@@ -14,4 +14,4 @@ export const Plugin = <T>(name: string, options?: T) => {
 
         Reflect.defineMetadata(SenecaConfig._plugin, metadata, target);
     };
-}
+};
