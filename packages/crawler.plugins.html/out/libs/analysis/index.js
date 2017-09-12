@@ -25,10 +25,14 @@ var Strategy = (function (_super) {
     function Strategy() {
         var _this = _super.call(this) || this;
         _.each(requireDir(module, "./"), function (deal, key) {
-            key !== "base" && (_this.deals[key] = deal.default);
+            if (key !== "base") {
+                _this.deals[key] = deal.default;
+            }
         });
         _.forEach(_this.deals, function (deal, key) {
-            deal && (deal.deals = _this.deals);
+            if (deal) {
+                deal.deals = _this.deals;
+            }
         });
         return _this;
     }
@@ -44,13 +48,13 @@ var Strategy = (function (_super) {
         var dataResults = {};
         var check = function (results) {
             var promises = [];
-            var getPromises = function (results) {
-                _.forEach(results, function (result) {
+            var getPromises = function (rts) {
+                _.forEach(rts, function (result) {
                     if (_.isArray(result)) {
                         getPromises(result);
                     }
-                    else {
-                        result && result.data && result.data.data && (promises = promises.concat(_this.doDealData.call(_this, queueItem, result.data.data, result.result, result.$cur, result.index)));
+                    else if (result && result.data && result.data.data) {
+                        promises = promises.concat(_this.doDealData.call(_this, queueItem, result.data.data, result.result, result.$cur, result.index));
                     }
                 });
             };

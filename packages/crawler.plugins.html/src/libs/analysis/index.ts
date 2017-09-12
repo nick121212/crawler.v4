@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 import { Base } from "./base";
 import jsdom from "../html/jsdom";
-import * as requireDir from 'require-directory';
+import * as requireDir from "require-directory";
 
 /**
  * 处理html文本策越
@@ -16,12 +16,16 @@ export class Strategy extends Base {
         super();
 
         _.each(requireDir(module, "./"), (deal: any, key: string) => {
-            key !== "base" && (this.deals[key] = deal.default);
+            if (key !== "base") {
+                this.deals[key] = deal.default;
+            }
         });
 
         _.forEach(this.deals, (deal, key: string) => {
-            deal && (deal.deals = this.deals);
-        })
+            if (deal) {
+                deal.deals = this.deals;
+            }
+        });
     }
 
     /**
@@ -30,17 +34,17 @@ export class Strategy extends Base {
      * @param rule        {Object} 配置
      * @returns {Promise}
      */
-    doDeal(queueItem:any, rule:any) {
-        let promiseAll:any = [];
+    public doDeal(queueItem: any, rule: any) {
+        let promiseAll: any = [];
         let dataResults = {};
-        let check = (results:any) => {
-            let promises:any = [];
-            let getPromises = (results:any) => {
-                _.forEach(results, (result) => {
+        let check = (results: any) => {
+            let promises: any = [];
+            let getPromises = (rts: any) => {
+                _.forEach(rts, (result) => {
                     if (_.isArray(result)) {
                         getPromises(result);
-                    } else {
-                        result && result.data && result.data.data && (promises = promises.concat(this.doDealData.call(this, queueItem, result.data.data, result.result, result.$cur, result.index)));
+                    } else if (result && result.data && result.data.data) {
+                        promises = promises.concat(this.doDealData.call(this, queueItem, result.data.data, result.result, result.$cur, result.index));
                     }
                 });
             };
@@ -54,7 +58,7 @@ export class Strategy extends Base {
         };
 
         // 处理area
-        return this.deals.area.doDeal(queueItem, rule.areas).then((results:any) => {
+        return this.deals.area.doDeal(queueItem, rule.areas).then((results: any) => {
             _.forEach(rule.fields, (field, key) => {
                 promiseAll = promiseAll.concat(this.doDealData.call(this, queueItem, field.data, dataResults, results[key] ? results[key].$cur : null));
             });
