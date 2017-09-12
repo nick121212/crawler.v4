@@ -98,16 +98,18 @@ var MQueueService = (function () {
                                         case 0: return [4 /*yield*/, bluebird.delay(3000)];
                                         case 1:
                                             _a.sent();
-                                            consumeMsg(msg).then(function (data) {
-                                                if (_this.channel) {
-                                                    _this.channel.ack(msg);
-                                                }
-                                            }).catch(function (err) {
-                                                console.log("爬取失败！", err.message);
-                                                if (_this.channel) {
-                                                    _this.channel.nack(msg);
-                                                }
-                                            });
+                                            return [4 /*yield*/, consumeMsg(msg).then(function (data) {
+                                                    if (_this.channel) {
+                                                        _this.channel.ack(msg);
+                                                    }
+                                                }).catch(function (err) {
+                                                    console.log("爬取失败！", err.message);
+                                                    if (_this.channel) {
+                                                        _this.channel.nack(msg);
+                                                    }
+                                                })];
+                                        case 2:
+                                            _a.sent();
                                             return [2 /*return*/];
                                     }
                                 });

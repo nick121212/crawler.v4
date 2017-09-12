@@ -38,6 +38,10 @@ export class ExecutePluginService {
         }, index = 0;
         let nn = Date.now();
 
+        if (rtn.queueItem) {
+            console.log(`开始调用${rtn.queueItem.url}`);
+        }
+
         try {
             // 验证partten的合法性
             this.checkParttens(seneca, plugins);

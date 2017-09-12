@@ -76,6 +76,9 @@ var ExecutePluginService = (function () {
                             queueItem: msg ? this.getQueueItemFromMsg(msg) : null
                         }, index = 0;
                         nn = Date.now();
+                        if (rtn.queueItem) {
+                            console.log("\u5F00\u59CB\u8C03\u7528" + rtn.queueItem.url);
+                        }
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 5, , 6]);

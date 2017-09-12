@@ -49,7 +49,7 @@ export class MQueueService {
             console.log(`开始消费queue:${queue.queue}`);
             this.consume = await this.channel.consume(queue.queue, async (msg: amqplib.Message) => {
                 await bluebird.delay(3000);
-                consumeMsg(msg).then((data: any) => {
+                await consumeMsg(msg).then((data: any) => {
                     if (this.channel) {
                         this.channel.ack(msg);
                     }
