@@ -76,9 +76,6 @@ var ExecutePluginService = (function () {
                             queueItem: msg ? this.getQueueItemFromMsg(msg) : null
                         }, index = 0;
                         nn = Date.now();
-                        if (rtn.queueItem) {
-                            console.log(rtn.queueItem.url);
-                        }
                         // 验证partten的合法性
                         this.checkParttens(seneca, plugins);
                         _loop_1 = function () {
@@ -102,12 +99,9 @@ var ExecutePluginService = (function () {
                                             jsonata = Object.assign({}, jsonata, r || {});
                                         });
                                         _a.label = 3;
-                                    case 3:
-                                        console.log("\u5F00\u59CB\u8C03\u7528" + plugin.partten + "-----------------;");
-                                        return [4 /*yield*/, seneca.actAsync(plugin.partten, Object.assign({}, jsonata, plugin.data))];
+                                    case 3: return [4 /*yield*/, seneca.actAsync(plugin.partten, Object.assign({}, jsonata, plugin.data))];
                                     case 4:
                                         ccc = _a.sent();
-                                        console.log("\u8C03\u7528" + plugin.partten + "\u6210\u529F\uFF01----------------");
                                         if (!plugin.result) return [3 /*break*/, 6];
                                         return [4 /*yield*/, seneca.actAsync("role:crawler.plugin.transform,cmd:single", {
                                                 data: ccc,
@@ -120,7 +114,7 @@ var ExecutePluginService = (function () {
                                     case 6: return [3 /*break*/, 8];
                                     case 7:
                                         e_1 = _a.sent();
-                                        console.log("\u8C03\u7528" + plugin.partten + "\u5931\u8D25\uFF01----------------");
+                                        seneca.log.error("\u8C03\u7528" + plugin.partten + "\u5931\u8D25\uFF01----------------");
                                         throw e_1;
                                     case 8:
                                         index++;
@@ -137,7 +131,7 @@ var ExecutePluginService = (function () {
                         return [3 /*break*/, 1];
                     case 3:
                         if (rtn.queueItem) {
-                            console.log("\u8C03\u7528" + rtn.queueItem.url + "\u7528\u65F6" + (Date.now() - nn));
+                            seneca.log.info("\u8C03\u7528" + rtn.queueItem.url + "\u7528\u65F6" + (Date.now() - nn));
                         }
                         return [2 /*return*/, rtn];
                 }

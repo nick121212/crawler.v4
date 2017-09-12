@@ -193,19 +193,21 @@ var TaskPlugin = (function () {
                         return [4 /*yield*/, entity.listAsync({})];
                     case 1:
                         tasks = _a.sent();
-                        _.forEach(tasks, function (task) { return __awaiter(_this, void 0, void 0, function () {
-                            return __generator(this, function (_a) {
-                                switch (_a.label) {
-                                    case 0:
-                                        if (!(task.id && !this.mqs[task.id])) return [3 /*break*/, 2];
-                                        return [4 /*yield*/, this.addToTask(task, options, globalOptions)];
-                                    case 1:
-                                        _a.sent();
-                                        _a.label = 2;
-                                    case 2: return [2 /*return*/];
-                                }
-                            });
-                        }); });
+                        setTimeout(function () {
+                            _.forEach(tasks, function (task) { return __awaiter(_this, void 0, void 0, function () {
+                                return __generator(this, function (_a) {
+                                    switch (_a.label) {
+                                        case 0:
+                                            if (!(task.id && !this.mqs[task.id])) return [3 /*break*/, 2];
+                                            return [4 /*yield*/, this.addToTask(task, options, globalOptions)];
+                                        case 1:
+                                            _a.sent();
+                                            _a.label = 2;
+                                        case 2: return [2 /*return*/];
+                                    }
+                                });
+                            }); });
+                        }, 5000);
                         return [4 /*yield*/, bluebird.delay(200)];
                     case 2:
                         _a.sent();

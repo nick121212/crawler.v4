@@ -48,6 +48,7 @@ var inversify_1 = require("inversify");
 var _ = require("lodash");
 var pathToRegexp = require("path-to-regexp");
 var crawler_plugins_common_1 = require("crawler.plugins.common");
+// import format from "../libs/format";
 var analysis_1 = require("../libs/analysis");
 var constants_1 = require("../constants");
 var HtmlPlugin = (function () {
@@ -72,7 +73,7 @@ var HtmlPlugin = (function () {
                             return pathToReg.test(queueItem.path);
                         });
                         if (!(rules.length && !queueItem.responseBody)) return [3 /*break*/, 2];
-                        expireSeneca = options.seneca.delegate({ expire$: 15 });
+                        expireSeneca = options.seneca.delegate({ expire$: 60 });
                         entity = expireSeneca.make("downloads");
                         return [4 /*yield*/, entity.loadAsync({ id: queueItem._id })];
                     case 1:

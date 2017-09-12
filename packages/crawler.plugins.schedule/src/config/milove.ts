@@ -50,7 +50,7 @@ export default {
             "title": "下载页面",
             "jsonata": ["$.queueItem.{'queueItem':$}"],
             "data": {
-                "save": false
+                "save": true
             },
             "result": "${'queueItem':$}"
         }, {

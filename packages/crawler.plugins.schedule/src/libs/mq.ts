@@ -4,10 +4,6 @@ import * as bluebird from "bluebird";
 import * as _ from "lodash";
 import { injectable } from "inversify";
 
-process.on("unhandledRejection", (reason, p) => {
-    console.log("Unhandled Rejection at: Promise ", p, " reason: ", reason);
-});
-
 /**
  * agenda服务
  */
@@ -53,12 +49,12 @@ export class MQueueService {
             console.log(`开始消费queue:${queue.queue}`);
             this.consume = await this.channel.consume(queue.queue, async (msg: amqplib.Message) => {
                 await bluebird.delay(3000);
-                await consumeMsg(msg).then((data: any) => {
+                consumeMsg(msg).then((data: any) => {
                     if (this.channel) {
                         this.channel.ack(msg);
                     }
                 }).catch((err: Error) => {
-                    console.log("爬取失败！", err.message);
+                    console.log("爬取失败！", err.message.slice(0, 20));
                     if (this.channel) {
                         this.channel.nack(msg);
                     }

@@ -4,7 +4,7 @@ import * as _ from "lodash";
 import * as pathToRegexp from "path-to-regexp";
 import { Plugin, Add, Wrap, Init } from "crawler.plugins.common";
 
-import format from "../libs/format";
+// import format from "../libs/format";
 import analysis from "../libs/analysis";
 import { pluginName } from "../constants";
 
@@ -28,7 +28,7 @@ export class HtmlPlugin {
         });
 
         if (rules.length && !queueItem.responseBody) {
-            let expireSeneca = options.seneca.delegate({ expire$: 15 });
+            let expireSeneca = options.seneca.delegate({ expire$: 60 });
             let entity = expireSeneca.make("downloads");
             let download = await entity.loadAsync({ id: queueItem._id });
 

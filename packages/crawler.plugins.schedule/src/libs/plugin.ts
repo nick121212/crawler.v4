@@ -38,10 +38,6 @@ export class ExecutePluginService {
         }, index = 0;
         let nn = Date.now();
 
-        if (rtn.queueItem) {
-            console.log(rtn.queueItem.url);
-        }
-
         // 验证partten的合法性
         this.checkParttens(seneca, plugins);
         // 执行单个插件
@@ -50,8 +46,6 @@ export class ExecutePluginService {
             let jsonata = {};
 
             try {
-
-
                 // 处理需要的数据
                 if (plugin.jsonata) {
                     let ddd = await seneca.actAsync(`role:crawler.plugin.transform,cmd:muti`, {
@@ -64,11 +58,10 @@ export class ExecutePluginService {
                     // console.log(`${plugin.partten}`, "调用transform:", jsonata);
                 }
 
-                console.log(`开始调用${plugin.partten}-----------------;`);
+                // seneca.log.info(`开始调用${plugin.partten}-----------------;`);
                 // 调用接口
                 let ccc = await seneca.actAsync(plugin.partten, Object.assign({}, jsonata, plugin.data));
-
-                console.log(`调用${plugin.partten}成功！----------------`);
+                // seneca.log.info(`调用${plugin.partten}成功！----------------`);
 
                 if (plugin.result) {
                     let ddd = await seneca.actAsync(`role:crawler.plugin.transform,cmd:single`, {
@@ -80,7 +73,7 @@ export class ExecutePluginService {
                 }
 
             } catch (e) {
-                console.log(`调用${plugin.partten}失败！----------------`);
+                seneca.log.error(`调用${plugin.partten}失败！----------------`);
                 throw e;
             }
 
@@ -88,7 +81,7 @@ export class ExecutePluginService {
         }
 
         if (rtn.queueItem) {
-            console.log(`调用${rtn.queueItem.url}用时${Date.now() - nn}`);
+            seneca.log.info(`调用${rtn.queueItem.url}用时${Date.now() - nn}`);
         }
 
         return rtn;
