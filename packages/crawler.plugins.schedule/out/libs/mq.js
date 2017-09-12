@@ -103,7 +103,7 @@ var MQueueService = (function () {
                                                     _this.channel.ack(msg);
                                                 }
                                             }).catch(function (err) {
-                                                console.log("爬取失败！", err.message.slice(0, 150));
+                                                console.log("爬取失败！", err.message);
                                                 if (_this.channel) {
                                                     _this.channel.nack(msg);
                                                 }

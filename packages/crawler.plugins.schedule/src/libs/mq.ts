@@ -54,7 +54,7 @@ export class MQueueService {
                         this.channel.ack(msg);
                     }
                 }).catch((err: Error) => {
-                    console.log("爬取失败！", err.message.slice(0, 150));
+                    console.log("爬取失败！", err.message);
                     if (this.channel) {
                         this.channel.nack(msg);
                     }
