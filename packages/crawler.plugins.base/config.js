@@ -13,12 +13,12 @@ module.exports = {
                 "isbase": true,
                 "auto": false,
                 "host": process.env.HOST,
-                "stop": true,
-                "discover": {
-                    "registry": {
-                        "active": true
-                    }
-                }
+                // "stop": true,
+                // "discover": {
+                //     "registry": {
+                //         "active": true
+                //     }
+                // }
             }
         },
         "after": {
