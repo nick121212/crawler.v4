@@ -13,7 +13,6 @@ module.exports = {
                 "isbase": true,
                 "stop": false,
                 "host": process.env.HOST,
-                "stop": true,
                 "discover": {
                     "multicast": { active: false },
                     "defined": { active: false },

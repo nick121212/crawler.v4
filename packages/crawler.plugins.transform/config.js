@@ -14,6 +14,10 @@ module.exports = {
                 "auto": true,
                 "host": process.env.HOST,
                 "discover": {
+                    "multicast": { active: false },
+                    "defined": { active: false },
+                    "multicast": { active: false },
+                    "guess": { active: false },
                     "registry": {
                         "active": true
                     }

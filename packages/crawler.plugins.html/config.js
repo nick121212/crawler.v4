@@ -24,7 +24,6 @@ module.exports = {
                 "isbase": false,
                 "auto": true,
                 "host": process.env.HOST,
-                "stop": false,
                 "discover": {
                     "multicast": { active: false },
                     "defined": { active: false },

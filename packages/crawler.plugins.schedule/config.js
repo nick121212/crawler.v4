@@ -25,12 +25,11 @@ module.exports = {
                 "isbase": false,
                 "auto": true,
                 "host": process.env.HOST,
-                "stop": true,
-                "sneeze": {
-                    "silent": true,
-                    "swim": { interval: 1111 }
-                },
                 "discover": {
+                    "multicast": { active: false },
+                    "defined": { active: false },
+                    "multicast": { active: false },
+                    "guess": { active: false },
                     "registry": {
                         "active": true
                     }

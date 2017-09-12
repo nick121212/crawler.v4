@@ -14,18 +14,14 @@ module.exports = {
                 "auto": true,
                 "host": process.env.HOST,
                 "discover": {
+                    "multicast": { active: false },
+                    "defined": { active: false },
+                    "multicast": { active: false },
+                    "guess": { active: false },
                     "registry": {
-                        "active": true
-                    },
-                    "guess": {
                         "active": true
                     }
                 },
-                // "sneeze": {
-                //     // "silent": JSON.parse(SILENT),
-                //     "silent": true,
-                //     "swim": { interval: 1111 }
-                // },
                 "listen": [{
                     "pin": "role:crawler.plugin.queue,cmd:*"
                 }]
