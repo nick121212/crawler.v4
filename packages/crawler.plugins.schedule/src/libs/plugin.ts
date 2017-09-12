@@ -45,7 +45,7 @@ export class ExecutePluginService {
             while (index < plugins.length) {
                 let plugin = plugins[index];
                 let jsonata = {};
-
+                let start = Date.now();
 
                 // 处理需要的数据
                 if (plugin.jsonata) {
@@ -62,7 +62,8 @@ export class ExecutePluginService {
                 // seneca.log.info(`开始调用${plugin.partten}-----------------;`);
                 // 调用接口
                 let ccc = await seneca.actAsync(plugin.partten, Object.assign({}, jsonata, plugin.data));
-                // seneca.log.info(`调用${plugin.partten}成功！----------------`);
+
+                seneca.log.info(`调用${plugin.partten}成功！耗时：`, Date.now() - start, "ms");
 
                 if (plugin.result) {
                     let ddd = await seneca.actAsync(`role:crawler.plugin.transform,cmd:single`, {

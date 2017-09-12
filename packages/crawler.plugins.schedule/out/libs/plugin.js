@@ -82,12 +82,13 @@ var ExecutePluginService = (function () {
                         // 验证partten的合法性
                         this.checkParttens(seneca, plugins);
                         _loop_1 = function () {
-                            var plugin, jsonata, ddd, ccc, ddd;
+                            var plugin, jsonata, start, ddd, ccc, ddd;
                             return __generator(this, function (_a) {
                                 switch (_a.label) {
                                     case 0:
                                         plugin = plugins[index];
                                         jsonata = {};
+                                        start = Date.now();
                                         if (!plugin.jsonata) return [3 /*break*/, 2];
                                         return [4 /*yield*/, seneca.actAsync("role:crawler.plugin.transform,cmd:muti", {
                                                 data: rtn,
@@ -102,6 +103,7 @@ var ExecutePluginService = (function () {
                                     case 2: return [4 /*yield*/, seneca.actAsync(plugin.partten, Object.assign({}, jsonata, plugin.data))];
                                     case 3:
                                         ccc = _a.sent();
+                                        seneca.log.info("\u8C03\u7528" + plugin.partten + "\u6210\u529F\uFF01\u8017\u65F6\uFF1A", Date.now() - start, "ms");
                                         if (!plugin.result) return [3 /*break*/, 5];
                                         return [4 /*yield*/, seneca.actAsync("role:crawler.plugin.transform,cmd:single", {
                                                 data: ccc,

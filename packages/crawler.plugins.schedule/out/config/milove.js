@@ -15,7 +15,7 @@ var queueConfig = {
 };
 exports.default = {
     "key": "mamilove",
-    "prefech": 30,
+    "prefech": 3,
     "initFlow": [{
             "key": "queue",
             "partten": "role:crawler.plugin.queue,cmd:queue",
@@ -55,7 +55,7 @@ exports.default = {
                     },
                     "result": "${'queueItem':$}"
                 }, {
-                    "partten": "role:crawler.plugin.html,cmd:html,timeout$:5000",
+                    "partten": "role:crawler.plugin.html,cmd:html,timeout$:3000",
                     "jsonata": ["$.queueItem.{'queueItem':$}"],
                     "result": "${'results':$}",
                     "data": {
