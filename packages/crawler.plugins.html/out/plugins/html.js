@@ -98,7 +98,7 @@ var HtmlPlugin = (function () {
                         _i++;
                         return [3 /*break*/, 3];
                     case 6:
-                        console.log("crawler.plugins.html  分析html结束！----------------");
+                        console.log(queueItem.url, "crawler.plugins.html  分析html结束！----------------", results.length);
                         return [2 /*return*/, results];
                 }
             });

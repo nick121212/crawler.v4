@@ -52,7 +52,7 @@ export class HtmlPlugin {
             }
         }
 
-        console.log("crawler.plugins.html  分析html结束！----------------");
+        console.log(queueItem.url, "crawler.plugins.html  分析html结束！----------------", results.length);
 
         return results;
     }
