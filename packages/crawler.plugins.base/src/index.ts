@@ -9,7 +9,7 @@ let seneca = new Seneca(container, {
 });
 
 seneca.seneca
-    .ready(async () => {
+    .ready(() => {
         console.log("crawler.plugins.base ready!");
     });
 
