@@ -36,7 +36,7 @@ export class HtmlPlugin {
                 queueItem.responseBody = download.responseBody;
             }
 
-            console.log(queueItem.url, "crawler.plugins.html  获取responseBody成功----------------", download);
+            console.log(queueItem.url, "crawler.plugins.html  获取responseBody成功----------------");
         }
 
 
