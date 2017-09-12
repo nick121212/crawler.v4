@@ -81,6 +81,7 @@ var HtmlPlugin = (function () {
                         if (download) {
                             queueItem.responseBody = download.responseBody;
                         }
+                        console.log(queueItem.url, "crawler.plugins.html  获取responseBody成功----------------", download);
                         _c.label = 2;
                     case 2:
                         if (!(rules.length && queueItem.responseBody)) return [3 /*break*/, 6];

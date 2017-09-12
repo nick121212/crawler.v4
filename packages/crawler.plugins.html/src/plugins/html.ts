@@ -35,18 +35,13 @@ export class HtmlPlugin {
             if (download) {
                 queueItem.responseBody = download.responseBody;
             }
+
+            console.log(queueItem.url, "crawler.plugins.html  获取responseBody成功----------------", download);
         }
+
 
         // 解析规则，分析页面中的字段
         if (rules.length && queueItem.responseBody) {
-            // let index = 0;
-
-            // while (index < rules.length) {
-            //     results.push((await analysis.doDeal(queueItem, rules[index])));
-            //     index++;
-            // }
-
-
             for (let rule of rules) {
                 results.push((await analysis.doDeal(queueItem, rule)));
             }
