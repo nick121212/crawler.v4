@@ -1,7 +1,7 @@
 module.exports = {
     "options": {
         "seneca": {
-
+            timeout: 10000
         }
     },
     "plugins": {
