@@ -18,6 +18,7 @@ export class HtmlPlugin {
         if (!queueItem) {
             return [];
         }
+        let start = Date.now();
 
         count++;
 
@@ -47,12 +48,12 @@ export class HtmlPlugin {
         // 解析规则，分析页面中的字段
         if (rules.length && queueItem.responseBody) {
             for (let rule of rules) {
-                // results.push((await analysis.doDeal(queueItem, rule)));
+                results.push((await analysis.doDeal(queueItem, rule)));
             }
         }
         count--;
 
-        console.log(queueItem.url, "crawler.plugins.html  分析html结束！----------------当前连接数：", count, "；分析结果数量：", results.length);
+        console.log(queueItem.url, "crawler.plugins.html  分析html结束！----------------当前连接数：", count, "；分析结果数量：", results.length, "耗时：", Date.now() - start);
 
         return results;
     }
