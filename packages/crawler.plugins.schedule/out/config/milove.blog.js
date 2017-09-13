@@ -15,7 +15,7 @@ var queueConfig = {
 };
 exports.default = {
     "key": "mamilove.blog",
-    "prefech": 3,
+    "prefech": 10,
     "initFlow": [{
             "key": "queue",
             "partten": "role:crawler.plugin.queue,cmd:queue",
