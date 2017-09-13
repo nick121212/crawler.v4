@@ -1,7 +1,7 @@
 module.exports = {
     "options": {
         "seneca": {
-
+            "timeout": 60000
         }
     },
     "plugins": {
@@ -17,18 +17,18 @@ module.exports = {
                     }
                 }
             },
-            "consul-registry": {
-                "host": "47.92.126.120"
-            },
+            // "consul-registry": {
+            //     "host": "47.92.126.120"
+            // },
             "mesh": {
                 "isbase": false,
                 "auto": true,
                 "host": process.env.HOST,
-                "discover": {
-                    "registry": {
-                        "active": true
-                    }
-                },
+                // "discover": {
+                //     "registry": {
+                //         "active": true
+                //     }
+                // },
                 "listen": [{
                     "pin": "role:crawler.plugin.downloader,cmd:*"
                 }]

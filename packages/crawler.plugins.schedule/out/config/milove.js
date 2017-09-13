@@ -14,8 +14,8 @@ var queueConfig = {
     "filterByDomain": true
 };
 exports.default = {
-    "key": "mamilove",
-    "prefech": 10,
+    "key": "mamilove1",
+    "prefech": 30,
     "initFlow": [{
             "key": "queue",
             "partten": "role:crawler.plugin.queue,cmd:queue",
@@ -31,7 +31,7 @@ exports.default = {
             "title": "存储爬取到的urls",
             "jsonata": ["$.queues{'urls':[$]}"],
             "data": {
-                "esIndex": "mamilove",
+                "esIndex": "mamilove1",
                 "esType": "url"
             },
             "result": "${'saveUrls':$}"
@@ -40,7 +40,7 @@ exports.default = {
             "title": "把存储的url放入queue",
             "jsonata": ["$.saveUrls{'items':[$]}"],
             "data": {
-                "key": "mamilove",
+                "key": "mamilove1",
             }
         }],
     pages: [{
@@ -51,31 +51,36 @@ exports.default = {
                     "title": "下载页面",
                     "jsonata": ["$.queueItem.{'queueItem':$}"],
                     "data": {
-                        "save": true
+                        "save": false
                     },
                     "result": "${'queueItem':$}"
                 }, {
                     "partten": "role:crawler.plugin.html,cmd:html",
+                    "title": "解析页面",
                     "jsonata": ["$.queueItem.{'queueItem':$}"],
                     "result": "${'results':$}",
                     "data": {
+                        "timeout$": 10000,
                         "pages": [{
                                 "key": "qa-detail",
                                 "path": "/qa/:id",
-                                "areas": [],
+                                "areas": [{
+                                        "key": "main",
+                                        "selector": [".qa-item-list"]
+                                    }],
                                 "fieldKey": "",
                                 "fields": {
-                                    "none": {
+                                    "main": {
                                         "data": [{
                                                 "key": "title",
-                                                "selector": [".qa-item-list .qa-item-subject-link:eq(0)"],
+                                                "selector": [".qa-item-subject-link:eq(0)"],
                                                 "removeSelector": [],
                                                 "methodInfo": { "text": [] },
                                                 "htmlStrategy": "jsdom",
                                                 "dealStrategy": "normal"
                                             }, {
                                                 "key": "createAt",
-                                                "selector": [".qa-item-list .qa-item-info:eq(0)"],
+                                                "selector": [".qa-item-info:eq(0)"],
                                                 "removeSelector": [".qa-item-author"],
                                                 "methodInfo": { "text": [] },
                                                 "htmlStrategy": "jsdom",
@@ -88,24 +93,24 @@ exports.default = {
                                                     }]
                                             }, {
                                                 "key": "content",
-                                                "selector": [".qa-item-list .qa-item-content:eq(0)"],
+                                                "selector": [".qa-item-content:eq(0)"],
                                                 "removeSelector": [],
                                                 "methodInfo": { "html": [] },
                                                 "dealStrategy": "normal"
                                             }, {
                                                 "key": "age",
-                                                "selector": [".qa-item-list .qa-item-right-status:eq(0) span:eq(-2) a"],
+                                                "selector": [".qa-item-right-status:eq(0) span:eq(-2) a"],
                                                 "removeSelector": [],
                                                 "methodInfo": { "html": [] },
                                                 "dealStrategy": "normal"
                                             }, {
                                                 "key": "category",
-                                                "selector": [".qa-item-list .qa-item-right-status:eq(0) span:eq(-1) a"],
+                                                "selector": [".qa-item-right-status:eq(0) span:eq(-1) a"],
                                                 "dealStrategy": "normal",
                                                 "methodInfo": { "text": [] }
                                             }, {
                                                 "key": "comments",
-                                                "selector": [".qa-item-list .qa-answer-list:eq(0) > .qa-answer-item"],
+                                                "selector": [".qa-answer-list:eq(0) > .qa-answer-item"],
                                                 "htmlStrategy": "jsdom",
                                                 "dealStrategy": "array",
                                                 "data": [{
@@ -127,18 +132,18 @@ exports.default = {
                     }
                 }, {
                     "partten": "role:crawler.plugin.store.es,cmd:saveResult",
-                    "title": "存储爬取的数据",
+                    "title": "存储分析的数据",
                     "jsonata": ["$combine($.results.result[]){'result':$}", "$.queueItem._id.{'id':$}"],
                     "data": {
                         "esIndex": "qa",
-                        "esType": "mamilove"
+                        "esType": "mamilove1"
                     }
                 }, {
                     "partten": "role:crawler.plugin.mq,cmd:addItemToQueue",
-                    "title": "把当前的queueItem放入数据处理queue",
-                    "jsonata": ["$.queueItem{'items':[{'id':$._id,'url':$.url,'esIndex':'qa','esType':'mamilove'}]}"],
+                    "title": "把当前的queueItem放入数据处理queue，后面由导入到wordpress",
+                    "jsonata": ["$.queueItem{'items':[{'id':$._id,'url':$.url,'esIndex':'qa','esType':'mamilove1'}]}"],
                     "data": {
-                        "key": "mamilove",
+                        "key": "mamilove1",
                         "routingKey": "qa.item"
                     }
                 }]
@@ -169,7 +174,7 @@ exports.default = {
                     "title": "存储爬取到的urls",
                     "jsonata": ["$.queues{'urls':[$]}"],
                     "data": {
-                        "esIndex": "mamilove",
+                        "esIndex": "mamilove1",
                         "esType": "url"
                     },
                     "result": "${'saveUrls':$}"
@@ -178,14 +183,14 @@ exports.default = {
                     "title": "把存储的url放入queue",
                     "jsonata": ["$.saveUrls{'items':[$]}"],
                     "data": {
-                        "key": "mamilove",
+                        "key": "mamilove1",
                     }
                 }, {
                     "partten": "role:crawler.plugin.store.es,cmd:saveQueueItem",
                     "title": "存储爬取到的urls",
                     "jsonata": ["$.queueItem{'queueItem':$}"],
                     "data": {
-                        "esIndex": "mamilove",
+                        "esIndex": "mamilove1",
                         "esType": "queueItem"
                     }
                 }]

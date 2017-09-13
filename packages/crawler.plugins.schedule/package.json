@@ -1,5 +1,5 @@
 {
-  "name": "crawler.plugins.mq",
+  "name": "crawler.plugins.schedule",
   "version": "0.1.18",
   "description": "",
   "main": "index.js",
@@ -19,6 +19,7 @@
     "inversify": "^4.2.0",
     "json-pointer": "^0.6.0",
     "lodash": "^4.17.4",
+    "log4js": "^2.3.3",
     "morgan": "^1.8.2",
     "path-to-regexp": "^2.0.0",
     "reflect-metadata": "^0.1.10",
@@ -34,6 +35,8 @@
     "@types/inversify": "^2.0.33",
     "@types/json-pointer": "^1.0.30",
     "@types/lodash": "^4.14.71",
+    "@types/log4js": "0.0.33",
+    "@types/morgan": "^1.7.32",
     "@types/node": "^8.0.10",
     "@types/reflect-metadata": "0.0.5",
     "@types/seneca": "^2.1.7"

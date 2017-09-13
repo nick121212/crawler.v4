@@ -127,24 +127,18 @@ var Seneca = (function () {
         var target = _a.target, partten = _a.partten, key = _a.key, _b = _a.options, options = _b === void 0 ? {} : _b;
         // plugin = this.executeValudate(plugin);
         this._seneca.add(partten, options, function (msg, reply) { return __awaiter(_this, void 0, void 0, function () {
-            var result, e_1;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        console.log("执行前", msg.id$, msg.$tx);
-                        return [4 /*yield*/, plugin[key](msg, Object.assign({ seneca: reply.seneca }, options, {}), globalOptions)];
-                    case 1:
-                        result = _a.sent();
-                        console.log("执行后", msg.id$, msg.$tx);
-                        reply && reply(null, result);
-                        return [3 /*break*/, 3];
-                    case 2:
-                        e_1 = _a.sent();
-                        reply && reply(e_1);
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                // try {
+                //     console.log("执行前", msg.id$, msg.$tx);
+                //     let result = await plugin[key](msg, Object.assign({ seneca: reply.seneca }, options, {}), globalOptions);
+                //     console.log("执行后", msg.id$, msg.$tx);
+                //     reply && reply(null, result);
+                // } catch (e) {
+                //     reply && reply(e);
+                // }
+                plugin[key](msg, Object.assign({ seneca: reply.seneca }, options, {}), globalOptions)
+                    .then(reply.bind(null, null)).catch(reply.bind(null));
+                return [2 /*return*/];
             });
         }); });
     };
@@ -161,7 +155,7 @@ var Seneca = (function () {
         var target = _a.target, partten = _a.partten, key = _a.key, _b = _a.options, options = _b === void 0 ? {} : _b;
         // plugin = this.executeValudate(plugin);
         this._seneca.wrap(partten, options, function (msg, reply) { return __awaiter(_this, void 0, void 0, function () {
-            var result, e_2;
+            var result, e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -172,8 +166,8 @@ var Seneca = (function () {
                         reply.seneca.prior(msg, reply);
                         return [3 /*break*/, 3];
                     case 2:
-                        e_2 = _a.sent();
-                        reply && reply(e_2);
+                        e_1 = _a.sent();
+                        reply && reply(e_1);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }

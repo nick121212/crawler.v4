@@ -138,7 +138,7 @@ export class JsDomDealStrategy {
     doCallMethod($: any, methodInfo: any) {
         let $sel = null;
 
-        _.forEach(methodInfo, (params, method) => {
+        _.forEach(methodInfo, (params: any, method) => {
             if (params && !_.isArray(params)) {
                 params = [params];
             }

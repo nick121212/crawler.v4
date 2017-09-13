@@ -14,12 +14,12 @@ export class Base {
      * @param index      {Number}
      * @return {Array<Promise>}
      */
-    doDealData(queueItem: any, data: any, results: any, $: any, index: number): Array<Promise<any>> {
+    public doDealData(queueItem: any, data: any, results: any, $: any, index: number): Array<Promise<any>> {
         let promises: Array<any> = [];
         let strategy: { doDeal: (queueItem: any, data: any, results: any, $: any, index: number) => Promise<any> };
 
         data = data.concat([]);
-        _.each(data, (d) => {
+        _.each(data, (d: any) => {
             strategy = this.deals[d.dealStrategy] || this.deals.normal;
 
             if (!strategy) {

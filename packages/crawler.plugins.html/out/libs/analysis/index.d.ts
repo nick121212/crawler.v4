@@ -14,7 +14,7 @@ export declare class Strategy extends Base {
      * @param rule        {Object} 配置
      * @returns {Promise}
      */
-    doDeal(queueItem: any, rule: any): any;
+    doDeal(queueItem: any, rule: any): Promise<any>;
 }
 declare const _default: Strategy;
 export default _default;

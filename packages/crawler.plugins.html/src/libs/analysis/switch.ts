@@ -29,7 +29,7 @@ export class Strategy extends Base {
 
                     _.each(cases, (casee) => {
                         if (casee) {
-                            _.each(casee.data.data, (d) => {
+                            _.each(casee.data.data, (d: any) => {
                                 d.dataIndex = res.index;
                             });
                             rtnResults.push(casee);

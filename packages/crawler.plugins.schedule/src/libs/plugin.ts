@@ -4,6 +4,7 @@ import * as _ from "lodash";
 import * as amqplib from "amqplib";
 import { injectable } from "inversify";
 import * as pathToRegexp from "path-to-regexp";
+import * as log4js from "log4js";
 
 import { pluginTaskName, pluginResultName } from "../constants";
 
@@ -11,6 +12,19 @@ export interface IPlugin {
     partten: string;
     data: Object;
 }
+
+
+log4js.configure({
+    appenders: {
+        everything: { type: "file", filename: "all-the-logs.log" }
+    },
+    categories: {
+        default: { appenders: ["everything"], level: "error" }
+    },
+    replaceConsole: false
+} as any);
+
+const logger = log4js.getLogger();
 
 @injectable()
 
@@ -39,7 +53,7 @@ export class ExecutePluginService {
         let nn = Date.now();
 
         if (rtn.queueItem) {
-            console.log(`开始调用${rtn.queueItem.url}`);
+            logger.info(`开始调用${rtn.queueItem.url}`);
         }
 
         try {
@@ -65,15 +79,15 @@ export class ExecutePluginService {
                 let ccc = null;
                 // seneca.log.info(`开始调用${plugin.partten}-----------------;`);
                 try {
-                    ccc = await seneca.actAsync(plugin.partten, Object.assign({ timeout$: 60000 }, jsonata, plugin.data));
+                    ccc = await seneca.actAsync(plugin.partten, Object.assign({ timeout$: 5000 }, jsonata, plugin.data));
 
-                    console.log(ccc);
+                    logger.info(`${plugin.partten}返回的数据`, ccc);
                 } catch (e) {
-                    console.log(e);
+                    logger.error(`${plugin.partten}错误数据`);
                 }
                 // 调用接口
 
-                console.log(`调用${plugin.partten}成功！耗时：`, Date.now() - start, "ms");
+                logger.info(`调用${plugin.partten}成功！耗时：`, Date.now() - start, "ms");
 
                 if (plugin.result) {
                     let ddd = await seneca.actAsync(`role:crawler.plugin.transform,cmd:single`, {
@@ -91,7 +105,7 @@ export class ExecutePluginService {
         }
 
         if (rtn.queueItem) {
-            seneca.log.info(`调用${rtn.queueItem.url}用时${Date.now() - nn}`);
+            logger.info(`调用${rtn.queueItem.url}用时${Date.now() - nn}`);
         }
 
         return rtn;

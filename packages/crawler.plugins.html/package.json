@@ -16,13 +16,14 @@
   "author": "NICK",
   "license": "ISC",
   "dependencies": {
-    "crawler.plugins.common": "^0.1.18",
+    "crawler.plugins.common": "^0.1.16",
     "inversify": "^4.2.0",
     "jquery": "^3.2.1",
     "jsdom": "^9.8.3",
     "json-pointer": "^0.6.0",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
+    "net": "^1.0.2",
     "path-to-regexp": "^1.7.0",
     "qs": "^6.5.0",
     "reflect-metadata": "^0.1.10",
@@ -31,7 +32,10 @@
     "seneca-consul-registry": "^0.1.0",
     "seneca-mesh": "^0.10.0",
     "seneca-redis-store-expires": "^0.1.0",
-    "seneca-transport": "^2.1.1"
+    "seneca-transport": "^2.1.1",
+    "threads": "^0.8.1",
+    "webworker": "^0.8.4",
+    "webworker-threads": "^0.7.13"
   },
   "devDependencies": {
     "@types/blueimp-md5": "^2.7.0",

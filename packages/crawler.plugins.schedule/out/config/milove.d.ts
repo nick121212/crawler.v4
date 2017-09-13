@@ -53,16 +53,21 @@ declare const _default: {
             "result": string;
         } | {
             "partten": string;
+            "title": string;
             "jsonata": string[];
             "result": string;
             "data": {
+                "timeout$": number;
                 "pages": {
                     "key": string;
                     "path": string;
-                    "areas": never[];
+                    "areas": {
+                        "key": string;
+                        "selector": string[];
+                    }[];
                     "fieldKey": string;
                     "fields": {
-                        "none": {
+                        "main": {
                             "data": ({
                                 "key": string;
                                 "selector": string[];

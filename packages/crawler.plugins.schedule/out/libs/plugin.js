@@ -44,6 +44,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var _ = require("lodash");
 var inversify_1 = require("inversify");
 var pathToRegexp = require("path-to-regexp");
+var log4js = require("log4js");
+log4js.configure({
+    appenders: {
+        everything: { type: "file", filename: "all-the-logs.log" }
+    },
+    categories: {
+        default: { appenders: ["everything"], level: "error" }
+    },
+    replaceConsole: false
+});
+var logger = log4js.getLogger();
 var ExecutePluginService = (function () {
     function ExecutePluginService() {
     }
@@ -77,7 +88,7 @@ var ExecutePluginService = (function () {
                         }, index = 0;
                         nn = Date.now();
                         if (rtn.queueItem) {
-                            console.log("\u5F00\u59CB\u8C03\u7528" + rtn.queueItem.url);
+                            logger.info("\u5F00\u59CB\u8C03\u7528" + rtn.queueItem.url);
                         }
                         _a.label = 1;
                     case 1:
@@ -108,18 +119,18 @@ var ExecutePluginService = (function () {
                                         _a.label = 3;
                                     case 3:
                                         _a.trys.push([3, 5, , 6]);
-                                        return [4 /*yield*/, seneca.actAsync(plugin.partten, Object.assign({ timeout$: 60000 }, jsonata, plugin.data))];
+                                        return [4 /*yield*/, seneca.actAsync(plugin.partten, Object.assign({ timeout$: 5000 }, jsonata, plugin.data))];
                                     case 4:
                                         ccc = _a.sent();
-                                        console.log(ccc);
+                                        logger.info(plugin.partten + "\u8FD4\u56DE\u7684\u6570\u636E", ccc);
                                         return [3 /*break*/, 6];
                                     case 5:
                                         e_2 = _a.sent();
-                                        console.log(e_2);
+                                        logger.error(plugin.partten + "\u9519\u8BEF\u6570\u636E");
                                         return [3 /*break*/, 6];
                                     case 6:
                                         // 调用接口
-                                        console.log("\u8C03\u7528" + plugin.partten + "\u6210\u529F\uFF01\u8017\u65F6\uFF1A", Date.now() - start, "ms");
+                                        logger.info("\u8C03\u7528" + plugin.partten + "\u6210\u529F\uFF01\u8017\u65F6\uFF1A", Date.now() - start, "ms");
                                         if (!plugin.result) return [3 /*break*/, 8];
                                         return [4 /*yield*/, seneca.actAsync("role:crawler.plugin.transform,cmd:single", {
                                                 data: ccc,
@@ -148,7 +159,7 @@ var ExecutePluginService = (function () {
                         throw e_1;
                     case 6:
                         if (rtn.queueItem) {
-                            seneca.log.info("\u8C03\u7528" + rtn.queueItem.url + "\u7528\u65F6" + (Date.now() - nn));
+                            logger.info("\u8C03\u7528" + rtn.queueItem.url + "\u7528\u65F6" + (Date.now() - nn));
                         }
                         return [2 /*return*/, rtn];
                 }

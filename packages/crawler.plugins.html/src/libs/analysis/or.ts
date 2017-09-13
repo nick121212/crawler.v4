@@ -15,10 +15,10 @@ export class Strategy extends Base {
      * 数组类型,直接返回空数组
      * @returns Promise
      */
-    doDeal(queueItem: any, data: any, results: any, $: any, index: number): Promise<any> {
+    public doDeal(queueItem: any, data: any, results: any, $: any, index: number): Promise<any> {
 
-        if(data.key){
-            _.each(data.data,(d)=>{
+        if (data.key) {
+            _.each(data.data, (d: any) => {
                 d.key = data.key;
             });
         }

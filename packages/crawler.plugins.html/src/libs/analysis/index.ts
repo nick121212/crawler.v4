@@ -21,7 +21,7 @@ export class Strategy extends Base {
             }
         });
 
-        _.forEach(this.deals, (deal, key: string) => {
+        _.forEach(this.deals, (deal: any, key: string) => {
             if (deal) {
                 deal.deals = this.deals;
             }
@@ -34,13 +34,13 @@ export class Strategy extends Base {
      * @param rule        {Object} 配置
      * @returns {Promise}
      */
-    public doDeal(queueItem: any, rule: any) {
+    public async doDeal(queueItem: any, rule: any): Promise<any> {
         let promiseAll: any = [];
         let dataResults = {};
         let check = (results: any) => {
             let promises: any = [];
             let getPromises = (rts: any) => {
-                _.forEach(rts, (result) => {
+                _.forEach(rts, (result: any) => {
                     if (_.isArray(result)) {
                         getPromises(result);
                     } else if (result && result.data && result.data.data) {
@@ -52,14 +52,14 @@ export class Strategy extends Base {
 
             return promises.length ? Promise.all(promises).then(check.bind(this)) : {
                 result: dataResults,
-                rule: rule
+                rule: rule.key
             };
             // return promises.length ? Promise.all(promises).then(check) : dataResults;
         };
 
         // 处理area
-        return this.deals.area.doDeal(queueItem, rule.areas).then((results: any) => {
-            _.forEach(rule.fields, (field, key) => {
+        return await this.deals.area.doDeal(queueItem, rule.areas).then((results: any) => {
+            _.forEach(rule.fields, (field: any, key: string) => {
                 promiseAll = promiseAll.concat(this.doDealData.call(this, queueItem, field.data, dataResults, results[key] ? results[key].$cur : null));
             });
 

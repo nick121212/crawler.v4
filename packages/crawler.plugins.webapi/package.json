@@ -1,5 +1,5 @@
 {
-  "name": "test",
+  "name": "crawler.plugins.webapi",
   "version": "0.1.18",
   "description": "Nest TypeScript starter repository",
   "license": "MIT",
