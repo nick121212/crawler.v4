@@ -14,7 +14,7 @@ var queueConfig = {
     "filterByDomain": true
 };
 exports.default = {
-    "key": "mamilove1",
+    "key": "mamilove",
     "prefech": 30,
     "initFlow": [{
             "key": "queue",
@@ -31,7 +31,7 @@ exports.default = {
             "title": "存储爬取到的urls",
             "jsonata": ["$.queues{'urls':[$]}"],
             "data": {
-                "esIndex": "mamilove1",
+                "esIndex": "mamilove",
                 "esType": "url"
             },
             "result": "${'saveUrls':$}"
@@ -40,7 +40,7 @@ exports.default = {
             "title": "把存储的url放入queue",
             "jsonata": ["$.saveUrls{'items':[$]}"],
             "data": {
-                "key": "mamilove1",
+                "key": "mamilove",
             }
         }],
     pages: [{
@@ -136,14 +136,14 @@ exports.default = {
                     "jsonata": ["$combine($.results.result[]){'result':$}", "$.queueItem._id.{'id':$}"],
                     "data": {
                         "esIndex": "qa",
-                        "esType": "mamilove1"
+                        "esType": "mamilove"
                     }
                 }, {
                     "partten": "role:crawler.plugin.mq,cmd:addItemToQueue",
                     "title": "把当前的queueItem放入数据处理queue，后面由导入到wordpress",
-                    "jsonata": ["$.queueItem{'items':[{'id':$._id,'url':$.url,'esIndex':'qa','esType':'mamilove1'}]}"],
+                    "jsonata": ["$.queueItem{'items':[{'id':$._id,'url':$.url,'esIndex':'qa','esType':'mamilove'}]}"],
                     "data": {
-                        "key": "mamilove1",
+                        "key": "mamilove",
                         "routingKey": "qa.item"
                     }
                 }]
@@ -174,7 +174,7 @@ exports.default = {
                     "title": "存储爬取到的urls",
                     "jsonata": ["$.queues{'urls':[$]}"],
                     "data": {
-                        "esIndex": "mamilove1",
+                        "esIndex": "mamilove",
                         "esType": "url"
                     },
                     "result": "${'saveUrls':$}"
@@ -183,14 +183,14 @@ exports.default = {
                     "title": "把存储的url放入queue",
                     "jsonata": ["$.saveUrls{'items':[$]}"],
                     "data": {
-                        "key": "mamilove1",
+                        "key": "mamilove",
                     }
                 }, {
                     "partten": "role:crawler.plugin.store.es,cmd:saveQueueItem",
                     "title": "存储爬取到的urls",
                     "jsonata": ["$.queueItem{'queueItem':$}"],
                     "data": {
-                        "esIndex": "mamilove1",
+                        "esIndex": "mamilove",
                         "esType": "queueItem"
                     }
                 }]
