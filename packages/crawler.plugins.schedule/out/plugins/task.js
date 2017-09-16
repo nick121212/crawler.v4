@@ -185,7 +185,7 @@ var TaskPlugin = (function () {
     TaskPlugin.prototype.init = function (msg, options, globalOptions) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
-            var entity, tasks;
+            var entity, tasks, test;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -193,21 +193,32 @@ var TaskPlugin = (function () {
                         return [4 /*yield*/, entity.listAsync({})];
                     case 1:
                         tasks = _a.sent();
-                        setInterval(function () {
-                            _.forEach(tasks, function (task) { return __awaiter(_this, void 0, void 0, function () {
-                                return __generator(this, function (_a) {
-                                    switch (_a.label) {
-                                        case 0:
-                                            if (!(task.id && !this.mqs[task.id])) return [3 /*break*/, 2];
-                                            return [4 /*yield*/, this.addToTask(task, options, globalOptions)];
-                                        case 1:
-                                            _a.sent();
-                                            _a.label = 2;
-                                        case 2: return [2 /*return*/];
-                                    }
-                                });
-                            }); });
-                        }, 60000);
+                        test = new mq_1.MQueueService();
+                        test.initConsume(globalOptions, "blog", function (msg) { return __awaiter(_this, void 0, void 0, function () {
+                            var data, e_1;
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0:
+                                        data = JSON.parse(msg.content.toString());
+                                        data._id = data.id;
+                                        // data.esType = "mamilove";
+                                        delete data.id;
+                                        console.log(data);
+                                        _a.label = 1;
+                                    case 1:
+                                        _a.trys.push([1, 3, , 4]);
+                                        return [4 /*yield*/, options.seneca.actAsync("role:crawler.plugin.wp,cmd:blog", data)];
+                                    case 2:
+                                        _a.sent();
+                                        return [3 /*break*/, 4];
+                                    case 3:
+                                        e_1 = _a.sent();
+                                        console.log("dfkjadjkfkaljskdlfjlakjdslf------------------");
+                                        throw e_1;
+                                    case 4: return [2 /*return*/];
+                                }
+                            });
+                        }); }, 1);
                         return [4 /*yield*/, bluebird.delay(200)];
                     case 2:
                         _a.sent();

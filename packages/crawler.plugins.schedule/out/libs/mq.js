@@ -45,7 +45,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var amqplib = require("amqplib");
-var bluebird = require("bluebird");
 var inversify_1 = require("inversify");
 /**
  * agenda服务
@@ -95,20 +94,20 @@ var MQueueService = (function () {
                                 var _this = this;
                                 return __generator(this, function (_a) {
                                     switch (_a.label) {
-                                        case 0: return [4 /*yield*/, bluebird.delay(3000)];
+                                        case 0: 
+                                        // await bluebird.delay(3000);
+                                        return [4 /*yield*/, consumeMsg(msg).then(function (data) {
+                                                if (_this.channel) {
+                                                    _this.channel.ack(msg);
+                                                }
+                                            }).catch(function (err) {
+                                                console.log("爬取失败！", err.message);
+                                                if (_this.channel) {
+                                                    _this.channel.nack(msg);
+                                                }
+                                            })];
                                         case 1:
-                                            _a.sent();
-                                            return [4 /*yield*/, consumeMsg(msg).then(function (data) {
-                                                    if (_this.channel) {
-                                                        _this.channel.ack(msg);
-                                                    }
-                                                }).catch(function (err) {
-                                                    console.log("爬取失败！", err.message);
-                                                    if (_this.channel) {
-                                                        _this.channel.nack(msg);
-                                                    }
-                                                })];
-                                        case 2:
+                                            // await bluebird.delay(3000);
                                             _a.sent();
                                             return [2 /*return*/];
                                     }

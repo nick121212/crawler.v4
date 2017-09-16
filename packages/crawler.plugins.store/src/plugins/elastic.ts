@@ -1,13 +1,13 @@
-import * as Seneca from 'seneca';
-import inversify, { injectable, inject } from 'inversify';
-import { Plugin, Add, Wrap, Init } from 'crawler.plugins.common';
-import * as bluebird from 'bluebird';
-import * as _ from 'lodash';
-import { Client } from 'elasticsearch';
+import * as Seneca from "seneca";
+import inversify, { injectable, inject } from "inversify";
+import { Plugin, Add, Wrap, Init } from "crawler.plugins.common";
+import * as bluebird from "bluebird";
+import * as _ from "lodash";
+import { Client } from "elasticsearch";
 
-import { pluginEsName } from '../constants';
+import { pluginEsName } from "../constants";
 
-const fields = [
+const _fields = [
     "protocol",
     "host",
     "query",
@@ -24,35 +24,12 @@ const fields = [
     "@timestamp",
     "status",
     "updatedAt"
-]
+];
 
 @Plugin(pluginEsName)
 @injectable()
 export class EsStorePlugin {
     private client: Elasticsearch.Client;
-
-    /**
-     * 启动一个任务
-     * @param param0 
-     * @param options 
-     * @param globalOptions 
-     */
-    @Add(`role:${pluginEsName},cmd:add`)
-    async addToQueue({ config }: { config: any }, options?: any, globalOptions?: any) {
-
-    }
-
-    pick(result: any, fields: Array<string>) {
-        let res: any = {};
-
-        _.each(fields, (field) => {
-            let val: any = _.pick(result, field);
-
-            val && val[field] && (res[field] = val[field]);
-        });
-
-        return res;
-    }
 
     /**
      * 保存分析出来的链接地址
@@ -62,7 +39,7 @@ export class EsStorePlugin {
      */
     @Add(`role:${pluginEsName},cmd:saveUrls`)
 
-    public async saveUrls({ urls, esIndex, esType }: { urls: Array<any>, esIndex: string, esType: string }): Promise<Array<any>> {
+    private async saveUrls({ urls, esIndex, esType }: { urls: Array<any>, esIndex: string, esType: string }): Promise<Array<any>> {
         const urlsById = _.keyBy(urls, "_id");
         let docs: Array<any> = [];
 
@@ -111,7 +88,7 @@ export class EsStorePlugin {
                         _id: url._id
                     }
                 });
-                docs.push(this.pick(_.extend({ "@timestamp": Date.now(), status: "queued" }, urlsById[url._id]), fields));
+                docs.push(this.pick(_.extend({ "@timestamp": Date.now(), status: "queued" }, urlsById[url._id]), _fields));
             }
         });
         if (docs.length) {
@@ -133,13 +110,13 @@ export class EsStorePlugin {
 
     /**
      * 存储当前的地址
-     * @param queueItem 
-     * @param esIndex 
-     * @param esType 
+     * @param queueItem  数据
+     * @param esIndex    索引
+     * @param esType     类型
      */
     @Add(`role:${pluginEsName},cmd:saveQueueItem`)
 
-    async saveQueueItem({ queueItem, esIndex, esType }: { queueItem: any, esIndex: string, esType: string }): Promise<any> {
+    private async saveQueueItem({ queueItem, esIndex, esType }: { queueItem: any, esIndex: string, esType: string }): Promise<any> {
         let docs: Array<any> = [];
 
         if (queueItem && queueItem._id) {
@@ -151,7 +128,7 @@ export class EsStorePlugin {
                 }
             });
             queueItem.status = "complete";
-            docs.push(this.pick(queueItem, fields));
+            docs.push(this.pick(queueItem, _fields));
 
             if (docs.length) {
                 return await this.client.bulk({
@@ -165,12 +142,12 @@ export class EsStorePlugin {
 
     /**
     * 存储当前的地址
-    * @param result 
-    * @param esIndex 
-    * @param esType 
+    * @param result  数据
+    * @param esIndex 索引
+    * @param esType  类型
     */
     @Add(`role:${pluginEsName},cmd:saveResult`)
-    async saveResult({ result, id, esIndex, esType }: { id: string, result: any, esIndex: string, esType: string }): Promise<any> {
+    private async saveResult({ result, id, esIndex, esType }: { id: string, result: any, esIndex: string, esType: string }): Promise<any> {
         let docs: Array<any> = [];
 
         if (result && id) {
@@ -195,16 +172,39 @@ export class EsStorePlugin {
     }
 
     @Init()
-    async init(msg: any, options: any, globalOptions: any) {
+    private async init(msg: any, options: any, globalOptions: any) {
         this.client = new Client(globalOptions);
         this.client.ping({
             requestTimeout: 1000
         }).then(() => {
-            console.log('elasticsearh as well');
+            console.log("elasticsearh as well");
         }, (err: Error) => {
-            console.trace('elasticsearch cluster is down!');
+            console.log("elasticsearch cluster is down!");
         });
 
         await bluebird.delay(200);
+    }
+
+    @Add(`role:${pluginEsName},cmd:getItem`)
+    private async getItem({ _id, esIndex, esType }: { _id: any; esIndex: string; esType: string }) {
+        return await this.client.get({
+            id: _id,
+            index: esIndex,
+            type: esType
+        });
+    }
+
+    private pick(result: any, fields: Array<string>) {
+        let res: any = {};
+
+        _.each(fields, (field) => {
+            let val: any = _.pick(result, field);
+
+            if (val && val[field] !== undefined) {
+                res[field] = val[field];
+            }
+        });
+
+        return res;
     }
 }

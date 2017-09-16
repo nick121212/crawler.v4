@@ -204,17 +204,17 @@ declare const _default: {
             "title": string;
             "jsonata": string[];
             "data": {
-                "esIndex": string;
-                "esType": string;
+                "key": string;
             };
-            "result": string;
         } | {
             "partten": string;
             "title": string;
             "jsonata": string[];
             "data": {
-                "key": string;
+                "esIndex": string;
+                "esType": string;
             };
+            "result": string;
         } | {
             "partten": string;
             "title": string;

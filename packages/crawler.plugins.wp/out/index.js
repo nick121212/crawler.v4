@@ -40,12 +40,29 @@ require("reflect-metadata");
 var crawler_plugins_common_1 = require("crawler.plugins.common");
 var container_1 = require("./container");
 var seneca = new crawler_plugins_common_1.Seneca(container_1.container, {
-    tag: "crawler.plugins.store"
+    tag: "crawler.plugin.wp"
 });
 seneca.seneca
     .ready(function () { return __awaiter(_this, void 0, void 0, function () {
+    var _this = this;
+    var data;
     return __generator(this, function (_a) {
-        console.log(" crawler.plugins.store ready!");
+        console.log("crawler.plugins.wp ready!");
+        data = {
+            "_id": "f9f854723afaf88629e32415376a2925",
+            "esIndex": "blog",
+            "esType": "mamilove.blog"
+        };
+        setTimeout(function () { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, seneca.seneca.actAsync("role:crawler.plugin.wp,cmd:qa", data)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        }); }, 2000);
         return [2 /*return*/];
     });
 }); });

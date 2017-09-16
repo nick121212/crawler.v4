@@ -4,6 +4,7 @@ import { Seneca } from "crawler.plugins.common";
 
 import { container } from "./container";
 import { pluginMqName, pluginTaskName } from "./constants";
+import { MQueueService } from "./libs/mq";
 
 // import config from "./config/test";
 
@@ -15,6 +16,7 @@ seneca.seneca
     .ready(async () => {
         console.log("crawler.plugins.schedule ready!");
 
-        await seneca.seneca.actAsync(`role:${pluginTaskName},cmd:add`, require("./config/milove").default);
-        await seneca.seneca.actAsync(`role:${pluginTaskName},cmd:add`, require("./config/milove.blog").default);
+
+        // await seneca.seneca.actAsync(`role:${pluginTaskName},cmd:add`, require("./config/milove").default);
+        // await seneca.seneca.actAsync(`role:${pluginTaskName},cmd:add`, require("./config/milove.blog").default);
     });

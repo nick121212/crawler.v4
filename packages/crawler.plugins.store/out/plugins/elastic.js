@@ -50,7 +50,7 @@ var bluebird = require("bluebird");
 var _ = require("lodash");
 var elasticsearch_1 = require("elasticsearch");
 var constants_1 = require("../constants");
-var fields = [
+var _fields = [
     "protocol",
     "host",
     "query",
@@ -58,6 +58,7 @@ var fields = [
     "path",
     "depth",
     "url",
+    "crawlerCount",
     "errorCount",
     "error",
     "statusCode",
@@ -70,28 +71,6 @@ var fields = [
 var EsStorePlugin = (function () {
     function EsStorePlugin() {
     }
-    /**
-     * 启动一个任务
-     * @param param0
-     * @param options
-     * @param globalOptions
-     */
-    EsStorePlugin.prototype.addToQueue = function (_a, options, globalOptions) {
-        var config = _a.config;
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/];
-            });
-        });
-    };
-    EsStorePlugin.prototype.pick = function (result, fields) {
-        var res = {};
-        _.each(fields, function (field) {
-            var val = _.pick(result, field);
-            val && val[field] && (res[field] = val[field]);
-        });
-        return res;
-    };
     /**
      * 保存分析出来的链接地址
      * 先判断地址是不是已经在es中
@@ -148,7 +127,7 @@ var EsStorePlugin = (function () {
                                         _id: url._id
                                     }
                                 });
-                                docs.push(_this.pick(_.extend({ "@timestamp": Date.now(), status: "queued" }, urlsById[url._id]), fields));
+                                docs.push(_this.pick(_.extend({ "@timestamp": Date.now(), status: "queued" }, urlsById[url._id]), _fields));
                             }
                         });
                         if (!docs.length) return [3 /*break*/, 3];
@@ -163,18 +142,16 @@ var EsStorePlugin = (function () {
                                 }
                                 return null;
                             })];
-                    case 3:
-                        console.log("ok");
-                        return [2 /*return*/, []];
+                    case 3: return [2 /*return*/, []];
                 }
             });
         });
     };
     /**
      * 存储当前的地址
-     * @param queueItem
-     * @param esIndex
-     * @param esType
+     * @param queueItem  数据
+     * @param esIndex    索引
+     * @param esType     类型
      */
     EsStorePlugin.prototype.saveQueueItem = function (_a) {
         var queueItem = _a.queueItem, esIndex = _a.esIndex, esType = _a.esType;
@@ -193,7 +170,7 @@ var EsStorePlugin = (function () {
                             }
                         });
                         queueItem.status = "complete";
-                        docs.push(this.pick(queueItem, fields));
+                        docs.push(this.pick(queueItem, _fields));
                         if (!docs.length) return [3 /*break*/, 2];
                         return [4 /*yield*/, this.client.bulk({
                                 body: docs
@@ -206,9 +183,9 @@ var EsStorePlugin = (function () {
     };
     /**
     * 存储当前的地址
-    * @param result
-    * @param esIndex
-    * @param esType
+    * @param result  数据
+    * @param esIndex 索引
+    * @param esType  类型
     */
     EsStorePlugin.prototype.saveResult = function (_a) {
         var result = _a.result, id = _a.id, esIndex = _a.esIndex, esType = _a.esType;
@@ -218,7 +195,6 @@ var EsStorePlugin = (function () {
                 switch (_a.label) {
                     case 0:
                         docs = [];
-                        console.log(result, id);
                         if (!(result && id)) return [3 /*break*/, 2];
                         docs.push({
                             index: {
@@ -247,9 +223,9 @@ var EsStorePlugin = (function () {
                         this.client.ping({
                             requestTimeout: 1000
                         }).then(function () {
-                            console.log('elasticsearh as well');
+                            console.log("elasticsearh as well");
                         }, function (err) {
-                            console.trace('elasticsearch cluster is down!');
+                            console.log("elasticsearch cluster is down!");
                         });
                         return [4 /*yield*/, bluebird.delay(200)];
                     case 1:
@@ -259,14 +235,33 @@ var EsStorePlugin = (function () {
             });
         });
     };
+    EsStorePlugin.prototype.getItem = function (_a) {
+        var _id = _a._id, esIndex = _a.esIndex, esType = _a.esType;
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.client.get({
+                            id: _id,
+                            index: esIndex,
+                            type: esType
+                        })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    EsStorePlugin.prototype.pick = function (result, fields) {
+        var res = {};
+        _.each(fields, function (field) {
+            var val = _.pick(result, field);
+            if (val && val[field] !== undefined) {
+                res[field] = val[field];
+            }
+        });
+        return res;
+    };
     return EsStorePlugin;
 }());
-__decorate([
-    crawler_plugins_common_1.Add("role:" + constants_1.pluginEsName + ",cmd:add"),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object]),
-    __metadata("design:returntype", Promise)
-], EsStorePlugin.prototype, "addToQueue", null);
 __decorate([
     crawler_plugins_common_1.Add("role:" + constants_1.pluginEsName + ",cmd:saveUrls"),
     __metadata("design:type", Function),
@@ -291,6 +286,12 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object, Object]),
     __metadata("design:returntype", Promise)
 ], EsStorePlugin.prototype, "init", null);
+__decorate([
+    crawler_plugins_common_1.Add("role:" + constants_1.pluginEsName + ",cmd:getItem"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], EsStorePlugin.prototype, "getItem", null);
 EsStorePlugin = __decorate([
     crawler_plugins_common_1.Plugin(constants_1.pluginEsName),
     inversify_1.injectable()

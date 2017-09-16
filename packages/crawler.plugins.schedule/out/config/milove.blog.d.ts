@@ -140,7 +140,7 @@ declare const _default: {
                             } | {
                                 "key": string;
                                 "selector": string[];
-                                "removeSelector": never[];
+                                "removeSelector": string[];
                                 "methodInfo": {
                                     "html": never[];
                                 };

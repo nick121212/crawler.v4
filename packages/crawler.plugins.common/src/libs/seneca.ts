@@ -93,9 +93,9 @@ export class Seneca<T extends IConfig> {
         // plugin = this.executeValudate(plugin);
         this._seneca.add(partten, options, async (msg: any, reply: any) => {
             try {
-                console.log("执行前", msg.id$, msg.$tx);
+                // console.log("执行前", msg.id$, msg.$tx);
                 let result = await plugin[key](msg, Object.assign({ seneca: reply.seneca }, options, {}), globalOptions);
-                console.log("执行后", msg.id$, msg.$tx);
+                // console.log("执行后", msg.id$, msg.$tx);
                 reply && reply(null, result);
             } catch (e) {
                 reply && reply(e);

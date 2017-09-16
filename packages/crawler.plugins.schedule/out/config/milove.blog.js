@@ -131,8 +131,8 @@ exports.default = {
                                                     }]
                                             }, {
                                                 "key": "content",
-                                                "selector": [".blog-article"],
-                                                "removeSelector": [],
+                                                "selector": [".blog-article .blog-content"],
+                                                "removeSelector": ["meta", ".comment-bar", "#question_id"],
                                                 "methodInfo": { "html": [] },
                                                 "dealStrategy": "normal"
                                             }, {

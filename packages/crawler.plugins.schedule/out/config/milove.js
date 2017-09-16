@@ -170,6 +170,13 @@ exports.default = {
                     },
                     "result": "${'queues':$}"
                 }, {
+                    "partten": "role:crawler.plugin.mq,cmd:addItemToQueue",
+                    "title": "把存储的url放入queue",
+                    "jsonata": ["$.saveUrls{'items':[$]}"],
+                    "data": {
+                        "key": "mamilove",
+                    }
+                }, {
                     "partten": "role:crawler.plugin.store.es,cmd:saveUrls",
                     "title": "存储爬取到的urls",
                     "jsonata": ["$.queues{'urls':[$]}"],
@@ -178,13 +185,6 @@ exports.default = {
                         "esType": "url"
                     },
                     "result": "${'saveUrls':$}"
-                }, {
-                    "partten": "role:crawler.plugin.mq,cmd:addItemToQueue",
-                    "title": "把存储的url放入queue",
-                    "jsonata": ["$.saveUrls{'items':[$]}"],
-                    "data": {
-                        "key": "mamilove",
-                    }
                 }, {
                     "partten": "role:crawler.plugin.store.es,cmd:saveQueueItem",
                     "title": "存储爬取到的urls",

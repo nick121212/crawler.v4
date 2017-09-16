@@ -127,13 +127,34 @@ export class TaskPlugin {
         let entity = options.seneca.make$("tasks");
         let tasks = await entity.listAsync({});
 
-        setInterval(() => {
-            _.forEach(tasks, async (task: any) => {
-                if (task.id && !this.mqs[task.id]) {
-                    await this.addToTask(task, options, globalOptions);
-                }
-            });
-        }, 60000);
+        // setInterval(() => {
+        //     _.forEach(tasks, async (task: any) => {
+        //         if (task.id && !this.mqs[task.id]) {
+        //             await this.addToTask(task, options, globalOptions);
+        //         }
+        //     });
+        // }, 60000);
+
+
+
+        let test = new MQueueService();
+
+        test.initConsume(globalOptions, "blog", async (msg: any) => {
+            let data: any = JSON.parse(msg.content.toString());
+
+            data._id = data.id;
+            // data.esType = "mamilove";
+            delete data.id;
+
+            console.log(data);
+            try {
+                await options.seneca.actAsync("role:crawler.plugin.wp,cmd:blog", data);
+            } catch (e) {
+                console.log("dfkjadjkfkaljskdlfjlakjdslf------------------");
+                throw e;
+            }
+        }, 1);
+
 
 
         await bluebird.delay(200);
