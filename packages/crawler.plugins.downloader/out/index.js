@@ -40,7 +40,8 @@ require("reflect-metadata");
 var crawler_plugins_common_1 = require("crawler.plugins.common");
 var container_1 = require("./container");
 var seneca = new crawler_plugins_common_1.Seneca(container_1.container, {
-    tag: "crawler.plugin.downloader"
+    tag: "crawler.plugin.downloader",
+    timeout: 60000
 });
 seneca.seneca
     .ready(function () { return __awaiter(_this, void 0, void 0, function () {

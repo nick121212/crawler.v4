@@ -5,22 +5,12 @@ export declare class TransformExexutePlugin {
      * @param options
      * @param globalOptions
      */
-    single({expression, data}: {
-        expression: string;
-        data: any;
-    }, options?: any, globalOptions?: any): Promise<{
-        result: any;
-    }>;
+    private single({expression, data}, options?, globalOptions?);
     /**
      * 启动一个任务
      * @param param0
      * @param options
      * @param globalOptions
      */
-    muti({expressions, data}: {
-        expressions: Array<string>;
-        data: any;
-    }, options?: any, globalOptions?: any): Promise<{
-        result: any[];
-    }>;
+    private muti({expressions, data}, options?, globalOptions?);
 }

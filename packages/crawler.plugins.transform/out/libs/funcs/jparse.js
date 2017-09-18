@@ -7,24 +7,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var inversify_1 = require("inversify");
-var CombineFunc = (function () {
-    function CombineFunc() {
+var JparseFunc = (function () {
+    function JparseFunc() {
     }
-    CombineFunc.prototype.init = function (exp) {
-        exp.assign("combine", this.combine);
+    JparseFunc.prototype.init = function (exp) {
+        exp.assign("jparse", this.combine);
     };
-    CombineFunc.prototype.combine = function (objs) {
-        if (objs.constructor !== Array) {
+    JparseFunc.prototype.combine = function (objs) {
+        if (objs.constructor !== String) {
             throw new Error("第一个参数有问题");
         }
-        return objs.reduce(function (prev, obj) {
-            return Object.assign({}, prev, obj);
-        }, {});
+        return JSON.parse(objs);
     };
-    return CombineFunc;
+    return JparseFunc;
 }());
-CombineFunc = __decorate([
+JparseFunc = __decorate([
     inversify_1.injectable()
-], CombineFunc);
-exports.CombineFunc = CombineFunc;
-//# sourceMappingURL=combine.js.map
+], JparseFunc);
+exports.JparseFunc = JparseFunc;
+//# sourceMappingURL=jparse.js.map

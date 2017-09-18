@@ -1,25 +1,11 @@
 module.exports = {
     "options": {
-        "seneca": {
+        "senecaOptions": {
             "timeout": 60000
         }
     },
     "plugins": {
         "pre": {
-            "redis-store-expires": {
-                "host": "47.92.126.120",
-                "port": 6379,
-                "auth": "crawler",
-                "expire": 20,
-                "entityspec": {
-                    "-/-/downloads": {
-                        "expire": 60
-                    }
-                }
-            },
-            // "consul-registry": {
-            //     "host": "47.92.126.120"
-            // },
             "mesh": {
                 "isbase": false,
                 "auto": true,
@@ -30,7 +16,9 @@ module.exports = {
                 //     }
                 // },
                 "listen": [{
-                    "pin": "role:crawler.plugin.downloader,cmd:*"
+                    "type": "tcp",
+                    "pin": "role:crawler.plugin.downloader,cmd:*",
+                    "timeout": 60000
                 }]
             }
         },

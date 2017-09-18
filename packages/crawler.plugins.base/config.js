@@ -1,13 +1,13 @@
 module.exports = {
     "options": {
-        "seneca": {
-
+        "senecaOptions": {
+            "timeout": 60000
         }
     },
     "plugins": {
         "pre": {
             "consul-registry": {
-                "host": "47.92.126.120"
+                "host": process.env.CONSUL || "47.92.126.120"
             },
             "mesh": {
                 "isbase": true,

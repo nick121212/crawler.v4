@@ -1,6 +1,6 @@
-import * as jsonata from 'jsonata';
+/// <reference types="jsonata" />
+import * as jsonata from "jsonata";
 export declare class CombineFunc {
-    constructor();
-    init(exp: jsonata.IExpression): void;
-    combine(objs: Array<Object>): Object;
+    init(exp: jsonata.Expression): void;
+    private combine(objs);
 }

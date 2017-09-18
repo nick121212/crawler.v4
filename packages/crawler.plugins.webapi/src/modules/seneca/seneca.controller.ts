@@ -15,7 +15,7 @@ export class SenecaController {
     // C
     @Post('act')
     @UsePipes(new JoiValidatorPipe(Joi.object().required(), ({ data }) => data === 'config'))
-    @UsePipes(new JoiValidatorPipe(Joi.string().min(100).required(), ({ data }) => data === 'parttern'))
+    @UsePipes(new JoiValidatorPipe(Joi.string().required(), ({ data }) => data === 'parttern'))
     public async act( @Res() res: Response, @Body('parttern') parttern: string, @Body('config') config: any) {
         if (!this.senecaService.seneca.has(parttern)) {
             throw new HttpException("没有发现parttern:" + parttern, 404);

@@ -81,7 +81,7 @@ let SenecaController = class SenecaController {
 __decorate([
     common_1.Post('act'),
     common_1.UsePipes(new validate_pipe_1.JoiValidatorPipe(Joi.object().required(), ({ data }) => data === 'config')),
-    common_1.UsePipes(new validate_pipe_1.JoiValidatorPipe(Joi.string().min(100).required(), ({ data }) => data === 'parttern')),
+    common_1.UsePipes(new validate_pipe_1.JoiValidatorPipe(Joi.string().required(), ({ data }) => data === 'parttern')),
     __param(0, common_1.Res()), __param(1, common_1.Body('parttern')), __param(2, common_1.Body('config')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, String, Object]),

@@ -1,14 +1,16 @@
 declare const _default: {
-    "key": string;
-    "prefech": number;
-    "initFlow": never[];
-    "pages": {
-        "path": string;
-        "title": string;
+    "parttern": string;
+    "config": {
+        "data": {
+            "pdt_sku": string;
+            "business_id": number;
+            "business_sku_url": string;
+        };
         "msgFlow": ({
             "key": string;
             "partten": string;
             "title": string;
+            "jsonata": string[];
             "data": {
                 "queueConfig": {
                     "ignoreWWWDomain": boolean;
@@ -18,12 +20,11 @@ declare const _default: {
                     "initialProtocol": string;
                     "initialPort": number;
                     "stripQuerystring": boolean;
-                    "allowQueryParams": string[];
+                    "allowQueryParams": never[];
                     "fetchConditions": never[];
                     "domainWhiteList": string[];
                     "filterByDomain": boolean;
                 };
-                "urls": string[];
             };
             "result": string;
         } | {
@@ -32,10 +33,17 @@ declare const _default: {
             "jsonata": string[];
             "data": {
                 "save": boolean;
+                "charset": string;
+                "engine": string;
+                "header": {
+                    "Host": string;
+                    "Accept-Encoding": string;
+                };
             };
             "result": string;
         } | {
             "partten": string;
+            "title": string;
             "jsonata": string[];
             "result": string;
             "data": {
@@ -48,6 +56,7 @@ declare const _default: {
                         "none": {
                             "data": ({
                                 "key": string;
+                                "title": string;
                                 "selector": string[];
                                 "removeSelector": never[];
                                 "methodInfo": {
@@ -55,75 +64,57 @@ declare const _default: {
                                 };
                                 "htmlStrategy": string;
                                 "dealStrategy": string;
-                            } | {
-                                "key": string;
-                                "selector": string[];
-                                "removeSelector": string[];
-                                "methodInfo": {
-                                    "text": never[];
-                                };
-                                "htmlStrategy": string;
-                                "dealStrategy": string;
-                                "formats": ({
+                                "formats": {
                                     "key": string;
                                     "settings": {
-                                        "regexp": string;
-                                        "scope": string;
-                                        "index": number;
+                                        "start": boolean;
+                                        "middle": boolean;
+                                        "end": boolean;
                                     };
-                                } | {
-                                    "key": string;
-                                })[];
+                                }[];
                             } | {
                                 "key": string;
+                                "title": string;
                                 "selector": string[];
                                 "removeSelector": never[];
                                 "methodInfo": {
-                                    "html": never[];
+                                    "text": never[];
                                 };
+                                "htmlStrategy": string;
                                 "dealStrategy": string;
                             } | {
                                 "key": string;
+                                "title": string;
                                 "selector": string[];
-                                "dealStrategy": string;
+                                "removeSelector": never[];
                                 "methodInfo": {
                                     "text": never[];
                                 };
+                                "dealStrategy": string;
                             } | {
                                 "key": string;
+                                "title": string;
                                 "selector": string[];
+                                "methodInfo": {
+                                    "text": never[];
+                                };
                                 "htmlStrategy": string;
                                 "dealStrategy": string;
-                                "data": ({
-                                    "key": string;
-                                    "selector": string[];
-                                    "methodInfo": {
-                                        "text": never[];
-                                    };
-                                    "formats": {
-                                        "key": string;
-                                        "settings": {
-                                            "start": boolean;
-                                            "end": boolean;
-                                        };
-                                    }[];
-                                } | {
-                                    "key": string;
-                                    "selector": string[];
-                                    "methodInfo": {
-                                        "attr": string[];
-                                    };
-                                    "formats": {
-                                        "key": string;
-                                    }[];
-                                })[];
                             })[];
                         };
                     };
                     "enabled": boolean;
                 }[];
             };
+        } | {
+            "partten": string;
+            "title": string;
+            "jsonata": string[];
+            "data": {
+                "expression": string;
+            };
+            "result": string;
         })[];
-    }[];
+    };
 };
 export default _default;

@@ -6,6 +6,7 @@ import { Types as CommonTypes, PluginBase } from "crawler.plugins.common";
 
 import { RequestEngine } from "./engines/request";
 import { SuperAgentEngine } from "./engines/superagent";
+import { PhantomEngine } from "./engines/phantom";
 
 import { Types } from "./constants";
 import { Proxy } from "./proxy";
@@ -21,5 +22,6 @@ inversify.decorate(inversify.injectable(), modelProxy.BaseEngine);
 container.bind<Proxy>(Proxy).to(Proxy).inSingletonScope();
 container.bind<RequestEngine>(Types.engine).to(RequestEngine).inSingletonScope();
 container.bind<SuperAgentEngine>(Types.engine).to(SuperAgentEngine).inSingletonScope();
+container.bind<PhantomEngine>(Types.engine).to(PhantomEngine).inSingletonScope();
 
 container.bind<PluginBase>(CommonTypes._plugin).to(DownloadPlugin).inSingletonScope().whenNoAncestorNamed("DownloadPlugin");

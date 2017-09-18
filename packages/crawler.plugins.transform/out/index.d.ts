@@ -1,3 +1,3 @@
-import 'reflect-metadata';
-import jsonata from './libs/jsonata';
+import "reflect-metadata";
+import jsonata from "./libs/jsonata";
 export { jsonata };

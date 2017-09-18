@@ -61,7 +61,7 @@ exports.jsonata = jsonata_1.default;
 //   }
 // `);
 // let exp = jsonata(`$combine($.skus)`);
-// exp.assign('combine', (objs: Array<Object>) => {
+// exp.assign("combine", (objs: Array<Object>) => {
 //   if (objs.constructor !== Array) {
 //     throw new Error("第一个参数有问题");
 //   }
@@ -71,7 +71,7 @@ exports.jsonata = jsonata_1.default;
 // });
 // let result = expression.evaluate(data);
 // console.log(exp.evaluate(data));
-// console.log(jsonata('$moment("1987-02-18").format("DD/MM/YYYY HH:mm:ss")').evaluate());
+// console.log(jsonata("$moment("1987-02-18").format("DD/MM/YYYY HH:mm:ss")").evaluate());
 // console.log(result);
 // console.log(jsonata("Email.address").evaluate(data));
 //# sourceMappingURL=index.js.map

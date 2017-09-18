@@ -45,6 +45,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var amqplib = require("amqplib");
+var bluebird = require("bluebird");
 var inversify_1 = require("inversify");
 /**
  * agenda服务
@@ -58,9 +59,15 @@ var MQueueService = (function () {
     }
     /**
      * 初始化消费队列
+     * @param rabbitmqConfig mq的配置
+     * @param queueName      mq要消费的q名称
+     * @param consumeMsg     消息的消费方法
+     * @param prefetch       每次获取的消息数量
+     * @param delay          延迟时间
      */
-    MQueueService.prototype.initConsume = function (rabbitmqConfig, queueName, consumeMsg, prefetch) {
+    MQueueService.prototype.initConsume = function (rabbitmqConfig, queueName, consumeMsg, prefetch, delay) {
         if (prefetch === void 0) { prefetch = 1; }
+        if (delay === void 0) { delay = 3000; }
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             var count, exchange, queue, _a, e_1;
@@ -94,20 +101,20 @@ var MQueueService = (function () {
                                 var _this = this;
                                 return __generator(this, function (_a) {
                                     switch (_a.label) {
-                                        case 0: 
-                                        // await bluebird.delay(3000);
-                                        return [4 /*yield*/, consumeMsg(msg).then(function (data) {
-                                                if (_this.channel) {
-                                                    _this.channel.ack(msg);
-                                                }
-                                            }).catch(function (err) {
-                                                console.log("爬取失败！", err.message);
-                                                if (_this.channel) {
-                                                    _this.channel.nack(msg);
-                                                }
-                                            })];
+                                        case 0: return [4 /*yield*/, bluebird.delay(delay || 3000)];
                                         case 1:
-                                            // await bluebird.delay(3000);
+                                            _a.sent();
+                                            return [4 /*yield*/, consumeMsg(this.getQueueItemFromMsg(msg)).then(function (data) {
+                                                    if (_this.channel) {
+                                                        _this.channel.ack(msg);
+                                                    }
+                                                }).catch(function (err) {
+                                                    console.log("爬取失败！", err.message);
+                                                    if (_this.channel) {
+                                                        _this.channel.nack(msg);
+                                                    }
+                                                })];
+                                        case 2:
                                             _a.sent();
                                             return [2 /*return*/];
                                     }
@@ -201,6 +208,21 @@ var MQueueService = (function () {
                 }
             });
         });
+    };
+    /**
+     * 提取queueItem
+     * @param msg 消息体
+     */
+    MQueueService.prototype.getQueueItemFromMsg = function (msg) {
+        var queueItem;
+        try {
+            queueItem = JSON.parse(msg.content.toString());
+        }
+        catch (e) {
+            console.log(e);
+            throw e;
+        }
+        return queueItem;
     };
     return MQueueService;
 }());

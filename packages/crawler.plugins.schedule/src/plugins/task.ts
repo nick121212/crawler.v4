@@ -52,9 +52,10 @@ export class TaskPlugin {
 
     @Add(`role:${pluginTaskName},cmd:testFlow`)
     private async testFlow(config: any, options?: any, globalOptions?: any): Promise<any> {
-        await this.pluginService.execute(options.seneca, config.msgFlow);
+        // await this.pluginService.execute(options.seneca, config.msgFlow, config.data);
+        let rtn: any = await this.pluginService.execute(options.seneca, config.msgFlow, config.data);
 
-        return null;
+        return rtn.result;
     }
 
     /**
@@ -134,28 +135,6 @@ export class TaskPlugin {
         //         }
         //     });
         // }, 60000);
-
-
-
-        let test = new MQueueService();
-
-        test.initConsume(globalOptions, "blog", async (msg: any) => {
-            let data: any = JSON.parse(msg.content.toString());
-
-            data._id = data.id;
-            // data.esType = "mamilove";
-            delete data.id;
-
-            console.log(data);
-            try {
-                await options.seneca.actAsync("role:crawler.plugin.wp,cmd:blog", data);
-            } catch (e) {
-                console.log("dfkjadjkfkaljskdlfjlakjdslf------------------");
-                throw e;
-            }
-        }, 1);
-
-
 
         await bluebird.delay(200);
     }

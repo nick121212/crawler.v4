@@ -25,12 +25,18 @@ export class MQueueService {
 
     /**
      * 初始化消费队列
+     * @param rabbitmqConfig mq的配置
+     * @param queueName      mq要消费的q名称
+     * @param consumeMsg     消息的消费方法
+     * @param prefetch       每次获取的消息数量
+     * @param delay          延迟时间
      */
     public async initConsume(
         rabbitmqConfig: { url: string, options: any },
         queueName: string,
         consumeMsg: Function,
-        prefetch = 1
+        prefetch = 1,
+        delay = 3000
     ): Promise<boolean> {
         let count = 0, exchange: amqplib.Replies.AssertExchange, queue: amqplib.Replies.AssertQueue;
 
@@ -48,8 +54,8 @@ export class MQueueService {
             await this.channel.prefetch(prefetch);
             console.log(`开始消费queue:${queue.queue}`);
             this.consume = await this.channel.consume(queue.queue, async (msg: amqplib.Message) => {
-                // await bluebird.delay(3000);
-                await consumeMsg(msg).then((data: any) => {
+                await bluebird.delay(delay || 3000);
+                await consumeMsg(this.getQueueItemFromMsg(msg)).then((data: any) => {
                     if (this.channel) {
                         this.channel.ack(msg);
                     }
@@ -94,7 +100,6 @@ export class MQueueService {
             delete this.exchange;
 
             console.log("queue stoped!");
-
         } catch (e) {
             console.log(e);
         }
@@ -118,5 +123,22 @@ export class MQueueService {
             console.log("channel closed!");
         });
         console.log("mq connection ok!");
+    }
+
+    /**
+     * 提取queueItem
+     * @param msg 消息体
+     */
+    private getQueueItemFromMsg(msg: amqplib.Message): any {
+        let queueItem;
+
+        try {
+            queueItem = JSON.parse(msg.content.toString());
+        } catch (e) {
+            console.log(e);
+            throw e;
+        }
+
+        return queueItem;
     }
 }

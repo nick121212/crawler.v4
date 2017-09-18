@@ -1,5 +1,5 @@
-import 'reflect-metadata';
-import jsonata from './libs/jsonata';
+import "reflect-metadata";
+import jsonata from "./libs/jsonata";
 
 export { jsonata };
 
@@ -64,7 +64,7 @@ export { jsonata };
 
 // let exp = jsonata(`$combine($.skus)`);
 
-// exp.assign('combine', (objs: Array<Object>) => {
+// exp.assign("combine", (objs: Array<Object>) => {
 //   if (objs.constructor !== Array) {
 //     throw new Error("第一个参数有问题");
 //   }
@@ -77,7 +77,7 @@ export { jsonata };
 // let result = expression.evaluate(data);
 
 // console.log(exp.evaluate(data));
-// console.log(jsonata('$moment("1987-02-18").format("DD/MM/YYYY HH:mm:ss")').evaluate());
+// console.log(jsonata("$moment("1987-02-18").format("DD/MM/YYYY HH:mm:ss")").evaluate());
 // console.log(result);
 // console.log(jsonata("Email.address").evaluate(data));
 

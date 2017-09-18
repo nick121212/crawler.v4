@@ -1,16 +1,14 @@
-import { injectable } from 'inversify';
-import * as jsonata from 'jsonata';
-import * as moment from 'moment';
+import { injectable } from "inversify";
+import * as jsonata from "jsonata";
+import * as moment from "moment";
 
 @injectable()
 export class MomentFunc {
-    constructor() { }
-
-    init(exp: jsonata.IExpression) {
-        exp.assign('moment', this.moment);
+    public init(exp: jsonata.Expression) {
+        exp.assign("moment", this.moment);
     }
 
-    moment(...args: Array<any>) {
+    private moment(...args: Array<any>) {
         return moment.apply(this, args);
     }
 }

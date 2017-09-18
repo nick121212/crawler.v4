@@ -29,26 +29,32 @@ const logger = log4js.getLogger();
 @injectable()
 
 export class ExecutePluginService {
-    public async preExecute(seneca: any, config: any, msg?: amqplib.Message): Promise<any> {
-        let queueItem = msg ? this.getQueueItemFromMsg(msg) : null;
+    /**
+     * 获取链接对应的配置，然后调用插件
+     * @param seneca seneca
+     * @param config 配置
+     * @param data   数据
+     */
+    public async preExecute(seneca: any, config: any, data: any): Promise<any> {
+        let queueItem = data || null;
         let msgFlow: Array<any> | null = this.getFieldFlow(queueItem || {}, config.pages || []);
 
-        if (!msgFlow || !msg) {
+        if (!msgFlow || !data) {
             return;
         }
 
-        return this.execute(seneca, msgFlow, msg);
+        return this.execute(seneca, msgFlow, data);
     }
 
     /**
      * 执行插件列表
-     * @param seneca 
-     * @param plugins 
-     * @param msg 
+     * @param seneca  seneca
+     * @param plugins 插件配置
+     * @param data    数据
      */
-    public async execute(seneca: any, plugins: Array<any>, msg?: amqplib.Message): Promise<any> {
+    public async execute(seneca: any, plugins: Array<any>, data?: any): Promise<any> {
         let rtn: any = {
-            queueItem: msg ? this.getQueueItemFromMsg(msg) : null
+            queueItem: data || {}
         }, index = 0;
         let nn = Date.now();
 
@@ -72,23 +78,21 @@ export class ExecutePluginService {
                         expressions: plugin.jsonata
                     });
                     ddd.result.forEach((r: any) => {
-                        jsonata = Object.assign({}, jsonata, r || {});
+                        jsonata = seneca.util.deepextend({}, jsonata, r || {});
                     });
-                    // console.log(`${plugin.partten}`, "调用transform:", jsonata);
                 }
                 let ccc = null;
                 // seneca.log.info(`开始调用${plugin.partten}-----------------;`);
+                // 调用插件
                 try {
-                    ccc = await seneca.actAsync(plugin.partten, Object.assign({ timeout$: 5000 }, jsonata, plugin.data));
+                    ccc = await seneca.actAsync(plugin.partten, Object.assign({ timeout$: 30000 }, jsonata, plugin.data));
 
                     logger.info(`${plugin.partten}返回的数据`, ccc);
                 } catch (e) {
                     logger.error(`${plugin.partten}错误数据`);
+
+                    throw e;
                 }
-                // 调用接口
-
-                logger.info(`调用${plugin.partten}成功！耗时：`, Date.now() - start, "ms");
-
                 if (plugin.result) {
                     let ddd = await seneca.actAsync(`role:crawler.plugin.transform,cmd:single`, {
                         data: ccc,
@@ -97,6 +101,9 @@ export class ExecutePluginService {
 
                     rtn = seneca.util.deepextend({}, rtn, ddd.result || {});
                 }
+
+                logger.info(`调用${plugin.partten}成功！耗时：`, Date.now() - start, "ms");
+
                 index++;
             }
 
@@ -126,23 +133,12 @@ export class ExecutePluginService {
 
         return true;
     }
+
     /**
-    * 从message中提取queueItem数据
-    * @param msg   消息
-    */
-    private getQueueItemFromMsg(msg: amqplib.Message): any {
-        let queueItem;
-
-        try {
-            queueItem = JSON.parse(msg.content.toString());
-        } catch (e) {
-            console.log(e);
-            throw e;
-        }
-
-        return queueItem;
-    }
-
+     * 找到当前queueItem对应的规则配置
+     * @param queueItem 链接的数据
+     * @param pages     定义的page
+     */
     private getFieldFlow(queueItem: any, pages: Array<any>): Array<any> | null {
         let rules = _.filter(pages, ({ path }) => {
             let pathToReg = pathToRegexp(path.toString(), []);
@@ -155,8 +151,6 @@ export class ExecutePluginService {
 
             return null;
         }
-
-        // console.log(_.first(rules).title || "");
 
         return _.first(rules).msgFlow || [];
     }

@@ -20,7 +20,6 @@ export class Proxy {
         let engines = container.getAll(Types.engine);
 
         this._proxy = new modelProxy.Proxy();
-        
         engines.forEach((engine: any) => {
             this._proxy.addEngines({
                 [engine.engineName]: engine

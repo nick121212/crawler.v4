@@ -58,33 +58,39 @@ var logger = log4js.getLogger();
 var ExecutePluginService = (function () {
     function ExecutePluginService() {
     }
-    ExecutePluginService.prototype.preExecute = function (seneca, config, msg) {
+    /**
+     * 获取链接对应的配置，然后调用插件
+     * @param seneca seneca
+     * @param config 配置
+     * @param data   数据
+     */
+    ExecutePluginService.prototype.preExecute = function (seneca, config, data) {
         return __awaiter(this, void 0, void 0, function () {
             var queueItem, msgFlow;
             return __generator(this, function (_a) {
-                queueItem = msg ? this.getQueueItemFromMsg(msg) : null;
+                queueItem = data || null;
                 msgFlow = this.getFieldFlow(queueItem || {}, config.pages || []);
-                if (!msgFlow || !msg) {
+                if (!msgFlow || !data) {
                     return [2 /*return*/];
                 }
-                return [2 /*return*/, this.execute(seneca, msgFlow, msg)];
+                return [2 /*return*/, this.execute(seneca, msgFlow, data)];
             });
         });
     };
     /**
      * 执行插件列表
-     * @param seneca
-     * @param plugins
-     * @param msg
+     * @param seneca  seneca
+     * @param plugins 插件配置
+     * @param data    数据
      */
-    ExecutePluginService.prototype.execute = function (seneca, plugins, msg) {
+    ExecutePluginService.prototype.execute = function (seneca, plugins, data) {
         return __awaiter(this, void 0, void 0, function () {
             var rtn, index, nn, _loop_1, e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         rtn = {
-                            queueItem: msg ? this.getQueueItemFromMsg(msg) : null
+                            queueItem: data || {}
                         }, index = 0;
                         nn = Date.now();
                         if (rtn.queueItem) {
@@ -111,7 +117,7 @@ var ExecutePluginService = (function () {
                                     case 1:
                                         ddd = _a.sent();
                                         ddd.result.forEach(function (r) {
-                                            jsonata = Object.assign({}, jsonata, r || {});
+                                            jsonata = seneca.util.deepextend({}, jsonata, r || {});
                                         });
                                         _a.label = 2;
                                     case 2:
@@ -119,7 +125,7 @@ var ExecutePluginService = (function () {
                                         _a.label = 3;
                                     case 3:
                                         _a.trys.push([3, 5, , 6]);
-                                        return [4 /*yield*/, seneca.actAsync(plugin.partten, Object.assign({ timeout$: 5000 }, jsonata, plugin.data))];
+                                        return [4 /*yield*/, seneca.actAsync(plugin.partten, Object.assign({ timeout$: 30000 }, jsonata, plugin.data))];
                                     case 4:
                                         ccc = _a.sent();
                                         logger.info(plugin.partten + "\u8FD4\u56DE\u7684\u6570\u636E", ccc);
@@ -127,10 +133,8 @@ var ExecutePluginService = (function () {
                                     case 5:
                                         e_2 = _a.sent();
                                         logger.error(plugin.partten + "\u9519\u8BEF\u6570\u636E");
-                                        return [3 /*break*/, 6];
+                                        throw e_2;
                                     case 6:
-                                        // 调用接口
-                                        logger.info("\u8C03\u7528" + plugin.partten + "\u6210\u529F\uFF01\u8017\u65F6\uFF1A", Date.now() - start, "ms");
                                         if (!plugin.result) return [3 /*break*/, 8];
                                         return [4 /*yield*/, seneca.actAsync("role:crawler.plugin.transform,cmd:single", {
                                                 data: ccc,
@@ -141,6 +145,7 @@ var ExecutePluginService = (function () {
                                         rtn = seneca.util.deepextend({}, rtn, ddd.result || {});
                                         _a.label = 8;
                                     case 8:
+                                        logger.info("\u8C03\u7528" + plugin.partten + "\u6210\u529F\uFF01\u8017\u65F6\uFF1A", Date.now() - start, "ms");
                                         index++;
                                         return [2 /*return*/];
                                 }
@@ -181,20 +186,10 @@ var ExecutePluginService = (function () {
         return true;
     };
     /**
-    * 从message中提取queueItem数据
-    * @param msg   消息
-    */
-    ExecutePluginService.prototype.getQueueItemFromMsg = function (msg) {
-        var queueItem;
-        try {
-            queueItem = JSON.parse(msg.content.toString());
-        }
-        catch (e) {
-            console.log(e);
-            throw e;
-        }
-        return queueItem;
-    };
+     * 找到当前queueItem对应的规则配置
+     * @param queueItem 链接的数据
+     * @param pages     定义的page
+     */
     ExecutePluginService.prototype.getFieldFlow = function (queueItem, pages) {
         var rules = _.filter(pages, function (_a) {
             var path = _a.path;
@@ -205,7 +200,6 @@ var ExecutePluginService = (function () {
             console.error("\u6CA1\u6709\u627E\u5230" + queueItem.url + "\u7684\u5339\u914D\u89C4\u5219\uFF01");
             return null;
         }
-        // console.log(_.first(rules).title || "");
         return _.first(rules).msgFlow || [];
     };
     return ExecutePluginService;

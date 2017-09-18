@@ -17,7 +17,7 @@ export class TransformExexutePlugin {
      */
     @Add(`role:${pluginName},cmd:single`)
 
-    async single(
+    private async single(
         @Validate(Joi.object().keys({
             expression: Joi.string().required(),
             data: Joi.any().required()
@@ -36,7 +36,7 @@ export class TransformExexutePlugin {
      * @param globalOptions 
      */
     @Add(`role:${pluginName},cmd:muti`)
-    async muti( @Validate(Joi.object().keys({
+    private async muti( @Validate(Joi.object().keys({
         expressions: Joi.array().items(Joi.string().required()).required(),
         data: Joi.any().required()
     }), { allowUnknown: true }) { expressions, data }: { expressions: Array<string>, data: any }, options?: any, globalOptions?: any) {

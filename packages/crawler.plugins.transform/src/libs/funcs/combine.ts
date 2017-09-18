@@ -1,17 +1,14 @@
-import { injectable } from 'inversify';
-import * as jsonata from 'jsonata';
+import { injectable } from "inversify";
+import * as jsonata from "jsonata";
 
 @injectable()
 export class CombineFunc {
-    constructor() {
 
+    public init(exp: jsonata.Expression) {
+        exp.assign("combine", this.combine);
     }
 
-    init(exp: jsonata.IExpression) {
-        exp.assign('combine', this.combine);
-    }
-
-    combine(objs: Array<Object>) {
+    private combine(objs: Array<Object>) {
         if (objs.constructor !== Array) {
             throw new Error("第一个参数有问题");
         }

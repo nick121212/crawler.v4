@@ -87,12 +87,13 @@ var TaskPlugin = (function () {
     };
     TaskPlugin.prototype.testFlow = function (config, options, globalOptions) {
         return __awaiter(this, void 0, void 0, function () {
+            var rtn;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.pluginService.execute(options.seneca, config.msgFlow)];
+                    case 0: return [4 /*yield*/, this.pluginService.execute(options.seneca, config.msgFlow, config.data)];
                     case 1:
-                        _a.sent();
-                        return [2 /*return*/, null];
+                        rtn = _a.sent();
+                        return [2 /*return*/, rtn.result];
                 }
             });
         });
@@ -184,8 +185,7 @@ var TaskPlugin = (function () {
      */
     TaskPlugin.prototype.init = function (msg, options, globalOptions) {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            var entity, tasks, test;
+            var entity, tasks;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -193,34 +193,22 @@ var TaskPlugin = (function () {
                         return [4 /*yield*/, entity.listAsync({})];
                     case 1:
                         tasks = _a.sent();
-                        test = new mq_1.MQueueService();
-                        test.initConsume(globalOptions, "blog", function (msg) { return __awaiter(_this, void 0, void 0, function () {
-                            var data, e_1;
-                            return __generator(this, function (_a) {
-                                switch (_a.label) {
-                                    case 0:
-                                        data = JSON.parse(msg.content.toString());
-                                        data._id = data.id;
-                                        // data.esType = "mamilove";
-                                        delete data.id;
-                                        console.log(data);
-                                        _a.label = 1;
-                                    case 1:
-                                        _a.trys.push([1, 3, , 4]);
-                                        return [4 /*yield*/, options.seneca.actAsync("role:crawler.plugin.wp,cmd:blog", data)];
-                                    case 2:
-                                        _a.sent();
-                                        return [3 /*break*/, 4];
-                                    case 3:
-                                        e_1 = _a.sent();
-                                        console.log("dfkjadjkfkaljskdlfjlakjdslf------------------");
-                                        throw e_1;
-                                    case 4: return [2 /*return*/];
-                                }
-                            });
-                        }); }, 1);
+                        // setInterval(() => {
+                        //     _.forEach(tasks, async (task: any) => {
+                        //         if (task.id && !this.mqs[task.id]) {
+                        //             await this.addToTask(task, options, globalOptions);
+                        //         }
+                        //     });
+                        // }, 60000);
                         return [4 /*yield*/, bluebird.delay(200)];
                     case 2:
+                        // setInterval(() => {
+                        //     _.forEach(tasks, async (task: any) => {
+                        //         if (task.id && !this.mqs[task.id]) {
+                        //             await this.addToTask(task, options, globalOptions);
+                        //         }
+                        //     });
+                        // }, 60000);
                         _a.sent();
                         return [2 /*return*/];
                 }
