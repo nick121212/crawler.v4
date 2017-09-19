@@ -61,7 +61,8 @@ export class SenecaController {
     @UsePipes(new JoiValidatorPipe(Joi.string().required(), ({ data }) => data === "business_sku_url"))
     public async addBusiness( @Body("pdt_sku") pdt_sku: string,
         @Body("business_id") business_id: number,
-        @Body("business_sku_url") business_sku_url: string, @Res() res: Response) {
+        @Body("business_sku_url") business_sku_url: string,
+        @Body("show_price") show_price: string, @Res() res: Response) {
         let data = await this.senecaService.seneca.actAsync("role:crawler.plugin.queue,cmd:queue", {
             "queueConfig": {
                 "domainWhiteList": ["(.*?).jd.com", "(.*?).tmall.com"],
@@ -90,7 +91,8 @@ export class SenecaController {
         queueItem = Object.assign({}, queueItem, {
             pdt_sku,
             business_id,
-            business_sku_url
+            business_sku_url,
+            show_price
         });
 
         let aaa = await this.senecaService.seneca.actAsync("role:crawler.plugin.task,cmd:addItemToQueue", {

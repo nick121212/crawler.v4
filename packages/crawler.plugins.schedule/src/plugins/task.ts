@@ -41,7 +41,7 @@ export class TaskPlugin {
      * @param config  参数
      */
     @Add(`role:${pluginTaskName},cmd:getOne`)
-    private getQueueService(config: any): MQueueService | null | string {
+    private getQueueService(config: any): MQueueService | null {
         let queueName = this.getUrlQueueName(config);
 
         if (this.has(queueName)) {

@@ -8,5 +8,5 @@ export declare class SenecaController {
     getMembers(req: any, res: Response): Promise<void>;
     actTest2(res: Response, parttern: string): Promise<void>;
     log(res: Response, result: any): Promise<void>;
-    addBusiness(pdt_sku: string, business_id: number, business_sku_url: string, res: Response): Promise<void>;
+    addBusiness(pdt_sku: string, business_id: number, business_sku_url: string, show_price: string, res: Response): Promise<void>;
 }

@@ -60,7 +60,7 @@ let SenecaController = class SenecaController {
             res.send(null);
         });
     }
-    addBusiness(pdt_sku, business_id, business_sku_url, res) {
+    addBusiness(pdt_sku, business_id, business_sku_url, show_price, res) {
         return __awaiter(this, void 0, void 0, function* () {
             let data = yield this.senecaService.seneca.actAsync("role:crawler.plugin.queue,cmd:queue", {
                 "queueConfig": {
@@ -87,7 +87,8 @@ let SenecaController = class SenecaController {
             queueItem = Object.assign({}, queueItem, {
                 pdt_sku,
                 business_id,
-                business_sku_url
+                business_sku_url,
+                show_price
             });
             let aaa = yield this.senecaService.seneca.actAsync("role:crawler.plugin.task,cmd:addItemToQueue", {
                 "items": [queueItem],
@@ -135,9 +136,10 @@ __decorate([
     common_1.UsePipes(new validate_pipe_1.JoiValidatorPipe(Joi.string().required(), ({ data }) => data === "business_sku_url")),
     __param(0, common_1.Body("pdt_sku")),
     __param(1, common_1.Body("business_id")),
-    __param(2, common_1.Body("business_sku_url")), __param(3, common_1.Res()),
+    __param(2, common_1.Body("business_sku_url")),
+    __param(3, common_1.Body("show_price")), __param(4, common_1.Res()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Number, String, Object]),
+    __metadata("design:paramtypes", [String, Number, String, String, Object]),
     __metadata("design:returntype", Promise)
 ], SenecaController.prototype, "addBusiness", null);
 SenecaController = __decorate([

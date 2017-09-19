@@ -231,7 +231,7 @@ __decorate([
     crawler_plugins_common_1.Add("role:" + constants_1.pluginTaskName + ",cmd:getOne"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Object)
+    __metadata("design:returntype", mq_1.MQueueService)
 ], TaskPlugin.prototype, "getQueueService", null);
 __decorate([
     crawler_plugins_common_1.Add("role:" + constants_1.pluginTaskName + ",cmd:addItemToQueue"),
