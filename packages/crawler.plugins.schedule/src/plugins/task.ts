@@ -113,6 +113,7 @@ export class TaskPlugin {
         let mQueueServie = this.getQueueService(config);
 
         if (!mQueueServie) {
+            console.log("没有找到service");
             return;
         }
 

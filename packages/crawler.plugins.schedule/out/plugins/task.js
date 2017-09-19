@@ -148,6 +148,7 @@ var TaskPlugin = (function () {
                     case 0:
                         mQueueServie = this.getQueueService(config);
                         if (!mQueueServie) {
+                            console.log("没有找到service");
                             return [2 /*return*/];
                         }
                         entity = options.seneca.make$("tasks");
