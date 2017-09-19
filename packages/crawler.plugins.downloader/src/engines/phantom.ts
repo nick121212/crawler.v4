@@ -27,17 +27,19 @@ export class PhantomEngine extends modelProxy.BaseEngine {
             let searchParams = new URLSearchParams();
 
             Object.keys(params).forEach((key) => {
-                params[key] && searchParams.append(key, params[key]);
+                if (params[key] !== undefined) {
+                    searchParams.append(key, params[key]);
+                }
             });
 
             try {
                 ctx.result = await this.house(path + (searchParams.toString() ? "?" + searchParams.toString() : ""));
+
+                console.log(ctx.result.statusCode);
             } catch (e) {
                 ctx.err = e;
                 ctx.isError = true;
             }
-
-            console.log(ctx.result.statusCode);
 
             await next();
         });

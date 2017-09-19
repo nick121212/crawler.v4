@@ -85,7 +85,9 @@ var PhantomEngine = (function (_super) {
                         _f = settings || {}, _g = _f.timeout, timeout = _g === void 0 ? 5000 : _g, _h = _f.headers, headers = _h === void 0 ? {} : _h;
                         searchParams = new url_1.URLSearchParams();
                         Object.keys(params).forEach(function (key) {
-                            params[key] && searchParams.append(key, params[key]);
+                            if (params[key] !== undefined) {
+                                searchParams.append(key, params[key]);
+                            }
                         });
                         _k.label = 1;
                     case 1:
@@ -94,15 +96,14 @@ var PhantomEngine = (function (_super) {
                         return [4 /*yield*/, this.house(path + (searchParams.toString() ? "?" + searchParams.toString() : ""))];
                     case 2:
                         _j.result = _k.sent();
+                        console.log(ctx.result.statusCode);
                         return [3 /*break*/, 4];
                     case 3:
                         e_1 = _k.sent();
                         ctx.err = e_1;
                         ctx.isError = true;
                         return [3 /*break*/, 4];
-                    case 4:
-                        console.log(ctx.result.statusCode);
-                        return [4 /*yield*/, next()];
+                    case 4: return [4 /*yield*/, next()];
                     case 5:
                         _k.sent();
                         return [2 /*return*/];
