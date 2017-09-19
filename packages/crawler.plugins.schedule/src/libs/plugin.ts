@@ -91,7 +91,7 @@ export class ExecutePluginService {
                 } catch (e) {
                     logger.error(`${plugin.partten}错误数据`);
 
-                    throw e;
+                    throw new Error(plugin.title + "---" + e.message);
                 }
                 if (plugin.result) {
                     let ddd = await seneca.actAsync(`role:crawler.plugin.transform,cmd:single`, {

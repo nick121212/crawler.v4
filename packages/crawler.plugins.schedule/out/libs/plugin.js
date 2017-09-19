@@ -133,7 +133,7 @@ var ExecutePluginService = (function () {
                                     case 5:
                                         e_2 = _a.sent();
                                         logger.error(plugin.partten + "\u9519\u8BEF\u6570\u636E");
-                                        throw e_2;
+                                        throw new Error(plugin.title + "---" + e_2.message);
                                     case 6:
                                         if (!plugin.result) return [3 /*break*/, 8];
                                         return [4 /*yield*/, seneca.actAsync("role:crawler.plugin.transform,cmd:single", {
