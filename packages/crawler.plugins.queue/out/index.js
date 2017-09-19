@@ -40,11 +40,11 @@ require("reflect-metadata");
 var crawler_plugins_common_1 = require("crawler.plugins.common");
 var container_1 = require("./container");
 var constants_1 = require("./constants");
-var HOST = process.env.HOST || process.argv[2] || "0.0.0.0";
-var BASES = (process.env.BASES || process.argv[3] || '').split(',');
-var PORT = process.env.PORT;
-var BROADCAST = process.env.BROADCAST;
-var REGISTRY = JSON.parse(process.env.REGISTRY || '{"active":true}');
+// const HOST = process.env.HOST || process.argv[2] || "0.0.0.0";
+// const BASES = (process.env.BASES || process.argv[3] || "").split(",");
+// const PORT = process.env.PORT;
+// const BROADCAST = process.env.BROADCAST;
+// const REGISTRY = JSON.parse(process.env.REGISTRY || "{"active":true}");
 var seneca = new crawler_plugins_common_1.Seneca(container_1.container, {
     tag: constants_1.pluginName
 });

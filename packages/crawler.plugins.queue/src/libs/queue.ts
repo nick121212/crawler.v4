@@ -152,12 +152,16 @@ export class Queue {
      * @param queueItem  {Object}
      * @returns {*}
      */
-    queueURL(url: string | IQueueItem, queueItem: IQueueItem): boolean | IQueueItem {
+    public queueURL(url: string | IQueueItem, queueItem: IQueueItem): boolean | IQueueItem {
         let parsedURL: any = typeof url === "object" ? url : this.processURL(url, queueItem);
 
-        if (!parsedURL) return false;
+        if (!parsedURL) {
+            return false;
+        }
 
-        if (!queueItem) queueItem = parsedURL;
+        if (!queueItem) {
+            queueItem = parsedURL;
+        }
 
         // 赋值一个ID
         queueItem._id = md5(queueItem.url || "");
@@ -166,7 +170,9 @@ export class Queue {
             return prev || !callback(parsedURL, queueItem);
         }, false);
 
-        if (fetchDenied) return false;
+        if (fetchDenied) {
+            return false;
+        }
 
         // Check the domain is valid before adding it to the queue
         if (this.domainValid(parsedURL.host)) {
@@ -180,6 +186,8 @@ export class Queue {
                 url: parsedURL.url,
                 _id: md5(parsedURL.url)
             };
+        } else {
+            console.log("域名不正确");
         }
 
         return false;

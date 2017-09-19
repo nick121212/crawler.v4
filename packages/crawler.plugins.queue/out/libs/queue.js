@@ -126,17 +126,20 @@ var Queue = (function () {
      */
     Queue.prototype.queueURL = function (url, queueItem) {
         var parsedURL = typeof url === "object" ? url : this.processURL(url, queueItem);
-        if (!parsedURL)
+        if (!parsedURL) {
             return false;
-        if (!queueItem)
+        }
+        if (!queueItem) {
             queueItem = parsedURL;
+        }
         // 赋值一个ID
         queueItem._id = md5(queueItem.url || "");
         var fetchDenied = this._fetchConditions.reduce(function (prev, callback) {
             return prev || !callback(parsedURL, queueItem);
         }, false);
-        if (fetchDenied)
+        if (fetchDenied) {
             return false;
+        }
         // Check the domain is valid before adding it to the queue
         if (this.domainValid(parsedURL.host)) {
             return {
@@ -149,6 +152,9 @@ var Queue = (function () {
                 url: parsedURL.url,
                 _id: md5(parsedURL.url)
             };
+        }
+        else {
+            console.log("域名不正确");
         }
         return false;
     };

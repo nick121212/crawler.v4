@@ -34,6 +34,7 @@
     "@ryancavanaugh/blueimp-md5": "0.0.16-alpha",
     "@types/blueimp-md5": "^2.7.0",
     "@types/inversify": "^2.0.33",
+    "@types/joi": "^10.4.3",
     "@types/lodash": "^4.14.71",
     "@types/node": "^8.0.10",
     "@types/qs": "^6.5.0",
