@@ -74,6 +74,10 @@ export class SenecaController {
                 "stripQuerystring": false,
                 "stripWWWDomain": false,
             },
+            "queueItem": {
+                "path": "/",
+                "url": business_id === 1 ? "https://detail.tmall.com" : "https://item.jd.com"
+            },
             "urls": [business_sku_url]
         });
 
