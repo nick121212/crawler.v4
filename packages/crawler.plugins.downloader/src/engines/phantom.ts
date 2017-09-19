@@ -60,6 +60,7 @@ export class PhantomEngine extends modelProxy.BaseEngine {
         await fn(ctx);
 
         if (ctx.isError) {
+            console.log((ctx.err as Error).message);
             throw ctx.err;
         }
 

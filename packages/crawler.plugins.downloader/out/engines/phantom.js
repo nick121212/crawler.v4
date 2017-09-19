@@ -131,6 +131,7 @@ var PhantomEngine = (function (_super) {
                     case 1:
                         _a.sent();
                         if (ctx.isError) {
+                            console.log(ctx.err.message);
                             throw ctx.err;
                         }
                         return [2 /*return*/, ctx.result];
