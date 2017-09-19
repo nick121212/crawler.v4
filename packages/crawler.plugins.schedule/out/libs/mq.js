@@ -158,6 +158,7 @@ var MQueueService = (function () {
                     case 2:
                         _a.sent();
                         if (!purge) return [3 /*break*/, 4];
+                        console.log(this.queueName);
                         return [4 /*yield*/, this.channel.purgeQueue(this.queueName)];
                     case 3:
                         _a.sent();

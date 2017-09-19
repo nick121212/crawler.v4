@@ -92,6 +92,7 @@ export class MQueueService {
             await this.channel.nackAll(true);
             await this.channel.cancel(this.consume.consumerTag);
             if (purge) {
+                console.log(this.queueName);
                 await this.channel.purgeQueue(this.queueName);
             }
             await this.channel.close();
