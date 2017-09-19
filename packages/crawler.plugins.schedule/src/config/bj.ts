@@ -46,7 +46,7 @@ export default {
             "title": "数据整理，返回result",
             "jsonata": ["$.{'data':$.queueItem}"],
             "data": {
-                "expression": "$.{'pdt_sku':$.pdt_sku,'business_id':$.business_id,'business_sku_url':$.business_sku_url}"
+                "expression": "$.{'pdt_sku':$.pdt_sku,'show_price':$.show_price,'business_id':$.business_id,'business_sku_url':$.business_sku_url}"
             },
             "result": "$"
         }, {
@@ -157,8 +157,7 @@ export default {
             "title": "数据整理，返回result",
             "jsonata": ["$.{'data':$.queueItem}"],
             "data": {
-                "expression": "$.{'pdt_sku':$.pdt_sku,'business_id':$.business_id,'business_sku_url':$.business_sku_url}"
-
+                "expression": "$.{'pdt_sku':$.pdt_sku,'show_price':$.show_price,'business_id':$.business_id,'business_sku_url':$.business_sku_url}"
             },
             "result": "$"
         }, {
