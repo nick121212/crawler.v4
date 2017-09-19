@@ -140,7 +140,7 @@ var TaskPlugin = (function () {
      * @param globalOptions
      */
     TaskPlugin.prototype.removeFromTask = function (_a, options, globalOptions) {
-        var _b = _a.config, config = _b === void 0 ? {} : _b;
+        var _b = _a.config, config = _b === void 0 ? {} : _b, purge = _a.purge;
         return __awaiter(this, void 0, void 0, function () {
             var mQueueServie, entity;
             return __generator(this, function (_a) {
@@ -155,7 +155,7 @@ var TaskPlugin = (function () {
                         return [4 /*yield*/, entity.removeAsync({ id: config.key })];
                     case 1:
                         _a.sent();
-                        return [4 /*yield*/, mQueueServie.destroy()];
+                        return [4 /*yield*/, mQueueServie.destroy(purge)];
                     case 2:
                         _a.sent();
                         _.remove(this.mqs, mQueueServie);

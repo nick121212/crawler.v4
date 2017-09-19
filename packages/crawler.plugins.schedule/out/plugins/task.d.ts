@@ -28,7 +28,7 @@ export declare class TaskPlugin {
      * @param options
      * @param globalOptions
      */
-    private removeFromTask({config}, options, globalOptions);
+    private removeFromTask({config, purge}, options, globalOptions);
     /**
      * 删除一个任务
      * @param param0

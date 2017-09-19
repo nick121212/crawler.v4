@@ -143,24 +143,30 @@ var MQueueService = (function () {
     /**
      * 销毁队列
      */
-    MQueueService.prototype.destroy = function () {
+    MQueueService.prototype.destroy = function (purge) {
+        if (purge === void 0) { purge = false; }
         return __awaiter(this, void 0, void 0, function () {
             var e_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 5, , 6]);
+                        _a.trys.push([0, 7, , 8]);
                         return [4 /*yield*/, this.channel.nackAll(true)];
                     case 1:
                         _a.sent();
                         return [4 /*yield*/, this.channel.cancel(this.consume.consumerTag)];
                     case 2:
                         _a.sent();
-                        return [4 /*yield*/, this.channel.close()];
+                        if (!purge) return [3 /*break*/, 4];
+                        return [4 /*yield*/, this.channel.purgeQueue(this.queueName)];
                     case 3:
                         _a.sent();
+                        _a.label = 4;
+                    case 4: return [4 /*yield*/, this.channel.close()];
+                    case 5:
+                        _a.sent();
                         return [4 /*yield*/, this.connection.close()];
-                    case 4:
+                    case 6:
                         _a.sent();
                         delete this.channel;
                         delete this.connection;
@@ -168,12 +174,12 @@ var MQueueService = (function () {
                         // delete this.config;
                         delete this.exchange;
                         console.log("queue stoped!");
-                        return [3 /*break*/, 6];
-                    case 5:
+                        return [3 /*break*/, 8];
+                    case 7:
                         e_2 = _a.sent();
                         console.log(e_2);
-                        return [3 /*break*/, 6];
-                    case 6: return [2 /*return*/];
+                        return [3 /*break*/, 8];
+                    case 8: return [2 /*return*/];
                 }
             });
         });

@@ -27,7 +27,7 @@ export declare class MQueueService {
     /**
      * 销毁队列
      */
-    destroy(): Promise<void>;
+    destroy(purge?: boolean): Promise<void>;
     /**
     * 初始化队列
     */

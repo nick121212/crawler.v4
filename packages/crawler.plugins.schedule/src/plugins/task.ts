@@ -109,7 +109,7 @@ export class TaskPlugin {
      * @param globalOptions
      */
     @Add(`role:${pluginTaskName},cmd:remove`)
-    private async removeFromTask({ config = {} }: { config: any }, options: any, globalOptions: any) {
+    private async removeFromTask({ config = {}, purge }: { config: any, purge: boolean }, options: any, globalOptions: any) {
         let mQueueServie = this.getQueueService(config);
 
         if (!mQueueServie) {
@@ -120,7 +120,7 @@ export class TaskPlugin {
         let entity = options.seneca.make$("tasks");
 
         await entity.removeAsync({ id: config.key });
-        await mQueueServie.destroy();
+        await mQueueServie.destroy(purge);
 
         _.remove(this.mqs, mQueueServie);
     }

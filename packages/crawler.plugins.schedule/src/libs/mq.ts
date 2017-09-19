@@ -87,10 +87,13 @@ export class MQueueService {
     /**
      * 销毁队列
      */
-    public async destroy(): Promise<void> {
+    public async destroy(purge = false): Promise<void> {
         try {
             await this.channel.nackAll(true);
             await this.channel.cancel(this.consume.consumerTag);
+            if (purge) {
+                await this.channel.purgeQueue(this.queueName);
+            }
             await this.channel.close();
             await this.connection.close();
 
