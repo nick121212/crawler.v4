@@ -1,5 +1,6 @@
 export default {
     "key": "bijia",
+    "title": "比价配置文件",
     "prefech": 10,
     "initFlow": [],
     "pages": [{

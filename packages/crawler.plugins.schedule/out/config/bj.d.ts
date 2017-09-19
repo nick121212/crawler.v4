@@ -1,5 +1,6 @@
 declare const _default: {
     "key": string;
+    "title": string;
     "prefech": number;
     "initFlow": never[];
     "pages": ({
