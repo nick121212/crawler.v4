@@ -111,7 +111,7 @@ exports.default = {
                     "partten": "role:crawler.plugin.downloader,cmd:interfaces",
                     "jsonata": ["$.result.{'data':{'result':$}}"],
                     "data": {
-                        "url": "http://localhost:3001",
+                        "url": "http://10.9.184.20:3001",
                         "path": "/log",
                         "method": "post"
                     }
@@ -230,7 +230,7 @@ exports.default = {
                     "partten": "role:crawler.plugin.downloader,cmd:interfaces",
                     "jsonata": ["$.result.{'data':{'result':$}}"],
                     "data": {
-                        "url": "http://localhost:3001",
+                        "url": "http://10.9.184.20:3001",
                         "path": "/log",
                         "method": "post"
                     }
