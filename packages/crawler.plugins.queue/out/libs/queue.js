@@ -127,6 +127,7 @@ var Queue = (function () {
     Queue.prototype.queueURL = function (url, queueItem) {
         var parsedURL = typeof url === "object" ? url : this.processURL(url, queueItem);
         if (!parsedURL) {
+            console.log("1");
             return false;
         }
         if (!queueItem) {
@@ -138,6 +139,7 @@ var Queue = (function () {
             return prev || !callback(parsedURL, queueItem);
         }, false);
         if (fetchDenied) {
+            console.log("2");
             return false;
         }
         // Check the domain is valid before adding it to the queue
@@ -156,6 +158,7 @@ var Queue = (function () {
         else {
             console.log("域名不正确");
         }
+        console.log("3");
         return false;
     };
     /**

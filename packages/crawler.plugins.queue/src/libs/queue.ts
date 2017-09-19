@@ -156,6 +156,7 @@ export class Queue {
         let parsedURL: any = typeof url === "object" ? url : this.processURL(url, queueItem);
 
         if (!parsedURL) {
+            console.log("1");
             return false;
         }
 
@@ -171,6 +172,7 @@ export class Queue {
         }, false);
 
         if (fetchDenied) {
+            console.log("2");
             return false;
         }
 
@@ -189,6 +191,8 @@ export class Queue {
         } else {
             console.log("域名不正确");
         }
+
+        console.log("3");
 
         return false;
     }
