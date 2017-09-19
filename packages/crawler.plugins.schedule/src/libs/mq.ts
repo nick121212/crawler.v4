@@ -56,6 +56,7 @@ export class MQueueService {
             this.consume = await this.channel.consume(queue.queue, async (msg: amqplib.Message) => {
                 await bluebird.delay(delay || 3000);
                 await consumeMsg(this.getQueueItemFromMsg(msg)).then((data: any) => {
+                    console.log("爬取成功！");
                     if (this.channel) {
                         this.channel.ack(msg);
                     }

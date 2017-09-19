@@ -74,9 +74,8 @@ export class DownloadPlugin {
 
     @Add(`role:${pluginName},cmd:interfaces`)
     public inter({ url, path = "", params, data, header, method = "get", engine = "superagent", _id = "" }: any) {
-        /**
-         * 添加接口信息
-         */
+        let start = Date.now();
+
         this.proxy.proxy.loadConfig({
             "engine": engine,
             "interfaces": [{
@@ -93,6 +92,9 @@ export class DownloadPlugin {
             "title": "download下载接口",
 
         });
+
+        console.log(url, "-----downloader 成功；耗时：", Date.now() - start, "ms");
+
         /**
          * 调用接口
          */

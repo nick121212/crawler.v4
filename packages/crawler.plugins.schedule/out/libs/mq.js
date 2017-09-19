@@ -105,6 +105,7 @@ var MQueueService = (function () {
                                         case 1:
                                             _a.sent();
                                             return [4 /*yield*/, consumeMsg(this.getQueueItemFromMsg(msg)).then(function (data) {
+                                                    console.log("爬取成功！");
                                                     if (_this.channel) {
                                                         _this.channel.ack(msg);
                                                     }

@@ -117,9 +117,7 @@ var DownloadPlugin = (function () {
     };
     DownloadPlugin.prototype.inter = function (_a) {
         var url = _a.url, _b = _a.path, path = _b === void 0 ? "" : _b, params = _a.params, data = _a.data, header = _a.header, _c = _a.method, method = _c === void 0 ? "get" : _c, _d = _a.engine, engine = _d === void 0 ? "superagent" : _d, _e = _a._id, _id = _e === void 0 ? "" : _e;
-        /**
-         * 添加接口信息
-         */
+        var start = Date.now();
         this.proxy.proxy.loadConfig({
             "engine": engine,
             "interfaces": [{
@@ -135,6 +133,7 @@ var DownloadPlugin = (function () {
             },
             "title": "download下载接口",
         });
+        console.log(url, "-----downloader 成功；耗时：", Date.now() - start, "ms");
         /**
          * 调用接口
          */
