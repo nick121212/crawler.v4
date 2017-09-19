@@ -4,8 +4,9 @@
 
 > 下载策略
 
-1. （request） nodejs中http请求的模块。
-2. （phantomjs）未实现。
+1.request） nodejs中http请求的模块。
+2.phantomjs）载入js，不加载image和css。
+3.(superagent) nodejs中http请求的模块。
 
 > 当前支持的模式
 

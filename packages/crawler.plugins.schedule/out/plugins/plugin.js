@@ -8,6 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -46,68 +49,76 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var inversify_1 = require("inversify");
 var crawler_plugins_common_1 = require("crawler.plugins.common");
-var bluebird = require("bluebird");
+var _ = require("lodash");
+var pathToRegexp = require("path-to-regexp");
+var Joi = require("joi");
 var constants_1 = require("../constants");
-var mq_1 = require("../libs/mq");
-var MQueuePlugin = (function () {
-    function MQueuePlugin() {
+var plugin_1 = require("../libs/plugin");
+var PluginPlugin = (function () {
+    function PluginPlugin() {
     }
     /**
-     * 启动一个任务
-     * @param param0
-     * @param options
-     * @param globalOptions
+    * 找到当前queueItem对应的规则配置
+    * @param queueItem 链接的数据
+    * @param pages     定义的page
+    */
+    PluginPlugin.prototype.getFieldFlow = function (_a) {
+        var queueItem = _a.queueItem, pages = _a.pages;
+        var rules = _.filter(pages, function (_a) {
+            var path = _a.path;
+            var pathToReg = pathToRegexp(path.toString(), []);
+            return pathToReg.test(queueItem.path || "");
+        });
+        if (!rules.length) {
+            console.error("\u6CA1\u6709\u627E\u5230" + queueItem.path + "\u7684\u5339\u914D\u89C4\u5219\uFF01");
+            return null;
+        }
+        return _.first(rules).msgFlow || [];
+    };
+    /**
+     * 测试一个流
+     * @param config        流配置
+     * @param options       seneca的options
+     * @param globalOptions 全局options
      */
-    MQueuePlugin.prototype.addToQueue = function (config, options, globalOptions) {
+    PluginPlugin.prototype.testFlow = function (config, options, globalOptions) {
         return __awaiter(this, void 0, void 0, function () {
-            var mqService;
+            var rtn;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, options.seneca.actAsync("role:" + constants_1.pluginTaskName + ",cmd:getOne", config)];
+                    case 0: return [4 /*yield*/, this.pluginService.execute(options.seneca, config.msgFlow, config.data)];
                     case 1:
-                        mqService = _a.sent();
-                        console.log("dfjkadljflkaj");
-                        if (mqService && config.items && config.items.length) {
-                            mqService.addItemsToQueue(config.items, config.routingKey);
-                        }
-                        return [2 /*return*/];
+                        rtn = _a.sent();
+                        return [2 /*return*/, rtn];
                 }
             });
         });
     };
-    MQueuePlugin.prototype.init = function (msg, options, globalOptions) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, bluebird.delay(200)];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    return MQueuePlugin;
+    return PluginPlugin;
 }());
 __decorate([
-    inversify_1.inject(mq_1.MQueueService),
-    __metadata("design:type", mq_1.MQueueService)
-], MQueuePlugin.prototype, "mqService", void 0);
+    inversify_1.inject(plugin_1.ExecutePluginService),
+    __metadata("design:type", plugin_1.ExecutePluginService)
+], PluginPlugin.prototype, "pluginService", void 0);
 __decorate([
-    crawler_plugins_common_1.Add("role:" + constants_1.pluginMqName + ",cmd:addItemToQueue"),
+    crawler_plugins_common_1.Add("role:" + constants_1.pluginResultName + ",cmd:addItemToQueue"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Array)
+], PluginPlugin.prototype, "getFieldFlow", null);
+__decorate([
+    crawler_plugins_common_1.Add("role:" + constants_1.pluginResultName + ",cmd:testFlow"),
+    __param(0, crawler_plugins_common_1.Validate(Joi.object().keys({
+        msgFlow: Joi.array().required(),
+        data: Joi.any().required()
+    }), { allowUnknown: true })),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object, Object]),
     __metadata("design:returntype", Promise)
-], MQueuePlugin.prototype, "addToQueue", null);
-__decorate([
-    crawler_plugins_common_1.Init(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object]),
-    __metadata("design:returntype", Promise)
-], MQueuePlugin.prototype, "init", null);
-MQueuePlugin = __decorate([
-    crawler_plugins_common_1.Plugin(constants_1.pluginMqName),
+], PluginPlugin.prototype, "testFlow", null);
+PluginPlugin = __decorate([
+    crawler_plugins_common_1.Plugin(constants_1.pluginResultName),
     inversify_1.injectable()
-], MQueuePlugin);
-exports.MQueuePlugin = MQueuePlugin;
-//# sourceMappingURL=mq.js.map
+], PluginPlugin);
+exports.PluginPlugin = PluginPlugin;
+//# sourceMappingURL=plugin.js.map

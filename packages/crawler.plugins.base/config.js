@@ -12,16 +12,7 @@ module.exports = {
             "mesh": {
                 "isbase": true,
                 "stop": false,
-                "host": process.env.HOST,
-                // "discover": {
-                //     "multicast": { active: true },
-                //     "defined": { active: false },
-                //     "multicast": { active: false },
-                //     "guess": { active: false },
-                //     "registry": {
-                //         "active": true
-                //     }
-                // }
+                "host": process.env.HOST
             }
         },
         "after": {

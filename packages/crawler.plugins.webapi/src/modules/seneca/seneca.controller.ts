@@ -1,27 +1,29 @@
-import { Response } from 'express';
-import { Controller, Get, Post, HttpStatus, Req, Res, Param, Body, Put, Delete, UsePipes } from '@nestjs/common';
-import { HttpException } from '@nestjs/core';
+import { Response } from "express";
+import { Controller, Get, Post, HttpStatus, Req, Res, Param, Body, Put, Delete, UsePipes } from "@nestjs/common";
+import { HttpException } from "@nestjs/core";
 import * as Joi from "joi";
 
 import { SenecaService } from "./seneca.service";
-import { JoiValidatorPipe } from '../../pipes/validate.pipe';
+import { JoiValidatorPipe } from "../../pipes/validate.pipe";
 
 @Controller()
 export class SenecaController {
 
-    constructor(private senecaService: SenecaService) {
-    }
+    constructor(private senecaService: SenecaService) { }
 
-    // C
-    @Post('act')
-    @UsePipes(new JoiValidatorPipe(Joi.object().required(), ({ data }) => data === 'config'))
-    @UsePipes(new JoiValidatorPipe(Joi.string().required(), ({ data }) => data === 'parttern'))
-    public async act( @Res() res: Response, @Body('parttern') parttern: string, @Body('config') config: any) {
+    /**
+     * 调用插件
+     * @param res 
+     * @param parttern 
+     * @param config 
+     */
+    @Post("act")
+    @UsePipes(new JoiValidatorPipe(Joi.object().required(), ({ data }) => data === "config"))
+    @UsePipes(new JoiValidatorPipe(Joi.string().required(), ({ data }) => data === "parttern"))
+    public async act( @Res() res: Response, @Body("parttern") parttern: string, @Body("config") config: any) {
         if (!this.senecaService.seneca.has(parttern)) {
             throw new HttpException("没有发现parttern:" + parttern, 404);
         }
-
-        console.log(parttern, config);
 
         try {
             res.send(await this.senecaService.seneca.actAsync(parttern, config || {}));
@@ -30,45 +32,70 @@ export class SenecaController {
         }
     }
 
-    @Get('members')
+    @Get("members")
     public async getMembers( @Req() req, @Res() res: Response) {
         let data = await this.senecaService.seneca.actAsync("role:mesh,get:members");
 
         res.send(data);
-        // return data;
     }
 
-    @Post('find')
-    public async actTest2( @Res() res: Response, @Body('parttern') parttern: string) {
+    @Post("find")
+    public async actTest2( @Res() res: Response, @Body("parttern") parttern: string) {
         let data = await this.senecaService.seneca.list(parttern);
 
         res.send(data);
     }
 
-    // R
-    @Get('act')
-    public async actTest( @Req() req, @Res() res: Response) {
+    @Post("log")
+    public async log( @Res() res: Response, @Body("result") result: any) {
+        // let data = await this.senecaService.seneca.list(parttern);
+
+        console.log(result);
+
+        res.send(null);
+    }
+
+    @Post("addBusiness")
+    @UsePipes(new JoiValidatorPipe(Joi.string().required(), ({ data }) => data === "pdt_sku"))
+    @UsePipes(new JoiValidatorPipe(Joi.number().required(), ({ data }) => data === "business_id"))
+    @UsePipes(new JoiValidatorPipe(Joi.string().required(), ({ data }) => data === "business_sku_url"))
+    public async addBusiness( @Body("pdt_sku") pdt_sku: string,
+        @Body("business_id") business_id: number,
+        @Body("business_sku_url") business_sku_url: string, @Res() res: Response) {
         let data = await this.senecaService.seneca.actAsync("role:crawler.plugin.queue,cmd:queue", {
             "queueConfig": {
-                "domainWhiteList": ["(.*?).jd.com"],
+                "domainWhiteList": ["(.*?).jd.com", "(.*?).tmall.com"],
                 "fetchConditions": [],
                 "filterByDomain": true,
-                "host": "www.jd.com",
                 "ignoreWWWDomain": false,
                 "initialPort": 80,
                 "initialProtocol": "https",
-                "scanSubdomains": true,
+                "scanSubdomains": false,
                 "stripQuerystring": false,
                 "stripWWWDomain": false,
             },
-            "urls": ["https://search.jd.com/search?keyword=%E6%B2%99%E5%8F%91&enc=utf-8&ev=exbrand_%E8%8A%9D%E5%8D%8E%E4%BB%95%EF%BC%88CHEERS%EF%BC%89/"]
+            "urls": [business_sku_url]
         });
 
-        let data1 = await this.senecaService.seneca.actAsync("role:mesh,get:members");
+        if (!data.length || data[0] === false) {
+            throw new HttpException("地址不符合规则！", 406);
+        }
 
-        console.log(data1);
+        let queueItem = data[0];
 
-        res.send(data);
-        // return data;
+        queueItem = Object.assign({}, queueItem, {
+            pdt_sku,
+            business_id,
+            business_sku_url
+        });
+
+        let aaa = await this.senecaService.seneca.actAsync("role:crawler.plugin.task,cmd:addItemToQueue", {
+            "items": [queueItem],
+            "key": "bijia"
+        });
+
+        console.log(aaa);
+
+        res.send(queueItem);
     }
 }

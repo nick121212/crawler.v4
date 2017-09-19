@@ -25,6 +25,9 @@ module.exports = {
                 "listen": [{
                     "pin": "role:crawler.plugin.task,cmd:*",
                     "timeout": 60000
+                }, {
+                    "pin": "role:crawler.plugin.plugin,cmd:*",
+                    "timeout": 60000
                 }]
             }
         },

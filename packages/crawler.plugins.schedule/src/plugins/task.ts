@@ -5,7 +5,7 @@ import * as bluebird from "bluebird";
 import * as _ from "lodash";
 import * as amqplib from "amqplib";
 
-import { pluginTaskName, pluginResultName } from "../constants";
+import { pluginTaskName } from "../constants";
 import { MQueueService } from "../libs/mq";
 import { ExecutePluginService } from "../libs/plugin";
 
@@ -36,9 +36,14 @@ export class TaskPlugin {
         return !!mQueueServie;
     }
 
+    /**
+     * 获取一个queueService实例
+     * @param config  参数
+     */
     @Add(`role:${pluginTaskName},cmd:getOne`)
-    private getQueueService(config: any): MQueueService | null {
+    private getQueueService(config: any): MQueueService | null | string {
         let queueName = this.getUrlQueueName(config);
+
         if (this.has(queueName)) {
             let mQueueServie: MQueueService = _.first(_.filter(this.mqs, (mq: MQueueService) => {
                 return mq.queueName === queueName;
@@ -50,12 +55,15 @@ export class TaskPlugin {
         return null;
     }
 
-    @Add(`role:${pluginTaskName},cmd:testFlow`)
-    private async testFlow(config: any, options?: any, globalOptions?: any): Promise<any> {
-        // await this.pluginService.execute(options.seneca, config.msgFlow, config.data);
-        let rtn: any = await this.pluginService.execute(options.seneca, config.msgFlow, config.data);
+    @Add(`role:${pluginTaskName},cmd:addItemToQueue`)
+    private async addToQueue(config: any, options?: any, globalOptions?: any) {
+        let mqService: any = this.getQueueService(config);
 
-        return rtn.result;
+        if (mqService && config.items && config.items.length) {
+            mqService.addItemsToQueue(config.items, config.routingKey);
+        }
+
+        return;
     }
 
     /**
@@ -65,18 +73,30 @@ export class TaskPlugin {
      * @param globalOptions
      */
     @Add(`role:${pluginTaskName},cmd:add`)
-    private async addToTask(config: { key: string, prefech: number, msgPlugins: Array<any>, initFlow: Array<any> }, options?: any, globalOptions?: any) {
+    private async addToTask(
+        config: { key: string, prefech: number, msgPlugins: Array<any>, initFlow: Array<any> },
+        options?: any,
+        globalOptions?: any
+        ) {
         let queueName = this.getUrlQueueName(config);
 
-        if (!this.has(queueName)) {
-            let mQueueService = new MQueueService();
-            let task = options.seneca.make$("tasks", {
-                id: config.key,
-                ...config
-            });
-            let instance = await task.saveAsync();
-            this.mqs.push(mQueueService);
-            if (mQueueService.initConsume(globalOptions, queueName, this.pluginService.preExecute.bind(this.pluginService, options.seneca, config), config.prefech || 1)) {
+        if (this.has(queueName)) {
+            return;
+        }
+
+        let mQueueService = new MQueueService();
+        let task = options.seneca.make$("tasks", {
+            id: config.key,
+            ...config
+        });
+        let instance = await task.saveAsync();
+        this.mqs.push(mQueueService);
+
+        if (mQueueService.initConsume(globalOptions,
+            queueName,
+            this.pluginService.preExecute.bind(this.pluginService, options.seneca, config), config.prefech || 1)
+        ) {
+            if (config.initFlow && config.initFlow.length) {
                 this.pluginService.execute(options.seneca, config.initFlow);
             }
         }

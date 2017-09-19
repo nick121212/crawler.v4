@@ -36,7 +36,7 @@ exports.default = {
             },
             "result": "${'saveUrls':$}"
         }, {
-            "partten": "role:crawler.plugin.mq,cmd:addItemToQueue",
+            "partten": "role:crawler.plugin.task,cmd:addItemToQueue",
             "title": "把存储的url放入queue",
             "jsonata": ["$.saveUrls{'items':[$]}"],
             "data": {
@@ -75,7 +75,7 @@ exports.default = {
                     },
                     "result": "${'saveUrls':$}"
                 }, {
-                    "partten": "role:crawler.plugin.mq,cmd:addItemToQueue",
+                    "partten": "role:crawler.plugin.task,cmd:addItemToQueue",
                     "title": "把存储的url放入queue",
                     "jsonata": ["$.saveUrls{'items':[$]}"],
                     "data": {
@@ -168,7 +168,7 @@ exports.default = {
                         "esType": "mamilove"
                     }
                 }, {
-                    "partten": "role:crawler.plugin.mq,cmd:addItemToQueue",
+                    "partten": "role:crawler.plugin.task,cmd:addItemToQueue",
                     "title": "把当前的queueItem放入数据处理queue",
                     "jsonata": ["$.queueItem{'items':[{'id':$._id,'url':$.url,'esIndex':'blog','esType':'mamilove'}]}"],
                     "data": {

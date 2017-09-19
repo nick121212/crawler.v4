@@ -57,11 +57,14 @@ declare const _default: {
                 "pages": {
                     "key": string;
                     "path": string;
-                    "areas": never[];
+                    "areas": {
+                        "key": string;
+                        "selector": string[];
+                    }[];
                     "fieldKey": string;
                     "fields": {
-                        "none": {
-                            "data": ({
+                        "title": {
+                            "data": {
                                 "key": string;
                                 "title": string;
                                 "selector": string[];
@@ -79,7 +82,10 @@ declare const _default: {
                                         "end": boolean;
                                     };
                                 }[];
-                            } | {
+                            }[];
+                        };
+                        "none": {
+                            "data": ({
                                 "key": string;
                                 "title": string;
                                 "selector": string[];
@@ -88,15 +94,6 @@ declare const _default: {
                                     "text": never[];
                                 };
                                 "htmlStrategy": string;
-                                "dealStrategy": string;
-                            } | {
-                                "key": string;
-                                "title": string;
-                                "selector": string[];
-                                "removeSelector": never[];
-                                "methodInfo": {
-                                    "text": never[];
-                                };
                                 "dealStrategy": string;
                             } | {
                                 "key": string;

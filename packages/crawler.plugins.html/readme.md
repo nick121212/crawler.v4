@@ -9,7 +9,8 @@
 基础模式;分析单个字段。
 
 事例配置
-```
+
+``` json
     {
         "key": "num",
         "selector": ["#text_Keywords"],
@@ -28,7 +29,8 @@
 数组模式;可以分析出数组字段。
 
 事例配置
-```
+
+``` json
     {
         "key": "array",
         "selector": ["#ylHnTime li"],
@@ -48,7 +50,7 @@ switch模式;用于解析飘忽不定的字段，必须和case搭配来使用。
 
 事例配置
 
-```
+``` json
 {
     "selector": ["#ylHnTime li"],
     "dealStrategy": "switch",
@@ -73,7 +75,7 @@ object模式；解析带数据结构的字段。
 
 实例配置
 
-```
+``` json
 {
     "key": "obj",
     "selector": ["#ylNav2"],
@@ -103,7 +105,7 @@ or模式；用于字段有多个不确定的地方可以取值，只命中一个
 
 实例配置
 
-```
+``` json
 {
     "key": "cur-text",
     "dealStrategy": "or",
@@ -125,7 +127,7 @@ or模式；用于字段有多个不确定的地方可以取值，只命中一个
 
 参数结构
 
-```
+``` json
     {
         "type":"object",
         "properties":{
@@ -140,7 +142,7 @@ or模式；用于字段有多个不确定的地方可以取值，只命中一个
 
 参数结构
 
-```
+``` json
     {
         "type":"object",
         "properties":{
@@ -162,7 +164,7 @@ or模式；用于字段有多个不确定的地方可以取值，只命中一个
 
 参数结构
 
-```
+``` json
     {
         "type":"object",
         "properties":{
@@ -177,7 +179,7 @@ or模式；用于字段有多个不确定的地方可以取值，只命中一个
 
 参数结构
 
-```
+``` json
     {
         "type":"object",
         "required":["regexp"],
@@ -195,7 +197,7 @@ or模式；用于字段有多个不确定的地方可以取值，只命中一个
 
 参数结构
 
-```
+``` json
     {
         "type":"object",
         "required":["splitOf","start"],
@@ -208,13 +210,13 @@ or模式；用于字段有多个不确定的地方可以取值，只命中一个
     }
 ```
 
-返回值类型: string| Array<any>
+返回值类型: string | Array<any>
 
-7. trim;去空格
+7.1 trim;去空格
 
 参数结构
 
-```
+``` json
     {
         "type":"object",
         "properties":{
@@ -237,7 +239,7 @@ partten: **role:crawler.plugin.html,cmd:html**
 
 返回数据结构:
 
-```
+``` json
     {
         "type":"array",
         "description":"返回的数据结构",
@@ -251,9 +253,9 @@ partten: **role:crawler.plugin.html,cmd:html**
     }
 ```
 
-参数数据结构: 
+参数数据结构:
 
-```
+``` json
     {
         "type":"object",
         "description":"参数",
@@ -318,7 +320,7 @@ partten: **role:crawler.plugin.html,cmd:html**
                         "type":"array",
                         "title":"字段配置",
                         "items":{
-                            "type":"object"
+                            "type":"object",
                             "title":"字段",
                             "properties":{
                                 "none":{
@@ -357,138 +359,139 @@ partten: **role:crawler.plugin.html,cmd:html**
 
 测试数据
 
-```
+``` json
 {
-	"pages": [{
-		"key": "main-123",
-		"path": "",
-		"areas": [],
-		"fieldKey": "",
-		"fields": {
-			"none": {
-				"data": [{
-					"key": "obj",
-					"selector": ["#ylNav2"],
-					"dealStrategy": "object",
-					"data": [{
-						"key": "title",
-						"selector": ["a.ylHdNavTt"],
-						"methodInfo": { "text": [] },
-						"dealStrategy": "normal"
-					}, {
-						"key": "title-1",
-						"selector": [".ylHdNavCon a"],
-						"dealStrategy": "array",
-						"data": [{
-							"key": "",
-							"selector": [],
-							"methodInfo": { "text": [] },
-							"dealStrategy": "normal"
-						}]
-					}]
-				}, {
-					"key": "cur-text",
-					"dealStrategy": "or",
-					"data": [{
-						"selector": [".zsTobTabUl .cur a"],
-						"methodInfo": { "text": [] },
-						"dealStrategy": "normal"
-					},{
-						"selector": [".key_main .key_ul .hover"],
-						"methodInfo": { "text": [] },
-						"dealStrategy": "normal"
-					}]
-				}]
-			}
-		},
-		"enabled": true
-	}, {
-		"key": "health-post",
-		"path": "/health/d+.shtml",
-		"areas": [],
-		"fieldKey": "",
-		"fields": {
-			"none": {
-				"data": [{
-					"key": "title",
-					"selector": ["#final_content .sfinal_w:eq(0) h1:eq(0)"],
-					"removeSelector": [],
-					"methodInfo": { "text": [] },
-					"htmlStrategy": "jsdom",
-					"dealStrategy": "normal"
-				}, {
-					"key": "content",
-					"selector": ["#content_p"],
-					"removeSelector": [],
-					"methodInfo": { "html": [] },
-					"htmlStrategy": "jsdom",
-					"dealStrategy": "normal"
-				}]
-			}
-		},
-		"enabled": true
-	}, {
-		"key": "main",
-		"path": "",
-		"areas": [],
-		"fieldKey": "",
-		"fields": {
-			"none": {
-				"data": [{
-					"key": "array",
-					"selector": ["#ylHnTime li"],
-					"dealStrategy": "array",
-					"data": [{
-						"key": "name",
-						"selector": ["a"],
-						"methodInfo": { "text": [] },
-						"dealStrategy": "normal"
-					}]
-				}, {
-					"selector": ["#ylHnTime li"],
-					"dealStrategy": "switch",
-					"data": [{
-						"selector": "a",
-						"methodInfo": { "attr": ["title"] },
-						"match": "0-1岁",
-						"data": [{
-							"key": "switch",
-							"selector": ["a"],
-							"formats": [{ "str": [] }],
-							"methodInfo": { "text": [] }
-						}],
-						"dealStrategy": "case"
-					}],
-				}]
-			}
-		},
-		"enabled": true
-	}, {
-		"key": "num",
-		"path": "",
-		"areas": [],
-		"fieldKey": "",
-		"enabled": true,
-		"fields": {
-			"none": {
-				"data": [{
-					"key": "num",
-					"selector": ["#text_Keywords"],
-					"dealStrategy": "normal",
-					"methodInfo": { "val": [] },
-					"formats": [
-						{ "key": "trim", "settings": { "start": true, "end": true, "mimddle": true } },
-						{ "key": "regexp", "settings": { "regexp": "/\\d+/", "scope": "i", "index": 0 } },
-						{ "key": "num" }
-					]
-				}]
-			}
-		}
-	}],
-	"queueItem": {
-		responseBody: "摇篮网首页的html",
-		url: "http://www.yaolan.com",
-		path: "/"
-	}
+    "pages": [{
+    "key": "main-123",
+        "path": "",
+        "areas": [],
+        "fieldKey": "",
+        "fields": {
+            "none": {
+                "data": [{
+                    "key": "obj",
+                    "selector": ["#ylNav2"],
+                    "dealStrategy": "object",
+                    "data": [{
+                        "key": "title",
+                        "selector": ["a.ylHdNavTt"],
+                        "methodInfo": { "text": [] },
+                        "dealStrategy": "normal"
+                    }, {
+                        "key": "title-1",
+                        "selector": [".ylHdNavCon a"],
+                        "dealStrategy": "array",
+                        "data": [{
+                            "key": "",
+                            "selector": [],
+                            "methodInfo": { "text": [] },
+                            "dealStrategy": "normal"
+                        }]
+                    }]
+                }, {
+                    "key": "cur-text",
+                    "dealStrategy": "or",
+                    "data": [{
+                        "selector": [".zsTobTabUl .cur a"],
+                        "methodInfo": { "text": [] },
+                        "dealStrategy": "normal"
+                    },{
+                        "selector": [".key_main .key_ul .hover"],
+                        "methodInfo": { "text": [] },
+                        "dealStrategy": "normal"
+                    }]
+                }]
+            }
+        },
+        "enabled": true
+    }, {
+        "key": "health-post",
+        "path": "/health/d+.shtml",
+        "areas": [],
+        "fieldKey": "",
+        "fields": {
+            "none": {
+                "data": [{
+                    "key": "title",
+                    "selector": ["#final_content .sfinal_w:eq(0) h1:eq(0)"],
+                    "removeSelector": [],
+                    "methodInfo": { "text": [] },
+                    "htmlStrategy": "jsdom",
+                    "dealStrategy": "normal"
+                }, {
+                    "key": "content",
+                    "selector": ["#content_p"],
+                    "removeSelector": [],
+                    "methodInfo": { "html": [] },
+                    "htmlStrategy": "jsdom",
+                    "dealStrategy": "normal"
+                }]
+            }
+        },
+        "enabled": true
+    }, {
+        "key": "main",
+        "path": "",
+        "areas": [],
+        "fieldKey": "",
+        "fields": {
+            "none": {
+                "data": [{
+                    "key": "array",
+                    "selector": ["#ylHnTime li"],
+                    "dealStrategy": "array",
+                    "data": [{
+                        "key": "name",
+                        "selector": ["a"],
+                        "methodInfo": { "text": [] },
+                        "dealStrategy": "normal"
+                    }]
+                }, {
+                    "selector": ["#ylHnTime li"],
+                    "dealStrategy": "switch",
+                    "data": [{
+                        "selector": "a",
+                        "methodInfo": { "attr": ["title"] },
+                        "match": "0-1岁",
+                        "data": [{
+                            "key": "switch",
+                            "selector": ["a"],
+                            "formats": [{ "str": [] }],
+                            "methodInfo": { "text": [] }
+                        }],
+                        "dealStrategy": "case"
+                    }],
+                }]
+            }
+        },
+        "enabled": true
+    }, {
+        "key": "num",
+        "path": "",
+        "areas": [],
+        "fieldKey": "",
+        "enabled": true,
+        "fields": {
+            "none": {
+                "data": [{
+                    "key": "num",
+                    "selector": ["#text_Keywords"],
+                    "dealStrategy": "normal",
+                    "methodInfo": { "val": [] },
+                    "formats": [
+                        { "key": "trim", "settings": { "start": true, "end": true, "mimddle": true } },
+                        { "key": "regexp", "settings": { "regexp": "/\\d+/", "scope": "i", "index": 0 } },
+                        { "key": "num" }
+                    ]
+                }]
+            }
+        }
+    }],
+    "queueItem": {
+        "_id": "djlflds3opidu3ur",
+        "responseBody": "摇篮网首页的html",
+        "url": "http://www.yaolan.com",
+        "path": "/"
+    }
 }
 ```

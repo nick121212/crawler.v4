@@ -75,6 +75,10 @@ var TaskPlugin = (function () {
         }));
         return !!mQueueServie;
     };
+    /**
+     * 获取一个queueService实例
+     * @param config  参数
+     */
     TaskPlugin.prototype.getQueueService = function (config) {
         var queueName = this.getUrlQueueName(config);
         if (this.has(queueName)) {
@@ -85,16 +89,15 @@ var TaskPlugin = (function () {
         }
         return null;
     };
-    TaskPlugin.prototype.testFlow = function (config, options, globalOptions) {
+    TaskPlugin.prototype.addToQueue = function (config, options, globalOptions) {
         return __awaiter(this, void 0, void 0, function () {
-            var rtn;
+            var mqService;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.pluginService.execute(options.seneca, config.msgFlow, config.data)];
-                    case 1:
-                        rtn = _a.sent();
-                        return [2 /*return*/, rtn.result];
+                mqService = this.getQueueService(config);
+                if (mqService && config.items && config.items.length) {
+                    mqService.addItemsToQueue(config.items, config.routingKey);
                 }
+                return [2 /*return*/];
             });
         });
     };
@@ -111,7 +114,9 @@ var TaskPlugin = (function () {
                 switch (_a.label) {
                     case 0:
                         queueName = this.getUrlQueueName(config);
-                        if (!!this.has(queueName)) return [3 /*break*/, 2];
+                        if (this.has(queueName)) {
+                            return [2 /*return*/];
+                        }
                         mQueueService = new mq_1.MQueueService();
                         task = options.seneca.make$("tasks", __assign({ id: config.key }, config));
                         return [4 /*yield*/, task.saveAsync()];
@@ -119,10 +124,11 @@ var TaskPlugin = (function () {
                         instance = _a.sent();
                         this.mqs.push(mQueueService);
                         if (mQueueService.initConsume(globalOptions, queueName, this.pluginService.preExecute.bind(this.pluginService, options.seneca, config), config.prefech || 1)) {
-                            this.pluginService.execute(options.seneca, config.initFlow);
+                            if (config.initFlow && config.initFlow.length) {
+                                this.pluginService.execute(options.seneca, config.initFlow);
+                            }
                         }
-                        _a.label = 2;
-                    case 2: return [2 /*return*/];
+                        return [2 /*return*/];
                 }
             });
         });
@@ -225,14 +231,14 @@ __decorate([
     crawler_plugins_common_1.Add("role:" + constants_1.pluginTaskName + ",cmd:getOne"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", mq_1.MQueueService)
+    __metadata("design:returntype", Object)
 ], TaskPlugin.prototype, "getQueueService", null);
 __decorate([
-    crawler_plugins_common_1.Add("role:" + constants_1.pluginTaskName + ",cmd:testFlow"),
+    crawler_plugins_common_1.Add("role:" + constants_1.pluginTaskName + ",cmd:addItemToQueue"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object, Object]),
     __metadata("design:returntype", Promise)
-], TaskPlugin.prototype, "testFlow", null);
+], TaskPlugin.prototype, "addToQueue", null);
 __decorate([
     crawler_plugins_common_1.Add("role:" + constants_1.pluginTaskName + ",cmd:add"),
     __metadata("design:type", Function),

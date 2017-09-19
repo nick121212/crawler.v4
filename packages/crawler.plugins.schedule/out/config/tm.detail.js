@@ -4,9 +4,9 @@ exports.default = {
     "parttern": "role:crawler.plugin.plugin,cmd:testFlow",
     "config": {
         "data": {
-            "pdt_sku": "11199537356",
-            "business_id": 0,
-            "business_sku_url": "https://item.jd.com/11199537356.html"
+            "pdt_sku": "3430563615058",
+            "business_id": 1,
+            "business_sku_url": "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3430563615058"
         },
         "msgFlow": [{
                 "key": "queue",
@@ -18,13 +18,13 @@ exports.default = {
                         "ignoreWWWDomain": true,
                         "stripWWWDomain": false,
                         "scanSubdomains": false,
-                        "host": "item.jd.com",
+                        "host": "detail.tmall.com",
                         "initialProtocol": "https",
                         "initialPort": 80,
                         "stripQuerystring": false,
                         "allowQueryParams": [],
                         "fetchConditions": [],
-                        "domainWhiteList": ["item.jd.com"],
+                        "domainWhiteList": ["detail.tmall.com"],
                         "filterByDomain": true
                     }
                 },
@@ -38,7 +38,7 @@ exports.default = {
                     "charset": "gbk",
                     "engine": "phantom",
                     "header": {
-                        "Host": "item.jd.com",
+                        "Host": "detail.tmall.com",
                         "Accept-Encoding": "gzip, deflate"
                     }
                 },
@@ -57,35 +57,43 @@ exports.default = {
                 "result": "$combine($.result[]){'result':$}",
                 "data": {
                     "pages": [{
-                            "key": "qa-detail",
-                            "path": "/(\\d+).html",
-                            "areas": [],
+                            "key": "tm-detail",
+                            "path": "*",
+                            "areas": [{
+                                    "key": "title",
+                                    "selector": [".tb-detail-hd"]
+                                }],
                             "fieldKey": "",
                             "fields": {
-                                "none": {
+                                "title": {
                                     "data": [{
                                             "key": "business_sku_title",
                                             "title": "友商商品主标题",
-                                            "selector": [".sku-name"],
+                                            "selector": ["h1"],
                                             "removeSelector": [],
                                             "methodInfo": { "text": [] },
                                             "htmlStrategy": "jsdom",
                                             "dealStrategy": "normal",
                                             "formats": [{ "key": "trim", "settings": { "start": true, "middle": true, "end": true } }]
                                         }, {
+                                            "key": "business_sku_subtitle",
+                                            "title": "友商商品副标题",
+                                            "selector": ["p"],
+                                            "removeSelector": [],
+                                            "methodInfo": { "text": [] },
+                                            "htmlStrategy": "jsdom",
+                                            "dealStrategy": "normal",
+                                            "formats": [{ "key": "trim", "settings": { "start": true, "middle": true, "end": true } }]
+                                        }]
+                                },
+                                "none": {
+                                    "data": [{
                                             "key": "business_promotion",
                                             "title": "友商商品优惠信息,券",
                                             "selector": [".quan-item .text"],
                                             "removeSelector": [],
                                             "methodInfo": { "text": [] },
                                             "htmlStrategy": "jsdom",
-                                            "dealStrategy": "normal"
-                                        }, {
-                                            "key": "business_sku_subtitle",
-                                            "title": "友商商品副标题",
-                                            "selector": [".news .item:eq(0)"],
-                                            "removeSelector": [],
-                                            "methodInfo": { "text": [] },
                                             "dealStrategy": "normal"
                                         }, {
                                             "key": "business_standard",
@@ -97,7 +105,7 @@ exports.default = {
                                         }, {
                                             "key": "business_price",
                                             "title": "友商商品销售价格",
-                                            "selector": [".summary-price .p-price .price"],
+                                            "selector": [".tm-promo-price .tm-price"],
                                             "methodInfo": { "text": [] },
                                             "htmlStrategy": "jsdom",
                                             "dealStrategy": "normal"
@@ -110,4 +118,4 @@ exports.default = {
             }]
     }
 };
-//# sourceMappingURL=jd.detail.js.map
+//# sourceMappingURL=tm.detail.js.map

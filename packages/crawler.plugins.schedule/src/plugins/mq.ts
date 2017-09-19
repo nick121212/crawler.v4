@@ -26,6 +26,7 @@ export class MQueuePlugin {
     private async addToQueue(config: any, options?: any, globalOptions?: any) {
         let mqService: any = await options.seneca.actAsync(`role:${pluginTaskName},cmd:getOne`, config);
 
+        console.log("dfjkadljflkaj");
         if (mqService && config.items && config.items.length) {
             mqService.addItemsToQueue(config.items, config.routingKey);
         }

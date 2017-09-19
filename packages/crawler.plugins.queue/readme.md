@@ -11,7 +11,7 @@ partten: **role:crawler.plugin.queue,cmd:analyze**
 
 返回数据结构:
 
-```
+``` json
     {
         "type":"array",
         "description":"返回的数据结构",
@@ -30,9 +30,9 @@ partten: **role:crawler.plugin.queue,cmd:analyze**
     }
 ```
 
-参数数据结构: 
+参数数据结构:
 
-```
+``` json
     {
         "type":"object",
         "description":"参数",
@@ -101,7 +101,7 @@ partten: **role:crawler.plugin.queue,cmd:analyze**
 
 测试数据
 
-```
+``` json
     {
         "queueConfig": {
             "ignoreWWWDomain": false,
@@ -126,8 +126,8 @@ partten: **role:crawler.plugin.queue,cmd:analyze**
             "ignoreRobots": true
         },
         "queueItem": {
-            responseBody: "摇篮网首页的html代码",
-            url: "http://www.yaolan.com"
+            "responseBody": "摇篮网首页的html代码",
+            "url": "http://www.yaolan.com"
         }
     }
 ```
@@ -138,7 +138,7 @@ partten: **role:crawler.plugin.queue,cmd:queue**
 
 返回数据结构:
 
-```
+``` json
     {
         "type":"array",
         "description":"返回的数据结构",
@@ -157,9 +157,9 @@ partten: **role:crawler.plugin.queue,cmd:queue**
     }
 ```
 
-参数数据结构: 
+参数数据结构:
 
-```
+``` json
     {
         "type":"object",
         "description":"参数",
@@ -195,7 +195,7 @@ partten: **role:crawler.plugin.queue,cmd:queue**
 
 测试数据
 
-```
+``` json
     {
         "queueConfig": {
             "ignoreWWWDomain": false,

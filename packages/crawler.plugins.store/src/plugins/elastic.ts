@@ -38,7 +38,6 @@ export class EsStorePlugin {
      * @param urls 连接数组
      */
     @Add(`role:${pluginEsName},cmd:saveUrls`)
-
     private async saveUrls({ urls, esIndex, esType }: { urls: Array<any>, esIndex: string, esType: string }): Promise<Array<any>> {
         const urlsById = _.keyBy(urls, "_id");
         let docs: Array<any> = [];
@@ -115,7 +114,6 @@ export class EsStorePlugin {
      * @param esType     类型
      */
     @Add(`role:${pluginEsName},cmd:saveQueueItem`)
-
     private async saveQueueItem({ queueItem, esIndex, esType }: { queueItem: any, esIndex: string, esType: string }): Promise<any> {
         let docs: Array<any> = [];
 
@@ -179,12 +177,19 @@ export class EsStorePlugin {
         }).then(() => {
             console.log("elasticsearh as well");
         }, (err: Error) => {
-            console.log("elasticsearch cluster is down!");
+            console.log("elasticsearch cluster is down!", err.message);
         });
 
         await bluebird.delay(200);
     }
 
+    /**
+     * 获取单个数据
+     * @param param0
+     * _id es的id
+     * esIndex 索引
+     * esType  类型
+     */
     @Add(`role:${pluginEsName},cmd:getItem`)
     private async getItem({ _id, esIndex, esType }: { _id: any; esIndex: string; esType: string }) {
         return await this.client.get({
@@ -194,6 +199,11 @@ export class EsStorePlugin {
         });
     }
 
+    /**
+     * pick 字段
+     * @param result 数据
+     * @param fields 字段
+     */
     private pick(result: any, fields: Array<string>) {
         let res: any = {};
 

@@ -34,7 +34,6 @@ let SenecaController = class SenecaController {
             if (!this.senecaService.seneca.has(parttern)) {
                 throw new core_1.HttpException("没有发现parttern:" + parttern, 404);
             }
-            console.log(parttern, config);
             try {
                 res.send(yield this.senecaService.seneca.actAsync(parttern, config || {}));
             }
@@ -55,59 +54,88 @@ let SenecaController = class SenecaController {
             res.send(data);
         });
     }
-    actTest(req, res) {
+    log(res, result) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log(result);
+            res.send(null);
+        });
+    }
+    addBusiness(pdt_sku, business_id, business_sku_url, res) {
         return __awaiter(this, void 0, void 0, function* () {
             let data = yield this.senecaService.seneca.actAsync("role:crawler.plugin.queue,cmd:queue", {
                 "queueConfig": {
-                    "domainWhiteList": ["(.*?).jd.com"],
+                    "domainWhiteList": ["(.*?).jd.com", "(.*?).tmall.com"],
                     "fetchConditions": [],
                     "filterByDomain": true,
-                    "host": "www.jd.com",
                     "ignoreWWWDomain": false,
                     "initialPort": 80,
                     "initialProtocol": "https",
-                    "scanSubdomains": true,
+                    "scanSubdomains": false,
                     "stripQuerystring": false,
                     "stripWWWDomain": false,
                 },
-                "urls": ["https://search.jd.com/search?keyword=%E6%B2%99%E5%8F%91&enc=utf-8&ev=exbrand_%E8%8A%9D%E5%8D%8E%E4%BB%95%EF%BC%88CHEERS%EF%BC%89/"]
+                "urls": [business_sku_url]
             });
-            let data1 = yield this.senecaService.seneca.actAsync("role:mesh,get:members");
-            console.log(data1);
-            res.send(data);
+            if (!data.length || data[0] === false) {
+                throw new core_1.HttpException("地址不符合规则！", 406);
+            }
+            let queueItem = data[0];
+            queueItem = Object.assign({}, queueItem, {
+                pdt_sku,
+                business_id,
+                business_sku_url
+            });
+            let aaa = yield this.senecaService.seneca.actAsync("role:crawler.plugin.task,cmd:addItemToQueue", {
+                "items": [queueItem],
+                "key": "bijia"
+            });
+            console.log(aaa);
+            res.send(queueItem);
         });
     }
 };
 __decorate([
-    common_1.Post('act'),
-    common_1.UsePipes(new validate_pipe_1.JoiValidatorPipe(Joi.object().required(), ({ data }) => data === 'config')),
-    common_1.UsePipes(new validate_pipe_1.JoiValidatorPipe(Joi.string().required(), ({ data }) => data === 'parttern')),
-    __param(0, common_1.Res()), __param(1, common_1.Body('parttern')), __param(2, common_1.Body('config')),
+    common_1.Post("act"),
+    common_1.UsePipes(new validate_pipe_1.JoiValidatorPipe(Joi.object().required(), ({ data }) => data === "config")),
+    common_1.UsePipes(new validate_pipe_1.JoiValidatorPipe(Joi.string().required(), ({ data }) => data === "parttern")),
+    __param(0, common_1.Res()), __param(1, common_1.Body("parttern")), __param(2, common_1.Body("config")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, String, Object]),
     __metadata("design:returntype", Promise)
 ], SenecaController.prototype, "act", null);
 __decorate([
-    common_1.Get('members'),
+    common_1.Get("members"),
     __param(0, common_1.Req()), __param(1, common_1.Res()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], SenecaController.prototype, "getMembers", null);
 __decorate([
-    common_1.Post('find'),
-    __param(0, common_1.Res()), __param(1, common_1.Body('parttern')),
+    common_1.Post("find"),
+    __param(0, common_1.Res()), __param(1, common_1.Body("parttern")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", Promise)
 ], SenecaController.prototype, "actTest2", null);
 __decorate([
-    common_1.Get('act'),
-    __param(0, common_1.Req()), __param(1, common_1.Res()),
+    common_1.Post("log"),
+    __param(0, common_1.Res()), __param(1, common_1.Body("result")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
-], SenecaController.prototype, "actTest", null);
+], SenecaController.prototype, "log", null);
+__decorate([
+    common_1.Post("addBusiness"),
+    common_1.UsePipes(new validate_pipe_1.JoiValidatorPipe(Joi.string().required(), ({ data }) => data === "pdt_sku")),
+    common_1.UsePipes(new validate_pipe_1.JoiValidatorPipe(Joi.number().required(), ({ data }) => data === "business_id")),
+    common_1.UsePipes(new validate_pipe_1.JoiValidatorPipe(Joi.string().required(), ({ data }) => data === "business_sku_url")),
+    __param(0, common_1.Body("pdt_sku")),
+    __param(1, common_1.Body("business_id")),
+    __param(2, common_1.Body("business_sku_url")), __param(3, common_1.Res()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Number, String, Object]),
+    __metadata("design:returntype", Promise)
+], SenecaController.prototype, "addBusiness", null);
 SenecaController = __decorate([
     common_1.Controller(),
     __metadata("design:paramtypes", [seneca_service_1.SenecaService])

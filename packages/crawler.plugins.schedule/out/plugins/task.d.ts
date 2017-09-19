@@ -9,8 +9,12 @@ export declare class TaskPlugin {
     private pluginService;
     private getUrlQueueName(config);
     private has(queueName);
+    /**
+     * 获取一个queueService实例
+     * @param config  参数
+     */
     private getQueueService(config);
-    private testFlow(config, options?, globalOptions?);
+    private addToQueue(config, options?, globalOptions?);
     /**
      * 启动一个任务
      * @param param0
