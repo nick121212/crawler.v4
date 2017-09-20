@@ -2,9 +2,10 @@ import * as Express from "express";
 import { Seneca } from "crawler.plugins.common";
 import * as inversify from "inversify";
 import * as path from "path";
-import * as  wellknown from "nodemailer-wellknown";
 
 import { Component } from "@nestjs/common";
+
+const wellknown = require("nodemailer-wellknown");
 
 @Component()
 export abstract class SenecaService {

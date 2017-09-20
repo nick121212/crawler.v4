@@ -107,11 +107,11 @@ export default {
             }
         }, {
             "partten": "role:crawler.plugin.downloader,cmd:interfaces",
-            "jsonata": ["$.result.{'data':{'result':$}}"],
+            "jsonata": ["$.result.{'params':{'fields':$.$string()}}"],
             "data": {
-                "url": "http://10.9.184.20:3001",
-                "path": "/log",
-                "method": "post"
+                "url": "http://10.11.29.196:8020",
+                "path": "/d-api/reptile/businessInfo",
+                "method": "get"
             }
         }]
     }, {
@@ -226,11 +226,11 @@ export default {
             }
         }, {
             "partten": "role:crawler.plugin.downloader,cmd:interfaces",
-            "jsonata": ["$.result.{'data':{'result':$}}"],
+            "jsonata": ["$.result.{'params':{'fields':$.$string()}}"],
             "data": {
-                "url": "http://10.9.184.20:3001",
-                "path": "/log",
-                "method": "post"
+                "url": "http://10.11.29.196:8020",
+                "path": "/d-api/reptile/businessInfo",
+                "method": "get"
             }
         }]
     }]

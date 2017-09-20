@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { Transport } from "@nestjs/microservices/enums";
 import { NestFactory } from "@nestjs/core";
 import { ApplicationModule } from "./modules/app/app.module";
@@ -11,10 +12,12 @@ const express = Express();
 const app: Promise<INestApplication> = NestFactory.create(ApplicationModule, express);
 
 app.then((con: INestApplication) => {
-  express.use(bodyParser.json())
+  express
+    .use(bodyParser.json({ type: 'application/json' }))
     .use(bodyParser.urlencoded({
-      extended: true
-    }));
+      extended: false
+    }))
+    .use(bodyParser.json());
 
   express.all('*', function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");

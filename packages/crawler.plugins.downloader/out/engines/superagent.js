@@ -86,6 +86,7 @@ var SuperAgentEngine = (function (_super) {
                         _l.label = 1;
                     case 1:
                         _l.trys.push([1, 3, , 4]);
+                        console.log(path, params, data);
                         curReq = request(method.toString(), path);
                         params && curReq.query(params);
                         data && curReq.send(data);

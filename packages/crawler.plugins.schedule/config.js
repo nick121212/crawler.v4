@@ -1,11 +1,11 @@
 module.exports = {
     "options": {
         "crawler.plugin.mq": {
-            "url": process.env.RMQ || "amqp://nick:111111@47.92.126.120/crawler",
+            "url": process.env.RMQ || "amqp://nick:111111@123.59.43.166/crawler",
             "options": {}
         },
         "crawler.plugin.task": {
-            "url": process.env.RMQ || "amqp://nick:111111@47.92.126.120/crawler",
+            "url": process.env.RMQ || "amqp://nick:111111@123.59.43.166/crawler",
             "options": {}
         },
         "senecaOptions": {
@@ -15,7 +15,7 @@ module.exports = {
     "plugins": {
         "pre": {
             "redis-store": {
-                "uri": process.env.REDIS || "redis://:crawler@47.92.126.120:6379",
+                "uri": process.env.REDIS || "redis://:123.59.44.152:6379",
                 "options": {}
             },
             "mesh": {

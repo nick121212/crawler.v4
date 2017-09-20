@@ -13,9 +13,9 @@ export class SenecaController {
 
     /**
      * 调用插件
-     * @param res 
-     * @param parttern 
-     * @param config 
+     * @param res      Response
+     * @param parttern 模式
+     * @param config   模式所需的数据
      */
     @Post("act")
     @UsePipes(new JoiValidatorPipe(Joi.object().required(), ({ data }) => data === "config"))
@@ -33,7 +33,7 @@ export class SenecaController {
     }
 
     @Get("members")
-    public async getMembers( @Req() req, @Res() res: Response) {
+    public async getMembers( @Res() res: Response) {
         let data = await this.senecaService.seneca.actAsync("role:mesh,get:members");
 
         res.send(data);
@@ -56,9 +56,9 @@ export class SenecaController {
     }
 
     @Post("addBusiness")
-    @UsePipes(new JoiValidatorPipe(Joi.string().required(), ({ data }) => data === "pdt_sku"))
-    @UsePipes(new JoiValidatorPipe(Joi.number().required(), ({ data }) => data === "business_id"))
-    @UsePipes(new JoiValidatorPipe(Joi.string().required(), ({ data }) => data === "business_sku_url"))
+    @UsePipes(new JoiValidatorPipe(Joi.string().label("pdt_sku").required(), ({ data }) => data === "pdt_sku"))
+    @UsePipes(new JoiValidatorPipe(Joi.number().label("business_id").required(), ({ data }) => data === "business_id"))
+    @UsePipes(new JoiValidatorPipe(Joi.string().label("business_sku_url").required(), ({ data }) => data === "business_sku_url"))
     public async addBusiness( @Body("pdt_sku") pdt_sku: string,
         @Body("business_id") business_id: number,
         @Body("business_sku_url") business_sku_url: string,
@@ -95,13 +95,14 @@ export class SenecaController {
             show_price
         });
 
-        let aaa = await this.senecaService.seneca.actAsync("role:crawler.plugin.task,cmd:addItemToQueue", {
+        // throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+
+        await this.senecaService.seneca.actAsync("role:crawler.plugin.task,cmd:addItemToQueue", {
             "items": [queueItem],
             "key": "bijia"
         });
 
-        console.log(aaa);
-
         res.send(queueItem);
+
     }
 }

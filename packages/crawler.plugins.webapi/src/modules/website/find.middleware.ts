@@ -15,7 +15,7 @@ export class FindMiddleware implements NestMiddleware {
     }
 
     public resolve() {
-        return async (req, res, next) => {
+        return async (req: any, res: any, next: any) => {
             if (!req.params.id) {
                 throw new HttpException(
                     { error: 'Oops, something went wrong.' },

@@ -3,7 +3,7 @@ import { HttpException } from "@nestjs/core";
 
 @Catch(HttpException)
 export class CustomExceptionFilter implements ExceptionFilter {
-    public catch(exception: HttpException, response) {
+    public catch(exception: HttpException, response: any) {
         response.status(200).send({
             code: exception.getStatus(),
             error: exception.getResponse()

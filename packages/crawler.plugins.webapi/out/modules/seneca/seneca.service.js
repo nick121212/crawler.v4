@@ -20,8 +20,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const crawler_plugins_common_1 = require("crawler.plugins.common");
 const inversify = require("inversify");
 const path = require("path");
-const wellknown = require("nodemailer-wellknown");
 const common_1 = require("@nestjs/common");
+const wellknown = require("nodemailer-wellknown");
 let SenecaService = class SenecaService {
     constructor() {
         const container = new inversify.Container();

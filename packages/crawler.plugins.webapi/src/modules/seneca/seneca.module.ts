@@ -1,6 +1,7 @@
 import { Module, MiddlewaresConsumer, RequestMethod, NestModule } from '@nestjs/common';
 import { SenecaService } from "./seneca.service";
 import { SenecaController } from "./seneca.controller";
+import { ErrorMiddleware } from '../../middlewares/err';
 
 @Module({
     components: [
@@ -10,4 +11,9 @@ import { SenecaController } from "./seneca.controller";
     modules: [],
 })
 export class SenecaModule implements NestModule {
+    public configure(consumer: MiddlewaresConsumer) {
+        consumer.apply(ErrorMiddleware).forRoutes(SenecaController);
+
+        return consumer;
+    }
 }

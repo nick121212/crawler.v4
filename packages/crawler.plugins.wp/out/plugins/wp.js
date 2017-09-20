@@ -97,7 +97,6 @@ var WpPlugin = (function () {
                         return [3 /*break*/, 9];
                     case 3:
                         e_1 = _a.sent();
-                        console.log(e_1.statusCode);
                         _a.label = 4;
                     case 4:
                         _a.trys.push([4, 7, , 8]);
@@ -181,7 +180,7 @@ var WpPlugin = (function () {
             var aaa;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.wpApi.posts().perPage(2).param("post_type", "dwqa").get()];
+                    case 0: return [4 /*yield*/, this.wpApi.taxonomies().param("type", "dwkb_category").get()];
                     case 1:
                         aaa = _a.sent();
                         console.log(aaa);
@@ -205,24 +204,8 @@ var WpPlugin = (function () {
                             })];
                     case 1:
                         _a.wpApi = _b.sent();
-                        // await this.wpApi.posts().create({
-                        //     title: "测试文章",
-                        //     content: "测试文章内容",
-                        //     status: "publish",
-                        //     tags: [],
-                        //     // categories: categories,
-                        //     auther: 5
-                        // });
                         return [4 /*yield*/, bluebird.delay(10)];
                     case 2:
-                        // await this.wpApi.posts().create({
-                        //     title: "测试文章",
-                        //     content: "测试文章内容",
-                        //     status: "publish",
-                        //     tags: [],
-                        //     // categories: categories,
-                        //     auther: 5
-                        // });
                         _b.sent();
                         return [2 /*return*/];
                 }

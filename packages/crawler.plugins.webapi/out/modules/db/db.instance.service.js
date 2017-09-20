@@ -12,6 +12,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("@nestjs/common");
 const database_service_1 = require("../database/database.service");
 let DbInstanceService = class DbInstanceService {
+    /**
+     * Simple constructor - notice the injection of the TypeOrmDatabaseService instance.
+     *
+     * For example purposes, the constructor is calling a simple seed method which creates some entries in the database
+     * for us if none exist.
+     *
+     * @param databaseService
+     */
     constructor(databaseService) {
         this.databaseService = databaseService;
     }

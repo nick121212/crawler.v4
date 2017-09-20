@@ -48,7 +48,6 @@ export class WpPlugin {
                 return {};
             }
         } catch (e) {
-            console.log(e.statusCode);
             try {
                 if (e.statusCode == "404") {
                     config.esType = "mamilove.blog";
@@ -118,26 +117,9 @@ export class WpPlugin {
 
     @Add(`role:${pluginName},cmd:qa`)
     public async html(config: { esIndex: string; esType: string; _id: any; }, options: any) {
-        // let result = await options.seneca.actAsync("role:crawler.plugin.store.es,cmd:getItem", config);
-
-        // if (result.found) {
-        //     console.log(result._source);
-        // } else {
-        //     return {};
-        // }
-
-        let aaa = await this.wpApi.posts().perPage(2).param("post_type", "dwqa").get();
+        let aaa = await this.wpApi.taxonomies().param("type", "dwkb_category").get();
 
         console.log(aaa);
-        // console.log(await this.wpApi.pages());
-        // let ddd = await this.wpApi.pages().id(7).revisions();
-        // console.log(ddd);
-
-        // let cates = await this.wpApi.taxonomies().taxonomy("category");
-
-        // console.log("dfadfa", cates);
-
-        // return result;
     }
 
     @Init()
@@ -148,16 +130,6 @@ export class WpPlugin {
                 password: "crawler-1314"
             });
         });
-
-
-        // await this.wpApi.posts().create({
-        //     title: "测试文章",
-        //     content: "测试文章内容",
-        //     status: "publish",
-        //     tags: [],
-        //     // categories: categories,
-        //     auther: 5
-        // });
 
         await bluebird.delay(10);
     }

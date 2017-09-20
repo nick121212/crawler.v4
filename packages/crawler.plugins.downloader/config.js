@@ -10,11 +10,6 @@ module.exports = {
                 "isbase": false,
                 "auto": true,
                 "host": process.env.HOST,
-                // "discover": {
-                //     "registry": {
-                //         "active": true
-                //     }
-                // },
                 "listen": [{
                     "type": "tcp",
                     "pin": "role:crawler.plugin.downloader,cmd:*",

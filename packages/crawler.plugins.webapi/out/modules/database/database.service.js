@@ -21,13 +21,23 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("typeorm");
 const database_config_1 = require("./database.config");
 let TypeOrmDatabaseService = class TypeOrmDatabaseService {
+    /**
+     * Abstract injection so it is possible to use several databases
+     * @param databaseConfig
+     */
     constructor(databaseConfig) {
         this.databaseConfig = databaseConfig;
     }
+    /**
+     * An async getter for the Connection which creates the connection if needed.
+     * @returns {Promise<Connection>}
+     */
     get connection() {
+        // return the connection if it's been created already
         if (this._connection) {
             return Promise.resolve(this._connection);
         }
+        // otherwise create it
         return typeorm_1.createConnection(this.databaseConfig.getConfiguration()).then(connection => {
             this._connection = connection;
             return connection;
@@ -36,11 +46,24 @@ let TypeOrmDatabaseService = class TypeOrmDatabaseService {
             throw error;
         });
     }
+    /**
+     * An async getter for the entity manager.
+     *
+     * Connects to the database if needed and returns a reference to the EntityManager
+     * @returns {Promise<EntityManager>}
+     */
     getEntityManager() {
         return __awaiter(this, void 0, void 0, function* () {
             return (yield this.connection).entityManager;
         });
     }
+    /**
+     * An async getter for repositories.
+     *
+     * Connects to the database if needed and returns a reference to a Repository for the specified Entity
+     * @param entityClassOrName
+     * @returns {Promise<Repository<T>>}
+     */
     getRepository(entityClassOrName) {
         return __awaiter(this, void 0, void 0, function* () {
             return (yield this.connection).getRepository(entityClassOrName);

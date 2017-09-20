@@ -42,7 +42,7 @@ export abstract class DbService<T> implements Service<T> {
     }
 
     public async get(id: number): Promise<T> {
-        return (await this.repository).findOneById(id);
+        return (await this.repository).findOneById(id) as any;
     }
 
     // U

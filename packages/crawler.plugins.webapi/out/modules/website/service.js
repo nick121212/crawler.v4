@@ -26,6 +26,14 @@ const db_instance_service_1 = require("../db/db.instance.service");
 const website_1 = require("../../entities/website");
 const flow_1 = require("../../entities/flow");
 let WebsiteService = class WebsiteService extends db_service_1.DbService {
+    /**
+     * Simple constructor - notice the injection of the TypeOrmDatabaseService instance.
+     *
+     * For example purposes, the constructor is calling a simple seed method which creates some entries in the database
+     * for us if none exist.
+     *
+     * @param databaseService
+     */
     constructor(databaseService, entityClassOrName) {
         super(databaseService, entityClassOrName);
     }

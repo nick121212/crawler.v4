@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+require("reflect-metadata");
 const enums_1 = require("@nestjs/microservices/enums");
 const core_1 = require("@nestjs/core");
 const app_module_1 = require("./modules/app/app.module");
@@ -9,10 +10,12 @@ const bodyParser = require("body-parser");
 const express = Express();
 const app = core_1.NestFactory.create(app_module_1.ApplicationModule, express);
 app.then((con) => {
-    express.use(bodyParser.json())
+    express
+        .use(bodyParser.json({ type: 'application/json' }))
         .use(bodyParser.urlencoded({
-        extended: true
-    }));
+        extended: false
+    }))
+        .use(bodyParser.json());
     express.all('*', function (req, res, next) {
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");

@@ -29,6 +29,12 @@ let SenecaController = class SenecaController {
     constructor(senecaService) {
         this.senecaService = senecaService;
     }
+    /**
+     * 调用插件
+     * @param res      Response
+     * @param parttern 模式
+     * @param config   模式所需的数据
+     */
     act(res, parttern, config) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!this.senecaService.seneca.has(parttern)) {
@@ -42,7 +48,7 @@ let SenecaController = class SenecaController {
             }
         });
     }
-    getMembers(req, res) {
+    getMembers(res) {
         return __awaiter(this, void 0, void 0, function* () {
             let data = yield this.senecaService.seneca.actAsync("role:mesh,get:members");
             res.send(data);
@@ -56,6 +62,7 @@ let SenecaController = class SenecaController {
     }
     log(res, result) {
         return __awaiter(this, void 0, void 0, function* () {
+            // let data = await this.senecaService.seneca.list(parttern);
             console.log(result);
             res.send(null);
         });
@@ -90,11 +97,11 @@ let SenecaController = class SenecaController {
                 business_sku_url,
                 show_price
             });
-            let aaa = yield this.senecaService.seneca.actAsync("role:crawler.plugin.task,cmd:addItemToQueue", {
+            // throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+            yield this.senecaService.seneca.actAsync("role:crawler.plugin.task,cmd:addItemToQueue", {
                 "items": [queueItem],
                 "key": "bijia"
             });
-            console.log(aaa);
             res.send(queueItem);
         });
     }
@@ -110,9 +117,9 @@ __decorate([
 ], SenecaController.prototype, "act", null);
 __decorate([
     common_1.Get("members"),
-    __param(0, common_1.Req()), __param(1, common_1.Res()),
+    __param(0, common_1.Res()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], SenecaController.prototype, "getMembers", null);
 __decorate([
@@ -131,9 +138,9 @@ __decorate([
 ], SenecaController.prototype, "log", null);
 __decorate([
     common_1.Post("addBusiness"),
-    common_1.UsePipes(new validate_pipe_1.JoiValidatorPipe(Joi.string().required(), ({ data }) => data === "pdt_sku")),
-    common_1.UsePipes(new validate_pipe_1.JoiValidatorPipe(Joi.number().required(), ({ data }) => data === "business_id")),
-    common_1.UsePipes(new validate_pipe_1.JoiValidatorPipe(Joi.string().required(), ({ data }) => data === "business_sku_url")),
+    common_1.UsePipes(new validate_pipe_1.JoiValidatorPipe(Joi.string().label("pdt_sku").required(), ({ data }) => data === "pdt_sku")),
+    common_1.UsePipes(new validate_pipe_1.JoiValidatorPipe(Joi.number().label("business_id").required(), ({ data }) => data === "business_id")),
+    common_1.UsePipes(new validate_pipe_1.JoiValidatorPipe(Joi.string().label("business_sku_url").required(), ({ data }) => data === "business_sku_url")),
     __param(0, common_1.Body("pdt_sku")),
     __param(1, common_1.Body("business_id")),
     __param(2, common_1.Body("business_sku_url")),

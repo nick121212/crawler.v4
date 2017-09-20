@@ -20,14 +20,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("@nestjs/common");
 const db_instance_service_1 = require("./db.instance.service");
 let DbService = class DbService {
+    /**
+     * Simple constructor - notice the injection of the TypeOrmDatabaseService instance.
+     *
+     * For example purposes, the constructor is calling a simple seed method which creates some entries in the database
+     * for us if none exist.
+     *
+     * @param databaseService
+     */
     constructor(databaseService, entityClassOrName) {
         this.databaseService = databaseService;
         this.entityClassOrName = entityClassOrName;
         this.seed();
     }
+    /**
+     * Internal async getter for the T Repository - `getRepository()` is async because it may need to connect.
+     * @returns {Promise<Repository<T>>}
+     */
     get repository() {
         return this.databaseService.databaseService.getRepository(this.entityClassOrName);
     }
+    // C
     add(entity) {
         return __awaiter(this, void 0, void 0, function* () {
             return (yield this.repository).persist(entity);
@@ -38,6 +51,7 @@ let DbService = class DbService {
             return (yield this.repository).persist(entities);
         });
     }
+    // R
     getAll(options) {
         return __awaiter(this, void 0, void 0, function* () {
             return (yield this.repository).find(options || {});
@@ -48,11 +62,13 @@ let DbService = class DbService {
             return (yield this.repository).findOneById(id);
         });
     }
+    // U
     update(entity) {
         return __awaiter(this, void 0, void 0, function* () {
             return (yield this.repository).persist(entity);
         });
     }
+    // D
     remove(entity) {
         return __awaiter(this, void 0, void 0, function* () {
             return (yield this.repository).remove(entity);

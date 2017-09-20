@@ -15,7 +15,7 @@ module.exports = {
         },
         "after": {
             "redis-store": {
-                "uri": "redis://47.92.126.120:6379",
+                "uri": process.env.REDIS || "redis://123.59.44.152:6379",
                 "options": {
                     "password": "crawler"
                 },

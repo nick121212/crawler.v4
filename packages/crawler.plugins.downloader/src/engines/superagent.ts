@@ -28,7 +28,7 @@ export class SuperAgentEngine extends modelProxy.BaseEngine {
 
             try {
 
-
+                console.log(path, params, data);
                 let curReq: any = request(method.toString(), path);
                 params && curReq.query(params);
                 data && curReq.send(data);

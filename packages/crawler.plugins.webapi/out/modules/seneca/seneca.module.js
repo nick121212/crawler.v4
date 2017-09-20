@@ -9,7 +9,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("@nestjs/common");
 const seneca_service_1 = require("./seneca.service");
 const seneca_controller_1 = require("./seneca.controller");
+const err_1 = require("../../middlewares/err");
 let SenecaModule = class SenecaModule {
+    configure(consumer) {
+        consumer.apply(err_1.ErrorMiddleware).forRoutes(seneca_controller_1.SenecaController);
+        return consumer;
+    }
 };
 SenecaModule = __decorate([
     common_1.Module({

@@ -26,14 +26,17 @@ let WebsitesController = class WebsitesController {
     constructor(entityService) {
         this.entityService = entityService;
     }
+    // C
     add(res, data) {
         return __awaiter(this, void 0, void 0, function* () {
             const entity = yield this.entityService.add(data);
             res.status(common_1.HttpStatus.CREATED).json(entity);
         });
     }
-    getAll(req, res) {
+    // R
+    getAll(res) {
         return __awaiter(this, void 0, void 0, function* () {
+            // const entities = await this.entityService.getAll();
             let entities = yield this.entityService.getAll({
                 join: {
                     alias: "website",
@@ -55,13 +58,17 @@ let WebsitesController = class WebsitesController {
             res.status(common_1.HttpStatus.OK).json(entity);
         });
     }
+    // U
     replace(req, res, data, id) {
         return __awaiter(this, void 0, void 0, function* () {
+            // EmployeeFindMiddleware attaches the found employee to the request or returns a 404
             const entity = req.entity;
+            // in this case, we don't need to interact with it.
             const replacedEmployee = yield this.entityService.update(entity);
             res.status(common_1.HttpStatus.OK).json(replacedEmployee);
         });
     }
+    // D
     delete(req, res, id) {
         return __awaiter(this, void 0, void 0, function* () {
             const entity = req.employee;
@@ -79,30 +86,30 @@ __decorate([
 ], WebsitesController.prototype, "add", null);
 __decorate([
     common_1.Get('/'),
-    __param(0, common_1.Req()), __param(1, common_1.Res()),
+    __param(0, common_1.Res()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], WebsitesController.prototype, "getAll", null);
 __decorate([
     common_1.Get('/:id'),
     __param(0, common_1.Req()), __param(1, common_1.Res()), __param(2, common_1.Param('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:paramtypes", [Object, Object, Number]),
     __metadata("design:returntype", Promise)
 ], WebsitesController.prototype, "get", null);
 __decorate([
     common_1.Put('/:id'),
     __param(0, common_1.Req()), __param(1, common_1.Res()), __param(2, common_1.Body('entity')), __param(3, common_1.Param('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object, Object]),
+    __metadata("design:paramtypes", [Object, Object, Object, Number]),
     __metadata("design:returntype", Promise)
 ], WebsitesController.prototype, "replace", null);
 __decorate([
     common_1.Delete('/:id'),
     __param(0, common_1.Req()), __param(1, common_1.Res()), __param(2, common_1.Param('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:paramtypes", [Object, Object, Number]),
     __metadata("design:returntype", Promise)
 ], WebsitesController.prototype, "delete", null);
 WebsitesController = __decorate([
