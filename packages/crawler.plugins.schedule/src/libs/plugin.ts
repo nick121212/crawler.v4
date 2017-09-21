@@ -11,7 +11,6 @@ import { BasePluginModel, SchedulePluginModel } from "../models/plugin";
 import { SettingModel } from "../models/setting";
 
 @injectable()
-
 export class ExecutePluginService {
     /**
      * 获取链接对应的配置，然后调用插件
@@ -31,10 +30,9 @@ export class ExecutePluginService {
             seneca.actAsync("role:crawler.plugin.store.es,cmd:createResult", {
                 "esIndex": "test.result",
                 "esType": "success",
-                "result": { url: data.queueItem.url },
+                "result": Object.assign({}, { url: data.queueItem.url }, data1.result),
                 "_id": Date.now() + Math.random() + data.queueItem._id
             }).catch(console.log);
-
             // throw new Error("");
         }).catch((err) => {
             seneca.actAsync("role:crawler.plugin.store.es,cmd:createResult", {

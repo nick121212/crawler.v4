@@ -68,7 +68,7 @@ var ExecutePluginService = (function () {
                                 seneca.actAsync("role:crawler.plugin.store.es,cmd:createResult", {
                                     "esIndex": "test.result",
                                     "esType": "success",
-                                    "result": { url: data.queueItem.url },
+                                    "result": Object.assign({}, { url: data.queueItem.url }, data1.result),
                                     "_id": Date.now() + Math.random() + data.queueItem._id
                                 }).catch(console.log);
                                 // throw new Error("");
