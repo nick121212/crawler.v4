@@ -77,13 +77,14 @@ export class MQueueService {
                 await bluebird.delay(delay || 1000);
                 await consumeMsg(msgData).then((data: any) => {
                     console.log("爬取成功！");
+
                     if (this.channel) {
                         this.channel.ack(msg);
                     }
                 }).catch((err: Error) => {
                     console.log("爬取失败！", err.message);
                     if (this.channel) {
-                        this.channel.nack(msg);
+                        this.channel.nack(msg, false, true);
                     }
                 });
             }, { noAck: false, exclusive: false });

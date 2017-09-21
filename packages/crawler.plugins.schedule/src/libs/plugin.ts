@@ -27,7 +27,25 @@ export class ExecutePluginService {
             return;
         }
 
-        return this.executePlugins(seneca, msgFlow, data || {});
+        return this.executePlugins(seneca, msgFlow, data || {}).then((data1: any) => {
+            // console.log("发送成功的接待来访建安街戴森冷风静安建档立卡");
+            seneca.actAsync("role:crawler.plugin.store.es,cmd:saveQueueItem", {
+                "esIndex": "test.result",
+                "esType": "success",
+                "queueItem": data.queueItem
+            }).catch(console.log);
+
+            throw new Error("");
+
+            // return data1;
+        }).catch((err) => {
+            // console.log("发送本地就的接待来访建安街戴森冷风静安建档立卡");
+            seneca.actAsync("role:crawler.plugin.store.es,cmd:saveQueueItem", {
+                "esIndex": "test.result",
+                "esType": "error",
+                "queueItem": data.queueItem
+            }).catch(console.log);
+        });
     }
 
     /**

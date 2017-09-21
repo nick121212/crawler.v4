@@ -133,7 +133,7 @@ var MQueueService = (function () {
                                                 }).catch(function (err) {
                                                     console.log("爬取失败！", err.message);
                                                     if (_this.channel) {
-                                                        _this.channel.nack(msg);
+                                                        _this.channel.nack(msg, false, true);
                                                     }
                                                 })];
                                         case 5:
