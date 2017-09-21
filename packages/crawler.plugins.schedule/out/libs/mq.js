@@ -73,7 +73,7 @@ var MQueueService = (function () {
      */
     MQueueService.prototype.initConsume = function (rabbitmqConfig, queueName, consumeMsg, prefetch, delay) {
         if (prefetch === void 0) { prefetch = 1; }
-        if (delay === void 0) { delay = 3000; }
+        if (delay === void 0) { delay = 1000; }
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             var count, exchange, queue, _a, e_1;
@@ -122,7 +122,7 @@ var MQueueService = (function () {
                                                 this.channel.nack(msg);
                                             }
                                             return [2 /*return*/];
-                                        case 3: return [4 /*yield*/, bluebird.delay(delay || 3000)];
+                                        case 3: return [4 /*yield*/, bluebird.delay(delay || 1000)];
                                         case 4:
                                             _a.sent();
                                             return [4 /*yield*/, consumeMsg(msgData).then(function (data) {
@@ -146,7 +146,6 @@ var MQueueService = (function () {
                         // 1. 序列化queue的消息
                         // 2. 调用消费方法
                         _a.consume = _b.sent();
-                        console.log(queue.consumerCount, queue.messageCount);
                         return [3 /*break*/, 9];
                     case 8:
                         e_1 = _b.sent();

@@ -42,7 +42,7 @@ export class MQueueService {
         queueName: string,
         consumeMsg: Function,
         prefetch = 1,
-        delay = 3000
+        delay = 1000
     ): Promise<boolean> {
         let count = 0, exchange: amqplib.Replies.AssertExchange, queue: amqplib.Replies.AssertQueue;
 
@@ -55,7 +55,6 @@ export class MQueueService {
 
             this.exchange = exchange;
             await this.channel.bindQueue(queue.queue, exchange.exchange, queueName);
-
             await this.channel.prefetch(prefetch);
             console.log(`开始消费queue:${queue.queue}`);
 
@@ -75,7 +74,7 @@ export class MQueueService {
                     return;
                 }
 
-                await bluebird.delay(delay || 3000);
+                await bluebird.delay(delay || 1000);
                 await consumeMsg(msgData).then((data: any) => {
                     console.log("爬取成功！");
                     if (this.channel) {
@@ -88,8 +87,7 @@ export class MQueueService {
                     }
                 });
             }, { noAck: false, exclusive: false });
-
-            console.log(queue.consumerCount, queue.messageCount);
+            // console.log(queue.consumerCount, queue.messageCount);
         } catch (e) {
             console.log(e.message);
             return false;

@@ -112,7 +112,7 @@ export class TaskPlugin {
         // 开始消费queue
         if (mQueueService.initConsume(globalOptions,
             queueName,
-            this.pluginService.preExecute.bind(this.pluginService, options.seneca, config), config.prefech || 1)
+            this.pluginService.preExecute.bind(this.pluginService, options.seneca, config), config.prefech || 1, config.delay)
         ) {
             // 如果queue里面没有消息，则调用initFlow队列
             if (config.initFlow && config.initFlow.length) {

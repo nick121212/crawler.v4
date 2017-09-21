@@ -140,7 +140,7 @@ var TaskPlugin = (function () {
                         instance = _a.sent();
                         this.mqs.push(mQueueService);
                         // 开始消费queue
-                        if (mQueueService.initConsume(globalOptions, queueName, this.pluginService.preExecute.bind(this.pluginService, options.seneca, config), config.prefech || 1)) {
+                        if (mQueueService.initConsume(globalOptions, queueName, this.pluginService.preExecute.bind(this.pluginService, options.seneca, config), config.prefech || 1, config.delay)) {
                             // 如果queue里面没有消息，则调用initFlow队列
                             if (config.initFlow && config.initFlow.length) {
                                 this.pluginService.executePlugins(options.seneca, config.initFlow);
