@@ -128,12 +128,15 @@ var MQueueService = (function () {
                                             return [4 /*yield*/, consumeMsg(msgData).then(function (data) {
                                                     console.log("爬取成功！");
                                                     if (_this.channel) {
-                                                        _this.channel.nack(msg, false, true);
+                                                        _this.channel.ack(msg);
+                                                        _this.addItemsToQueue([msgData], _this.queueName);
                                                     }
                                                 }).catch(function (err) {
                                                     console.log("爬取失败！", err.message);
                                                     if (_this.channel) {
-                                                        _this.channel.nack(msg, false, true);
+                                                        // this.channel.nack(msg, false, true);
+                                                        _this.channel.ack(msg);
+                                                        _this.addItemsToQueue([msgData], _this.queueName);
                                                     }
                                                 })];
                                         case 5:

@@ -79,12 +79,15 @@ export class MQueueService {
                     console.log("爬取成功！");
 
                     if (this.channel) {
-                        this.channel.nack(msg, false, true);
+                        this.channel.ack(msg);
+                        this.addItemsToQueue([msgData], this.queueName);
                     }
                 }).catch((err: Error) => {
                     console.log("爬取失败！", err.message);
                     if (this.channel) {
-                        this.channel.nack(msg, false, true);
+                        // this.channel.nack(msg, false, true);
+                        this.channel.ack(msg);
+                        this.addItemsToQueue([msgData], this.queueName);
                     }
                 });
             }, { noAck: false, exclusive: false });
