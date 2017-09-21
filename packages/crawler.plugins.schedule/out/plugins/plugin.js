@@ -64,7 +64,7 @@ var PluginPlugin = (function () {
     */
     PluginPlugin.prototype.getFieldFlow = function (_a) {
         var queueItem = _a.queueItem, pages = _a.pages;
-        console.log("------------");
+        console.log("开始爬取：------------", queueItem.url);
         var rules = _.filter(pages, function (_a) {
             var path = _a.path;
             var pathToReg = pathToRegexp(path.toString(), []);

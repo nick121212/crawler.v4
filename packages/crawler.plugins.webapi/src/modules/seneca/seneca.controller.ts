@@ -46,15 +46,6 @@ export class SenecaController {
         res.send(data);
     }
 
-    @Post("log")
-    public async log( @Res() res: Response, @Body("result") result: any) {
-        // let data = await this.senecaService.seneca.list(parttern);
-
-        console.log(result);
-
-        res.send(null);
-    }
-
     @Post("addBusiness")
     @UsePipes(new JoiValidatorPipe(Joi.string().label("pdt_sku").required(), ({ data }) => data === "pdt_sku"))
     @UsePipes(new JoiValidatorPipe(Joi.number().label("business_id").required(), ({ data }) => data === "business_id"))

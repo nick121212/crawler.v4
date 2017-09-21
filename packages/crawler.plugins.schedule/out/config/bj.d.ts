@@ -2,7 +2,35 @@ declare const _default: {
     "key": string;
     "title": string;
     "prefech": number;
-    "initFlow": never[];
+    "initFlow": ({
+        "key": string;
+        "partten": string;
+        "title": string;
+        "data": {
+            "queueConfig": {
+                "ignoreWWWDomain": boolean;
+                "stripWWWDomain": boolean;
+                "scanSubdomains": boolean;
+                "host": string;
+                "initialProtocol": string;
+                "initialPort": number;
+                "stripQuerystring": boolean;
+                "allowQueryParams": never[];
+                "fetchConditions": never[];
+                "domainWhiteList": string[];
+                "filterByDomain": boolean;
+            };
+            "urls": string[];
+        };
+        "result": string;
+    } | {
+        "partten": string;
+        "title": string;
+        "jsonata": string[];
+        "data": {
+            "key": string;
+        };
+    })[];
     "pages": ({
         "path": string;
         "title": string;

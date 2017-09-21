@@ -124,6 +124,7 @@ var TaskPlugin = (function () {
      */
     TaskPlugin.prototype.addToTask = function (config, options, globalOptions) {
         return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
             var queueName, mQueueService, task, instance;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -143,7 +144,9 @@ var TaskPlugin = (function () {
                         if (mQueueService.initConsume(globalOptions, queueName, this.pluginService.preExecute.bind(this.pluginService, options.seneca, config), config.prefech || 1, config.delay)) {
                             // 如果queue里面没有消息，则调用initFlow队列
                             if (config.initFlow && config.initFlow.length) {
-                                this.pluginService.executePlugins(options.seneca, config.initFlow);
+                                setTimeout(function () {
+                                    _this.pluginService.executePlugins(options.seneca, config.initFlow, {}).catch(console.error);
+                                }, 500);
                             }
                         }
                         return [2 /*return*/];

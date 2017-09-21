@@ -1,5 +1,5 @@
 {
-  "name": "crawler.plugin.queue",
+  "name": "crawler.plugins.queue",
   "version": "0.1.21",
   "description": "",
   "main": "dist/index.js",
