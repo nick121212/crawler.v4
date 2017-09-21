@@ -28,7 +28,6 @@ export class ExecutePluginService {
         }
 
         return this.executePlugins(seneca, msgFlow, data || {}).then((data1: any) => {
-            // console.log("发送成功的接待来访建安街戴森冷风静安建档立卡");
             seneca.actAsync("role:crawler.plugin.store.es,cmd:saveQueueItem", {
                 "esIndex": "test.result",
                 "esType": "success",
@@ -36,14 +35,11 @@ export class ExecutePluginService {
             }).catch(console.log);
 
             throw new Error("");
-
-            // return data1;
         }).catch((err) => {
-            // console.log("发送本地就的接待来访建安街戴森冷风静安建档立卡");
             seneca.actAsync("role:crawler.plugin.store.es,cmd:saveQueueItem", {
                 "esIndex": "test.result",
                 "esType": "error",
-                "queueItem": data.queueItem
+                "queueItem": Object.assign({}, data.queueItem, { errMessage: err.message })
             }).catch(console.log);
         });
     }
