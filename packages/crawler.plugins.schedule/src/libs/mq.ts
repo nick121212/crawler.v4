@@ -75,7 +75,7 @@ export class MQueueService {
                 }
 
                 await bluebird.delay(delay || 1000);
-                await consumeMsg(msgData).then((data: any) => {
+                consumeMsg(msgData).then((data: any) => {
                     console.log("爬取成功！");
 
                     if (this.channel) {

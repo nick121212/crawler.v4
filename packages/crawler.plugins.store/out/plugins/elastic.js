@@ -195,7 +195,7 @@ var EsStorePlugin = (function () {
                 switch (_a.label) {
                     case 0:
                         docs = [];
-                        if (!(result && id)) return [3 /*break*/, 2];
+                        if (!result) return [3 /*break*/, 2];
                         docs.push({
                             index: {
                                 _index: esIndex,
@@ -225,7 +225,7 @@ var EsStorePlugin = (function () {
                         }).then(function () {
                             console.log("elasticsearh as well");
                         }, function (err) {
-                            console.log("elasticsearch cluster is down!");
+                            console.log("elasticsearch cluster is down!", err.message);
                         });
                         return [4 /*yield*/, bluebird.delay(200)];
                     case 1:
@@ -235,6 +235,13 @@ var EsStorePlugin = (function () {
             });
         });
     };
+    /**
+     * 获取单个数据
+     * @param param0
+     * _id es的id
+     * esIndex 索引
+     * esType  类型
+     */
     EsStorePlugin.prototype.getItem = function (_a) {
         var _id = _a._id, esIndex = _a.esIndex, esType = _a.esType;
         return __awaiter(this, void 0, void 0, function () {
@@ -250,6 +257,11 @@ var EsStorePlugin = (function () {
             });
         });
     };
+    /**
+     * pick 字段
+     * @param result 数据
+     * @param fields 字段
+     */
     EsStorePlugin.prototype.pick = function (result, fields) {
         var res = {};
         _.each(fields, function (field) {

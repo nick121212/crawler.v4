@@ -22,6 +22,18 @@ export declare class EsStorePlugin {
     */
     private saveResult({result, id, esIndex, esType});
     private init(msg, options, globalOptions);
+    /**
+     * 获取单个数据
+     * @param param0
+     * _id es的id
+     * esIndex 索引
+     * esType  类型
+     */
     private getItem({_id, esIndex, esType});
+    /**
+     * pick 字段
+     * @param result 数据
+     * @param fields 字段
+     */
     private pick(result, fields);
 }

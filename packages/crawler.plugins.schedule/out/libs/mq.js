@@ -125,22 +125,20 @@ var MQueueService = (function () {
                                         case 3: return [4 /*yield*/, bluebird.delay(delay || 1000)];
                                         case 4:
                                             _a.sent();
-                                            return [4 /*yield*/, consumeMsg(msgData).then(function (data) {
-                                                    console.log("爬取成功！");
-                                                    if (_this.channel) {
-                                                        _this.channel.ack(msg);
-                                                        _this.addItemsToQueue([msgData], _this.queueName);
-                                                    }
-                                                }).catch(function (err) {
-                                                    console.log("爬取失败！", err.message);
-                                                    if (_this.channel) {
-                                                        // this.channel.nack(msg, false, true);
-                                                        _this.channel.ack(msg);
-                                                        _this.addItemsToQueue([msgData], _this.queueName);
-                                                    }
-                                                })];
-                                        case 5:
-                                            _a.sent();
+                                            consumeMsg(msgData).then(function (data) {
+                                                console.log("爬取成功！");
+                                                if (_this.channel) {
+                                                    _this.channel.ack(msg);
+                                                    _this.addItemsToQueue([msgData], _this.queueName);
+                                                }
+                                            }).catch(function (err) {
+                                                console.log("爬取失败！", err.message);
+                                                if (_this.channel) {
+                                                    // this.channel.nack(msg, false, true);
+                                                    _this.channel.ack(msg);
+                                                    _this.addItemsToQueue([msgData], _this.queueName);
+                                                }
+                                            });
                                             return [2 /*return*/];
                                     }
                                 });

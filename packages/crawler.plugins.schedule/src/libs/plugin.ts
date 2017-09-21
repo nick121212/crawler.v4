@@ -21,25 +21,25 @@ export class ExecutePluginService {
      */
     public async preExecute(seneca: any, config: SettingModel, data: any): Promise<any> {
         let msgFlow: Array<any> | null =
-            await seneca.actAsync(`role:${pluginResultName},cmd:getFieldFlow`, { pages: config.pages, queueItem: (data || {}).queueItem });
+            await seneca.actAsync(`role:${pluginResultName},cmd:getFieldFlow`, { pages: config.pages, queueItem: (data || {}).queueItem }).catch(console.log);
 
         if (!msgFlow || !data) {
             return;
         }
 
         return this.executePlugins(seneca, msgFlow, data || {}).then((data1: any) => {
-            seneca.actAsync("role:crawler.plugin.store.es,cmd:saveQueueItem", {
+            seneca.actAsync("role:crawler.plugin.store.es,cmd:saveResult", {
                 "esIndex": "test.result",
                 "esType": "success",
-                "queueItem": data.queueItem
+                "result": data.queueItem
             }).catch(console.log);
 
             // throw new Error("");
         }).catch((err) => {
-            seneca.actAsync("role:crawler.plugin.store.es,cmd:saveQueueItem", {
+            seneca.actAsync("role:crawler.plugin.store.es,cmd:saveResult", {
                 "esIndex": "test.result",
                 "esType": "error",
-                "queueItem": Object.assign({}, data.queueItem, { errMessage: err.message })
+                "result": Object.assign({}, data.queueItem, { errMessage: err.message })
             }).catch(console.log);
         });
     }

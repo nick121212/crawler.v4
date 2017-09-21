@@ -148,7 +148,7 @@ export class EsStorePlugin {
     private async saveResult({ result, id, esIndex, esType }: { id: string, result: any, esIndex: string, esType: string }): Promise<any> {
         let docs: Array<any> = [];
 
-        if (result && id) {
+        if (result) {
             docs.push({
                 index: {
                     _index: esIndex,
