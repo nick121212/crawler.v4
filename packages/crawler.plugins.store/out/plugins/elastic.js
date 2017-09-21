@@ -188,7 +188,7 @@ var EsStorePlugin = (function () {
     * @param esType  类型
     */
     EsStorePlugin.prototype.saveResult = function (_a) {
-        var result = _a.result, id = _a.id, esIndex = _a.esIndex, esType = _a.esType;
+        var result = _a.result, _id = _a._id, esIndex = _a.esIndex, esType = _a.esType;
         return __awaiter(this, void 0, void 0, function () {
             var docs;
             return __generator(this, function (_a) {
@@ -200,7 +200,7 @@ var EsStorePlugin = (function () {
                             index: {
                                 _index: esIndex,
                                 _type: esType,
-                                _id: id
+                                _id: _id
                             }
                         });
                         docs.push(result);
@@ -221,7 +221,7 @@ var EsStorePlugin = (function () {
   * @param esType  类型
   */
     EsStorePlugin.prototype.createResult = function (_a) {
-        var result = _a.result, esIndex = _a.esIndex, esType = _a.esType, id = _a.id;
+        var result = _a.result, esIndex = _a.esIndex, esType = _a.esType, _id = _a._id;
         return __awaiter(this, void 0, void 0, function () {
             var docs;
             return __generator(this, function (_a) {
@@ -232,7 +232,7 @@ var EsStorePlugin = (function () {
                         return [4 /*yield*/, this.client.create({
                                 index: esIndex,
                                 type: esType,
-                                id: id,
+                                id: _id,
                                 body: result
                             })];
                     case 1: return [2 /*return*/, _a.sent()];

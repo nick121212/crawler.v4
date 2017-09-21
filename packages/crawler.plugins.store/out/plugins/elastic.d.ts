@@ -20,14 +20,14 @@ export declare class EsStorePlugin {
     * @param esIndex 索引
     * @param esType  类型
     */
-    private saveResult({result, id, esIndex, esType});
+    private saveResult({result, _id, esIndex, esType});
     /**
   * 存储当前的地址
   * @param result  数据
   * @param esIndex 索引
   * @param esType  类型
   */
-    private createResult({result, esIndex, esType, id});
+    private createResult({result, esIndex, esType, _id});
     private init(msg, options, globalOptions);
     /**
      * 获取单个数据

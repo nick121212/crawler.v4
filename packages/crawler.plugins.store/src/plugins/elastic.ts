@@ -145,7 +145,7 @@ export class EsStorePlugin {
     * @param esType  类型
     */
     @Add(`role:${pluginEsName},cmd:saveResult`)
-    private async saveResult({ result, id, esIndex, esType }: { id: string, result: any, esIndex: string, esType: string }): Promise<any> {
+    private async saveResult({ result, _id, esIndex, esType }: { _id: string, result: any, esIndex: string, esType: string }): Promise<any> {
         let docs: Array<any> = [];
 
         if (result) {
@@ -153,7 +153,7 @@ export class EsStorePlugin {
                 index: {
                     _index: esIndex,
                     _type: esType,
-                    _id: id
+                    _id: _id
                 }
             });
 
@@ -176,14 +176,14 @@ export class EsStorePlugin {
   * @param esType  类型
   */
     @Add(`role:${pluginEsName},cmd:createResult`)
-    private async createResult({ result, esIndex, esType, id }: { id: string, result: any, esIndex: string, esType: string }): Promise<any> {
+    private async createResult({ result, esIndex, esType, _id }: { _id: string, result: any, esIndex: string, esType: string }): Promise<any> {
         let docs: Array<any> = [];
 
         if (result) {
             return await this.client.create({
                 index: esIndex,
                 type: esType,
-                id: id,
+                id: _id,
                 body: result
             });
         }
