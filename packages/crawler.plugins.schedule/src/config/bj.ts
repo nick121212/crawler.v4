@@ -1,11 +1,12 @@
 export default {
     "key": "bijia",
     "title": "比价配置文件",
-    "prefech": 10,
+    "purge": false,
+    "delay": 500,
+    "prefech": 3,
     "initFlow": [{
-        "key": "queue",
         "partten": "role:crawler.plugin.queue,cmd:queue",
-        "title": "把地址queue化",
+        "title": "把jd地址queue化",
         "data": {
             "queueConfig": {
                 "ignoreWWWDomain": true,
@@ -74,13 +75,82 @@ export default {
                 "https://item.jd.com/13890127241.html"
             ]
         },
-        "result": "${'queues':[$]}"
+        "result": "${'queues':$}"
+    }, {
+        "partten": "role:crawler.plugin.queue,cmd:queue",
+        "title": "把tm地址queue化",
+        "data": {
+            "queueConfig": {
+                "ignoreWWWDomain": true,
+                "stripWWWDomain": false,
+                "scanSubdomains": false,
+                "host": "detail.tmall.com",
+                "initialProtocol": "https",
+                "initialPort": 80,
+                "stripQuerystring": false,
+                "allowQueryParams": [],
+                "fetchConditions": [],
+                "domainWhiteList": ["detail.tmall.com"],
+                "filterByDomain": true
+            },
+            "urls": [
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3496872379801",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3496872379798",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3496872379800",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3496872379799",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3496872379802",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3430563615068",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3430563615062",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3430563615055",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3430563615061",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3430563615060",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3430563615067",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3430563615059",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3430563615057",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3430563615069",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3430563615063",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3430563615066",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3496872379801",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3496872379798",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3496872379800",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3496872379799",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3496872379802",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3430563615068",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3430563615062",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3430563615055",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3430563615061",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3430563615060",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3430563615067",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3430563615059",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3430563615057",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3430563615069",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3430563615063",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3430563615066",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3496872379801",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3496872379798",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3496872379800",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3496872379799",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3496872379802",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3430563615068",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3430563615062",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3430563615055",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3430563615061",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3430563615060",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3430563615067",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3430563615059",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3430563615057",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3430563615069",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3430563615063",
+                "https://detail.tmall.com/item.htm?spm=a230r.1.14.14.76bf5236pW3bR&id=543068382566&cm_id=140105335569ed55e27b&abbucket=8&skuId=3430563615066"
+            ]
+        },
+        "result": "${'queues1':$}"
     }, {
         "partten": "role:crawler.plugin.task,cmd:addItemToQueue",
         "title": "把存储的url放入queue",
-        "jsonata": ["$.saveUrls{'items':[$]}"],
+        "jsonata": ["$.{'items':$append($map($.queues,function($v,$k,$i){ {'queueItem':$v} }),$map($.queues1,function($v,$k,$i){ {'queueItem':$v} }))}"],
         "data": {
-            "key": "crawler.url.bijia"
+            "key": "bijia"
         }
     }],
     "pages": [{

@@ -1,12 +1,4 @@
 "use strict";
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
-};
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -66,7 +58,7 @@ var DownloadPlugin = (function () {
     DownloadPlugin.prototype.html = function (_a, options) {
         var queueItem = _a.queueItem, proxyInfo = _a.proxyInfo, _b = _a.save, save = _b === void 0 ? true : _b, _c = _a.header, header = _c === void 0 ? {} : _c, charset = _a.charset, _d = _a.engine, engine = _d === void 0 ? "superagent" : _d;
         return __awaiter(this, void 0, void 0, function () {
-            var start, res, expireSeneca, download;
+            var start, res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -92,19 +84,12 @@ var DownloadPlugin = (function () {
                         return [4 /*yield*/, this.proxy.proxy.execute("/download/download", {
                                 settings: {
                                     header: header,
-                                    charset: charset
+                                    charset: charset,
+                                    proxyInfo: proxyInfo
                                 }
                             })];
                     case 1:
                         res = _a.sent();
-                        if (!save) return [3 /*break*/, 3];
-                        expireSeneca = options.seneca.delegate({ expire$: 60 });
-                        download = expireSeneca.make$("downloads", __assign({ data: res.statusCode, id: queueItem._id }, queueItem, { responseBody: res.body }));
-                        return [4 /*yield*/, download.saveAsync()];
-                    case 2:
-                        _a.sent();
-                        _a.label = 3;
-                    case 3:
                         console.log(queueItem.url, "-----downloader 成功；耗时：", Date.now() - start, "ms");
                         return [2 /*return*/, {
                                 crawlerCount: 1 * queueItem.crawlerCount + 1,
@@ -133,7 +118,7 @@ var DownloadPlugin = (function () {
             },
             "title": "download下载接口",
         });
-        console.log(url, "-----downloader 成功；耗时：", Date.now() - start, "ms");
+        // console.log(url, "-----downloader 成功；耗时：", Date.now() - start, "ms");
         /**
          * 调用接口
          */

@@ -103,7 +103,7 @@ export class ExecutePluginService {
             }
         }
         let jsonatas = {};
-        if (plugin.jsonata) {
+        if (plugin.jsonata && plugin.jsonata.length) {
             let res = await seneca.actAsync(`role:crawler.plugin.transform,cmd:muti`, {
                 data,
                 expressions: plugin.jsonata

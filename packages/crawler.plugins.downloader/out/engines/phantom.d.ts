@@ -15,5 +15,5 @@ export declare class PhantomEngine extends modelProxy.BaseEngine {
      * @param options  参数
      */
     proxy(instance: IInterfaceModel, options: IExecute): Promise<any>;
-    private house(url);
+    private house(url, headers, proxyInfo);
 }

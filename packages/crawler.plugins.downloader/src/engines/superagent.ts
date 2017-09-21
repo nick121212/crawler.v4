@@ -24,12 +24,13 @@ export class SuperAgentEngine extends modelProxy.BaseEngine {
             let path = this.getFullPath(ctx.instance || {}, ctx.executeInfo || {});
             let { method = "" } = ctx.instance || {};
             let { data = null, settings = {}, params = null } = ctx.executeInfo || {};
-            let { timeout = 5000, header = {}, charset = "utf-8" } = settings || {};
+            let { timeout = 5000, header = {}, charset = "utf-8", proxyInfo = "" } = settings || {};
+
+            // console.log(path, method);
 
             try {
+                let curReq: any = request(method.toString() || "get", path);
 
-                console.log(path, params, data);
-                let curReq: any = request(method.toString(), path);
                 params && curReq.query(params);
                 data && curReq.send(data);
                 header && curReq.set(header);

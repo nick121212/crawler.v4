@@ -169,7 +169,7 @@ var ExecutePluginService = (function () {
                         _a.label = 2;
                     case 2:
                         jsonatas = {};
-                        if (!plugin.jsonata) return [3 /*break*/, 4];
+                        if (!(plugin.jsonata && plugin.jsonata.length)) return [3 /*break*/, 4];
                         return [4 /*yield*/, seneca.actAsync("role:crawler.plugin.transform,cmd:muti", {
                                 data: data,
                                 expressions: plugin.jsonata

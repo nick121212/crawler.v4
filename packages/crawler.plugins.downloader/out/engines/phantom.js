@@ -75,37 +75,36 @@ var PhantomEngine = (function (_super) {
     PhantomEngine.prototype.init = function () {
         var _this = this;
         this.use(function (ctx, next) { return __awaiter(_this, void 0, void 0, function () {
-            var path, _a, method, _b, _c, data, _d, settings, _e, params, _f, _g, timeout, _h, headers, searchParams, _j, e_1;
-            return __generator(this, function (_k) {
-                switch (_k.label) {
+            var path, _a, method, _b, _c, data, _d, settings, _e, params, _f, _g, timeout, _h, headers, _j, proxyInfo, searchParams, _k, e_1;
+            return __generator(this, function (_l) {
+                switch (_l.label) {
                     case 0:
                         path = this.getFullPath(ctx.instance || {}, ctx.executeInfo || {});
                         _a = (ctx.instance || {}).method, method = _a === void 0 ? "" : _a;
                         _b = ctx.executeInfo || {}, _c = _b.data, data = _c === void 0 ? null : _c, _d = _b.settings, settings = _d === void 0 ? {} : _d, _e = _b.params, params = _e === void 0 ? {} : _e;
-                        _f = settings || {}, _g = _f.timeout, timeout = _g === void 0 ? 5000 : _g, _h = _f.headers, headers = _h === void 0 ? {} : _h;
+                        _f = settings || {}, _g = _f.timeout, timeout = _g === void 0 ? 5000 : _g, _h = _f.headers, headers = _h === void 0 ? {} : _h, _j = _f.proxyInfo, proxyInfo = _j === void 0 ? "" : _j;
                         searchParams = new url_1.URLSearchParams();
                         Object.keys(params).forEach(function (key) {
                             if (params[key] !== undefined) {
                                 searchParams.append(key, params[key]);
                             }
                         });
-                        _k.label = 1;
+                        _l.label = 1;
                     case 1:
-                        _k.trys.push([1, 3, , 4]);
-                        _j = ctx;
-                        return [4 /*yield*/, this.house(path + (searchParams.toString() ? "?" + searchParams.toString() : ""))];
+                        _l.trys.push([1, 3, , 4]);
+                        _k = ctx;
+                        return [4 /*yield*/, this.house(path + (searchParams.toString() ? "?" + searchParams.toString() : ""), headers, proxyInfo)];
                     case 2:
-                        _j.result = _k.sent();
-                        console.log(ctx.result.statusCode);
+                        _k.result = _l.sent();
                         return [3 /*break*/, 4];
                     case 3:
-                        e_1 = _k.sent();
+                        e_1 = _l.sent();
                         ctx.err = e_1;
                         ctx.isError = true;
                         return [3 /*break*/, 4];
                     case 4: return [4 /*yield*/, next()];
                     case 5:
-                        _k.sent();
+                        _l.sent();
                         return [2 /*return*/];
                 }
             });
@@ -139,24 +138,26 @@ var PhantomEngine = (function (_super) {
             });
         });
     };
-    PhantomEngine.prototype.house = function (url) {
+    PhantomEngine.prototype.house = function (url, headers, proxyInfo) {
         var horseman, horsemanSetting = {
-            timeout: 60000,
+            timeout: 30000,
             loadImages: false,
             ignoreSSLErrors: true
         }, result = {}, resources = {};
-        // return new Promise((resolve, reject) => {
-        // if (settings.useProxy && settings.ipInfo && settings.ipInfo.port && settings.ipInfo.port) {
-        //     horsemanSetting.proxy = `http://${settings.ipInfo.host}:${settings.ipInfo.port}`;
-        //     horsemanSetting.proxyType = "http";
-        // }
+        if (proxyInfo) {
+            horsemanSetting.proxy = proxyInfo;
+            horsemanSetting.proxyType = "http";
+        }
         return new Promise(function (resolve, reject) {
             var rtn = { statusCode: 0, body: "" };
             horseman = new Horseman(horsemanSetting);
             horseman
-                .userAgent("")
+                .userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/538.1 (KHTML, like Gecko) Safari/538.")
                 .on("resourceReceived", function (res) {
                 resources[res.url] = res;
+            })
+                .on("resourceRequested", function (req) {
+                console.log("Request " + JSON.stringify(req, undefined, 4));
             })
                 .open(url)
                 .wait(10)
@@ -172,6 +173,7 @@ var PhantomEngine = (function (_super) {
                 .then(function () {
                 resolve(rtn);
             }).catch(function (err) {
+                console.log(err);
                 reject(err);
             });
         });

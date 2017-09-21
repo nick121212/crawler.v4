@@ -23,7 +23,7 @@ export class PhantomEngine extends modelProxy.BaseEngine {
             let path = this.getFullPath(ctx.instance || {}, ctx.executeInfo || {});
             let { method = "" } = ctx.instance || {};
             let { data = null, settings = {}, params = {} } = ctx.executeInfo || {};
-            let { timeout = 5000, headers = {} } = settings || {};
+            let { timeout = 5000, headers = {}, proxyInfo = "" } = settings || {};
             let searchParams = new URLSearchParams();
 
             Object.keys(params).forEach((key) => {
@@ -33,9 +33,7 @@ export class PhantomEngine extends modelProxy.BaseEngine {
             });
 
             try {
-                ctx.result = await this.house(path + (searchParams.toString() ? "?" + searchParams.toString() : ""));
-
-                console.log(ctx.result.statusCode);
+                ctx.result = await this.house(path + (searchParams.toString() ? "?" + searchParams.toString() : ""), headers, proxyInfo);
             } catch (e) {
                 ctx.err = e;
                 ctx.isError = true;
@@ -68,31 +66,34 @@ export class PhantomEngine extends modelProxy.BaseEngine {
     }
 
 
-    private house(url: string): Promise<any> {
+    private house(url: string, headers: any, proxyInfo: string): Promise<any> {
         let horseman: any,
-            horsemanSetting = {
-                timeout: 60000,
+            horsemanSetting: any = {
+                timeout: 30000,
                 loadImages: false,
                 ignoreSSLErrors: true
             },
             result = {},
             resources: any = {};
 
-        // return new Promise((resolve, reject) => {
-        // if (settings.useProxy && settings.ipInfo && settings.ipInfo.port && settings.ipInfo.port) {
-        //     horsemanSetting.proxy = `http://${settings.ipInfo.host}:${settings.ipInfo.port}`;
-        //     horsemanSetting.proxyType = "http";
-        // }
+        if (proxyInfo) {
+            horsemanSetting.proxy = proxyInfo;
+            horsemanSetting.proxyType = "http";
+        }
 
         return new Promise((resolve, reject) => {
             let rtn = { statusCode: 0, body: "" };
 
             horseman = new Horseman(horsemanSetting);
             horseman
-                .userAgent("")
+                .userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/538.1 (KHTML, like Gecko) Safari/538.")
                 .on("resourceReceived", (res: any) => {
                     resources[res.url] = res;
                 })
+                .on("resourceRequested", (req: any) => {
+                    console.log("Request " + JSON.stringify(req, undefined, 4));
+                })
+                // .headers(headers)
                 .open(url)
                 .wait(10)
                 .status()
@@ -107,6 +108,7 @@ export class PhantomEngine extends modelProxy.BaseEngine {
                 .then(() => {
                     resolve(rtn);
                 }).catch((err: Error) => {
+                    console.log(err);
                     reject(err);
                 });
         });

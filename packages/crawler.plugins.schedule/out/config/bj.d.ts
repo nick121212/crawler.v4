@@ -1,9 +1,10 @@
 declare const _default: {
     "key": string;
     "title": string;
+    "purge": boolean;
+    "delay": number;
     "prefech": number;
     "initFlow": ({
-        "key": string;
         "partten": string;
         "title": string;
         "data": {

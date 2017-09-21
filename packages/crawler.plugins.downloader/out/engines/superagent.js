@@ -75,19 +75,18 @@ var SuperAgentEngine = (function (_super) {
     SuperAgentEngine.prototype.init = function () {
         var _this = this;
         this.use(function (ctx, next) { return __awaiter(_this, void 0, void 0, function () {
-            var path, _a, method, _b, _c, data, _d, settings, _e, params, _f, _g, timeout, _h, header, _j, charset, curReq, _k, e_1;
-            return __generator(this, function (_l) {
-                switch (_l.label) {
+            var path, _a, method, _b, _c, data, _d, settings, _e, params, _f, _g, timeout, _h, header, _j, charset, _k, proxyInfo, curReq, _l, e_1;
+            return __generator(this, function (_m) {
+                switch (_m.label) {
                     case 0:
                         path = this.getFullPath(ctx.instance || {}, ctx.executeInfo || {});
                         _a = (ctx.instance || {}).method, method = _a === void 0 ? "" : _a;
                         _b = ctx.executeInfo || {}, _c = _b.data, data = _c === void 0 ? null : _c, _d = _b.settings, settings = _d === void 0 ? {} : _d, _e = _b.params, params = _e === void 0 ? null : _e;
-                        _f = settings || {}, _g = _f.timeout, timeout = _g === void 0 ? 5000 : _g, _h = _f.header, header = _h === void 0 ? {} : _h, _j = _f.charset, charset = _j === void 0 ? "utf-8" : _j;
-                        _l.label = 1;
+                        _f = settings || {}, _g = _f.timeout, timeout = _g === void 0 ? 5000 : _g, _h = _f.header, header = _h === void 0 ? {} : _h, _j = _f.charset, charset = _j === void 0 ? "utf-8" : _j, _k = _f.proxyInfo, proxyInfo = _k === void 0 ? "" : _k;
+                        _m.label = 1;
                     case 1:
-                        _l.trys.push([1, 3, , 4]);
-                        console.log(path, params, data);
-                        curReq = request(method.toString(), path);
+                        _m.trys.push([1, 3, , 4]);
+                        curReq = request(method.toString() || "get", path);
                         params && curReq.query(params);
                         data && curReq.send(data);
                         header && curReq.set(header);
@@ -96,20 +95,20 @@ var SuperAgentEngine = (function (_super) {
                             deadline: 60000
                         });
                         charset && curReq.charset(charset);
-                        _k = ctx;
+                        _l = ctx;
                         return [4 /*yield*/, curReq];
                     case 2:
-                        _k.result = _l.sent();
+                        _l.result = _m.sent();
                         ctx.result.body = ctx.result.text;
                         return [3 /*break*/, 4];
                     case 3:
-                        e_1 = _l.sent();
+                        e_1 = _m.sent();
                         ctx.err = e_1;
                         ctx.isError = true;
                         return [3 /*break*/, 4];
                     case 4: return [4 /*yield*/, next()];
                     case 5:
-                        _l.sent();
+                        _m.sent();
                         return [2 /*return*/];
                 }
             });

@@ -41,27 +41,17 @@ export class DownloadPlugin {
             "title": "download下载接口",
 
         });
+
         /**
          * 调用接口
          */
         let res: request.RequestResponse = await this.proxy.proxy.execute("/download/download", {
             settings: {
                 header,
-                charset
+                charset,
+                proxyInfo
             }
         });
-
-        if (save) {
-            let expireSeneca = options.seneca.delegate({ expire$: 60 });
-            let download = expireSeneca.make$("downloads", {
-                data: res.statusCode,
-                id: queueItem._id,
-                ...queueItem,
-                responseBody: res.body
-            });
-
-            await download.saveAsync();
-        }
 
         console.log(queueItem.url, "-----downloader 成功；耗时：", Date.now() - start, "ms");
 
@@ -70,6 +60,18 @@ export class DownloadPlugin {
             responseBody: save ? null : res.body,
             statusCode: res.statusCode,
         };
+
+        // if (save) {
+        //     let expireSeneca = options.seneca.delegate({ expire$: 60 });
+        //     let download = expireSeneca.make$("downloads", {
+        //         data: res.statusCode,
+        //         id: queueItem._id,
+        //         ...queueItem,
+        //         responseBody: res.body
+        //     });
+
+        //     await download.saveAsync();
+        // }
     }
 
     @Add(`role:${pluginName},cmd:interfaces`)
@@ -93,7 +95,7 @@ export class DownloadPlugin {
 
         });
 
-        console.log(url, "-----downloader 成功；耗时：", Date.now() - start, "ms");
+        // console.log(url, "-----downloader 成功；耗时：", Date.now() - start, "ms");
 
         /**
          * 调用接口
