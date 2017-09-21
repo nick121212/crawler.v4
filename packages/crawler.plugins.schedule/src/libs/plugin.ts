@@ -34,7 +34,7 @@ export class ExecutePluginService {
                 "queueItem": data.queueItem
             }).catch(console.log);
 
-            throw new Error("");
+            // throw new Error("");
         }).catch((err) => {
             seneca.actAsync("role:crawler.plugin.store.es,cmd:saveQueueItem", {
                 "esIndex": "test.result",

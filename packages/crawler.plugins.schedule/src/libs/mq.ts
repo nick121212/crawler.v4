@@ -79,7 +79,7 @@ export class MQueueService {
                     console.log("爬取成功！");
 
                     if (this.channel) {
-                        this.channel.ack(msg);
+                        this.channel.nack(msg, false, true);
                     }
                 }).catch((err: Error) => {
                     console.log("爬取失败！", err.message);

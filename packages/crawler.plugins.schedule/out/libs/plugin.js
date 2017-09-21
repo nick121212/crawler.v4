@@ -70,7 +70,7 @@ var ExecutePluginService = (function () {
                                     "esType": "success",
                                     "queueItem": data.queueItem
                                 }).catch(console.log);
-                                throw new Error("");
+                                // throw new Error("");
                             }).catch(function (err) {
                                 seneca.actAsync("role:crawler.plugin.store.es,cmd:saveQueueItem", {
                                     "esIndex": "test.result",

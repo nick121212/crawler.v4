@@ -128,7 +128,7 @@ var MQueueService = (function () {
                                             return [4 /*yield*/, consumeMsg(msgData).then(function (data) {
                                                     console.log("爬取成功！");
                                                     if (_this.channel) {
-                                                        _this.channel.ack(msg);
+                                                        _this.channel.nack(msg, false, true);
                                                     }
                                                 }).catch(function (err) {
                                                     console.log("爬取失败！", err.message);
