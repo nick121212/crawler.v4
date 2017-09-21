@@ -66,9 +66,17 @@ var TaskPlugin = (function () {
          */
         this.mqs = [];
     }
+    /**
+     * 获取queue的名称
+     * @param config.key 主键
+     */
     TaskPlugin.prototype.getUrlQueueName = function (config) {
         return "crawler.url." + config.key;
     };
+    /**
+     * 判断是否有queueService
+     * @param queueName queue名称
+     */
     TaskPlugin.prototype.has = function (queueName) {
         var mQueueServie = _.first(_.filter(this.mqs, function (mq) {
             return mq.queueName === queueName;
@@ -89,12 +97,19 @@ var TaskPlugin = (function () {
         }
         return null;
     };
-    TaskPlugin.prototype.addToQueue = function (config, options, globalOptions) {
+    /**
+     * 数据入到Queue
+     * @param config 数据
+     */
+    TaskPlugin.prototype.addToQueue = function (config) {
         return __awaiter(this, void 0, void 0, function () {
             var mqService;
             return __generator(this, function (_a) {
                 mqService = this.getQueueService(config);
-                if (mqService && config.items && config.items.length) {
+                if (!mqService) {
+                    throw new Error("没有激活的mqService！");
+                }
+                if (config.items && config.items.length) {
                     mqService.addItemsToQueue(config.items, config.routingKey);
                 }
                 return [2 /*return*/];
@@ -114,6 +129,7 @@ var TaskPlugin = (function () {
                 switch (_a.label) {
                     case 0:
                         queueName = this.getUrlQueueName(config);
+                        // 如果已经存在，则忽略
                         if (this.has(queueName)) {
                             return [2 /*return*/];
                         }
@@ -123,9 +139,11 @@ var TaskPlugin = (function () {
                     case 1:
                         instance = _a.sent();
                         this.mqs.push(mQueueService);
+                        // 开始消费queue
                         if (mQueueService.initConsume(globalOptions, queueName, this.pluginService.preExecute.bind(this.pluginService, options.seneca, config), config.prefech || 1)) {
+                            // 如果queue里面没有消息，则调用initFlow队列
                             if (config.initFlow && config.initFlow.length) {
-                                this.pluginService.execute(options.seneca, config.initFlow);
+                                this.pluginService.executePlugins(options.seneca, config.initFlow);
                             }
                         }
                         return [2 /*return*/];
@@ -140,19 +158,19 @@ var TaskPlugin = (function () {
      * @param globalOptions
      */
     TaskPlugin.prototype.removeFromTask = function (_a, options, globalOptions) {
-        var _b = _a.config, config = _b === void 0 ? {} : _b, purge = _a.purge;
+        var key = _a.key, purge = _a.purge;
         return __awaiter(this, void 0, void 0, function () {
             var mQueueServie, entity;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        mQueueServie = this.getQueueService(config);
+                        mQueueServie = this.getQueueService({ key: key });
                         if (!mQueueServie) {
                             console.log("没有找到service");
                             return [2 /*return*/];
                         }
                         entity = options.seneca.make$("tasks");
-                        return [4 /*yield*/, entity.removeAsync({ id: config.key })];
+                        return [4 /*yield*/, entity.removeAsync({ id: key })];
                     case 1:
                         _a.sent();
                         return [4 /*yield*/, mQueueServie.destroy(purge)];
@@ -165,7 +183,7 @@ var TaskPlugin = (function () {
         });
     };
     /**
-     * 删除一个任务
+     * 列出所有
      * @param param0
      * @param options
      * @param globalOptions
@@ -239,7 +257,7 @@ __decorate([
 __decorate([
     crawler_plugins_common_1.Add("role:" + constants_1.pluginTaskName + ",cmd:addItemToQueue"),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], TaskPlugin.prototype, "addToQueue", null);
 __decorate([

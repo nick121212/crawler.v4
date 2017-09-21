@@ -7,14 +7,26 @@ export declare class TaskPlugin {
      * 执行插件列表的服务
      */
     private pluginService;
+    /**
+     * 获取queue的名称
+     * @param config.key 主键
+     */
     private getUrlQueueName(config);
+    /**
+     * 判断是否有queueService
+     * @param queueName queue名称
+     */
     private has(queueName);
     /**
      * 获取一个queueService实例
      * @param config  参数
      */
     private getQueueService(config);
-    private addToQueue(config, options?, globalOptions?);
+    /**
+     * 数据入到Queue
+     * @param config 数据
+     */
+    private addToQueue(config);
     /**
      * 启动一个任务
      * @param param0
@@ -28,9 +40,9 @@ export declare class TaskPlugin {
      * @param options
      * @param globalOptions
      */
-    private removeFromTask({config, purge}, options, globalOptions);
+    private removeFromTask({key, purge}, options, globalOptions);
     /**
-     * 删除一个任务
+     * 列出所有
      * @param param0
      * @param options
      * @param globalOptions

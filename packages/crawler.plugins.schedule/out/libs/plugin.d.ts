@@ -1,7 +1,5 @@
-export interface IPlugin {
-    partten: string;
-    data: Object;
-}
+import { BasePluginModel, SchedulePluginModel } from "../models/plugin";
+import { SettingModel } from "../models/setting";
 export declare class ExecutePluginService {
     /**
      * 获取链接对应的配置，然后调用插件
@@ -9,24 +7,28 @@ export declare class ExecutePluginService {
      * @param config 配置
      * @param data   数据
      */
-    preExecute(seneca: any, config: any, data: any): Promise<any>;
+    preExecute(seneca: any, config: SettingModel, data: any): Promise<any>;
     /**
-     * 执行插件列表
+     * 调用插件流
      * @param seneca  seneca
-     * @param plugins 插件配置
+     * @param plugins 插件列表
      * @param data    数据
      */
-    execute(seneca: any, plugins: Array<any>, data?: any): Promise<any>;
+    executePlugins(seneca: any, plugins: SchedulePluginModel[], data?: any): Promise<any>;
+    /**
+     * 调用单个插件
+     * 1. 判断条件是否满足；
+     * 2. 执行插件，入错出错，重复执行，最多执行retry次；
+     * 3. 处理数据，返回data
+     * @param seneca seneca
+     * @param plugin 插件实例
+     * @param data   数据
+     */
+    executePlugin(seneca: any, plugin: BasePluginModel, data?: any): Promise<any>;
     /**
      * 检测当前配置的模式是否存在，不存在则报错
      * @param seneca   seneca实例
      * @param plugins  插件列表
      */
     private checkParttens(seneca, plugins);
-    /**
-     * 找到当前queueItem对应的规则配置
-     * @param queueItem 链接的数据
-     * @param pages     定义的page
-     */
-    private getFieldFlow(queueItem, pages);
 }

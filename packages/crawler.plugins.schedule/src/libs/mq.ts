@@ -25,6 +25,12 @@ export class MQueueService {
 
     /**
      * 初始化消费队列
+     * 1. 初始化queue
+     * 2. 创建exchange
+     * 3. 创建queue
+     * 4. 绑定queue的路由
+     * 5. 开始消费
+     * 
      * @param rabbitmqConfig mq的配置
      * @param queueName      mq要消费的q名称
      * @param consumeMsg     消息的消费方法
@@ -41,7 +47,6 @@ export class MQueueService {
         let count = 0, exchange: amqplib.Replies.AssertExchange, queue: amqplib.Replies.AssertQueue;
 
         this.queueName = queueName;
-        // this.config = config;
 
         try {
             await this.initQueue(rabbitmqConfig);
@@ -53,9 +58,25 @@ export class MQueueService {
 
             await this.channel.prefetch(prefetch);
             console.log(`开始消费queue:${queue.queue}`);
+
+            // 1. 序列化queue的消息
+            // 2. 调用消费方法
             this.consume = await this.channel.consume(queue.queue, async (msg: amqplib.Message) => {
+                let msgData: any;
+
+                // 如果queue的msg不能正常序列化，则丢弃掉当前消息
+                try {
+                    msgData = await this.getQueueItemFromMsg(msg);
+                } catch (e) {
+                    if (this.channel) {
+                        this.channel.nack(msg);
+                    }
+
+                    return;
+                }
+
                 await bluebird.delay(delay || 3000);
-                await consumeMsg(this.getQueueItemFromMsg(msg)).then((data: any) => {
+                await consumeMsg(msgData).then((data: any) => {
                     console.log("爬取成功！");
                     if (this.channel) {
                         this.channel.ack(msg);
@@ -71,13 +92,17 @@ export class MQueueService {
             console.log(queue.consumerCount, queue.messageCount);
         } catch (e) {
             console.log(e.message);
-
             return false;
         }
 
         return queue.consumerCount + queue.messageCount === 0;
     }
 
+    /**
+     * 数据入queue
+     * @param items       要入queue的消息
+     * @param routingKey  路由key
+     */
     public addItemsToQueue(items: Array<any>, routingKey?: string) {
         items.forEach((item) => {
             this.channel.publish(this.exchange.exchange, routingKey || this.queueName, new Buffer(JSON.stringify(item)), {});
@@ -86,13 +111,13 @@ export class MQueueService {
 
     /**
      * 销毁队列
+     * @param purge 是否清楚数据
      */
     public async destroy(purge = false): Promise<void> {
         try {
             await this.channel.nackAll(true);
             await this.channel.cancel(this.consume.consumerTag);
             if (purge) {
-                // console.log(this.queueName);
                 await this.channel.deleteQueue(this.queueName);
             }
             await this.channel.close();
@@ -101,7 +126,6 @@ export class MQueueService {
             delete this.channel;
             delete this.connection;
             delete this.consume;
-            // delete this.config;
             delete this.exchange;
 
             console.log("queue stoped!");
@@ -111,8 +135,9 @@ export class MQueueService {
     }
 
     /**
-    * 初始化队列
-    */
+     * 初始化队列
+     * @param rabbitmqConfig mq的配置
+     */
     private async initQueue(rabbitmqConfig: { url: string, options: any }): Promise<void> {
         if (this.channel) {
             return;
@@ -134,7 +159,7 @@ export class MQueueService {
      * 提取queueItem
      * @param msg 消息体
      */
-    private getQueueItemFromMsg(msg: amqplib.Message): any {
+    private async getQueueItemFromMsg(msg: amqplib.Message): Promise<any> {
         let queueItem;
 
         try {

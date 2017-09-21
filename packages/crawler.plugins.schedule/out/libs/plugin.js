@@ -43,18 +43,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var _ = require("lodash");
 var inversify_1 = require("inversify");
-var pathToRegexp = require("path-to-regexp");
-var log4js = require("log4js");
-log4js.configure({
-    appenders: {
-        everything: { type: "file", filename: "all-the-logs.log" }
-    },
-    categories: {
-        default: { appenders: ["everything"], level: "error" }
-    },
-    replaceConsole: false
-});
-var logger = log4js.getLogger();
+var constants_1 = require("../constants");
 var ExecutePluginService = (function () {
     function ExecutePluginService() {
     }
@@ -66,107 +55,170 @@ var ExecutePluginService = (function () {
      */
     ExecutePluginService.prototype.preExecute = function (seneca, config, data) {
         return __awaiter(this, void 0, void 0, function () {
-            var queueItem, msgFlow;
+            var msgFlow;
             return __generator(this, function (_a) {
-                queueItem = data || null;
-                msgFlow = this.getFieldFlow(queueItem || {}, config.pages || []);
-                if (!msgFlow || !data) {
-                    return [2 /*return*/];
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, seneca.actAsync("role:" + constants_1.pluginResultName + ",cmd:getFieldFlow", { pages: config.pages, queueItem: (data || {}).queueItem })];
+                    case 1:
+                        msgFlow = _a.sent();
+                        if (!msgFlow || !data) {
+                            return [2 /*return*/];
+                        }
+                        return [2 /*return*/, this.executePlugins(seneca, msgFlow, data || {})];
                 }
-                return [2 /*return*/, this.execute(seneca, msgFlow, data)];
             });
         });
     };
     /**
-     * 执行插件列表
+     * 调用插件流
      * @param seneca  seneca
-     * @param plugins 插件配置
+     * @param plugins 插件列表
      * @param data    数据
      */
-    ExecutePluginService.prototype.execute = function (seneca, plugins, data) {
+    ExecutePluginService.prototype.executePlugins = function (seneca, plugins, data) {
+        if (data === void 0) { data = {}; }
         return __awaiter(this, void 0, void 0, function () {
-            var rtn, index, nn, _loop_1, e_1;
+            var len, currentIndex, currentPlugin, start, e_1, e_2, e_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        rtn = {
-                            queueItem: data || {}
-                        }, index = 0;
-                        nn = Date.now();
-                        if (rtn.queueItem) {
-                            logger.info("\u5F00\u59CB\u8C03\u7528" + rtn.queueItem.url);
-                        }
+                        len = plugins.length, currentIndex = 0;
+                        // 检测是否可以执行插件
+                        this.checkParttens(seneca, plugins);
                         _a.label = 1;
                     case 1:
-                        _a.trys.push([1, 5, , 6]);
-                        // 验证partten的合法性
-                        this.checkParttens(seneca, plugins);
-                        _loop_1 = function () {
-                            var plugin, jsonata, start, ddd, ccc, e_2, ddd;
-                            return __generator(this, function (_a) {
-                                switch (_a.label) {
-                                    case 0:
-                                        plugin = plugins[index];
-                                        jsonata = {};
-                                        start = Date.now();
-                                        if (!plugin.jsonata) return [3 /*break*/, 2];
-                                        return [4 /*yield*/, seneca.actAsync("role:crawler.plugin.transform,cmd:muti", {
-                                                data: rtn,
-                                                expressions: plugin.jsonata
-                                            })];
-                                    case 1:
-                                        ddd = _a.sent();
-                                        ddd.result.forEach(function (r) {
-                                            jsonata = seneca.util.deepextend({}, jsonata, r || {});
-                                        });
-                                        _a.label = 2;
-                                    case 2:
-                                        ccc = null;
-                                        _a.label = 3;
-                                    case 3:
-                                        _a.trys.push([3, 5, , 6]);
-                                        return [4 /*yield*/, seneca.actAsync(plugin.partten, Object.assign({ timeout$: 30000 }, jsonata, plugin.data))];
-                                    case 4:
-                                        ccc = _a.sent();
-                                        logger.info(plugin.partten + "\u8FD4\u56DE\u7684\u6570\u636E", ccc);
-                                        return [3 /*break*/, 6];
-                                    case 5:
-                                        e_2 = _a.sent();
-                                        logger.error(plugin.partten + "\u9519\u8BEF\u6570\u636E");
-                                        throw new Error(plugin.title + "---" + e_2.message);
-                                    case 6:
-                                        if (!plugin.result) return [3 /*break*/, 8];
-                                        return [4 /*yield*/, seneca.actAsync("role:crawler.plugin.transform,cmd:single", {
-                                                data: ccc,
-                                                expression: plugin.result
-                                            })];
-                                    case 7:
-                                        ddd = _a.sent();
-                                        rtn = seneca.util.deepextend({}, rtn, ddd.result || {});
-                                        _a.label = 8;
-                                    case 8:
-                                        logger.info("\u8C03\u7528" + plugin.partten + "\u6210\u529F\uFF01\u8017\u65F6\uFF1A", Date.now() - start, "ms");
-                                        index++;
-                                        return [2 /*return*/];
-                                }
-                            });
-                        };
+                        if (!(len > currentIndex)) return [3 /*break*/, 14];
+                        currentPlugin = plugins[currentIndex++];
                         _a.label = 2;
                     case 2:
-                        if (!(index < plugins.length)) return [3 /*break*/, 4];
-                        return [5 /*yield**/, _loop_1()];
+                        _a.trys.push([2, 8, , 13]);
+                        start = Date.now();
+                        return [4 /*yield*/, this.executePlugin(seneca, currentPlugin, data)];
                     case 3:
-                        _a.sent();
-                        return [3 /*break*/, 2];
-                    case 4: return [3 /*break*/, 6];
+                        data = _a.sent();
+                        if (!currentPlugin.successFlow) return [3 /*break*/, 7];
+                        _a.label = 4;
+                    case 4:
+                        _a.trys.push([4, 6, , 7]);
+                        return [4 /*yield*/, this.executePlugins(seneca, currentPlugin.successFlow, data)];
                     case 5:
-                        e_1 = _a.sent();
-                        throw e_1;
+                        _a.sent();
+                        return [3 /*break*/, 7];
                     case 6:
-                        if (rtn.queueItem) {
-                            logger.info("\u8C03\u7528" + rtn.queueItem.url + "\u7528\u65F6" + (Date.now() - nn));
+                        e_1 = _a.sent();
+                        console.log("执行了成功插件！");
+                        return [3 /*break*/, 7];
+                    case 7:
+                        if (!data.__META__) {
+                            data.__META__ = { timer: [] };
                         }
-                        return [2 /*return*/, rtn];
+                        data.__META__.timer.push("[" + (currentPlugin.title || currentPlugin.partten) + "]\u7684\u6267\u884C\u65F6\u95F4\uFF1A" + (Date.now() - start) + "ms");
+                        return [3 /*break*/, 13];
+                    case 8:
+                        e_2 = _a.sent();
+                        if (currentPlugin.force) {
+                            return [3 /*break*/, 1];
+                        }
+                        if (!currentPlugin.errFlow) return [3 /*break*/, 12];
+                        _a.label = 9;
+                    case 9:
+                        _a.trys.push([9, 11, , 12]);
+                        return [4 /*yield*/, this.executePlugins(seneca, currentPlugin.errFlow, data)];
+                    case 10:
+                        _a.sent();
+                        return [3 /*break*/, 12];
+                    case 11:
+                        e_3 = _a.sent();
+                        console.log("执行了错误插件！");
+                        return [3 /*break*/, 12];
+                    case 12: throw e_2;
+                    case 13: return [3 /*break*/, 1];
+                    case 14:
+                        console.log(data.__META__);
+                        return [2 /*return*/, data];
+                }
+            });
+        });
+    };
+    /**
+     * 调用单个插件
+     * 1. 判断条件是否满足；
+     * 2. 执行插件，入错出错，重复执行，最多执行retry次；
+     * 3. 处理数据，返回data
+     * @param seneca seneca
+     * @param plugin 插件实例
+     * @param data   数据
+     */
+    ExecutePluginService.prototype.executePlugin = function (seneca, plugin, data) {
+        if (data === void 0) { data = {}; }
+        return __awaiter(this, void 0, void 0, function () {
+            var res, jsonatas, res, retry, curRetryIndex, result, isError, e_4, res;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!plugin.condition) return [3 /*break*/, 2];
+                        return [4 /*yield*/, seneca.actAsync("role:crawler.plugin.transform,cmd:single", {
+                                data: data,
+                                expression: plugin.condition
+                            })];
+                    case 1:
+                        res = _a.sent();
+                        if (res.result !== true) {
+                            return [2 /*return*/, data];
+                        }
+                        _a.label = 2;
+                    case 2:
+                        jsonatas = {};
+                        if (!plugin.jsonata) return [3 /*break*/, 4];
+                        return [4 /*yield*/, seneca.actAsync("role:crawler.plugin.transform,cmd:muti", {
+                                data: data,
+                                expressions: plugin.jsonata
+                            })];
+                    case 3:
+                        res = _a.sent();
+                        res.result.forEach(function (r) {
+                            jsonatas = seneca.util.deepextend({}, jsonatas, r || {});
+                        });
+                        _a.label = 4;
+                    case 4:
+                        retry = plugin.retry || 1, curRetryIndex = 0, isError = false;
+                        // 最大5次重试
+                        if (retry > 5) {
+                            retry = 5;
+                        }
+                        _a.label = 5;
+                    case 5:
+                        if (!(curRetryIndex < retry)) return [3 /*break*/, 10];
+                        curRetryIndex++;
+                        _a.label = 6;
+                    case 6:
+                        _a.trys.push([6, 8, , 9]);
+                        return [4 /*yield*/, seneca.actAsync(plugin.partten, Object.assign({ timeout$: plugin.timeout || 30000 }, jsonatas, plugin.data))];
+                    case 7:
+                        result = _a.sent();
+                        return [3 /*break*/, 10];
+                    case 8:
+                        e_4 = _a.sent();
+                        if (curRetryIndex >= retry) {
+                            isError = true;
+                            if (plugin.force) {
+                                return [3 /*break*/, 10];
+                            }
+                            throw new Error(plugin.title + "----" + e_4.message);
+                        }
+                        return [3 /*break*/, 9];
+                    case 9: return [3 /*break*/, 5];
+                    case 10:
+                        if (!(plugin.result && !isError)) return [3 /*break*/, 12];
+                        return [4 /*yield*/, seneca.actAsync("role:crawler.plugin.transform,cmd:single", {
+                                data: result,
+                                expression: plugin.result
+                            })];
+                    case 11:
+                        res = _a.sent();
+                        data = seneca.util.deepextend({}, data, res.result || {});
+                        _a.label = 12;
+                    case 12: return [2 /*return*/, data];
                 }
             });
         });
@@ -184,23 +236,6 @@ var ExecutePluginService = (function () {
             }
         });
         return true;
-    };
-    /**
-     * 找到当前queueItem对应的规则配置
-     * @param queueItem 链接的数据
-     * @param pages     定义的page
-     */
-    ExecutePluginService.prototype.getFieldFlow = function (queueItem, pages) {
-        var rules = _.filter(pages, function (_a) {
-            var path = _a.path;
-            var pathToReg = pathToRegexp(path.toString(), []);
-            return pathToReg.test(queueItem.path || "");
-        });
-        if (!rules.length) {
-            console.error("\u6CA1\u6709\u627E\u5230" + queueItem.url + "\u7684\u5339\u914D\u89C4\u5219\uFF01");
-            return null;
-        }
-        return _.first(rules).msgFlow || [];
     };
     return ExecutePluginService;
 }());

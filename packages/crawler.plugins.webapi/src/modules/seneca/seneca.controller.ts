@@ -98,7 +98,7 @@ export class SenecaController {
         // throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
 
         await this.senecaService.seneca.actAsync("role:crawler.plugin.task,cmd:addItemToQueue", {
-            "items": [queueItem],
+            "items": [{queueItem}],
             "key": "bijia"
         });
 

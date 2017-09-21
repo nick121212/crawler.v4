@@ -7,6 +7,7 @@ import * as Joi from "joi";
 
 import { pluginResultName } from "../constants";
 import { ExecutePluginService } from "../libs/plugin";
+import { PageModel } from "../models/page";
 
 @Plugin(pluginResultName)
 @injectable()
@@ -23,10 +24,13 @@ export class PluginPlugin {
     * @param queueItem 链接的数据
     * @param pages     定义的page
     */
-    @Add(`role:${pluginResultName},cmd:addItemToQueue`)
+    @Add(`role:${pluginResultName},cmd:getFieldFlow`)
     private getFieldFlow(
-        { queueItem, pages }: { queueItem: any, pages: Array<any> }
+        { queueItem, pages }: { queueItem: any, pages: Array<PageModel> }
         ): Array<any> | null {
+
+        console.log("------------");
+
         let rules = _.filter(pages, ({ path }) => {
             let pathToReg = pathToRegexp(path.toString(), []);
 
@@ -35,11 +39,10 @@ export class PluginPlugin {
 
         if (!rules.length) {
             console.error(`没有找到${queueItem.path}的匹配规则！`);
-
-            return null;
+            return [];
         }
 
-        return _.first(rules).msgFlow || [];
+        return rules[0].msgFlow || [];
     }
 
     /**
@@ -52,13 +55,11 @@ export class PluginPlugin {
     private async testFlow(
         @Validate(Joi.object().keys({
             msgFlow: Joi.array().required(),
-            data: Joi.any().required()
-        }), { allowUnknown: true }) config: any,
+            data: Joi.object().required()
+        }).required(), { allowUnknown: true }) config: any,
         options?: any,
         globalOptions?: any
         ): Promise<any> {
-        let rtn: any = await this.pluginService.execute(options.seneca, config.msgFlow, config.data);
-
-        return rtn;
+        return await this.pluginService.executePlugins(options.seneca, config.msgFlow, config.data || {});
     }
 }

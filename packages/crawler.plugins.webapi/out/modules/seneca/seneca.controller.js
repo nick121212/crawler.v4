@@ -99,7 +99,7 @@ let SenecaController = class SenecaController {
             });
             // throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
             yield this.senecaService.seneca.actAsync("role:crawler.plugin.task,cmd:addItemToQueue", {
-                "items": [queueItem],
+                "items": [{ queueItem }],
                 "key": "bijia"
             });
             res.send(queueItem);

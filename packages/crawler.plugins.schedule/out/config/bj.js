@@ -9,30 +9,9 @@ exports.default = {
             "path": "/(\\d+).html",
             "title": "京东详情页配置",
             "msgFlow": [{
-                    "key": "queue",
-                    "partten": "role:crawler.plugin.queue,cmd:queue",
-                    "title": "把地址queue化",
-                    "jsonata": ["$.queueItem.business_sku_url.{'urls':[$]}"],
-                    "data": {
-                        "queueConfig": {
-                            "ignoreWWWDomain": true,
-                            "stripWWWDomain": false,
-                            "scanSubdomains": false,
-                            "host": "item.jd.com",
-                            "initialProtocol": "https",
-                            "initialPort": 80,
-                            "stripQuerystring": false,
-                            "allowQueryParams": [],
-                            "fetchConditions": [],
-                            "domainWhiteList": ["item.jd.com"],
-                            "filterByDomain": true
-                        }
-                    },
-                    "result": "${'queueUrl':$[0]}"
-                }, {
                     "partten": "role:crawler.plugin.downloader,cmd:html",
                     "title": "下载页面",
-                    "jsonata": ["$.queueUrl.{'queueItem':$}"],
+                    "jsonata": ["$.queueItem.{'queueItem':$}"],
                     "data": {
                         "save": false,
                         "charset": "gbk",
@@ -53,16 +32,19 @@ exports.default = {
                     "result": "$"
                 }, {
                     "partten": "role:crawler.plugin.html,cmd:html",
-                    "jsonata": ["$.queueItem.{'queueItem':$}", "$.queueUrl.{'queueItem':$}"],
+                    "jsonata": ["$.queueItem.{'queueItem':$}"],
                     "result": "$combine($.result[]){'result':$}",
                     "data": {
                         "pages": [{
                                 "key": "qa-detail",
                                 "path": "/(\\d+).html",
-                                "areas": [],
+                                "areas": [{
+                                        "key": "detail",
+                                        "selector": [".itemInfo-wrap"]
+                                    }],
                                 "fieldKey": "",
                                 "fields": {
-                                    "none": {
+                                    "detail": {
                                         "data": [{
                                                 "key": "business_sku_title",
                                                 "title": "友商商品主标题",
@@ -110,6 +92,7 @@ exports.default = {
                 }, {
                     "partten": "role:crawler.plugin.downloader,cmd:interfaces",
                     "jsonata": ["$.result.{'params':{'fields':$.$string()}}"],
+                    "condition": "$.$not()",
                     "data": {
                         "url": "http://10.11.29.196:8020",
                         "path": "/d-api/reptile/businessInfo",
@@ -120,30 +103,10 @@ exports.default = {
             "path": "/item.htm",
             "title": "天猫详情页配置",
             "msgFlow": [{
-                    "key": "queue",
-                    "partten": "role:crawler.plugin.queue,cmd:queue",
-                    "title": "把地址queue化",
-                    "jsonata": ["$.queueItem.business_sku_url.{'urls':[$]}"],
-                    "data": {
-                        "queueConfig": {
-                            "ignoreWWWDomain": true,
-                            "stripWWWDomain": false,
-                            "scanSubdomains": false,
-                            "host": "detail.tmall.com",
-                            "initialProtocol": "https",
-                            "initialPort": 80,
-                            "stripQuerystring": false,
-                            "allowQueryParams": [],
-                            "fetchConditions": [],
-                            "domainWhiteList": ["detail.tmall.com"],
-                            "filterByDomain": true
-                        }
-                    },
-                    "result": "${'queueUrl':$[0]}"
-                }, {
                     "partten": "role:crawler.plugin.downloader,cmd:html",
                     "title": "下载页面",
-                    "jsonata": ["$.queueUrl.{'queueItem':$}"],
+                    "retry": 3,
+                    "jsonata": ["$.queueItem.{'queueItem':$}"],
                     "data": {
                         "save": false,
                         "charset": "gbk",
@@ -164,23 +127,24 @@ exports.default = {
                     "result": "$"
                 }, {
                     "partten": "role:crawler.plugin.html,cmd:html",
-                    "jsonata": ["$.queueItem.{'queueItem':$}", "$.queueUrl.{'queueItem':$}"],
+                    "jsonata": ["$.queueItem.{'queueItem':$}"],
+                    "title": "解析页面",
                     "result": "$combine($.result[]){'result':$}",
                     "data": {
                         "pages": [{
                                 "key": "tm-detail",
                                 "path": "*",
                                 "areas": [{
-                                        "key": "title",
-                                        "selector": [".tb-detail-hd"]
+                                        "key": "detail",
+                                        "selector": ["#J_DetailMeta"]
                                     }],
                                 "fieldKey": "",
                                 "fields": {
-                                    "title": {
+                                    "detail": {
                                         "data": [{
                                                 "key": "business_sku_title",
                                                 "title": "友商商品主标题",
-                                                "selector": ["h1"],
+                                                "selector": [".tb-detail-hd h1"],
                                                 "removeSelector": [],
                                                 "methodInfo": { "text": [] },
                                                 "htmlStrategy": "jsdom",
@@ -189,16 +153,13 @@ exports.default = {
                                             }, {
                                                 "key": "business_sku_subtitle",
                                                 "title": "友商商品副标题",
-                                                "selector": ["p"],
+                                                "selector": [".tb-detail-hd p"],
                                                 "removeSelector": [],
                                                 "methodInfo": { "text": [] },
                                                 "htmlStrategy": "jsdom",
                                                 "dealStrategy": "normal",
                                                 "formats": [{ "key": "trim", "settings": { "start": true, "middle": true, "end": true } }]
-                                            }]
-                                    },
-                                    "none": {
-                                        "data": [{
+                                            }, {
                                                 "key": "business_promotion",
                                                 "title": "友商商品优惠信息,券",
                                                 "selector": [".quan-item .text"],
@@ -229,6 +190,8 @@ exports.default = {
                 }, {
                     "partten": "role:crawler.plugin.downloader,cmd:interfaces",
                     "jsonata": ["$.result.{'params':{'fields':$.$string()}}"],
+                    "title": "调用顺利接口",
+                    "condition": "$.$not()",
                     "data": {
                         "url": "http://10.11.29.196:8020",
                         "path": "/d-api/reptile/businessInfo",

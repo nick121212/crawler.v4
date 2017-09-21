@@ -64,6 +64,7 @@ var PluginPlugin = (function () {
     */
     PluginPlugin.prototype.getFieldFlow = function (_a) {
         var queueItem = _a.queueItem, pages = _a.pages;
+        console.log("------------");
         var rules = _.filter(pages, function (_a) {
             var path = _a.path;
             var pathToReg = pathToRegexp(path.toString(), []);
@@ -71,9 +72,9 @@ var PluginPlugin = (function () {
         });
         if (!rules.length) {
             console.error("\u6CA1\u6709\u627E\u5230" + queueItem.path + "\u7684\u5339\u914D\u89C4\u5219\uFF01");
-            return null;
+            return [];
         }
-        return _.first(rules).msgFlow || [];
+        return rules[0].msgFlow || [];
     };
     /**
      * 测试一个流
@@ -83,13 +84,10 @@ var PluginPlugin = (function () {
      */
     PluginPlugin.prototype.testFlow = function (config, options, globalOptions) {
         return __awaiter(this, void 0, void 0, function () {
-            var rtn;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.pluginService.execute(options.seneca, config.msgFlow, config.data)];
-                    case 1:
-                        rtn = _a.sent();
-                        return [2 /*return*/, rtn];
+                    case 0: return [4 /*yield*/, this.pluginService.executePlugins(options.seneca, config.msgFlow, config.data || {})];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
@@ -101,7 +99,7 @@ __decorate([
     __metadata("design:type", plugin_1.ExecutePluginService)
 ], PluginPlugin.prototype, "pluginService", void 0);
 __decorate([
-    crawler_plugins_common_1.Add("role:" + constants_1.pluginResultName + ",cmd:addItemToQueue"),
+    crawler_plugins_common_1.Add("role:" + constants_1.pluginResultName + ",cmd:getFieldFlow"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Array)
@@ -110,8 +108,8 @@ __decorate([
     crawler_plugins_common_1.Add("role:" + constants_1.pluginResultName + ",cmd:testFlow"),
     __param(0, crawler_plugins_common_1.Validate(Joi.object().keys({
         msgFlow: Joi.array().required(),
-        data: Joi.any().required()
-    }), { allowUnknown: true })),
+        data: Joi.object().required()
+    }).required(), { allowUnknown: true })),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object, Object]),
     __metadata("design:returntype", Promise)

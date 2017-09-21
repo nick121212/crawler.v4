@@ -59,6 +59,12 @@ var MQueueService = (function () {
     }
     /**
      * 初始化消费队列
+     * 1. 初始化queue
+     * 2. 创建exchange
+     * 3. 创建queue
+     * 4. 绑定queue的路由
+     * 5. 开始消费
+     *
      * @param rabbitmqConfig mq的配置
      * @param queueName      mq要消费的q名称
      * @param consumeMsg     消息的消费方法
@@ -96,15 +102,30 @@ var MQueueService = (function () {
                     case 6:
                         _b.sent();
                         console.log("\u5F00\u59CB\u6D88\u8D39queue:" + queue.queue);
+                        // 1. 序列化queue的消息
+                        // 2. 调用消费方法
                         _a = this;
                         return [4 /*yield*/, this.channel.consume(queue.queue, function (msg) { return __awaiter(_this, void 0, void 0, function () {
                                 var _this = this;
+                                var msgData, e_2;
                                 return __generator(this, function (_a) {
                                     switch (_a.label) {
-                                        case 0: return [4 /*yield*/, bluebird.delay(delay || 3000)];
+                                        case 0:
+                                            _a.trys.push([0, 2, , 3]);
+                                            return [4 /*yield*/, this.getQueueItemFromMsg(msg)];
                                         case 1:
+                                            msgData = _a.sent();
+                                            return [3 /*break*/, 3];
+                                        case 2:
+                                            e_2 = _a.sent();
+                                            if (this.channel) {
+                                                this.channel.nack(msg);
+                                            }
+                                            return [2 /*return*/];
+                                        case 3: return [4 /*yield*/, bluebird.delay(delay || 3000)];
+                                        case 4:
                                             _a.sent();
-                                            return [4 /*yield*/, consumeMsg(this.getQueueItemFromMsg(msg)).then(function (data) {
+                                            return [4 /*yield*/, consumeMsg(msgData).then(function (data) {
                                                     console.log("爬取成功！");
                                                     if (_this.channel) {
                                                         _this.channel.ack(msg);
@@ -115,13 +136,15 @@ var MQueueService = (function () {
                                                         _this.channel.nack(msg);
                                                     }
                                                 })];
-                                        case 2:
+                                        case 5:
                                             _a.sent();
                                             return [2 /*return*/];
                                     }
                                 });
                             }); }, { noAck: false, exclusive: false })];
                     case 7:
+                        // 1. 序列化queue的消息
+                        // 2. 调用消费方法
                         _a.consume = _b.sent();
                         console.log(queue.consumerCount, queue.messageCount);
                         return [3 /*break*/, 9];
@@ -134,6 +157,11 @@ var MQueueService = (function () {
             });
         });
     };
+    /**
+     * 数据入queue
+     * @param items       要入queue的消息
+     * @param routingKey  路由key
+     */
     MQueueService.prototype.addItemsToQueue = function (items, routingKey) {
         var _this = this;
         items.forEach(function (item) {
@@ -142,11 +170,12 @@ var MQueueService = (function () {
     };
     /**
      * 销毁队列
+     * @param purge 是否清楚数据
      */
     MQueueService.prototype.destroy = function (purge) {
         if (purge === void 0) { purge = false; }
         return __awaiter(this, void 0, void 0, function () {
-            var e_2;
+            var e_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -158,10 +187,8 @@ var MQueueService = (function () {
                     case 2:
                         _a.sent();
                         if (!purge) return [3 /*break*/, 4];
-                        // console.log(this.queueName);
                         return [4 /*yield*/, this.channel.deleteQueue(this.queueName)];
                     case 3:
-                        // console.log(this.queueName);
                         _a.sent();
                         _a.label = 4;
                     case 4: return [4 /*yield*/, this.channel.close()];
@@ -173,13 +200,12 @@ var MQueueService = (function () {
                         delete this.channel;
                         delete this.connection;
                         delete this.consume;
-                        // delete this.config;
                         delete this.exchange;
                         console.log("queue stoped!");
                         return [3 /*break*/, 8];
                     case 7:
-                        e_2 = _a.sent();
-                        console.log(e_2);
+                        e_3 = _a.sent();
+                        console.log(e_3);
                         return [3 /*break*/, 8];
                     case 8: return [2 /*return*/];
                 }
@@ -187,8 +213,9 @@ var MQueueService = (function () {
         });
     };
     /**
-    * 初始化队列
-    */
+     * 初始化队列
+     * @param rabbitmqConfig mq的配置
+     */
     MQueueService.prototype.initQueue = function (rabbitmqConfig) {
         return __awaiter(this, void 0, void 0, function () {
             var _a, _b;
@@ -223,15 +250,19 @@ var MQueueService = (function () {
      * @param msg 消息体
      */
     MQueueService.prototype.getQueueItemFromMsg = function (msg) {
-        var queueItem;
-        try {
-            queueItem = JSON.parse(msg.content.toString());
-        }
-        catch (e) {
-            console.log(e);
-            throw e;
-        }
-        return queueItem;
+        return __awaiter(this, void 0, void 0, function () {
+            var queueItem;
+            return __generator(this, function (_a) {
+                try {
+                    queueItem = JSON.parse(msg.content.toString());
+                }
+                catch (e) {
+                    console.log(e);
+                    throw e;
+                }
+                return [2 /*return*/, queueItem];
+            });
+        });
     };
     return MQueueService;
 }());
