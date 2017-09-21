@@ -221,7 +221,7 @@ var EsStorePlugin = (function () {
   * @param esType  类型
   */
     EsStorePlugin.prototype.createResult = function (_a) {
-        var result = _a.result, esIndex = _a.esIndex, esType = _a.esType;
+        var result = _a.result, esIndex = _a.esIndex, esType = _a.esType, id = _a.id;
         return __awaiter(this, void 0, void 0, function () {
             var docs;
             return __generator(this, function (_a) {
@@ -232,6 +232,7 @@ var EsStorePlugin = (function () {
                         return [4 /*yield*/, this.client.create({
                                 index: esIndex,
                                 type: esType,
+                                id: id,
                                 body: result
                             })];
                     case 1: return [2 /*return*/, _a.sent()];

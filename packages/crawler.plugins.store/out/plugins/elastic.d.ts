@@ -27,7 +27,7 @@ export declare class EsStorePlugin {
   * @param esIndex 索引
   * @param esType  类型
   */
-    private createResult({result, esIndex, esType});
+    private createResult({result, esIndex, esType, id});
     private init(msg, options, globalOptions);
     /**
      * 获取单个数据

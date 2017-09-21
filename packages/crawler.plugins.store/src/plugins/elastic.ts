@@ -176,13 +176,14 @@ export class EsStorePlugin {
   * @param esType  类型
   */
     @Add(`role:${pluginEsName},cmd:createResult`)
-    private async createResult({ result, esIndex, esType }: { id: string, result: any, esIndex: string, esType: string }): Promise<any> {
+    private async createResult({ result, esIndex, esType, id }: { id: string, result: any, esIndex: string, esType: string }): Promise<any> {
         let docs: Array<any> = [];
 
         if (result) {
             return await this.client.create({
                 index: esIndex,
                 type: esType,
+                id: id,
                 body: result
             });
         }

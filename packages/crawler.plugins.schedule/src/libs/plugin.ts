@@ -32,6 +32,7 @@ export class ExecutePluginService {
                 "esIndex": "test.result",
                 "esType": "success",
                 "result": data.queueItem,
+                "id": Date.now() + Math.random() + data.queueItem._id
             }).catch(console.log);
 
             // throw new Error("");
@@ -39,6 +40,7 @@ export class ExecutePluginService {
             seneca.actAsync("role:crawler.plugin.store.es,cmd:createResult", {
                 "esIndex": "test.result",
                 "esType": "error",
+                "id": Date.now() + Math.random() + data.queueItem._id,
                 "result": Object.assign({}, data.queueItem, { errMessage: err.message })
             }).catch(console.log);
         });
