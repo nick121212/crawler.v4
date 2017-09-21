@@ -1,4 +1,4 @@
-import * as joi from 'joi';
+import * as joi from "joi";
 export interface IValidate {
     joi?: joi.AnySchema<any>;
     options?: any;

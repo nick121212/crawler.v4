@@ -38,7 +38,7 @@ export class Seneca<T extends IConfig> {
         bluebird.promisifyAll(this._seneca.private$.entity.__proto__, {
             context: this._seneca.private$.entity,
             filter: (name: string, func: Function, target?: any) => {
-                let names = name.split('');
+                let names = name.split("");
 
                 if (names.pop() === "$") {
                     target[names.join("") + "Async"] = bluebird.promisify(func);

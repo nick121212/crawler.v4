@@ -1,8 +1,8 @@
-import * as joi from 'joi';
+import * as joi from "joi";
 import { SenecaConfig } from "../contansts/config";
 
 export interface IValidate {
-    joi?: joi.AnySchema<any>
+    joi?: joi.AnySchema<any>;
     options?: any;
     target: any;
     key: string;

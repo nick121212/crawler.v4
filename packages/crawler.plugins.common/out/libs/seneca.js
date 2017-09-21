@@ -64,7 +64,7 @@ var Seneca = (function () {
         bluebird.promisifyAll(this._seneca.private$.entity.__proto__, {
             context: this._seneca.private$.entity,
             filter: function (name, func, target) {
-                var names = name.split('');
+                var names = name.split("");
                 if (names.pop() === "$") {
                     target[names.join("") + "Async"] = bluebird.promisify(func);
                 }
@@ -132,11 +132,10 @@ var Seneca = (function () {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        console.log("执行前", msg.id$, msg.$tx);
                         return [4 /*yield*/, plugin[key](msg, Object.assign({ seneca: reply.seneca }, options, {}), globalOptions)];
                     case 1:
                         result = _a.sent();
-                        console.log("执行后", msg.id$, msg.$tx);
+                        // console.log("执行后", msg.id$, msg.$tx);
                         reply && reply(null, result);
                         return [3 /*break*/, 3];
                     case 2:
