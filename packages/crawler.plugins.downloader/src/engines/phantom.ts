@@ -95,7 +95,7 @@ export class PhantomEngine extends modelProxy.BaseEngine {
                 })
                 // .headers(headers)
                 .open(url)
-                .wait(10)
+                .wait(500)
                 .status()
                 .then((statusCode: number) => {
                     rtn.statusCode = statusCode;

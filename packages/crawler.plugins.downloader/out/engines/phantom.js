@@ -160,7 +160,7 @@ var PhantomEngine = (function (_super) {
                 console.log("Request " + JSON.stringify(req, undefined, 4));
             })
                 .open(url)
-                .wait(10)
+                .wait(500)
                 .status()
                 .then(function (statusCode) {
                 rtn.statusCode = statusCode;
