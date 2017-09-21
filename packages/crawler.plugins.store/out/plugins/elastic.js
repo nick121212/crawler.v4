@@ -214,6 +214,32 @@ var EsStorePlugin = (function () {
             });
         });
     };
+    /**
+  * 存储当前的地址
+  * @param result  数据
+  * @param esIndex 索引
+  * @param esType  类型
+  */
+    EsStorePlugin.prototype.createResult = function (_a) {
+        var result = _a.result, esIndex = _a.esIndex, esType = _a.esType;
+        return __awaiter(this, void 0, void 0, function () {
+            var docs;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        docs = [];
+                        if (!result) return [3 /*break*/, 2];
+                        return [4 /*yield*/, this.client.create({
+                                index: esIndex,
+                                type: esType,
+                                body: result
+                            })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                    case 2: return [2 /*return*/, {}];
+                }
+            });
+        });
+    };
     EsStorePlugin.prototype.init = function (msg, options, globalOptions) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
@@ -292,6 +318,12 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], EsStorePlugin.prototype, "saveResult", null);
+__decorate([
+    crawler_plugins_common_1.Add("role:" + constants_1.pluginEsName + ",cmd:createResult"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], EsStorePlugin.prototype, "createResult", null);
 __decorate([
     crawler_plugins_common_1.Init(),
     __metadata("design:type", Function),

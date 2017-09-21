@@ -169,6 +169,27 @@ export class EsStorePlugin {
         return {};
     }
 
+    /**
+  * 存储当前的地址
+  * @param result  数据
+  * @param esIndex 索引
+  * @param esType  类型
+  */
+    @Add(`role:${pluginEsName},cmd:createResult`)
+    private async createResult({ result, esIndex, esType }: { id: string, result: any, esIndex: string, esType: string }): Promise<any> {
+        let docs: Array<any> = [];
+
+        if (result) {
+            return await this.client.create({
+                index: esIndex,
+                type: esType,
+                body: result
+            });
+        }
+
+        return {};
+    }
+
     @Init()
     private async init(msg: any, options: any, globalOptions: any) {
         this.client = new Client(globalOptions);
