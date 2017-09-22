@@ -1,3 +1,4 @@
+import { SettingModel } from "../models/setting";
 /**
  * agenda服务
  */
@@ -28,13 +29,13 @@ export declare class MQueueService {
     initConsume(rabbitmqConfig: {
         url: string;
         options: any;
-    }, queueName: string, consumeMsg: Function, prefetch?: number, delay?: number): Promise<boolean>;
+    }, queueName: string, consumeMsg: Function, config: SettingModel): Promise<boolean>;
     /**
      * 数据入queue
      * @param items       要入queue的消息
      * @param routingKey  路由key
      */
-    addItemsToQueue(items: Array<any>, routingKey?: string): void;
+    addItemsToQueue(items: Array<any>, routingKey?: string): boolean;
     /**
      * 销毁队列
      * @param purge 是否清楚数据

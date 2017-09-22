@@ -221,6 +221,25 @@ export class EsStorePlugin {
         });
     }
 
+    @Add(`role:${pluginEsName},cmd:scroll`)
+    private async scroll({ esIndex, esType, scrollId }: { esIndex: string; esType: string, scrollId: string }) {
+
+        console.log("------------------------", scrollId, esIndex, esType);
+
+        if (scrollId) {
+            return await this.client.scroll({
+                scrollId: scrollId,
+                scroll: "300s"
+            });
+        }
+
+        return await this.client.search({
+            index: esIndex,
+            type: esType,
+            scroll: "300s"
+        });
+    }
+
     /**
      * pick 字段
      * @param result 数据

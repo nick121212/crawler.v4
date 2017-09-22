@@ -76,8 +76,10 @@ export class TaskPlugin {
             throw new Error("没有激活的mqService！");
         }
 
+        // console.log("----------------itmes:", config.items);
         if (config.items && config.items.length) {
-            mqService.addItemsToQueue(config.items, config.routingKey);
+            let res = mqService.addItemsToQueue(config.items, config.routingKey);
+            // console.log("addToQueue 结果 :", res);
         }
     }
 
@@ -112,7 +114,7 @@ export class TaskPlugin {
         // 开始消费queue
         if (mQueueService.initConsume(globalOptions,
             queueName,
-            this.pluginService.preExecute.bind(this.pluginService, options.seneca, config), config.prefech || 1, config.delay)
+            options.seneca.actAsync.bind(options.seneca, config.startPartten), config)
         ) {
             // 如果queue里面没有消息，则调用initFlow队列
             if (config.initFlow && config.initFlow.length) {

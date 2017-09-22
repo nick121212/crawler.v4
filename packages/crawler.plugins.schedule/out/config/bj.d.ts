@@ -4,6 +4,7 @@ declare const _default: {
     "purge": boolean;
     "delay": number;
     "prefech": number;
+    "startPartten": string;
     "initFlow": ({
         "partten": string;
         "title": string;
@@ -57,6 +58,17 @@ declare const _default: {
                 "expression": string;
             };
             "result": string;
+        } | {
+            "partten": string;
+            "jsonata": string[];
+            "result": string;
+            "retry": number;
+            "title": string;
+            "data": {
+                "url": string;
+                "path": string;
+                "method": string;
+            };
         } | {
             "partten": string;
             "jsonata": string[];
@@ -118,15 +130,6 @@ declare const _default: {
                                     "attr": string[];
                                 };
                                 "dealStrategy": string;
-                            } | {
-                                "key": string;
-                                "title": string;
-                                "selector": string[];
-                                "methodInfo": {
-                                    "text": never[];
-                                };
-                                "htmlStrategy": string;
-                                "dealStrategy": string;
                             })[];
                         };
                     };
@@ -147,6 +150,17 @@ declare const _default: {
         "path": string;
         "title": string;
         "msgFlow": ({
+            "partten": string;
+            "title": string;
+            "retry": number;
+            "jsonata": never[];
+            "result": string;
+            "data": {
+                "url": string;
+                "path": string;
+                "method": string;
+            };
+        } | {
             "partten": string;
             "title": string;
             "retry": number;

@@ -4,6 +4,8 @@ import * as bluebird from "bluebird";
 import * as _ from "lodash";
 import { injectable } from "inversify";
 
+import { SettingModel } from "../models/setting";
+
 /**
  * agenda服务
  */
@@ -41,8 +43,7 @@ export class MQueueService {
         rabbitmqConfig: { url: string, options: any },
         queueName: string,
         consumeMsg: Function,
-        prefetch = 1,
-        delay = 1000
+        config: SettingModel
     ): Promise<boolean> {
         let count = 0, exchange: amqplib.Replies.AssertExchange, queue: amqplib.Replies.AssertQueue;
 
@@ -55,7 +56,7 @@ export class MQueueService {
 
             this.exchange = exchange;
             await this.channel.bindQueue(queue.queue, exchange.exchange, queueName);
-            await this.channel.prefetch(prefetch);
+            await this.channel.prefetch(config.prefech || 3);
             console.log(`开始消费queue:${queue.queue}`);
 
             // 1. 序列化queue的消息
@@ -74,20 +75,16 @@ export class MQueueService {
                     return;
                 }
 
-                await bluebird.delay(delay || 1000);
-                consumeMsg(msgData).then((data: any) => {
+                await bluebird.delay(config.delay || 1000);
+                await consumeMsg({ config, data: msgData }).then((data: any) => {
                     console.log("爬取成功！");
-
                     if (this.channel) {
                         this.channel.ack(msg);
-                        this.addItemsToQueue([msgData], this.queueName);
                     }
                 }).catch((err: Error) => {
                     console.log("爬取失败！", err.message);
                     if (this.channel) {
-                        // this.channel.nack(msg, false, true);
-                        this.channel.ack(msg);
-                        this.addItemsToQueue([msgData], this.queueName);
+                        this.channel.nack(msg);
                     }
                 });
             }, { noAck: false, exclusive: false });
@@ -106,9 +103,15 @@ export class MQueueService {
      * @param routingKey  路由key
      */
     public addItemsToQueue(items: Array<any>, routingKey?: string) {
+        let rtn = true;
+
         items.forEach((item) => {
-            this.channel.publish(this.exchange.exchange, routingKey || this.queueName, new Buffer(JSON.stringify(item)), {});
+            let push = this.channel.publish(this.exchange.exchange, routingKey || this.queueName, new Buffer(JSON.stringify(item)), {});
+
+            rtn = rtn && push;
         });
+
+        return rtn;
     }
 
     /**

@@ -62,4 +62,30 @@ export class PluginPlugin {
         ): Promise<any> {
         return await this.pluginService.executePlugins(options.seneca, config.msgFlow, config.data || {});
     }
+
+    /**
+     * 测试一个流
+     * @param config        流配置
+     * @param options       seneca的options
+     * @param globalOptions 全局options
+     */
+    @Add(`role:${pluginResultName},cmd:startNormalFlow`)
+    private async startNormalFlow(
+        config: any,
+        options?: any,
+        globalOptions?: any
+        ): Promise<any> {
+        return await this.pluginService.executePlugins(options.seneca, config.config.msgFlow, config.data || {});
+    }
+
+    /**
+     * 启动流
+     * @param config 参数
+     * @param options 配置
+     */
+    @Add(`role:${pluginResultName},cmd:startFlow`)
+    private async startFlow(config: any, options?: any): Promise<any> {
+        //this.pluginService.preExecute.bind(this.pluginService, options.seneca, config)
+        return await this.pluginService.preExecute(options.seneca, config.config, config.data);
+    }
 }

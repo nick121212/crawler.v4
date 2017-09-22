@@ -37,6 +37,7 @@ export declare class EsStorePlugin {
      * esType  类型
      */
     private getItem({_id, esIndex, esType});
+    private scroll({esIndex, esType, scrollId});
     /**
      * pick 字段
      * @param result 数据

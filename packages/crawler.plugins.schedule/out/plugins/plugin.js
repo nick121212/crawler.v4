@@ -92,6 +92,39 @@ var PluginPlugin = (function () {
             });
         });
     };
+    /**
+     * 测试一个流
+     * @param config        流配置
+     * @param options       seneca的options
+     * @param globalOptions 全局options
+     */
+    PluginPlugin.prototype.startNormalFlow = function (config, options, globalOptions) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.pluginService.executePlugins(options.seneca, config.config.msgFlow, config.data || {})];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    /**
+     * 启动流
+     * @param config 参数
+     * @param options 配置
+     */
+    PluginPlugin.prototype.startFlow = function (config, options) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.pluginService.preExecute(options.seneca, config.config, config.data)];
+                    case 1: 
+                    //this.pluginService.preExecute.bind(this.pluginService, options.seneca, config)
+                    return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
     return PluginPlugin;
 }());
 __decorate([
@@ -114,6 +147,18 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object, Object]),
     __metadata("design:returntype", Promise)
 ], PluginPlugin.prototype, "testFlow", null);
+__decorate([
+    crawler_plugins_common_1.Add("role:" + constants_1.pluginResultName + ",cmd:startNormalFlow"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:returntype", Promise)
+], PluginPlugin.prototype, "startNormalFlow", null);
+__decorate([
+    crawler_plugins_common_1.Add("role:" + constants_1.pluginResultName + ",cmd:startFlow"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], PluginPlugin.prototype, "startFlow", null);
 PluginPlugin = __decorate([
     crawler_plugins_common_1.Plugin(constants_1.pluginResultName),
     inversify_1.injectable()

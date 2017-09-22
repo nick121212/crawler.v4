@@ -117,9 +117,11 @@ export class WpPlugin {
 
     @Add(`role:${pluginName},cmd:qa`)
     public async html(config: { esIndex: string; esType: string; _id: any; }, options: any) {
-        let aaa = await this.wpApi.taxonomies().param("type", "dwkb_category").get();
+        // let aaa = await this.wpApi.taxonomies().param("type", "dwkb_category").get();
+        // console.log(aaa);
 
-        console.log(aaa);
+        
+
     }
 
     @Init()

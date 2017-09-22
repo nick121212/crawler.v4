@@ -58,28 +58,16 @@ var ExecutePluginService = (function () {
             var msgFlow;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, seneca.actAsync("role:" + constants_1.pluginResultName + ",cmd:getFieldFlow", { pages: config.pages, queueItem: (data || {}).queueItem }).catch(console.log)];
+                    case 0: return [4 /*yield*/, seneca.actAsync("role:" + constants_1.pluginResultName + ",cmd:getFieldFlow", {
+                            pages: config.pages, queueItem: (data || {}).queueItem
+                        }).catch(console.log)];
                     case 1:
                         msgFlow = _a.sent();
-                        if (!msgFlow || !data) {
+                        if (!msgFlow) {
                             return [2 /*return*/];
                         }
-                        return [2 /*return*/, this.executePlugins(seneca, msgFlow, data || {}).then(function (data1) {
-                                seneca.actAsync("role:crawler.plugin.store.es,cmd:createResult", {
-                                    "esIndex": "test.result",
-                                    "esType": "success",
-                                    "result": Object.assign({}, { url: data.queueItem.url }, data1.result),
-                                    "_id": Date.now() + Math.random() + data.queueItem._id
-                                }).catch(console.log);
-                                // throw new Error("");
-                            }).catch(function (err) {
-                                seneca.actAsync("role:crawler.plugin.store.es,cmd:createResult", {
-                                    "esIndex": "test.result",
-                                    "esType": "error",
-                                    "_id": Date.now() + Math.random() + data.queueItem._id,
-                                    "result": Object.assign({}, { url: data.queueItem.url }, { errMessage: err.message })
-                                }).catch(console.log);
-                            })];
+                        return [4 /*yield*/, this.executePlugins(seneca, msgFlow, data || {})];
+                    case 2: return [2 /*return*/, _a.sent()];
                 }
             });
         });
@@ -196,6 +184,7 @@ var ExecutePluginService = (function () {
                         });
                         _a.label = 4;
                     case 4:
+                        console.log((plugin.title || plugin.partten) + "--" + jsonatas);
                         retry = plugin.retry || 1, curRetryIndex = 0, isError = false;
                         // 最大5次重试
                         if (retry > 5) {

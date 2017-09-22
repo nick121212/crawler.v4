@@ -5,6 +5,7 @@ export interface SettingModel {
     title: string;
     prefech: number;
     delay: number;
+    startPartten: string;
     initFlow: SchedulePluginModel[];
     pages: PageModel[];
 }

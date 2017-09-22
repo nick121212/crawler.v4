@@ -284,6 +284,29 @@ var EsStorePlugin = (function () {
             });
         });
     };
+    EsStorePlugin.prototype.scroll = function (_a) {
+        var esIndex = _a.esIndex, esType = _a.esType, scrollId = _a.scrollId;
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        console.log("------------------------", scrollId, esIndex, esType);
+                        if (!scrollId) return [3 /*break*/, 2];
+                        return [4 /*yield*/, this.client.scroll({
+                                scrollId: scrollId,
+                                scroll: "300s"
+                            })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                    case 2: return [4 /*yield*/, this.client.search({
+                            index: esIndex,
+                            type: esType,
+                            scroll: "300s"
+                        })];
+                    case 3: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
     /**
      * pick 字段
      * @param result 数据
@@ -337,6 +360,12 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], EsStorePlugin.prototype, "getItem", null);
+__decorate([
+    crawler_plugins_common_1.Add("role:" + constants_1.pluginEsName + ",cmd:scroll"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], EsStorePlugin.prototype, "scroll", null);
 EsStorePlugin = __decorate([
     crawler_plugins_common_1.Plugin(constants_1.pluginEsName),
     inversify_1.injectable()

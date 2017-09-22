@@ -3,9 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = {
     "key": "bijia",
     "title": "比价配置文件",
-    "purge": false,
+    "purge": true,
     "delay": 500,
     "prefech": 3,
+    "startPartten": "role:crawler.plugin.plugin,cmd:startFlow",
     "initFlow": [{
             "partten": "role:crawler.plugin.queue,cmd:queue",
             "title": "把jd地址queue化",
@@ -181,6 +182,17 @@ exports.default = {
                     },
                     "result": "$"
                 }, {
+                    "partten": "role:crawler.plugin.downloader,cmd:interfaces",
+                    "jsonata": ["$.{'params':{'skuIds':'J_' & $match($.queueItem.path,/\\d+/)[0].match}}"],
+                    "result": "$.{'result':{'business_price':$jparse($.responseBody)[0].p}}",
+                    "retry": 2,
+                    "title": "调用jd的获取价格接口",
+                    "data": {
+                        "url": "https://p.3.cn/prices",
+                        "path": "/mgets",
+                        "method": "get"
+                    }
+                }, {
                     "partten": "role:crawler.plugin.html,cmd:html",
                     "jsonata": ["$.queueItem.{'queueItem':$}"],
                     "result": "$combine($.result[]){'result':$}",
@@ -226,13 +238,6 @@ exports.default = {
                                                 "removeSelector": [],
                                                 "methodInfo": { "attr": ["data-value"] },
                                                 "dealStrategy": "normal"
-                                            }, {
-                                                "key": "business_price",
-                                                "title": "友商商品销售价格",
-                                                "selector": [".summary-price .p-price .price"],
-                                                "methodInfo": { "text": [] },
-                                                "htmlStrategy": "jsdom",
-                                                "dealStrategy": "normal"
                                             }]
                                     }
                                 },
@@ -253,10 +258,21 @@ exports.default = {
             "path": "/item.htm",
             "title": "天猫详情页配置",
             "msgFlow": [{
+                    "partten": "role:crawler.plugin.downloader,cmd:interfaces",
+                    "title": "获取代理ip",
+                    "retry": 3,
+                    "jsonata": [],
+                    "result": "${'proxy':$}",
+                    "data": {
+                        "url": "http://123.59.43.166:5000",
+                        "path": "/get",
+                        "method": "GET"
+                    }
+                }, {
                     "partten": "role:crawler.plugin.downloader,cmd:html",
                     "title": "下载页面",
                     "retry": 3,
-                    "jsonata": ["$.queueItem.{'queueItem':$}"],
+                    "jsonata": ["$.queueItem.{'queueItem':$}", "$.proxy.{'proxyInfo':$}"],
                     "data": {
                         "save": false,
                         "charset": "gbk",

@@ -71,9 +71,7 @@ var MQueueService = (function () {
      * @param prefetch       每次获取的消息数量
      * @param delay          延迟时间
      */
-    MQueueService.prototype.initConsume = function (rabbitmqConfig, queueName, consumeMsg, prefetch, delay) {
-        if (prefetch === void 0) { prefetch = 1; }
-        if (delay === void 0) { delay = 1000; }
+    MQueueService.prototype.initConsume = function (rabbitmqConfig, queueName, consumeMsg, config) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             var count, exchange, queue, _a, e_1;
@@ -98,7 +96,7 @@ var MQueueService = (function () {
                         return [4 /*yield*/, this.channel.bindQueue(queue.queue, exchange.exchange, queueName)];
                     case 5:
                         _b.sent();
-                        return [4 /*yield*/, this.channel.prefetch(prefetch)];
+                        return [4 /*yield*/, this.channel.prefetch(config.prefech || 3)];
                     case 6:
                         _b.sent();
                         console.log("\u5F00\u59CB\u6D88\u8D39queue:" + queue.queue);
@@ -122,23 +120,22 @@ var MQueueService = (function () {
                                                 this.channel.nack(msg);
                                             }
                                             return [2 /*return*/];
-                                        case 3: return [4 /*yield*/, bluebird.delay(delay || 1000)];
+                                        case 3: return [4 /*yield*/, bluebird.delay(config.delay || 1000)];
                                         case 4:
                                             _a.sent();
-                                            consumeMsg(msgData).then(function (data) {
-                                                console.log("爬取成功！");
-                                                if (_this.channel) {
-                                                    _this.channel.ack(msg);
-                                                    _this.addItemsToQueue([msgData], _this.queueName);
-                                                }
-                                            }).catch(function (err) {
-                                                console.log("爬取失败！", err.message);
-                                                if (_this.channel) {
-                                                    // this.channel.nack(msg, false, true);
-                                                    _this.channel.ack(msg);
-                                                    _this.addItemsToQueue([msgData], _this.queueName);
-                                                }
-                                            });
+                                            return [4 /*yield*/, consumeMsg({ config: config, data: msgData }).then(function (data) {
+                                                    console.log("爬取成功！");
+                                                    if (_this.channel) {
+                                                        _this.channel.ack(msg);
+                                                    }
+                                                }).catch(function (err) {
+                                                    console.log("爬取失败！", err.message);
+                                                    if (_this.channel) {
+                                                        _this.channel.nack(msg);
+                                                    }
+                                                })];
+                                        case 5:
+                                            _a.sent();
                                             return [2 /*return*/];
                                     }
                                 });
@@ -164,9 +161,12 @@ var MQueueService = (function () {
      */
     MQueueService.prototype.addItemsToQueue = function (items, routingKey) {
         var _this = this;
+        var rtn = true;
         items.forEach(function (item) {
-            _this.channel.publish(_this.exchange.exchange, routingKey || _this.queueName, new Buffer(JSON.stringify(item)), {});
+            var push = _this.channel.publish(_this.exchange.exchange, routingKey || _this.queueName, new Buffer(JSON.stringify(item)), {});
+            rtn = rtn && push;
         });
+        return rtn;
     };
     /**
      * 销毁队列

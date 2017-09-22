@@ -103,14 +103,16 @@ var TaskPlugin = (function () {
      */
     TaskPlugin.prototype.addToQueue = function (config) {
         return __awaiter(this, void 0, void 0, function () {
-            var mqService;
+            var mqService, res;
             return __generator(this, function (_a) {
                 mqService = this.getQueueService(config);
                 if (!mqService) {
                     throw new Error("没有激活的mqService！");
                 }
+                // console.log("----------------itmes:", config.items);
                 if (config.items && config.items.length) {
-                    mqService.addItemsToQueue(config.items, config.routingKey);
+                    res = mqService.addItemsToQueue(config.items, config.routingKey);
+                    // console.log("addToQueue 结果 :", res);
                 }
                 return [2 /*return*/];
             });
@@ -141,7 +143,7 @@ var TaskPlugin = (function () {
                         instance = _a.sent();
                         this.mqs.push(mQueueService);
                         // 开始消费queue
-                        if (mQueueService.initConsume(globalOptions, queueName, this.pluginService.preExecute.bind(this.pluginService, options.seneca, config), config.prefech || 1, config.delay)) {
+                        if (mQueueService.initConsume(globalOptions, queueName, options.seneca.actAsync.bind(options.seneca, config.startPartten), config)) {
                             // 如果queue里面没有消息，则调用initFlow队列
                             if (config.initFlow && config.initFlow.length) {
                                 setTimeout(function () {
