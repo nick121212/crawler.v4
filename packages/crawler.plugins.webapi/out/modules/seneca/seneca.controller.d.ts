@@ -13,6 +13,5 @@ export declare class SenecaController {
     act(res: Response, parttern: string, config: any): Promise<void>;
     getMembers(res: Response): Promise<void>;
     actTest2(res: Response, parttern: string): Promise<void>;
-    log(res: Response, result: any): Promise<void>;
     addBusiness(pdt_sku: string, business_id: number, business_sku_url: string, show_price: string, res: Response): Promise<void>;
 }

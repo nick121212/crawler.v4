@@ -5,10 +5,10 @@ import * as Joi from "joi";
 @Pipe()
 export class JoiValidatorPipe implements PipeTransform {
     constructor(
-        private readonly schema: Joi.AnySchema<any>,
+        private readonly schema: Joi.AnySchema,
         private readonly toValidate = (metadata: ArgumentMetadata) => true) { }
 
-    public transform(value, metadata: ArgumentMetadata) {
+    public transform(value: any, metadata: ArgumentMetadata) {
         if (!this.toValidate(metadata)) {
             return value;
         }

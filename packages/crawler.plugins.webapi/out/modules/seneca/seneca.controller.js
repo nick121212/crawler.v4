@@ -60,13 +60,6 @@ let SenecaController = class SenecaController {
             res.send(data);
         });
     }
-    log(res, result) {
-        return __awaiter(this, void 0, void 0, function* () {
-            // let data = await this.senecaService.seneca.list(parttern);
-            console.log(result);
-            res.send(null);
-        });
-    }
     addBusiness(pdt_sku, business_id, business_sku_url, show_price, res) {
         return __awaiter(this, void 0, void 0, function* () {
             let data = yield this.senecaService.seneca.actAsync("role:crawler.plugin.queue,cmd:queue", {
@@ -129,13 +122,6 @@ __decorate([
     __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", Promise)
 ], SenecaController.prototype, "actTest2", null);
-__decorate([
-    common_1.Post("log"),
-    __param(0, common_1.Res()), __param(1, common_1.Body("result")),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", Promise)
-], SenecaController.prototype, "log", null);
 __decorate([
     common_1.Post("addBusiness"),
     common_1.UsePipes(new validate_pipe_1.JoiValidatorPipe(Joi.string().label("pdt_sku").required(), ({ data }) => data === "pdt_sku")),
