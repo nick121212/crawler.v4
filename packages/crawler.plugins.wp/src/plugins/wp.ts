@@ -156,7 +156,7 @@ export class WpPlugin {
         console.log("---------tag结束", tag.id, category.id);
         console.log("---------title", _.trim(resouce.title));
         let postData = {
-            title: _.trim(resouce.title),
+            title: resouce.title,
             author: 5,
             comment_status: "open",
             "dwqa-question_category": category ? [category.id] : null,
@@ -165,7 +165,7 @@ export class WpPlugin {
             content: resouce.content,
             status: "publish",
             date: Moment().add(comments.length * 3 - 30, "day").format("YYYY-MM-DD hh:mm:ss"),
-            // ping_status: "open"
+            ping_status: "open"
         };
 
         let postExist = await this.wpApi["dwqa-question"]().slug(config._id).get();

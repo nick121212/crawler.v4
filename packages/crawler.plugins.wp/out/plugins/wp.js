@@ -228,7 +228,7 @@ var WpPlugin = (function () {
                         console.log("---------tag结束", tag.id, category.id);
                         console.log("---------title", _.trim(resouce.title));
                         postData = {
-                            title: _.trim(resouce.title),
+                            title: resouce.title,
                             author: 5,
                             comment_status: "open",
                             "dwqa-question_category": category ? [category.id] : null,
@@ -237,6 +237,7 @@ var WpPlugin = (function () {
                             content: resouce.content,
                             status: "publish",
                             date: Moment().add(comments.length * 3 - 30, "day").format("YYYY-MM-DD hh:mm:ss"),
+                            ping_status: "open"
                         };
                         return [4 /*yield*/, this.wpApi["dwqa-question"]().slug(config._id).get()];
                     case 5:
