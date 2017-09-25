@@ -105,17 +105,17 @@ export default {
             "partten": "role:crawler.plugin.task,cmd:queueInfo",
             "force": true,
             "title": "获取queue信息",
-            "config": {
+            "data": {
                 "key": "bijia"
             },
-            "result": "$.result.{'consumerCount':$.consumerCount,'messageCount':$.messageCount}"
+            "result": "$.{'result':{'consumerCount':$.consumerCount,'messageCount':$.messageCount}}"
         }, {
             "partten": "role:crawler.plugin.downloader,cmd:interfaces",
             "jsonata": ["$.result.{'params':{'fields':$.$string()}}"],
             "force": true,
             "title": "调用顺利接口",
             "data": {
-                "url": "http://10.11.29.196:8020",
+                "url": "http://prccmpr.mmall.com",
                 "path": "/d-api/reptile/businessInfo",
                 "method": "get"
             }
@@ -221,19 +221,19 @@ export default {
             }
         }, {
             "partten": "role:crawler.plugin.task,cmd:queueInfo",
-            "config": {
+            "data": {
                 "key": "bijia"
             },
             "title": "获取queue信息",
             "force": true,
-            "result": "$.result.{'consumerCount':$.consumerCount,'messageCount':$.messageCount}"
+            "result": "$.{'result':{'consumerCount':$.consumerCount,'messageCount':$.messageCount}}"
         }, {
             "partten": "role:crawler.plugin.downloader,cmd:interfaces",
             "jsonata": ["$.result.{'params':{'fields':$.$string()}}"],
             "title": "调用顺利接口",
             "force": true,
             "data": {
-                "url": "http://10.11.29.196:8020",
+                "url": "http://prccmpr.mmall.com",
                 "path": "/d-api/reptile/businessInfo",
                 "method": "get"
             }

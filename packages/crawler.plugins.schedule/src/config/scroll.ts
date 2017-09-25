@@ -18,7 +18,8 @@ export default {
         "title": "把存储的数据放入queue",
         "jsonata": ["$.{'items':$map($.scroll.hits.hits,function($v,$k,$i){ {'hit':$v} })}"],
         "data": {
-            "key": "qa"
+            "key": "scroll-qa",
+            "routingKey": "crawler.url.qa"
         }
     }, {
         "partten": "role:crawler.plugin.task,cmd:addItemToQueue",
@@ -31,10 +32,9 @@ export default {
     "msgFlow": [{
         "partten": "role:crawler.plugin.store.es,cmd:scroll",
         "title": "开始循环遍历es",
-        "jsonata": ["$.{'scrollId':$.scrollId}"],
         "data": {
             "esIndex": "qa",
-            "esType": "mamilove",
+            "esType": "mamilove"
         },
         "result": "${'scroll':$}"
     }, {
@@ -42,12 +42,13 @@ export default {
         "title": "把存储的数据放入queue",
         "jsonata": ["$.{'items':$map($.scroll.hits.hits,function($v,$k,$i){ {'hit':$v} })}"],
         "data": {
-            "key": "qa"
+            "key": "scroll-qa",
+            "routingKey": "crawler.url.qa"
         }
     }, {
         "partten": "role:crawler.plugin.task,cmd:addItemToQueue",
         "title": "把存储的数据放入queue",
-        "jsonata": ["$.{'items':['scrollId':$.scroll._scroll_id]}"],
+        "jsonata": ["$.{'items':[{'scrollId':$.scroll._scroll_id}]}"],
         "data": {
             "key": "scroll-qa"
         }

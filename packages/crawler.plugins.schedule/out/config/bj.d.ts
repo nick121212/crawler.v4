@@ -122,7 +122,7 @@ declare const _default: {
             "partten": string;
             "force": boolean;
             "title": string;
-            "config": {
+            "data": {
                 "key": string;
             };
             "result": string;

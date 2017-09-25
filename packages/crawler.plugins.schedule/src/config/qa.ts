@@ -2,32 +2,16 @@ export default {
     "key": "qa",
     "title": "qa的配置",
     "purge": true,
-    "delay": 500,
-    "prefech": 3,
-    "startPartten": "role:crawler.plugin.plugin,cmd:testFlow",
+    "delay": 5000,
+    "prefech": 1,
+    "startPartten": "role:crawler.plugin.plugin,cmd:startNormalFlow",
     "initFlow": [],
     "msgFlow": [{
-        "partten": "role:crawler.plugin.store.es,cmd:scroll",
-        "title": "开始循环遍历es",
-        "jsonata": ["$.{'scrollId':$.scrollId}"],
+        "partten": "role:crawler.plugin.wp,cmd:qa",
+        "title": "调用保存qa的wp插件",
+        "jsonata": ["$.hit"],
         "data": {
-            "esIndex": "qa",
-            "esType": "mamilove",
-        },
-        "result": "${'scroll':$}"
-    }, {
-        "partten": "role:crawler.plugin.task,cmd:addItemToQueue",
-        "title": "把存储的数据放入queue",
-        "jsonata": ["$.{'items':$map($.scroll.hits.hits,function($v,$k,$i){ {'hit':$v} })}"],
-        "data": {
-            "key": "qa"
-        }
-    }, {
-        "partten": "role:crawler.plugin.task,cmd:addItemToQueue",
-        "title": "把存储的数据放入queue",
-        "jsonata": ["$.{'items':['scrollId':$.scroll._scroll_id]}"],
-        "data": {
-            "key": "scroll-qa"
+            
         }
     }]
 };

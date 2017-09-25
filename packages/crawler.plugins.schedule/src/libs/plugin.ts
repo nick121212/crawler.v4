@@ -21,14 +21,15 @@ export class ExecutePluginService {
     public async preExecute(seneca: any, config: SettingModel, data: any): Promise<any> {
         let msgFlow: Array<any> | null =
             await seneca.actAsync(`role:${pluginResultName},cmd:getFieldFlow`, {
-                pages: config.pages, queueItem: (data || {}).queueItem
-            }).catch(console.log);
+                pages: config.pages,
+                ...data
+            });
 
         if (!msgFlow) {
             return;
         }
 
-        return this.executePlugins(seneca, msgFlow, data || {});
+        return this.executePlugins(seneca, msgFlow, data);
     }
 
     /**
@@ -39,7 +40,6 @@ export class ExecutePluginService {
      */
     public async executePlugins(seneca: any, plugins: SchedulePluginModel[], data: any = {}): Promise<any> {
         let len = plugins.length, currentIndex = 0, currentPlugin;
-        let checkParttens = await this.checkParttens(seneca, plugins);
 
         if (!data.__META__) {
             data.__META__ = {
@@ -48,11 +48,8 @@ export class ExecutePluginService {
             };
         }
 
-        // if (checkParttens !== true) {
-        //     throw checkParttens;
-        // }
         // 检测是否可以执行插件
-
+        await this.checkParttens(seneca, plugins);
         while (len > currentIndex) {
             currentPlugin = plugins[currentIndex++];
 
@@ -62,7 +59,7 @@ export class ExecutePluginService {
                 data = await this.executePlugin(seneca, currentPlugin, data);
 
                 data.__META__.timer.push(`[${currentPlugin.title || currentPlugin.partten}]的执行时间：${Date.now() - start}ms`);
-
+                console.log(`[${currentPlugin.title || currentPlugin.partten}]的执行时间：${Date.now() - start}ms`);
                 if (currentPlugin.successFlow) {
                     try {
                         await this.executePlugins(seneca, currentPlugin.successFlow, data);
@@ -70,8 +67,6 @@ export class ExecutePluginService {
                         console.log("执行了成功插件！");
                     }
                 }
-
-                // console.log(`[${currentPlugin.title}]的执行时间：${Date.now() - start}ms`);
             } catch (e) {
                 if (currentPlugin.force) {
                     continue;
@@ -86,7 +81,6 @@ export class ExecutePluginService {
                 throw e;
             }
         }
-        // console.log(data.__META__);
 
         return data;
     }
@@ -123,7 +117,7 @@ export class ExecutePluginService {
             });
         }
 
-        console.log(`${plugin.title || plugin.partten}--${jsonatas}`);
+        console.log(`开始执行：${plugin.title || plugin.partten}-----`);
 
         // 调用插件，重试机制
         let retry = plugin.retry || 1, curRetryIndex = 0, result, isError = false;

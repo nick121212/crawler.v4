@@ -6,22 +6,11 @@ declare const _default: {
     "prefech": number;
     "startPartten": string;
     "initFlow": never[];
-    "msgFlow": ({
+    "msgFlow": {
         "partten": string;
         "title": string;
         "jsonata": string[];
-        "data": {
-            "esIndex": string;
-            "esType": string;
-        };
-        "result": string;
-    } | {
-        "partten": string;
-        "title": string;
-        "jsonata": string[];
-        "data": {
-            "key": string;
-        };
-    })[];
+        "data": {};
+    }[];
 };
 export default _default;

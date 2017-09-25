@@ -1,4 +1,12 @@
 "use strict";
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -58,15 +66,13 @@ var ExecutePluginService = (function () {
             var msgFlow;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, seneca.actAsync("role:" + constants_1.pluginResultName + ",cmd:getFieldFlow", {
-                            pages: config.pages, queueItem: (data || {}).queueItem
-                        }).catch(console.log)];
+                    case 0: return [4 /*yield*/, seneca.actAsync("role:" + constants_1.pluginResultName + ",cmd:getFieldFlow", __assign({ pages: config.pages }, data))];
                     case 1:
                         msgFlow = _a.sent();
                         if (!msgFlow) {
                             return [2 /*return*/];
                         }
-                        return [2 /*return*/, this.executePlugins(seneca, msgFlow, data || {})];
+                        return [2 /*return*/, this.executePlugins(seneca, msgFlow, data)];
                 }
             });
         });
@@ -80,20 +86,22 @@ var ExecutePluginService = (function () {
     ExecutePluginService.prototype.executePlugins = function (seneca, plugins, data) {
         if (data === void 0) { data = {}; }
         return __awaiter(this, void 0, void 0, function () {
-            var len, currentIndex, currentPlugin, checkParttens, start, e_1, e_2, e_3;
+            var len, currentIndex, currentPlugin, start, e_1, e_2, e_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         len = plugins.length, currentIndex = 0;
-                        return [4 /*yield*/, this.checkParttens(seneca, plugins)];
-                    case 1:
-                        checkParttens = _a.sent();
                         if (!data.__META__) {
                             data.__META__ = {
                                 timer: [],
                                 retry: {}
                             };
                         }
+                        // 检测是否可以执行插件
+                        return [4 /*yield*/, this.checkParttens(seneca, plugins)];
+                    case 1:
+                        // 检测是否可以执行插件
+                        _a.sent();
                         _a.label = 2;
                     case 2:
                         if (!(len > currentIndex)) return [3 /*break*/, 15];
@@ -106,6 +114,7 @@ var ExecutePluginService = (function () {
                     case 4:
                         data = _a.sent();
                         data.__META__.timer.push("[" + (currentPlugin.title || currentPlugin.partten) + "]\u7684\u6267\u884C\u65F6\u95F4\uFF1A" + (Date.now() - start) + "ms");
+                        console.log("[" + (currentPlugin.title || currentPlugin.partten) + "]\u7684\u6267\u884C\u65F6\u95F4\uFF1A" + (Date.now() - start) + "ms");
                         if (!currentPlugin.successFlow) return [3 /*break*/, 8];
                         _a.label = 5;
                     case 5:
@@ -138,9 +147,7 @@ var ExecutePluginService = (function () {
                         return [3 /*break*/, 13];
                     case 13: throw e_2;
                     case 14: return [3 /*break*/, 2];
-                    case 15: 
-                    // console.log(data.__META__);
-                    return [2 /*return*/, data];
+                    case 15: return [2 /*return*/, data];
                 }
             });
         });
@@ -186,7 +193,7 @@ var ExecutePluginService = (function () {
                         });
                         _a.label = 4;
                     case 4:
-                        console.log((plugin.title || plugin.partten) + "--" + jsonatas);
+                        console.log("\u5F00\u59CB\u6267\u884C\uFF1A" + (plugin.title || plugin.partten) + "--");
                         retry = plugin.retry || 1, curRetryIndex = 0, isError = false;
                         // 最大5次重试
                         if (retry > 5) {
