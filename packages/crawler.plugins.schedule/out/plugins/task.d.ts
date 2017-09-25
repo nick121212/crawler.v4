@@ -53,7 +53,7 @@ export declare class TaskPlugin {
      * @param key      queue的key
      * @param options  参数
      */
-    private getQueue(key, options);
+    private getQueue({key}, options);
     /**
      * 启动未正常停止的队列
      * @param msg

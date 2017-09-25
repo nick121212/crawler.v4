@@ -212,7 +212,8 @@ var TaskPlugin = (function () {
      * @param key      queue的key
      * @param options  参数
      */
-    TaskPlugin.prototype.getQueue = function (key, options) {
+    TaskPlugin.prototype.getQueue = function (_a, options) {
+        var key = _a.key;
         return __awaiter(this, void 0, void 0, function () {
             var mQueueServie;
             return __generator(this, function (_a) {
@@ -304,7 +305,7 @@ __decorate([
 __decorate([
     crawler_plugins_common_1.Add("role:" + constants_1.pluginTaskName + ",cmd:queueInfo"),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], TaskPlugin.prototype, "getQueue", null);
 __decorate([

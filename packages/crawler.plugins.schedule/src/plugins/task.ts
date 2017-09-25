@@ -167,7 +167,7 @@ export class TaskPlugin {
      * @param options  参数
      */
     @Add(`role:${pluginTaskName},cmd:queueInfo`)
-    private async getQueue(key: string, options: any) {
+    private async getQueue({ key }: { key: string }, options: any) {
         let mQueueServie = this.getQueueService({ key });
 
         if (!mQueueServie) {

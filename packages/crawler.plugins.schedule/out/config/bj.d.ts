@@ -5,34 +5,7 @@ declare const _default: {
     "delay": number;
     "prefech": number;
     "startPartten": string;
-    "initFlow": ({
-        "partten": string;
-        "title": string;
-        "data": {
-            "queueConfig": {
-                "ignoreWWWDomain": boolean;
-                "stripWWWDomain": boolean;
-                "scanSubdomains": boolean;
-                "host": string;
-                "initialProtocol": string;
-                "initialPort": number;
-                "stripQuerystring": boolean;
-                "allowQueryParams": never[];
-                "fetchConditions": never[];
-                "domainWhiteList": string[];
-                "filterByDomain": boolean;
-            };
-            "urls": string[];
-        };
-        "result": string;
-    } | {
-        "partten": string;
-        "title": string;
-        "jsonata": string[];
-        "data": {
-            "key": string;
-        };
-    })[];
+    "initFlow": never[];
     "pages": ({
         "path": string;
         "title": string;
@@ -58,17 +31,6 @@ declare const _default: {
                 "expression": string;
             };
             "result": string;
-        } | {
-            "partten": string;
-            "jsonata": string[];
-            "result": string;
-            "retry": number;
-            "title": string;
-            "data": {
-                "url": string;
-                "path": string;
-                "method": string;
-            };
         } | {
             "partten": string;
             "jsonata": string[];
@@ -130,6 +92,15 @@ declare const _default: {
                                     "attr": string[];
                                 };
                                 "dealStrategy": string;
+                            } | {
+                                "key": string;
+                                "title": string;
+                                "selector": string[];
+                                "methodInfo": {
+                                    "text": never[];
+                                };
+                                "htmlStrategy": string;
+                                "dealStrategy": string;
                             })[];
                         };
                     };
@@ -139,7 +110,19 @@ declare const _default: {
         } | {
             "partten": string;
             "jsonata": string[];
-            "condition": string;
+            "result": string;
+            "retry": number;
+            "title": string;
+            "data": {
+                "url": string;
+                "path": string;
+                "method": string;
+            };
+        } | {
+            "partten": string;
+            "jsonata": string[];
+            "force": boolean;
+            "title": string;
             "data": {
                 "url": string;
                 "path": string;
@@ -255,7 +238,6 @@ declare const _default: {
             "partten": string;
             "jsonata": string[];
             "title": string;
-            "condition": string;
             "data": {
                 "url": string;
                 "path": string;
