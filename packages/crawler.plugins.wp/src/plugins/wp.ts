@@ -136,6 +136,7 @@ export class WpPlugin {
         let comments = resouce.comments || [];
         let category, tag;
 
+        console.log("开始导入wp的qa数据-------------");
         if (resouce.category) {
             category = await this.getCategory("dwqa-question_category", resouce.category);
         }

@@ -206,6 +206,7 @@ var WpPlugin = (function () {
                     case 0:
                         resouce = config._source, promises = [];
                         comments = resouce.comments || [];
+                        console.log("开始导入wp的qa数据-------------");
                         if (!resouce.category) return [3 /*break*/, 2];
                         return [4 /*yield*/, this.getCategory("dwqa-question_category", resouce.category)];
                     case 1:
