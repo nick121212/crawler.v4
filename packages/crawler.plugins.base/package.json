@@ -1,6 +1,6 @@
 {
   "name": "crawler.plugins.base",
-  "version": "0.1.21",
+  "version": "0.1.22",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,7 @@
   "author": "NICK",
   "license": "ISC",
   "dependencies": {
-    "crawler.plugins.common": "^0.1.21",
+    "crawler.plugins.common": "^0.1.22",
     "inversify": "^4.2.0",
     "lodash": "^4.17.4",
     "reflect-metadata": "^0.1.10",
