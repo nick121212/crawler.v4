@@ -176,20 +176,54 @@ var WpPlugin = (function () {
             });
         });
     };
+    WpPlugin.prototype.getCategory = function (api, category) {
+        return __awaiter(this, void 0, void 0, function () {
+            var categories, newCategory;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.wpApi[api]().search(category)];
+                    case 1:
+                        categories = _a.sent();
+                        if (categories.length) {
+                            return [2 /*return*/, categories[0]];
+                        }
+                        return [4 /*yield*/, this.wpApi[api]().create({
+                                name: _.trim(category)
+                            })];
+                    case 2:
+                        newCategory = _a.sent();
+                        return [2 /*return*/, newCategory];
+                }
+            });
+        });
+    };
     WpPlugin.prototype.qa = function (config, options) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
-            var resouce, promises, comments, postData, post;
+            var resouce, promises, comments, category, tag, postData, post;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         resouce = config._source, promises = [];
                         comments = resouce.comments || [];
+                        if (!resouce.category) return [3 /*break*/, 2];
+                        return [4 /*yield*/, this.getCategory("dwqa-question_category", resouce.category)];
+                    case 1:
+                        category = _a.sent();
+                        _a.label = 2;
+                    case 2:
+                        if (!resouce.age) return [3 /*break*/, 4];
+                        return [4 /*yield*/, this.getCategory("dwqa-question_tag", resouce.age)];
+                    case 3:
+                        tag = _a.sent();
+                        _a.label = 4;
+                    case 4:
                         postData = {
                             title: resouce.title,
                             author: 5,
                             comment_status: "open",
-                            categories: [92],
+                            "dwqa-question_category": category ? [category.id] : null,
+                            "dwqa-question_tag": tag ? [tag.id] : null,
                             slug: "dwqa-question",
                             content: resouce.content,
                             status: "publish",
@@ -197,7 +231,7 @@ var WpPlugin = (function () {
                             ping_status: "open"
                         };
                         return [4 /*yield*/, this.wpApi["dwqa-question"]().create(postData)];
-                    case 1:
+                    case 5:
                         post = _a.sent();
                         comments.forEach(function (comment, idx) { return __awaiter(_this, void 0, void 0, function () {
                             var com;

@@ -116,16 +116,40 @@ export class WpPlugin {
         return post;
     }
 
+    private async getCategory(api: string, category: string) {
+        let categories = await this.wpApi[api]().search(category);
+
+        if (categories.length) {
+            return categories[0];
+        }
+
+        let newCategory = await this.wpApi[api]().create({
+            name: _.trim(category)
+        });
+
+        return newCategory;
+    }
+
     @Add(`role:${pluginName},cmd:qa`)
     private async qa(config: { _source: string; }, options: any) {
         let resouce: any = config._source, promises: Array<Promise<any>> = [];
         let comments = resouce.comments || [];
+        let category, tag;
+
+        if (resouce.category) {
+            category = await this.getCategory("dwqa-question_category", resouce.category);
+        }
+
+        if (resouce.age) {
+            tag = await this.getCategory("dwqa-question_tag", resouce.age);
+        }
 
         let postData = {
             title: resouce.title,
             author: 5,
             comment_status: "open",
-            categories: [92],
+            "dwqa-question_category": category ? [category.id] : null,
+            "dwqa-question_tag": tag ? [tag.id] : null,
             slug: "dwqa-question",
             content: resouce.content,
             status: "publish",
