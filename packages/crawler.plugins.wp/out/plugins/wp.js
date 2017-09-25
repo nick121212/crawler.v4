@@ -227,13 +227,13 @@ var WpPlugin = (function () {
                     case 4:
                         console.log("tag结束", tag.id, category.id);
                         postData = {
-                            title: resouce.title,
+                            title: _.trim(resouce.title),
                             author: 5,
                             comment_status: "open",
                             "dwqa-question_category": category ? [category.id] : null,
                             "dwqa-question_tag": tag ? [tag.id] : null,
                             slug: "dwqa-question",
-                            content: resouce.content,
+                            content: _.trim(resouce.content),
                             status: "publish",
                             date: Moment().add(comments.length * 3 - 30, "day").format("YYYY-MM-DD hh:mm:ss"),
                             ping_status: "open"
