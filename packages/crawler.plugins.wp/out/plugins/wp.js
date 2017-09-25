@@ -211,15 +211,21 @@ var WpPlugin = (function () {
                         return [4 /*yield*/, this.getCategory("dwqa-question_category", resouce.category)];
                     case 1:
                         category = _a.sent();
+                        if (!category) {
+                            throw new Error("没有category");
+                        }
                         _a.label = 2;
                     case 2:
                         if (!resouce.age) return [3 /*break*/, 4];
                         return [4 /*yield*/, this.getCategory("dwqa-question_tag", resouce.age)];
                     case 3:
                         tag = _a.sent();
+                        if (!tag) {
+                            throw new Error("没有tag");
+                        }
                         _a.label = 4;
                     case 4:
-                        console.log("tag结束");
+                        console.log("tag结束", tag.id, category.id);
                         postData = {
                             title: resouce.title,
                             author: 5,

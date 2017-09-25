@@ -139,13 +139,20 @@ export class WpPlugin {
         console.log("开始导入wp的qa数据-------------", resouce);
         if (resouce.category) {
             category = await this.getCategory("dwqa-question_category", resouce.category);
+
+            if (!category) {
+                throw new Error("没有category");
+            }
         }
 
         if (resouce.age) {
             tag = await this.getCategory("dwqa-question_tag", resouce.age);
+            if (!tag) {
+                throw new Error("没有tag");
+            }
         }
 
-        console.log("tag结束");
+        console.log("tag结束", tag.id, category.id);
 
         let postData = {
             title: resouce.title,
