@@ -75,7 +75,19 @@ export class PluginPlugin {
         options?: any,
         globalOptions?: any
         ): Promise<any> {
-        return await this.pluginService.executePlugins(options.seneca, config.config.msgFlow, config.data || {});
+        let data = config.data || {};
+
+        try {
+            let rtn = await this.pluginService.executePlugins(options.seneca, config.config.msgFlow, data);
+
+            console.log(data.__META__);
+
+            return rtn;
+        } catch (e) {
+            console.log(data.__META__);
+            throw e;
+        }
+        // return await this.pluginService.executePlugins(options.seneca, config.config.msgFlow, config.data || {});
     }
 
     /**
@@ -85,7 +97,17 @@ export class PluginPlugin {
      */
     @Add(`role:${pluginResultName},cmd:startFlow`)
     private async startFlow(config: any, options?: any): Promise<any> {
-        //this.pluginService.preExecute.bind(this.pluginService, options.seneca, config)
-        return await this.pluginService.preExecute(options.seneca, config.config, config.data);
+        let data = config.data || {};
+
+        try {
+            let rtn = await this.pluginService.preExecute(options.seneca, config.config, data);
+
+            console.log(data.__META__);
+
+            return rtn;
+        } catch (e) {
+            console.log(data.__META__);
+            throw e;
+        }
     }
 }

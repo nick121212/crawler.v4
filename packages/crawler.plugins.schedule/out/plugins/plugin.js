@@ -100,10 +100,24 @@ var PluginPlugin = (function () {
      */
     PluginPlugin.prototype.startNormalFlow = function (config, options, globalOptions) {
         return __awaiter(this, void 0, void 0, function () {
+            var data, rtn, e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.pluginService.executePlugins(options.seneca, config.config.msgFlow, config.data || {})];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 0:
+                        data = config.data || {};
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, this.pluginService.executePlugins(options.seneca, config.config.msgFlow, data)];
+                    case 2:
+                        rtn = _a.sent();
+                        console.log(data.__META__);
+                        return [2 /*return*/, rtn];
+                    case 3:
+                        e_1 = _a.sent();
+                        console.log(data.__META__);
+                        throw e_1;
+                    case 4: return [2 /*return*/];
                 }
             });
         });
@@ -115,12 +129,24 @@ var PluginPlugin = (function () {
      */
     PluginPlugin.prototype.startFlow = function (config, options) {
         return __awaiter(this, void 0, void 0, function () {
+            var data, rtn, e_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.pluginService.preExecute(options.seneca, config.config, config.data)];
-                    case 1: 
-                    //this.pluginService.preExecute.bind(this.pluginService, options.seneca, config)
-                    return [2 /*return*/, _a.sent()];
+                    case 0:
+                        data = config.data || {};
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, this.pluginService.preExecute(options.seneca, config.config, data)];
+                    case 2:
+                        rtn = _a.sent();
+                        console.log(data.__META__);
+                        return [2 /*return*/, rtn];
+                    case 3:
+                        e_2 = _a.sent();
+                        console.log(data.__META__);
+                        throw e_2;
+                    case 4: return [2 /*return*/];
                 }
             });
         });

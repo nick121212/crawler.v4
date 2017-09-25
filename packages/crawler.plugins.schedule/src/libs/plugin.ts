@@ -40,6 +40,13 @@ export class ExecutePluginService {
     public async executePlugins(seneca: any, plugins: SchedulePluginModel[], data: any = {}): Promise<any> {
         let len = plugins.length, currentIndex = 0, currentPlugin;
 
+        if (!data.__META__) {
+            data.__META__ = {
+                timer: [],
+                retry: {}
+            };
+        }
+
         // 检测是否可以执行插件
         this.checkParttens(seneca, plugins);
         while (len > currentIndex) {
@@ -54,10 +61,6 @@ export class ExecutePluginService {
                     try { await this.executePlugins(seneca, currentPlugin.successFlow, data); } catch (e) {
                         console.log("执行了成功插件！");
                     }
-                }
-
-                if (!data.__META__) {
-                    data.__META__ = { timer: [] };
                 }
 
                 data.__META__.timer.push(`[${currentPlugin.title || currentPlugin.partten}]的执行时间：${Date.now() - start}ms`);
@@ -76,8 +79,7 @@ export class ExecutePluginService {
                 throw e;
             }
         }
-
-        console.log(data.__META__);
+        // console.log(data.__META__);
 
         return data;
     }
@@ -127,6 +129,7 @@ export class ExecutePluginService {
         while (curRetryIndex < retry) {
             curRetryIndex++;
 
+            data.__META__.retry[plugin.partten] = 1;
             try {
                 result = await seneca.actAsync(plugin.partten, Object.assign({ timeout$: plugin.timeout || 30000 }, jsonatas, plugin.data));
                 break;
@@ -138,6 +141,7 @@ export class ExecutePluginService {
                     }
                     throw new Error(plugin.title + "----" + e.message);
                 }
+                data.__META__.retry[plugin.partten]++;
             }
         }
 

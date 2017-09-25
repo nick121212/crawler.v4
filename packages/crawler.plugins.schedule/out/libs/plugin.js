@@ -86,6 +86,12 @@ var ExecutePluginService = (function () {
                 switch (_a.label) {
                     case 0:
                         len = plugins.length, currentIndex = 0;
+                        if (!data.__META__) {
+                            data.__META__ = {
+                                timer: [],
+                                retry: {}
+                            };
+                        }
                         // 检测是否可以执行插件
                         this.checkParttens(seneca, plugins);
                         _a.label = 1;
@@ -112,9 +118,6 @@ var ExecutePluginService = (function () {
                         console.log("执行了成功插件！");
                         return [3 /*break*/, 7];
                     case 7:
-                        if (!data.__META__) {
-                            data.__META__ = { timer: [] };
-                        }
                         data.__META__.timer.push("[" + (currentPlugin.title || currentPlugin.partten) + "]\u7684\u6267\u884C\u65F6\u95F4\uFF1A" + (Date.now() - start) + "ms");
                         return [3 /*break*/, 13];
                     case 8:
@@ -136,9 +139,9 @@ var ExecutePluginService = (function () {
                         return [3 /*break*/, 12];
                     case 12: throw e_2;
                     case 13: return [3 /*break*/, 1];
-                    case 14:
-                        console.log(data.__META__);
-                        return [2 /*return*/, data];
+                    case 14: 
+                    // console.log(data.__META__);
+                    return [2 /*return*/, data];
                 }
             });
         });
@@ -194,6 +197,7 @@ var ExecutePluginService = (function () {
                     case 5:
                         if (!(curRetryIndex < retry)) return [3 /*break*/, 10];
                         curRetryIndex++;
+                        data.__META__.retry[plugin.partten] = 1;
                         _a.label = 6;
                     case 6:
                         _a.trys.push([6, 8, , 9]);
@@ -210,6 +214,7 @@ var ExecutePluginService = (function () {
                             }
                             throw new Error(plugin.title + "----" + e_4.message);
                         }
+                        data.__META__.retry[plugin.partten]++;
                         return [3 /*break*/, 9];
                     case 9: return [3 /*break*/, 5];
                     case 10:
