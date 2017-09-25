@@ -145,6 +145,8 @@ export class WpPlugin {
             tag = await this.getCategory("dwqa-question_tag", resouce.age);
         }
 
+        console.log("tag结束");
+
         let postData = {
             title: resouce.title,
             author: 5,
@@ -159,6 +161,8 @@ export class WpPlugin {
         };
 
         let post: any = await this.wpApi["dwqa-question"]().create(postData);
+
+        console.log("post结束");
 
         comments.forEach(async (comment: any, idx: number) => {
             let com = await this.wpApi["dwqa-answer"]().create({
@@ -175,6 +179,8 @@ export class WpPlugin {
                 ping_status: "open"
             }).catch(console.log);
         });
+
+        console.log("component结束");
     }
 
     @Init()

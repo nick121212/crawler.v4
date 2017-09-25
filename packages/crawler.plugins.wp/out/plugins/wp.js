@@ -219,6 +219,7 @@ var WpPlugin = (function () {
                         tag = _a.sent();
                         _a.label = 4;
                     case 4:
+                        console.log("tag结束");
                         postData = {
                             title: resouce.title,
                             author: 5,
@@ -234,6 +235,7 @@ var WpPlugin = (function () {
                         return [4 /*yield*/, this.wpApi["dwqa-question"]().create(postData)];
                     case 5:
                         post = _a.sent();
+                        console.log("post结束");
                         comments.forEach(function (comment, idx) { return __awaiter(_this, void 0, void 0, function () {
                             var com;
                             return __generator(this, function (_a) {
@@ -257,6 +259,7 @@ var WpPlugin = (function () {
                                 }
                             });
                         }); });
+                        console.log("component结束");
                         return [2 /*return*/];
                 }
             });
