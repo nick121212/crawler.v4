@@ -96,8 +96,7 @@ var MQueueService = (function () {
                         // 2. 调用消费方法
                         _b = this;
                         return [4 /*yield*/, this.channel.consume(queue.queue, function (msg) { return __awaiter(_this, void 0, void 0, function () {
-                                var _this = this;
-                                var msgData, e_2;
+                                var msgData, e_2, data, err_1;
                                 return __generator(this, function (_a) {
                                     switch (_a.label) {
                                         case 0:
@@ -115,18 +114,25 @@ var MQueueService = (function () {
                                         case 3: return [4 /*yield*/, bluebird.delay(config.delay || 1000)];
                                         case 4:
                                             _a.sent();
-                                            consumeMsg({ config: config, data: msgData }).then(function (data) {
-                                                console.log("爬取成功！");
-                                                if (_this.channel) {
-                                                    _this.channel.ack(msg);
-                                                }
-                                            }).catch(function (err) {
-                                                console.log("爬取失败！", err.message);
-                                                if (_this.channel) {
-                                                    _this.channel.nack(msg);
-                                                }
-                                            });
-                                            return [2 /*return*/];
+                                            _a.label = 5;
+                                        case 5:
+                                            _a.trys.push([5, 7, , 8]);
+                                            return [4 /*yield*/, consumeMsg({ config: config, data: msgData })];
+                                        case 6:
+                                            data = _a.sent();
+                                            console.log("爬取成功！");
+                                            if (this.channel) {
+                                                this.channel.ack(msg);
+                                            }
+                                            return [3 /*break*/, 8];
+                                        case 7:
+                                            err_1 = _a.sent();
+                                            console.log("爬取失败！", err_1.message);
+                                            if (this.channel) {
+                                                this.channel.nack(msg);
+                                            }
+                                            return [3 /*break*/, 8];
+                                        case 8: return [2 /*return*/];
                                     }
                                 });
                             }); }, { noAck: false, exclusive: false })];
