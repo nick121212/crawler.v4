@@ -136,7 +136,7 @@ export class TaskPlugin {
         let mQueueServie = this.getQueueService({ key });
 
         if (!mQueueServie) {
-            console.log("没有找到service");
+            console.log("没有找到service" + key);
             return;
         }
 
@@ -171,7 +171,7 @@ export class TaskPlugin {
         let mQueueServie = this.getQueueService({ key });
 
         if (!mQueueServie) {
-            console.log("没有找到mqService");
+            console.log("没有找到mqService" + key);
             throw new Error("没有找到mqService");
         }
 

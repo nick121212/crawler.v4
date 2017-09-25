@@ -168,7 +168,7 @@ var TaskPlugin = (function () {
                     case 0:
                         mQueueServie = this.getQueueService({ key: key });
                         if (!mQueueServie) {
-                            console.log("没有找到service");
+                            console.log("没有找到service" + key);
                             return [2 /*return*/];
                         }
                         entity = options.seneca.make$("tasks");
@@ -216,7 +216,7 @@ var TaskPlugin = (function () {
             return __generator(this, function (_a) {
                 mQueueServie = this.getQueueService({ key: key });
                 if (!mQueueServie) {
-                    console.log("没有找到mqService");
+                    console.log("没有找到mqService" + key);
                     throw new Error("没有找到mqService");
                 }
                 return [2 /*return*/, mQueueServie.getQueueMessageCount(mQueueServie.queueName)];
