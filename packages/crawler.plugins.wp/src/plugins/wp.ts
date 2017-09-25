@@ -50,7 +50,7 @@ export class WpPlugin {
             }
         } catch (e) {
             try {
-                if (e.statusCode == "404") {
+                if (e.statusCode.toString() === "404") {
                     config.esType = "mamilove.blog";
                     result = await options.seneca.actAsync("role:crawler.plugin.store.es,cmd:getItem", config);
                     if (result.found) {
@@ -121,8 +121,6 @@ export class WpPlugin {
         let resouce: any = config._source, promises: Array<Promise<any>> = [];
         let comments = resouce.comments || [];
 
-        // comments.length = 1;
-
         let postData = {
             title: resouce.title,
             author: 5,
@@ -134,7 +132,6 @@ export class WpPlugin {
             date: Moment().add(comments.length * 3 - 30, "day").format("YYYY-MM-DD hh:mm:ss"),
             ping_status: "open"
         };
-
 
         let post: any = await this.wpApi["dwqa-question"]().create(postData);
 

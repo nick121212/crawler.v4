@@ -179,6 +179,9 @@ var MQueueService = (function () {
     MQueueService.prototype.addItemsToQueue = function (items, routingKey) {
         var _this = this;
         var rtn = true;
+        if (!this.channel) {
+            throw new Error("没有建立channel连接！");
+        }
         items.forEach(function (item) {
             var push = _this.channel.publish(_this.exchange.exchange, routingKey || _this.queueName, new Buffer(JSON.stringify(item)), {});
             rtn = rtn && push;

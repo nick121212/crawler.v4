@@ -101,7 +101,7 @@ var WpPlugin = (function () {
                         _a.label = 4;
                     case 4:
                         _a.trys.push([4, 7, , 8]);
-                        if (!(e_1.statusCode == "404")) return [3 /*break*/, 6];
+                        if (!(e_1.statusCode.toString() === "404")) return [3 /*break*/, 6];
                         config.esType = "mamilove.blog";
                         return [4 /*yield*/, options.seneca.actAsync("role:crawler.plugin.store.es,cmd:getItem", config)];
                     case 5:

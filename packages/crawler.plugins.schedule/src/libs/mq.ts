@@ -113,6 +113,9 @@ export class MQueueService {
     public addItemsToQueue(items: Array<any>, routingKey?: string) {
         let rtn = true;
 
+        if (!this.channel) {
+            throw new Error("没有建立channel连接！");
+        }
         items.forEach((item) => {
             let push = this.channel.publish(this.exchange.exchange, routingKey || this.queueName, new Buffer(JSON.stringify(item)), {});
 
