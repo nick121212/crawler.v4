@@ -1,6 +1,6 @@
 {
   "name": "crawler.plugins.store",
-  "version": "0.1.22",
+  "version": "0.1.23",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,7 @@
   "author": "NICK",
   "license": "ISC",
   "dependencies": {
-    "crawler.plugins.common": "^0.1.22",
+    "crawler.plugins.common": "^0.1.23",
     "elasticsearch": "^13.2.0",
     "inversify": "^4.2.0",
     "lodash": "^4.17.4",

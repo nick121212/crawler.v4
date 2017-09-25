@@ -1,6 +1,6 @@
 {
   "name": "crawler.plugins.schedule",
-  "version": "0.1.22",
+  "version": "0.1.23",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -14,8 +14,8 @@
   "license": "ISC",
   "dependencies": {
     "amqplib": "^0.5.1",
-    "crawler.plugins.common": "^0.1.22",
-    "crawler.plugins.transform": "^0.1.22",
+    "crawler.plugins.common": "^0.1.23",
+    "crawler.plugins.transform": "^0.1.23",
     "inversify": "^4.2.0",
     "joi": "^11.1.0",
     "json-pointer": "^0.6.0",
