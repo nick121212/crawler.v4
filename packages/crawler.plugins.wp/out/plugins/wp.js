@@ -235,8 +235,7 @@ var WpPlugin = (function () {
                             slug: config._id,
                             content: resouce.content,
                             status: "publish",
-                            // date: Moment().add(comments.length * 3 - 30, "day").format("YYYY-MM-DD hh:mm:ss"),
-                            ping_status: "open"
+                            date: Moment().add(comments.length * 3 - 30, "day").format("YYYY-MM-DD hh:mm:ss"),
                         };
                         return [4 /*yield*/, this.wpApi["dwqa-question"]().slug(config._id).get()];
                     case 5:
