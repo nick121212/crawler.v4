@@ -93,52 +93,55 @@ var ExecutePluginService = (function () {
                             };
                         }
                         // 检测是否可以执行插件
-                        this.checkParttens(seneca, plugins);
-                        _a.label = 1;
+                        return [4 /*yield*/, this.checkParttens(seneca, plugins)];
                     case 1:
-                        if (!(len > currentIndex)) return [3 /*break*/, 14];
-                        currentPlugin = plugins[currentIndex++];
+                        // 检测是否可以执行插件
+                        _a.sent();
                         _a.label = 2;
                     case 2:
-                        _a.trys.push([2, 8, , 13]);
+                        if (!(len > currentIndex)) return [3 /*break*/, 15];
+                        currentPlugin = plugins[currentIndex++];
+                        _a.label = 3;
+                    case 3:
+                        _a.trys.push([3, 9, , 14]);
                         start = Date.now();
                         return [4 /*yield*/, this.executePlugin(seneca, currentPlugin, data)];
-                    case 3:
+                    case 4:
                         data = _a.sent();
                         data.__META__.timer.push("[" + (currentPlugin.title || currentPlugin.partten) + "]\u7684\u6267\u884C\u65F6\u95F4\uFF1A" + (Date.now() - start) + "ms");
-                        if (!currentPlugin.successFlow) return [3 /*break*/, 7];
-                        _a.label = 4;
-                    case 4:
-                        _a.trys.push([4, 6, , 7]);
-                        return [4 /*yield*/, this.executePlugins(seneca, currentPlugin.successFlow, data)];
+                        if (!currentPlugin.successFlow) return [3 /*break*/, 8];
+                        _a.label = 5;
                     case 5:
-                        _a.sent();
-                        return [3 /*break*/, 7];
+                        _a.trys.push([5, 7, , 8]);
+                        return [4 /*yield*/, this.executePlugins(seneca, currentPlugin.successFlow, data)];
                     case 6:
+                        _a.sent();
+                        return [3 /*break*/, 8];
+                    case 7:
                         e_1 = _a.sent();
                         console.log("执行了成功插件！");
-                        return [3 /*break*/, 7];
-                    case 7: return [3 /*break*/, 13];
-                    case 8:
+                        return [3 /*break*/, 8];
+                    case 8: return [3 /*break*/, 14];
+                    case 9:
                         e_2 = _a.sent();
                         if (currentPlugin.force) {
-                            return [3 /*break*/, 1];
+                            return [3 /*break*/, 2];
                         }
-                        if (!currentPlugin.errFlow) return [3 /*break*/, 12];
-                        _a.label = 9;
-                    case 9:
-                        _a.trys.push([9, 11, , 12]);
-                        return [4 /*yield*/, this.executePlugins(seneca, currentPlugin.errFlow, data)];
+                        if (!currentPlugin.errFlow) return [3 /*break*/, 13];
+                        _a.label = 10;
                     case 10:
-                        _a.sent();
-                        return [3 /*break*/, 12];
+                        _a.trys.push([10, 12, , 13]);
+                        return [4 /*yield*/, this.executePlugins(seneca, currentPlugin.errFlow, data)];
                     case 11:
+                        _a.sent();
+                        return [3 /*break*/, 13];
+                    case 12:
                         e_3 = _a.sent();
                         console.log("执行了错误插件！");
-                        return [3 /*break*/, 12];
-                    case 12: throw e_2;
-                    case 13: return [3 /*break*/, 1];
-                    case 14: 
+                        return [3 /*break*/, 13];
+                    case 13: throw e_2;
+                    case 14: return [3 /*break*/, 2];
+                    case 15: 
                     // console.log(data.__META__);
                     return [2 /*return*/, data];
                 }
@@ -237,13 +240,17 @@ var ExecutePluginService = (function () {
      * @param plugins  插件列表
      */
     ExecutePluginService.prototype.checkParttens = function (seneca, plugins) {
-        _.each(plugins, function (plugin) {
-            if (!seneca.has(plugin.partten)) {
-                console.log("\u6CA1\u6709\u53D1\u73B0partten: " + plugin.partten);
-                throw new Error("\u6CA1\u6709\u627E\u5230partten:" + plugin.partten);
-            }
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                _.each(plugins, function (plugin) {
+                    if (!seneca.has(plugin.partten)) {
+                        console.log("\u6CA1\u6709\u53D1\u73B0partten: " + plugin.partten);
+                        throw new Error("\u6CA1\u6709\u627E\u5230partten:" + plugin.partten);
+                    }
+                });
+                return [2 /*return*/];
+            });
         });
-        return true;
     };
     return ExecutePluginService;
 }());

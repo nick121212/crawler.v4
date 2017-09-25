@@ -48,7 +48,7 @@ export class ExecutePluginService {
         }
 
         // 检测是否可以执行插件
-        this.checkParttens(seneca, plugins);
+        await this.checkParttens(seneca, plugins);
         while (len > currentIndex) {
             currentPlugin = plugins[currentIndex++];
 
@@ -58,6 +58,7 @@ export class ExecutePluginService {
                 data = await this.executePlugin(seneca, currentPlugin, data);
 
                 data.__META__.timer.push(`[${currentPlugin.title || currentPlugin.partten}]的执行时间：${Date.now() - start}ms`);
+
                 if (currentPlugin.successFlow) {
                     try {
                         await this.executePlugins(seneca, currentPlugin.successFlow, data);
@@ -165,14 +166,12 @@ export class ExecutePluginService {
      * @param seneca   seneca实例
      * @param plugins  插件列表
      */
-    private checkParttens(seneca: any, plugins: Array<BasePluginModel>) {
+    private async checkParttens(seneca: any, plugins: Array<BasePluginModel>): Promise<void> {
         _.each(plugins, (plugin) => {
             if (!seneca.has(plugin.partten)) {
                 console.log(`没有发现partten: ${plugin.partten}`);
                 throw new Error(`没有找到partten:${plugin.partten}`);
             }
         });
-
-        return true;
     }
 };

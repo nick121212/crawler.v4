@@ -67,7 +67,7 @@ export class MQueueService {
                 }
 
                 await bluebird.delay(config.delay || 1000);
-                
+
                 try {
                     let data = await consumeMsg({ config, data: msgData });
 
