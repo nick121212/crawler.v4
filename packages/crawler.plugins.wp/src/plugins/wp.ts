@@ -163,7 +163,7 @@ export class WpPlugin {
             slug: config._id,
             content: resouce.content,
             status: "publish",
-            date: Moment().add(comments.length * 3 - 30, "day").format("YYYY-MM-DD hh:mm:ss"),
+            // date: Moment().add(comments.length * 3 - 30, "day").format("YYYY-MM-DD hh:mm:ss"),
             ping_status: "open"
         };
 
