@@ -105,6 +105,7 @@ var ExecutePluginService = (function () {
                         return [4 /*yield*/, this.executePlugin(seneca, currentPlugin, data)];
                     case 3:
                         data = _a.sent();
+                        data.__META__.timer.push("[" + (currentPlugin.title || currentPlugin.partten) + "]\u7684\u6267\u884C\u65F6\u95F4\uFF1A" + (Date.now() - start) + "ms");
                         if (!currentPlugin.successFlow) return [3 /*break*/, 7];
                         _a.label = 4;
                     case 4:
@@ -117,9 +118,7 @@ var ExecutePluginService = (function () {
                         e_1 = _a.sent();
                         console.log("执行了成功插件！");
                         return [3 /*break*/, 7];
-                    case 7:
-                        data.__META__.timer.push("[" + (currentPlugin.title || currentPlugin.partten) + "]\u7684\u6267\u884C\u65F6\u95F4\uFF1A" + (Date.now() - start) + "ms");
-                        return [3 /*break*/, 13];
+                    case 7: return [3 /*break*/, 13];
                     case 8:
                         e_2 = _a.sent();
                         if (currentPlugin.force) {

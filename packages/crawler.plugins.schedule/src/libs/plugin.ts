@@ -57,13 +57,15 @@ export class ExecutePluginService {
 
                 data = await this.executePlugin(seneca, currentPlugin, data);
 
+                data.__META__.timer.push(`[${currentPlugin.title || currentPlugin.partten}]的执行时间：${Date.now() - start}ms`);
                 if (currentPlugin.successFlow) {
-                    try { await this.executePlugins(seneca, currentPlugin.successFlow, data); } catch (e) {
+                    try {
+                        await this.executePlugins(seneca, currentPlugin.successFlow, data);
+                    } catch (e) {
                         console.log("执行了成功插件！");
                     }
                 }
 
-                data.__META__.timer.push(`[${currentPlugin.title || currentPlugin.partten}]的执行时间：${Date.now() - start}ms`);
                 // console.log(`[${currentPlugin.title}]的执行时间：${Date.now() - start}ms`);
             } catch (e) {
                 if (currentPlugin.force) {
