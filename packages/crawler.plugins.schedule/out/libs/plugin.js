@@ -241,7 +241,7 @@ var ExecutePluginService = (function () {
         _.each(plugins, function (plugin) {
             if (!seneca.has(plugin.partten)) {
                 console.log("\u6CA1\u6709\u53D1\u73B0partten: " + plugin.partten);
-                return new Error("\u6CA1\u6709\u627E\u5230partten:" + plugin.partten);
+                throw new Error("\u6CA1\u6709\u627E\u5230partten:" + plugin.partten);
             }
         });
         return true;

@@ -134,7 +134,6 @@ export class ExecutePluginService {
 
             try {
                 result = await seneca.actAsync(plugin.partten, Object.assign({ timeout$: plugin.timeout || 30000 }, jsonatas, plugin.data));
-
                 break;
             } catch (e) {
                 if (curRetryIndex >= retry) {
@@ -169,7 +168,7 @@ export class ExecutePluginService {
         _.each(plugins, (plugin) => {
             if (!seneca.has(plugin.partten)) {
                 console.log(`没有发现partten: ${plugin.partten}`);
-                return new Error(`没有找到partten:${plugin.partten}`);
+                throw new Error(`没有找到partten:${plugin.partten}`);
             }
         });
 
