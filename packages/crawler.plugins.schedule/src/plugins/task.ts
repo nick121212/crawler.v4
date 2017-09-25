@@ -182,10 +182,10 @@ export class TaskPlugin {
 
     @Add(`role:${pluginTaskName},cmd:forever`)
     private async forever(msg: any, options: any, globalOptions: any) {
-        let entity = options.seneca.make$("tasks");
-        let tasks = await entity.listAsync({});
+        setInterval(async () => {
+            let entity = options.seneca.make$("tasks");
+            let tasks = await entity.listAsync({});
 
-        setInterval(() => {
             _.forEach(tasks, async (task: any) => {
                 if (task.id && !this.mqs[task.id]) {
                     await this.addToTask(task, options, globalOptions).catch(console.log);
