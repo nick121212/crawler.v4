@@ -240,17 +240,15 @@ var TaskPlugin = (function () {
                                     switch (_a.label) {
                                         case 0:
                                             if (!(task.id && !this.mqs[task.id])) return [3 /*break*/, 2];
-                                            // await options.seneca.actAsync(`role:${pluginTaskName},cmd:add`, task);
                                             return [4 /*yield*/, this.addToTask(task, options, globalOptions).catch(console.log)];
                                         case 1:
-                                            // await options.seneca.actAsync(`role:${pluginTaskName},cmd:add`, task);
                                             _a.sent();
                                             _a.label = 2;
                                         case 2: return [2 /*return*/];
                                     }
                                 });
                             }); });
-                        }, 600);
+                        }, 60000);
                         return [2 /*return*/];
                 }
             });

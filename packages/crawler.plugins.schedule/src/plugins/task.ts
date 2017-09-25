@@ -186,11 +186,10 @@ export class TaskPlugin {
         setInterval(() => {
             _.forEach(tasks, async (task: any) => {
                 if (task.id && !this.mqs[task.id]) {
-                    // await options.seneca.actAsync(`role:${pluginTaskName},cmd:add`, task);
                     await this.addToTask(task, options, globalOptions).catch(console.log);
                 }
             });
-        }, 600);
+        }, 60000);
     }
 
     /**
