@@ -17,7 +17,8 @@ module.exports = {
                 "auto": true,
                 "host": process.env.HOST,
                 "listen": [{
-                    "pin": "role:crawler.plugin.store.es,cmd:*"
+                    "pin": "role:crawler.plugin.store.es,cmd:*",
+                    "timeout": 60000
                 }]
             }
         },

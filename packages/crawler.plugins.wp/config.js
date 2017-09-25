@@ -11,7 +11,8 @@ module.exports = {
                 "auto": true,
                 "host": process.env.HOST,
                 "listen": [{
-                    "pin": "role:crawler.plugin.wp,cmd:*"
+                    "pin": "role:crawler.plugin.wp,cmd:*",
+                    "timeout": 60000
                 }]
             }
         },
