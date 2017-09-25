@@ -224,7 +224,7 @@ var WpPlugin = (function () {
                         }
                         _a.label = 4;
                     case 4:
-                        console.log("tag结束", tag.id, category.id);
+                        console.log("---------tag结束", tag.id, category.id);
                         postData = {
                             title: _.trim(resouce.title),
                             author: 5,
@@ -237,7 +237,6 @@ var WpPlugin = (function () {
                             date: Moment().add(comments.length * 3 - 30, "day").format("YYYY-MM-DD hh:mm:ss"),
                             ping_status: "open"
                         };
-                        console.log("创建post", postData);
                         return [4 /*yield*/, this.wpApi["dwqa-question"]().slug(config._id).get()];
                     case 5:
                         postExist = _a.sent();
@@ -247,14 +246,11 @@ var WpPlugin = (function () {
                         _a.sent();
                         _a.label = 7;
                     case 7:
-                        console.log("删除post结束");
-                        return [4 /*yield*/, this.wpApi["dwqa-question"]().auth({
-                                username: "crawler",
-                                password: "crawler-1314"
-                            }).create(postData)];
+                        console.log("---------删除post结束");
+                        return [4 /*yield*/, this.wpApi["dwqa-question"]().create(postData)];
                     case 8:
                         post = _a.sent();
-                        console.log("post结束");
+                        console.log("--------post结束");
                         comments.forEach(function (comment, idx) { return __awaiter(_this, void 0, void 0, function () {
                             var com;
                             return __generator(this, function (_a) {
@@ -278,7 +274,7 @@ var WpPlugin = (function () {
                                 }
                             });
                         }); });
-                        console.log("component结束");
+                        console.log("---------component结束");
                         return [2 /*return*/];
                 }
             });

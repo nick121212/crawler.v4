@@ -152,7 +152,7 @@ export class WpPlugin {
             }
         }
 
-        console.log("tag结束", tag.id, category.id);
+        console.log("---------tag结束", tag.id, category.id);
 
         let postData = {
             title: _.trim(resouce.title),
@@ -167,22 +167,14 @@ export class WpPlugin {
             ping_status: "open"
         };
 
-        console.log("创建post", postData);
-
         let postExist = await this.wpApi["dwqa-question"]().slug(config._id).get();
-
         if (postExist.length) {
             await this.wpApi["dwqa-question"]().id(postExist[0].id).delete();
         }
-
-        console.log("删除post结束");
-
-        let post: any = await this.wpApi["dwqa-question"]().auth({
-            username: "crawler",
-            password: "crawler-1314"
-        }).create(postData);
-
-        console.log("post结束");
+        console.log("---------删除post结束");
+        // this.wpApi["dwqa-question"]
+        let post: any = await this.wpApi["dwqa-question"]().create(postData);
+        console.log("--------post结束");
 
         comments.forEach(async (comment: any, idx: number) => {
             let com = await this.wpApi["dwqa-answer"]().create({
@@ -200,7 +192,7 @@ export class WpPlugin {
             }).catch(console.log);
         });
 
-        console.log("component结束");
+        console.log("---------component结束");
     }
 
     @Init()
