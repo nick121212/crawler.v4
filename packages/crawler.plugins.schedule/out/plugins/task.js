@@ -126,6 +126,7 @@ var TaskPlugin = (function () {
      */
     TaskPlugin.prototype.addToTask = function (config, options, globalOptions) {
         return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
             var queueName, mQueueService, task, instance;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -142,13 +143,16 @@ var TaskPlugin = (function () {
                     case 1:
                         instance = _a.sent();
                         this.mqs.push(mQueueService);
-                        if (!mQueueService.initConsume(globalOptions, queueName, options.seneca.actAsync.bind(options.seneca, config.startPartten), config)) return [3 /*break*/, 3];
-                        if (!(config.initFlow && config.initFlow.length)) return [3 /*break*/, 3];
-                        return [4 /*yield*/, this.pluginService.executePlugins(options.seneca, config.initFlow, {}).catch(console.error)];
-                    case 2:
-                        _a.sent();
-                        _a.label = 3;
-                    case 3: return [2 /*return*/];
+                        // 开始消费queue
+                        if (mQueueService.initConsume(globalOptions, queueName, options.seneca.actAsync.bind(options.seneca, config.startPartten), config)) {
+                            // 如果queue里面没有消息，则调用initFlow队列
+                            if (config.initFlow && config.initFlow.length) {
+                                setTimeout(function () {
+                                    _this.pluginService.executePlugins(options.seneca, config.initFlow, {}).catch(console.error);
+                                }, 500);
+                            }
+                        }
+                        return [2 /*return*/];
                 }
             });
         });

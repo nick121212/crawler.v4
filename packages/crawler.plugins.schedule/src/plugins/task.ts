@@ -120,7 +120,9 @@ export class TaskPlugin {
         ) {
             // 如果queue里面没有消息，则调用initFlow队列
             if (config.initFlow && config.initFlow.length) {
-                await this.pluginService.executePlugins(options.seneca, config.initFlow, {}).catch(console.error);
+                setTimeout(() => {
+                    this.pluginService.executePlugins(options.seneca, config.initFlow, {}).catch(console.error);
+                }, 500);
             }
         }
     }
