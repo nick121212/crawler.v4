@@ -9,11 +9,17 @@ export class Strategy {
      * @param result      {String} dom节点的值
      * @returns {String}
      */
-    doDeal(result: string, settings: { start: boolean, end: boolean, middle: boolean }): string {
+    public doDeal(result: string, settings: { start: boolean, end: boolean, middle: boolean }): string {
         if (_.isString(result)) {
-            settings.start && (result = _.trimStart(result));
-            settings.end && (result = _.trimEnd(result));
-            settings.middle && (result = result.replace(/\r\n/gi, ""));
+            if (settings.start) {
+                result = _.trimStart(result);
+            }
+            if (settings.end) {
+                result = _.trimEnd(result);
+            }
+            if (settings.middle) {
+                result = result.replace(/\r\n/gi, "");
+            }
         }
 
         return result;

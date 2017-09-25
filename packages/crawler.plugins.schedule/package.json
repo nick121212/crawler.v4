@@ -17,6 +17,7 @@
     "crawler.plugins.common": "^0.1.21",
     "crawler.plugins.transform": "^0.1.21",
     "inversify": "^4.2.0",
+    "joi": "^11.1.0",
     "json-pointer": "^0.6.0",
     "lodash": "^4.17.4",
     "log4js": "^2.3.3",
@@ -33,7 +34,7 @@
   "devDependencies": {
     "@types/amqplib": "^0.5.3",
     "@types/inversify": "^2.0.33",
-    "@types/joi": "^10.4.3",
+    "@types/joi": "^10.4.0",
     "@types/json-pointer": "^1.0.30",
     "@types/lodash": "^4.14.71",
     "@types/log4js": "0.0.33",

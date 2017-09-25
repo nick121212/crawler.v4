@@ -5,6 +5,8 @@ import { injectable } from "inversify";
 import { URLSearchParams } from "url";
 
 require("superagent-charset")(request);
+require("superagent-proxy")(request);
+
 @injectable()
 export class SuperAgentEngine extends modelProxy.BaseEngine {
     public engineName = "superagent";
@@ -26,20 +28,34 @@ export class SuperAgentEngine extends modelProxy.BaseEngine {
             let { data = null, settings = {}, params = null } = ctx.executeInfo || {};
             let { timeout = 5000, header = {}, charset = "utf-8", proxyInfo = "" } = settings || {};
 
-            // console.log(path, method);
-
             try {
                 let curReq: any = request(method.toString() || "get", path);
 
-                params && curReq.query(params);
-                data && curReq.send(data);
-                header && curReq.set(header);
+                // 代理
+                if (proxyInfo) {
+                    curReq.proxy(`http://${proxyInfo}`);
+                }
+                // 参数
+                if (params) {
+                    curReq.query(params);
+                }
+                // 数据
+                if (data) {
+                    curReq.send(data);
+                }
+                // headers
+                if (header) {
+                    curReq.set(header);
+                }
+                // 超时时间
                 curReq.timeout({
-                    response: ~~timeout,
+                    response: timeout,
                     deadline: 60000
                 });
-
-                charset && curReq.charset(charset);
+                // 字符编码
+                if (charset) {
+                    curReq.charset(charset);
+                }
 
                 ctx.result = await curReq;
                 ctx.result.body = ctx.result.text;

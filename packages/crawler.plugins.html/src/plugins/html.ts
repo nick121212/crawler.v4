@@ -2,7 +2,8 @@ import inversify, { injectable, inject } from "inversify";
 import * as Seneca from "seneca";
 import * as _ from "lodash";
 import * as pathToRegexp from "path-to-regexp";
-import { Plugin, Add, Wrap, Init } from "crawler.plugins.common";
+import { Plugin, Add, Wrap, Init, Validate } from "crawler.plugins.common";
+import * as joi from "joi";
 
 import analysis from "../libs/analysis";
 import { pluginName } from "../constants";
@@ -15,7 +16,14 @@ import { pluginName } from "../constants";
 @injectable()
 export class HtmlPlugin {
     @Add(`role:${pluginName},cmd:html`)
-    private async html({ queueItem = {}, pages = [] }: { queueItem: any, pages: Array<any> }, options: any) {
+    private async html( @Validate(joi.object().keys({
+        queueItem: joi.object().keys({
+            path: joi.string().required().label("路径")
+        }).required(),
+        pages: joi.array().required().min(1).items(joi.object().keys({
+            path: joi.string().required()
+        }))
+    }), { allowUnknown: true }) { queueItem = {}, pages = [] }: { queueItem: any, pages: Array<any> }, options: any) {
         if (!queueItem) {
             return [];
         }

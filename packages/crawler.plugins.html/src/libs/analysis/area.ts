@@ -8,7 +8,7 @@ export class Strategy {
      * @param areas {Object}
      * @returns Promise
      */
-    doDeal(queueItem: any, areas: Array<any>): Promise<any> {
+    public doDeal(queueItem: any, areas: Array<any>): Promise<any> {
         let promises: Array<any> = [];
 
         // 遍历

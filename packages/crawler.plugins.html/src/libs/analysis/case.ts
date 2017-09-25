@@ -14,7 +14,7 @@ export class Strategy extends Base {
      * 普通的情况下执行
      * @returns Promise
      */
-    doDeal(queueItem: any, data: any, results: any, $: any, index: number): Promise<any> {
+    public doDeal(queueItem: any, data: any, results: any, $: any, index: number): Promise<any> {
         let promise = jsdom.doDeal(queueItem, data, $, index).then((res) => {
             if (!res.result || res.result.indexOf(res.data.match) < 0) {
                 res = null;

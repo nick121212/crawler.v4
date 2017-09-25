@@ -6,7 +6,7 @@ export const SenecaConfig = {
     _wrap: "seneca-wrap",
     _init: "seneca-init",
     _validate: "seneca-validate"
-}
+};
 
 export const Types = {
     _plugin: Symbol(SenecaConfig._plugin),

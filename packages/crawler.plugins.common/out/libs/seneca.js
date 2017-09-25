@@ -48,10 +48,15 @@ var OriginSeneca = require("seneca");
 var bluebird = require("bluebird");
 var inversify = require("inversify");
 var inversify_1 = require("inversify");
-// import * as _ from 'lodash';
+// import * as _ from "lodash";
 var config_1 = require("./contansts/config");
 var config_2 = require("./config");
 var Seneca = (function () {
+    /**
+     * 构造
+     * @param container ico容器
+     * @param options   参数
+     */
     function Seneca(container, options) {
         this._container = container;
         this.config = new config_2.ConfigService();
@@ -74,111 +79,15 @@ var Seneca = (function () {
         this.prePlugins();
     }
     Object.defineProperty(Seneca.prototype, "seneca", {
+        /**
+         * 获取当前的seneca实例
+         */
         get: function () {
             return this._seneca;
         },
         enumerable: true,
         configurable: true
     });
-    /**
-     * 包装验证方法
-     * @param plugin
-     */
-    Seneca.prototype.executeValudate = function (plugin) {
-        var _this = this;
-        var validateList = Reflect.getMetadata(config_1.SenecaConfig._validate, plugin.constructor) || [];
-        validateList && validateList.forEach(function (validate) {
-            var originFun = plugin[validate.key];
-            plugin[validate.key] = function () {
-                var args = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i] = arguments[_i];
-                }
-                return __awaiter(_this, void 0, void 0, function () {
-                    var result;
-                    return __generator(this, function (_a) {
-                        switch (_a.label) {
-                            case 0:
-                                if (validate.joi) {
-                                    result = validate.joi.validate(args[validate.index], validate.options);
-                                    if (result.error) {
-                                        throw result.error;
-                                    }
-                                }
-                                return [4 /*yield*/, originFun.apply(plugin, args)];
-                            case 1: return [2 /*return*/, _a.sent()];
-                        }
-                    });
-                });
-            };
-        });
-        return plugin;
-    };
-    /**
-     * 包装act
-     * @param 参数
-     * target: 包装的方法所在的类
-     * partten: act 的partten
-     * key: 方法的名字
-     * options: 额外参数
-     */
-    Seneca.prototype.initAct = function (plugin, _a, globalOptions) {
-        var _this = this;
-        var target = _a.target, partten = _a.partten, key = _a.key, _b = _a.options, options = _b === void 0 ? {} : _b;
-        // plugin = this.executeValudate(plugin);
-        this._seneca.add(partten, options, function (msg, reply) { return __awaiter(_this, void 0, void 0, function () {
-            var result, e_1;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, plugin[key](msg, Object.assign({ seneca: reply.seneca }, options, {}), globalOptions)];
-                    case 1:
-                        result = _a.sent();
-                        // console.log("执行后", msg.id$, msg.$tx);
-                        reply && reply(null, result);
-                        return [3 /*break*/, 3];
-                    case 2:
-                        e_1 = _a.sent();
-                        reply && reply(e_1);
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
-            });
-        }); });
-    };
-    /**
-     * 包装wrap
-     * @param 参数
-     * target: 包装的方法所在的类
-     * partten: act 的partten
-     * key: 方法的名字
-     * options: 额外参数
-     */
-    Seneca.prototype.initWrap = function (plugin, _a, globalOptions) {
-        var _this = this;
-        var target = _a.target, partten = _a.partten, key = _a.key, _b = _a.options, options = _b === void 0 ? {} : _b;
-        // plugin = this.executeValudate(plugin);
-        this._seneca.wrap(partten, options, function (msg, reply) { return __awaiter(_this, void 0, void 0, function () {
-            var result, e_2;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, plugin[key](msg, Object.assign({ seneca: reply.seneca }, options, {}), globalOptions)];
-                    case 1:
-                        result = _a.sent();
-                        reply.seneca.prior(msg, reply);
-                        return [3 /*break*/, 3];
-                    case 2:
-                        e_2 = _a.sent();
-                        reply && reply(e_2);
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
-            });
-        }); });
-    };
     /**
      * 载入插件
      */
@@ -229,6 +138,112 @@ var Seneca = (function () {
                 });
             });
         }
+    };
+    /**
+     * 包装验证方法
+     * @param plugin 插件
+     */
+    Seneca.prototype.executeValudate = function (plugin) {
+        var _this = this;
+        var validateList = Reflect.getMetadata(config_1.SenecaConfig._validate, plugin.constructor) || [];
+        if (validateList) {
+            validateList.forEach(function (validate) {
+                var originFun = plugin[validate.key];
+                plugin[validate.key] = function () {
+                    var args = [];
+                    for (var _i = 0; _i < arguments.length; _i++) {
+                        args[_i] = arguments[_i];
+                    }
+                    return __awaiter(_this, void 0, void 0, function () {
+                        var result;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0:
+                                    if (validate.joi) {
+                                        result = validate.joi.validate(args[validate.index], validate.options);
+                                        if (result.error) {
+                                            throw result.error;
+                                        }
+                                    }
+                                    return [4 /*yield*/, originFun.apply(plugin, args)];
+                                case 1: return [2 /*return*/, _a.sent()];
+                            }
+                        });
+                    });
+                };
+            });
+        }
+        return plugin;
+    };
+    /**
+     * 包装act
+     * @param 参数
+     * target:    包装的方法所在的类
+     * partten:   act 的partten
+     * key:       方法的名字
+     * options:   额外参数
+     */
+    Seneca.prototype.initAct = function (plugin, _a, globalOptions) {
+        var _this = this;
+        var target = _a.target, partten = _a.partten, key = _a.key, _b = _a.options, options = _b === void 0 ? {} : _b;
+        // plugin = this.executeValudate(plugin);
+        this._seneca.add(partten, options, function (msg, reply) { return __awaiter(_this, void 0, void 0, function () {
+            var result, e_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, plugin[key](msg, Object.assign({ seneca: reply.seneca }, options, {}), globalOptions)];
+                    case 1:
+                        result = _a.sent();
+                        if (reply) {
+                            reply(null, result);
+                        }
+                        return [3 /*break*/, 3];
+                    case 2:
+                        e_1 = _a.sent();
+                        if (reply) {
+                            reply(e_1);
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        }); });
+    };
+    /**
+     * 包装wrap
+     * @param 参数
+     * target: 包装的方法所在的类
+     * partten: act 的partten
+     * key: 方法的名字
+     * options: 额外参数
+     */
+    Seneca.prototype.initWrap = function (plugin, _a, globalOptions) {
+        var _this = this;
+        var target = _a.target, partten = _a.partten, key = _a.key, _b = _a.options, options = _b === void 0 ? {} : _b;
+        // plugin = this.executeValudate(plugin);
+        this._seneca.wrap(partten, options, function (msg, reply) { return __awaiter(_this, void 0, void 0, function () {
+            var result, e_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, plugin[key](msg, Object.assign({ seneca: reply.seneca }, options, {}), globalOptions)];
+                    case 1:
+                        result = _a.sent();
+                        reply.seneca.prior(msg, reply);
+                        return [3 /*break*/, 3];
+                    case 2:
+                        e_2 = _a.sent();
+                        if (reply) {
+                            reply(e_2);
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        }); });
     };
     return Seneca;
 }());

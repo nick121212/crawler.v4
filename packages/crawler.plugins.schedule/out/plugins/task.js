@@ -208,6 +208,24 @@ var TaskPlugin = (function () {
         });
     };
     /**
+     * 获取queue的消费信息
+     * @param key      queue的key
+     * @param options  参数
+     */
+    TaskPlugin.prototype.getQueue = function (key, options) {
+        return __awaiter(this, void 0, void 0, function () {
+            var mQueueServie;
+            return __generator(this, function (_a) {
+                mQueueServie = this.getQueueService({ key: key });
+                if (!mQueueServie) {
+                    console.log("没有找到mqService");
+                    return [2 /*return*/];
+                }
+                return [2 /*return*/, mQueueServie.getQueueMessageCount(mQueueServie.queueName)];
+            });
+        });
+    };
+    /**
      * 启动未正常停止的队列
      * @param msg
      * @param options
@@ -283,6 +301,12 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object, Object]),
     __metadata("design:returntype", Promise)
 ], TaskPlugin.prototype, "listTask", null);
+__decorate([
+    crawler_plugins_common_1.Add("role:" + constants_1.pluginTaskName + ",cmd:queueInfo"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", Promise)
+], TaskPlugin.prototype, "getQueue", null);
 __decorate([
     crawler_plugins_common_1.Init(),
     __metadata("design:type", Function),

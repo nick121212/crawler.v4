@@ -90,7 +90,7 @@ var ConfigService = (function (_super) {
     /**
      * 初始化配置文件
      * @param filePath 配置文件路径
-     * @param automaticConfigReload
+     * @param automaticConfigReload 自动重载
      */
     ConfigService.prototype.initConfig = function (filePath, automaticConfigReload) {
         if (automaticConfigReload === void 0) { automaticConfigReload = false; }

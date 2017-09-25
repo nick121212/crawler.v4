@@ -2,14 +2,14 @@ import * as joi from "joi";
 import { SenecaConfig } from "../contansts/config";
 
 export interface IValidate {
-    joi?: joi.AnySchema<any>;
+    joi?: joi.AnySchema;
     options?: any;
     target: any;
     key: string;
     index: number;
 }
 
-export const Validate = <T>(joi?: joi.AnySchema<any>, options?: any) => {
+export const Validate = <T>(joi?: joi.AnySchema, options?: any) => {
     // console.log(joi);
     return (target: any, key: string, index: number): any => {
         let metadata: IValidate = { joi, target, key, index, options };

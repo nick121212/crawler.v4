@@ -5,9 +5,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -48,14 +45,10 @@ var amqplib = require("amqplib");
 var bluebird = require("bluebird");
 var inversify_1 = require("inversify");
 /**
- * agenda服务
+ * rabbitmq服务
  */
 var MQueueService = (function () {
-    /**
-     * 构造函数
-     */
     function MQueueService() {
-        return this;
     }
     /**
      * 初始化消费队列
@@ -64,7 +57,6 @@ var MQueueService = (function () {
      * 3. 创建queue
      * 4. 绑定queue的路由
      * 5. 开始消费
-     *
      * @param rabbitmqConfig mq的配置
      * @param queueName      mq要消费的q名称
      * @param consumeMsg     消息的消费方法
@@ -74,35 +66,35 @@ var MQueueService = (function () {
     MQueueService.prototype.initConsume = function (rabbitmqConfig, queueName, consumeMsg, config) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
-            var count, exchange, queue, _a, e_1;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var count, queue, _a, _b, e_1;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
                         count = 0;
                         this.queueName = queueName;
-                        _b.label = 1;
+                        _c.label = 1;
                     case 1:
-                        _b.trys.push([1, 8, , 9]);
+                        _c.trys.push([1, 8, , 9]);
                         return [4 /*yield*/, this.initQueue(rabbitmqConfig)];
                     case 2:
-                        _b.sent();
+                        _c.sent();
+                        _a = this;
                         return [4 /*yield*/, this.channel.assertExchange("amqp.topic", "topic", { durable: true })];
                     case 3:
-                        exchange = _b.sent();
-                        return [4 /*yield*/, this.channel.assertQueue(queueName, { durable: true, exclusive: false })];
+                        _a.exchange = _c.sent();
+                        return [4 /*yield*/, this.getQueueMessageCount(this.queueName)];
                     case 4:
-                        queue = _b.sent();
-                        this.exchange = exchange;
-                        return [4 /*yield*/, this.channel.bindQueue(queue.queue, exchange.exchange, queueName)];
+                        queue = _c.sent();
+                        return [4 /*yield*/, this.channel.bindQueue(queue.queue, this.exchange.exchange, queueName)];
                     case 5:
-                        _b.sent();
+                        _c.sent();
                         return [4 /*yield*/, this.channel.prefetch(config.prefech || 3)];
                     case 6:
-                        _b.sent();
+                        _c.sent();
                         console.log("\u5F00\u59CB\u6D88\u8D39queue:" + queue.queue);
                         // 1. 序列化queue的消息
                         // 2. 调用消费方法
-                        _a = this;
+                        _b = this;
                         return [4 /*yield*/, this.channel.consume(queue.queue, function (msg) { return __awaiter(_this, void 0, void 0, function () {
                                 var _this = this;
                                 var msgData, e_2;
@@ -143,13 +135,34 @@ var MQueueService = (function () {
                     case 7:
                         // 1. 序列化queue的消息
                         // 2. 调用消费方法
-                        _a.consume = _b.sent();
+                        _b.consume = _c.sent();
                         return [3 /*break*/, 9];
                     case 8:
-                        e_1 = _b.sent();
+                        e_1 = _c.sent();
                         console.log(e_1.message);
                         return [2 /*return*/, false];
                     case 9: return [2 /*return*/, queue.consumerCount + queue.messageCount === 0];
+                }
+            });
+        });
+    };
+    /**
+     *
+     * @param qName 获得queue的消费数量
+     */
+    MQueueService.prototype.getQueueMessageCount = function (qName) {
+        return __awaiter(this, void 0, void 0, function () {
+            var queue;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!this.channel) {
+                            throw new Error("没有建立channel！");
+                        }
+                        return [4 /*yield*/, this.channel.assertQueue(qName, { durable: true, exclusive: false })];
+                    case 1:
+                        queue = _a.sent();
+                        return [2 /*return*/, queue];
                 }
             });
         });
@@ -267,8 +280,7 @@ var MQueueService = (function () {
     return MQueueService;
 }());
 MQueueService = __decorate([
-    inversify_1.injectable(),
-    __metadata("design:paramtypes", [])
+    inversify_1.injectable()
 ], MQueueService);
 exports.MQueueService = MQueueService;
 //# sourceMappingURL=mq.js.map

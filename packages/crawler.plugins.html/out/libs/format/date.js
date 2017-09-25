@@ -14,7 +14,7 @@ var Strategy = (function () {
      * @returns {String}
      */
     Strategy.prototype.doDeal = function (result, settings) {
-        var res = moment(_.trim(result), settings.format || 'YYYY-MM-DD');
+        var res = moment(_.trim(result), settings.format || "YYYY-MM-DD");
         if (res.isValid()) {
             return res.format(settings.format || "YYYY-MM-DD");
         }

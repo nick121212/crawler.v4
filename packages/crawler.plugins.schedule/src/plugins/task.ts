@@ -162,6 +162,23 @@ export class TaskPlugin {
     }
 
     /**
+     * 获取queue的消费信息
+     * @param key      queue的key
+     * @param options  参数
+     */
+    @Add(`role:${pluginTaskName},cmd:queueInfo`)
+    private async getQueue(key: string, options: any) {
+        let mQueueServie = this.getQueueService({ key });
+
+        if (!mQueueServie) {
+            console.log("没有找到mqService");
+            return;
+        }
+
+        return mQueueServie.getQueueMessageCount(mQueueServie.queueName);
+    }
+
+    /**
      * 启动未正常停止的队列
      * @param msg
      * @param options

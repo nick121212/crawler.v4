@@ -16,7 +16,7 @@ export class Strategy extends Base {
      * 数组类型,直接返回空数组
      * @returns Promise
      */
-    doDeal(queueItem: any, data: any, results: any, $: any, index: number): Promise<any> {
+    public doDeal(queueItem: any, data: any, results: any, $: any, index: number): Promise<any> {
         return jsdom.doDeal(queueItem, data, $, index).then((res) => {
             let promises: Array<any> = [];
 

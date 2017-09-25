@@ -8,6 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -48,6 +51,7 @@ var inversify_1 = require("inversify");
 var _ = require("lodash");
 var pathToRegexp = require("path-to-regexp");
 var crawler_plugins_common_1 = require("crawler.plugins.common");
+var joi = require("joi");
 var analysis_1 = require("../libs/analysis");
 var constants_1 = require("../constants");
 // const Pool = require("threads").Pool;
@@ -98,6 +102,14 @@ var HtmlPlugin = (function () {
 }());
 __decorate([
     crawler_plugins_common_1.Add("role:" + constants_1.pluginName + ",cmd:html"),
+    __param(0, crawler_plugins_common_1.Validate(joi.object().keys({
+        queueItem: joi.object().keys({
+            path: joi.string().required().label("路径")
+        }).required(),
+        pages: joi.array().required().min(1).items(joi.object().keys({
+            path: joi.string().required()
+        }))
+    }), { allowUnknown: true })),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)

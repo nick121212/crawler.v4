@@ -36,7 +36,8 @@
     "seneca-redis-transport": "^0.3.0",
     "seneca-transport": "^2.1.1",
     "superagent": "^3.5.2",
-    "superagent-charset": "^1.2.0"
+    "superagent-charset": "^1.2.0",
+    "superagent-proxy": "^1.0.2"
   },
   "devDependencies": {
     "@types/blueimp-md5": "^2.7.0",

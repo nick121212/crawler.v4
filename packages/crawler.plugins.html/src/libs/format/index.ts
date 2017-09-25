@@ -1,4 +1,4 @@
-import * as requireDir from 'require-directory';
+import * as requireDir from "require-directory";
 import * as _ from "lodash";
 
 export class FormatStrategy {
@@ -16,7 +16,7 @@ export class FormatStrategy {
      * @param config      {Object} 配置
      * @returns Any
      */
-    doDeal(key: string, result: any, settings: any = {}) {
+    public doDeal(key: string, result: any, settings: any = {}) {
         let strategy = this.formats[key];
 
         if (!strategy) {

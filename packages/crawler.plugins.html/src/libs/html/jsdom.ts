@@ -1,34 +1,12 @@
-import * as _ from 'lodash';
-import * as jsdom from 'jsdom';
+import * as _ from "lodash";
+import * as jsdom from "jsdom";
 
-import * as _fs from 'fs';
+import * as _fs from "fs";
 
 const jquery = _fs.readFileSync(`${__dirname}/../../../node_modules/jquery/dist/jquery.min.js`, "utf-8");
 
 export class JsDomDealStrategy {
-    /**
-     * 获取dom元素
-     * @param queueItem 抓取数据详情
-     * @param $ 
-     */
-    load(queueItem: any, $: any): Promise<any> {
-        return new Promise((resolve, reject) => {
-            !$ && jsdom.env({
-                html: queueItem.responseBody.replace(/iframe/g, "iframe1"),
-                parsingMode: "html",
-                src: [jquery],
-                done: function (err: Error, window: any) {
-                    if (err) {
-                        return reject(err);
-                    }
-                    resolve(window.$("body"));
-                }
-            } as any);
-            if ($) {
-                resolve($);
-            }
-        });
-    }
+
     /**
      * 处理一个字段
      * @param queueItem 爬取的数据
@@ -36,7 +14,7 @@ export class JsDomDealStrategy {
      * @param $         dom节点
      * @param index     数组中，节点的索引
      */
-    doDeal(queueItem: any, data: any, $?: any, index?: number): Promise<any> {
+    public doDeal(queueItem: any, data: any, $?: any, index?: number): Promise<any> {
         let $sel: any, result: any, len = 0;
         let $noSelcSel;
 
@@ -52,7 +30,7 @@ export class JsDomDealStrategy {
                 $noSelcSel = $sel || $;
                 // 查找当前的dom
                 $sel = this.doFindSelector($noSelcSel, data.selector);
-                $sel && (len = $sel.length);
+                len = $sel ? $sel.length : 0;
 
                 if (len && data.methodInfo) {
                     $sel = this.doRemoveEle($sel, data.removeSelector);
@@ -75,18 +53,44 @@ export class JsDomDealStrategy {
     }
 
     /**
+    * 获取dom元素
+    * @param queueItem 抓取数据详情
+    * @param $ jquery对象
+    */
+    private load(queueItem: any, $: any): Promise<any> {
+        return new Promise((resolve, reject) => {
+            if ($) {
+                return resolve($);
+            }
+            jsdom.env({
+                html: queueItem.responseBody.replace(/iframe/g, "iframe1"),
+                parsingMode: "html",
+                src: [jquery],
+                done: function (err: Error, window: any) {
+                    if (err) {
+                        return reject(err);
+                    }
+                    resolve(window.$("body"));
+                }
+            } as any);
+        });
+    }
+
+    /**
      * 删除选择器的元素
      * @param $sel       当前dom元素
      * @param selector   选择器
      */
-    doRemoveEle($sel: any, selector: any) {
+    private doRemoveEle($sel: any, selector: any) {
         if (!_.isArray(selector)) {
             selector = [selector];
         }
         _.each(selector, (sel) => {
             try {
                 $sel.find(sel).remove();
-            } catch (e) { }
+            } catch (e) {
+                console.log(e.message);
+            }
         });
 
         return $sel;
@@ -98,14 +102,14 @@ export class JsDomDealStrategy {
      * @param selector 选择器
      * @return cheerio对象
      */
-    doFindSelector($: any, selector: any) {
+    private doFindSelector($: any, selector: any) {
         let $sel = $;
 
         if (!selector) {
             selector = [];
         }
-        if (!_.isArray(selector)) {
-            typeof selector === "string" && (selector = [selector]);
+        if (!_.isArray(selector) && typeof selector === "string") {
+            selector = [selector];
         }
 
         if (!_.isArray(selector)) {
@@ -135,7 +139,7 @@ export class JsDomDealStrategy {
      * @param methodInfo  调用的方法名称
      * @returns {*}
      */
-    doCallMethod($: any, methodInfo: any) {
+    private doCallMethod($: any, methodInfo: any) {
         let $sel = null;
 
         _.forEach(methodInfo, (params: any, method) => {

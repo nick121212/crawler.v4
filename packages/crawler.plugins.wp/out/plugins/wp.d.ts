@@ -1,14 +1,6 @@
 export declare class WpPlugin {
     private wpApi;
-    blog(config: {
-        esIndex: string;
-        esType: string;
-        _id: any;
-    }, options: any): Promise<any>;
-    html(config: {
-        esIndex: string;
-        esType: string;
-        _id: any;
-    }, options: any): Promise<void>;
-    init(msg: any, options: any, globalOptions: any): Promise<void>;
+    private blog(config, options);
+    private qa(config, options);
+    private init(msg, options, globalOptions);
 }

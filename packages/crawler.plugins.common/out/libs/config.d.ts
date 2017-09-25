@@ -47,7 +47,7 @@ export declare class ConfigService<T> extends Configurator implements IConfigSer
     /**
      * 初始化配置文件
      * @param filePath 配置文件路径
-     * @param automaticConfigReload
+     * @param automaticConfigReload 自动重载
      */
     private initConfig(filePath, automaticConfigReload?);
     /**

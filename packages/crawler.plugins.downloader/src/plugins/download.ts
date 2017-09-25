@@ -1,10 +1,13 @@
 import inversify, { injectable, inject } from "inversify";
 import * as Seneca from "seneca";
 import * as request from "request";
-import { Plugin, Add, Wrap, Init } from "crawler.plugins.common";
+import { Plugin, Add, Wrap, Init, Validate } from "crawler.plugins.common";
+import * as joi from "joi";
 
 import { Proxy } from "../proxy";
 import { pluginName } from "../constants";
+import { htmlJoi, HtmlModel } from "../models/html";
+import { interJoi, InterModel } from "../models/inter";
 
 @Plugin(pluginName)
 @injectable()
@@ -13,13 +16,12 @@ export class DownloadPlugin {
     private proxy: Proxy;
 
     /**
-     * 下载数据
+     * get请求
      * @param param0
      */
     @Add(`role:${pluginName},cmd:html`)
-    public async html(
-        { queueItem, proxyInfo, save = true, header = {}, charset, engine = "superagent" }:
-            { charset: string, save: boolean, header: any, queueItem: any, proxyInfo: any, engine: string }, options: any) {
+    private async html( @Validate(htmlJoi, { allowUnknown: true })
+    { queueItem, proxyInfo, header = {}, charset, engine = "superagent" }: HtmlModel) {
         let start = Date.now();
 
         /**
@@ -56,26 +58,19 @@ export class DownloadPlugin {
         console.log(queueItem.url, "-----downloader 成功；耗时：", Date.now() - start, "ms");
 
         return {
-            crawlerCount: 1 * queueItem.crawlerCount + 1,
-            responseBody: save ? null : res.body,
+            crawlerCount: 1 * (queueItem.crawlerCount || 0) + 1,
+            responseBody: res.body,
             statusCode: res.statusCode,
         };
-
-        // if (save) {
-        //     let expireSeneca = options.seneca.delegate({ expire$: 60 });
-        //     let download = expireSeneca.make$("downloads", {
-        //         data: res.statusCode,
-        //         id: queueItem._id,
-        //         ...queueItem,
-        //         responseBody: res.body
-        //     });
-
-        //     await download.saveAsync();
-        // }
     }
 
+    /**
+     * 调用接口
+     * @param params 参数
+     */
     @Add(`role:${pluginName},cmd:interfaces`)
-    public inter({ url, path = "", params, data, header, method = "get", engine = "superagent", _id = "" }: any) {
+    private async inter( @Validate(interJoi, { allowUnknown: true })
+    { url, path = "", params, data, header, method = "get", engine = "superagent" }: InterModel) {
         let start = Date.now();
 
         this.proxy.proxy.loadConfig({
@@ -95,12 +90,10 @@ export class DownloadPlugin {
 
         });
 
-        // console.log(url, "-----downloader 成功；耗时：", Date.now() - start, "ms");
-
         /**
          * 调用接口
          */
-        return this.proxy.proxy.execute("/download/interface", {
+        let rtn = await this.proxy.proxy.execute("/download/interface", {
             data,
             params,
             settings: { header }
@@ -110,5 +103,9 @@ export class DownloadPlugin {
                 statusCode: res.statusCode,
             };
         });
+
+        console.log(url, "-----downloader 成功；耗时：", Date.now() - start, "ms");
+
+        return rtn;
     }
 }

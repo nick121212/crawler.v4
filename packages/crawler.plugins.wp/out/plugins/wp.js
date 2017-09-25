@@ -48,6 +48,7 @@ var inversify_1 = require("inversify");
 var crawler_plugins_common_1 = require("crawler.plugins.common");
 var bluebird = require("bluebird");
 var _ = require("lodash");
+var Moment = require("moment");
 var constants_1 = require("../constants");
 var WpApi = require("wpapi");
 var settings = {
@@ -175,15 +176,52 @@ var WpPlugin = (function () {
             });
         });
     };
-    WpPlugin.prototype.html = function (config, options) {
+    WpPlugin.prototype.qa = function (config, options) {
         return __awaiter(this, void 0, void 0, function () {
-            var aaa;
+            var _this = this;
+            var resouce, promises, comments, postData, post;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.wpApi.taxonomies().param("type", "dwkb_category").get()];
+                    case 0:
+                        resouce = config._source, promises = [];
+                        comments = resouce.comments || [];
+                        postData = {
+                            title: resouce.title,
+                            author: 5,
+                            comment_status: "open",
+                            categories: [92],
+                            slug: "dwqa-question",
+                            content: resouce.content,
+                            status: "publish",
+                            date: Moment().add(comments.length * 3 - 30, "day").format("YYYY-MM-DD hh:mm:ss"),
+                            ping_status: "open"
+                        };
+                        return [4 /*yield*/, this.wpApi["dwqa-question"]().create(postData)];
                     case 1:
-                        aaa = _a.sent();
-                        console.log(aaa);
+                        post = _a.sent();
+                        comments.forEach(function (comment, idx) { return __awaiter(_this, void 0, void 0, function () {
+                            var com;
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0: return [4 /*yield*/, this.wpApi["dwqa-answer"]().create({
+                                            title: resouce.title,
+                                            post: post.id,
+                                            test: 1,
+                                            menu_order: 2,
+                                            author: 4,
+                                            slug: "dwqa-answer",
+                                            status: "publish",
+                                            comment_status: "open",
+                                            content: comment.content,
+                                            date: Moment().add(idx * 10, "hour").format("YYYY-MM-DD hh:mm:ss"),
+                                            ping_status: "open"
+                                        }).catch(console.log)];
+                                    case 1:
+                                        com = _a.sent();
+                                        return [2 /*return*/];
+                                }
+                            });
+                        }); });
                         return [2 /*return*/];
                 }
             });
@@ -225,7 +263,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
-], WpPlugin.prototype, "html", null);
+], WpPlugin.prototype, "qa", null);
 __decorate([
     crawler_plugins_common_1.Init(),
     __metadata("design:type", Function),

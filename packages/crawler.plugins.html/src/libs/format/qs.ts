@@ -1,6 +1,6 @@
 import * as qs from "qs";
 import * as jpp from "json-pointer";
-import * as _ from 'lodash';
+import * as _ from "lodash";
 
 /**
  * 处理html文本策越
@@ -10,7 +10,7 @@ export class Strategy {
      * 处理数据，获取querystring中键值
      * @returns {String}
      */
-    doDeal(result: string, data: { pointer: string }): any {
+    public doDeal(result: string, data: { pointer: string }): any {
         if (!_.isString(result)) {
             return null;
         }

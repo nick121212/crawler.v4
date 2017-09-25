@@ -1,11 +1,5 @@
 export declare class JsDomDealStrategy {
     /**
-     * 获取dom元素
-     * @param queueItem 抓取数据详情
-     * @param $
-     */
-    load(queueItem: any, $: any): Promise<any>;
-    /**
      * 处理一个字段
      * @param queueItem 爬取的数据
      * @param data      单个数据配置
@@ -14,25 +8,31 @@ export declare class JsDomDealStrategy {
      */
     doDeal(queueItem: any, data: any, $?: any, index?: number): Promise<any>;
     /**
+    * 获取dom元素
+    * @param queueItem 抓取数据详情
+    * @param $ jquery对象
+    */
+    private load(queueItem, $);
+    /**
      * 删除选择器的元素
      * @param $sel       当前dom元素
      * @param selector   选择器
      */
-    doRemoveEle($sel: any, selector: any): any;
+    private doRemoveEle($sel, selector);
     /**
      * 取得元素节点
      * @param $        dom元素
      * @param selector 选择器
      * @return cheerio对象
      */
-    doFindSelector($: any, selector: any): any;
+    private doFindSelector($, selector);
     /**
      * 调用方法
      * @param $           dom元素
      * @param methodInfo  调用的方法名称
      * @returns {*}
      */
-    doCallMethod($: any, methodInfo: any): null;
+    private doCallMethod($, methodInfo);
 }
 declare const _default: JsDomDealStrategy;
 export default _default;

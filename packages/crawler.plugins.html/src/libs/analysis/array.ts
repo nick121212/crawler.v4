@@ -21,7 +21,7 @@ export class Strategy extends Base {
      * @param index     {Number}  jquery索引
      * @returns Promise
      */
-    doDeal(queueItem: any, data: any, results: any, $: any, index: number): Promise<any> {
+    public doDeal(queueItem: any, data: any, results: any, $: any, index: number): Promise<any> {
         let jData = jpp(results);
         let path: Array<string> = [];
         let idx = _.isUndefined(data.dataIndex) ? index : data.dataIndex;

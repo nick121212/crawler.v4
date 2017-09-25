@@ -49,6 +49,12 @@ export declare class TaskPlugin {
      */
     private listTask({config}, options, globalOptions);
     /**
+     * 获取queue的消费信息
+     * @param key      queue的key
+     * @param options  参数
+     */
+    private getQueue(key, options);
+    /**
      * 启动未正常停止的队列
      * @param msg
      * @param options

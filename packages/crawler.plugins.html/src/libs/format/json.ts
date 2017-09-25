@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import * as _ from "lodash";
 
 /**
  * 处理html文本策越
@@ -9,7 +9,7 @@ export class Strategy {
      * @param reseult {Any}
      * @returns {String}
      */
-    doDeal(result: string, settings: { parse: boolean, func: Function }): any {
+    public doDeal(result: string, settings: { parse: boolean, func: Function }): any {
         let res = result;
 
         try {
@@ -19,7 +19,7 @@ export class Strategy {
             if (_.isFunction(settings.func)) {
                 res = settings.func.call(this, res);
             }
-        } catch (e) { 
+        } catch (e) {
             return {};
         }
 

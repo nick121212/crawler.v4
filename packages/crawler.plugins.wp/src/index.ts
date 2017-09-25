@@ -17,8 +17,8 @@ seneca.seneca
             "esType": "mamilove.blog"
         };
 
-        setTimeout(async () => {
-            await seneca.seneca.actAsync("role:crawler.plugin.wp,cmd:qa", data);
-        }, 2000);
+        // setTimeout(async () => {
+        //     await seneca.seneca.actAsync("role:crawler.plugin.wp,cmd:qa", data);
+        // }, 1000);
     });
 

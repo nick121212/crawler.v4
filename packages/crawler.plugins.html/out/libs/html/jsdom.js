@@ -43,29 +43,6 @@ var JsDomDealStrategy = (function () {
     function JsDomDealStrategy() {
     }
     /**
-     * 获取dom元素
-     * @param queueItem 抓取数据详情
-     * @param $
-     */
-    JsDomDealStrategy.prototype.load = function (queueItem, $) {
-        return new Promise(function (resolve, reject) {
-            !$ && jsdom.env({
-                html: queueItem.responseBody.replace(/iframe/g, "iframe1"),
-                parsingMode: "html",
-                src: [jquery],
-                done: function (err, window) {
-                    if (err) {
-                        return reject(err);
-                    }
-                    resolve(window.$("body"));
-                }
-            });
-            if ($) {
-                resolve($);
-            }
-        });
-    };
-    /**
      * 处理一个字段
      * @param queueItem 爬取的数据
      * @param data      单个数据配置
@@ -91,7 +68,7 @@ var JsDomDealStrategy = (function () {
                             $noSelcSel = $sel || $;
                             // 查找当前的dom
                             $sel = this.doFindSelector($noSelcSel, data.selector);
-                            $sel && (len = $sel.length);
+                            len = $sel ? $sel.length : 0;
                             if (len && data.methodInfo) {
                                 $sel = this.doRemoveEle($sel, data.removeSelector);
                                 result = this.doCallMethod($sel, data.methodInfo);
@@ -115,6 +92,29 @@ var JsDomDealStrategy = (function () {
         }); });
     };
     /**
+    * 获取dom元素
+    * @param queueItem 抓取数据详情
+    * @param $ jquery对象
+    */
+    JsDomDealStrategy.prototype.load = function (queueItem, $) {
+        return new Promise(function (resolve, reject) {
+            if ($) {
+                return resolve($);
+            }
+            jsdom.env({
+                html: queueItem.responseBody.replace(/iframe/g, "iframe1"),
+                parsingMode: "html",
+                src: [jquery],
+                done: function (err, window) {
+                    if (err) {
+                        return reject(err);
+                    }
+                    resolve(window.$("body"));
+                }
+            });
+        });
+    };
+    /**
      * 删除选择器的元素
      * @param $sel       当前dom元素
      * @param selector   选择器
@@ -127,7 +127,9 @@ var JsDomDealStrategy = (function () {
             try {
                 $sel.find(sel).remove();
             }
-            catch (e) { }
+            catch (e) {
+                console.log(e.message);
+            }
         });
         return $sel;
     };
@@ -143,8 +145,8 @@ var JsDomDealStrategy = (function () {
         if (!selector) {
             selector = [];
         }
-        if (!_.isArray(selector)) {
-            typeof selector === "string" && (selector = [selector]);
+        if (!_.isArray(selector) && typeof selector === "string") {
+            selector = [selector];
         }
         if (!_.isArray(selector)) {
             return $sel;

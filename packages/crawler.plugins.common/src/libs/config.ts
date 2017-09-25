@@ -1,6 +1,5 @@
 import { injectable } from "inversify";
 import * as fs from "fs";
-import * as util from "util";
 import { EventEmitter } from "events";
 import * as path from "path";
 
@@ -97,7 +96,7 @@ export class ConfigService<T> extends Configurator implements IConfigService<T> 
     /**
      * 初始化配置文件
      * @param filePath 配置文件路径
-     * @param automaticConfigReload 
+     * @param automaticConfigReload 自动重载
      */
     private initConfig(filePath: string, automaticConfigReload = false): void | any {
         // if (!fs.existsSync(filePath)) {

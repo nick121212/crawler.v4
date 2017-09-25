@@ -2,6 +2,7 @@ import inversify, { injectable, inject } from "inversify";
 import { Plugin, Add, Wrap, Init } from "crawler.plugins.common";
 import * as bluebird from "bluebird";
 import * as _ from "lodash";
+import * as Moment from "moment";
 
 import { pluginName } from "../constants";
 
@@ -36,7 +37,7 @@ export class WpPlugin {
     private wpApi: any;
 
     @Add(`role:${pluginName},cmd:blog`)
-    public async blog(config: { esIndex: string; esType: string; _id: any; }, options: any) {
+    private async blog(config: { esIndex: string; esType: string; _id: any; }, options: any) {
         let result = null;
         let resouce: any, promises: Array<Promise<any>> = [];
 
@@ -116,16 +117,46 @@ export class WpPlugin {
     }
 
     @Add(`role:${pluginName},cmd:qa`)
-    public async html(config: { esIndex: string; esType: string; _id: any; }, options: any) {
-        // let aaa = await this.wpApi.taxonomies().param("type", "dwkb_category").get();
-        // console.log(aaa);
+    private async qa(config: { _source: string; }, options: any) {
+        let resouce: any = config._source, promises: Array<Promise<any>> = [];
+        let comments = resouce.comments || [];
 
-        
+        // comments.length = 1;
 
+        let postData = {
+            title: resouce.title,
+            author: 5,
+            comment_status: "open",
+            categories: [92],
+            slug: "dwqa-question",
+            content: resouce.content,
+            status: "publish",
+            date: Moment().add(comments.length * 3 - 30, "day").format("YYYY-MM-DD hh:mm:ss"),
+            ping_status: "open"
+        };
+
+
+        let post: any = await this.wpApi["dwqa-question"]().create(postData);
+
+        comments.forEach(async (comment: any, idx: number) => {
+            let com = await this.wpApi["dwqa-answer"]().create({
+                title: resouce.title,
+                post: post.id,
+                test: 1,
+                menu_order: 2,
+                author: 4,
+                slug: "dwqa-answer",
+                status: "publish",
+                comment_status: "open",
+                content: comment.content,
+                date: Moment().add(idx * 10, "hour").format("YYYY-MM-DD hh:mm:ss"),
+                ping_status: "open"
+            }).catch(console.log);
+        });
     }
 
     @Init()
-    public async init(msg: any, options: any, globalOptions: any) {
+    private async init(msg: any, options: any, globalOptions: any) {
         this.wpApi = await WpApi.discover("https://www.bebewiki.com").then((site: any) => {
             return site.auth({
                 username: "crawler",

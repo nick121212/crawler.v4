@@ -7,10 +7,6 @@ import { pluginName } from "./constants";
 
 const numCPUs = require("os").cpus().length;
 
-// const cluster = require('cluster');
-// const http = require('http');
-// const numCPUs = require('os').cpus().length;
-
 if (cluster.isMaster) {
     console.log(`主进程 ${process.pid} 正在运行`);
     // 衍生工作进程。

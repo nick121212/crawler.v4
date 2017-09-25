@@ -1,6 +1,7 @@
+import * as amqplib from "amqplib";
 import { SettingModel } from "../models/setting";
 /**
- * agenda服务
+ * rabbitmq服务
  */
 export declare class MQueueService {
     queueName: string;
@@ -9,17 +10,12 @@ export declare class MQueueService {
     private consume;
     private exchange;
     /**
-     * 构造函数
-     */
-    constructor();
-    /**
      * 初始化消费队列
      * 1. 初始化queue
      * 2. 创建exchange
      * 3. 创建queue
      * 4. 绑定queue的路由
      * 5. 开始消费
-     *
      * @param rabbitmqConfig mq的配置
      * @param queueName      mq要消费的q名称
      * @param consumeMsg     消息的消费方法
@@ -30,6 +26,11 @@ export declare class MQueueService {
         url: string;
         options: any;
     }, queueName: string, consumeMsg: Function, config: SettingModel): Promise<boolean>;
+    /**
+     *
+     * @param qName 获得queue的消费数量
+     */
+    getQueueMessageCount(qName: string): Promise<amqplib.Replies.AssertQueue>;
     /**
      * 数据入queue
      * @param items       要入queue的消息

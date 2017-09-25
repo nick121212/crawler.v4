@@ -16,6 +16,7 @@
   "author": "NICK",
   "license": "ISC",
   "dependencies": {
+    "@types/joi": "^10.4.3",
     "crawler.plugins.common": "^0.1.21",
     "inversify": "^4.2.0",
     "jquery": "^3.2.1",

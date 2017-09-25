@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import * as _ from "lodash";
 
 /**
  * 处理html文本策越
@@ -9,7 +9,7 @@ export class Strategy {
      * @param reseult {Any}
      * @returns {String}
      */
-    doDeal(result: string) {
+    public doDeal(result: string) {
         let res = Number(result);
 
         if (Number.isNaN(res)) {

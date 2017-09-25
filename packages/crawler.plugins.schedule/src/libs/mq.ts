@@ -7,7 +7,7 @@ import { injectable } from "inversify";
 import { SettingModel } from "../models/setting";
 
 /**
- * agenda服务
+ * rabbitmq服务
  */
 @injectable()
 export class MQueueService {
@@ -19,20 +19,12 @@ export class MQueueService {
     private exchange: amqplib.Replies.AssertExchange;
 
     /**
-     * 构造函数
-     */
-    constructor() {
-        return this;
-    }
-
-    /**
      * 初始化消费队列
      * 1. 初始化queue
      * 2. 创建exchange
      * 3. 创建queue
      * 4. 绑定queue的路由
      * 5. 开始消费
-     * 
      * @param rabbitmqConfig mq的配置
      * @param queueName      mq要消费的q名称
      * @param consumeMsg     消息的消费方法
@@ -45,17 +37,16 @@ export class MQueueService {
         consumeMsg: Function,
         config: SettingModel
     ): Promise<boolean> {
-        let count = 0, exchange: amqplib.Replies.AssertExchange, queue: amqplib.Replies.AssertQueue;
+        let count = 0, queue: amqplib.Replies.AssertQueue;
 
         this.queueName = queueName;
 
         try {
             await this.initQueue(rabbitmqConfig);
-            exchange = await this.channel.assertExchange("amqp.topic", "topic", { durable: true });
-            queue = await this.channel.assertQueue(queueName, { durable: true, exclusive: false });
+            this.exchange = await this.channel.assertExchange("amqp.topic", "topic", { durable: true });
+            queue = await this.getQueueMessageCount(this.queueName);
 
-            this.exchange = exchange;
-            await this.channel.bindQueue(queue.queue, exchange.exchange, queueName);
+            await this.channel.bindQueue(queue.queue, this.exchange.exchange, queueName);
             await this.channel.prefetch(config.prefech || 3);
             console.log(`开始消费queue:${queue.queue}`);
 
@@ -88,13 +79,26 @@ export class MQueueService {
                     }
                 });
             }, { noAck: false, exclusive: false });
-            // console.log(queue.consumerCount, queue.messageCount);
         } catch (e) {
             console.log(e.message);
             return false;
         }
 
         return queue.consumerCount + queue.messageCount === 0;
+    }
+
+    /**
+     * 
+     * @param qName 获得queue的消费数量
+     */
+    public async getQueueMessageCount(qName: string): Promise<amqplib.Replies.AssertQueue> {
+        if (!this.channel) {
+            throw new Error("没有建立channel！");
+        }
+
+        let queue: amqplib.Replies.AssertQueue = await this.channel.assertQueue(qName, { durable: true, exclusive: false });
+
+        return queue;
     }
 
     /**
