@@ -177,12 +177,10 @@ export class WpPlugin {
 
         console.log("删除post结束");
 
-        let post: any = await this.wpApi["dwqa-question"]().create(postData).then((data: any) => {
-            console.log("post ok", data);
-            return data;
-        }).catch((err: Error) => {
-            throw err;
-        });
+        let post: any = await this.wpApi["dwqa-question"]().auth({
+            username: "crawler",
+            password: "crawler-1314"
+        }).create(postData);
 
         console.log("post结束");
 

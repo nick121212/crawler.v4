@@ -248,12 +248,10 @@ var WpPlugin = (function () {
                         _a.label = 7;
                     case 7:
                         console.log("删除post结束");
-                        return [4 /*yield*/, this.wpApi["dwqa-question"]().create(postData).then(function (data) {
-                                console.log("post ok", data);
-                                return data;
-                            }).catch(function (err) {
-                                throw err;
-                            })];
+                        return [4 /*yield*/, this.wpApi["dwqa-question"]().auth({
+                                username: "crawler",
+                                password: "crawler-1314"
+                            }).create(postData)];
                     case 8:
                         post = _a.sent();
                         console.log("post结束");
