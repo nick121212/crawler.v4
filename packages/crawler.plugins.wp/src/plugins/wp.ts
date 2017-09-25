@@ -153,7 +153,7 @@ export class WpPlugin {
         }
 
         console.log("---------tag结束", tag.id, category.id);
-
+        console.log("---------title", _.trim(resouce.title));
         let postData = {
             title: _.trim(resouce.title),
             author: 5,

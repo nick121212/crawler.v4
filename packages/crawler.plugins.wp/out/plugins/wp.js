@@ -225,6 +225,7 @@ var WpPlugin = (function () {
                         _a.label = 4;
                     case 4:
                         console.log("---------tag结束", tag.id, category.id);
+                        console.log("---------title", _.trim(resouce.title));
                         postData = {
                             title: _.trim(resouce.title),
                             author: 5,
