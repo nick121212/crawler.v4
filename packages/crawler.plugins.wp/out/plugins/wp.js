@@ -236,6 +236,9 @@ var WpPlugin = (function () {
                         _a.label = 7;
                     case 7:
                         console.log("---------删除post结束");
+                        return [4 /*yield*/, bluebird.delay(500)];
+                    case 8:
+                        _a.sent();
                         return [4 /*yield*/, this.wpApi["dwqa-question"]().create({
                                 title: resouce.title,
                                 author: 5,
@@ -248,7 +251,7 @@ var WpPlugin = (function () {
                                 date: Moment().add(comments.length * 3 - 30, "day").format("YYYY-MM-DD hh:mm:ss"),
                                 ping_status: "open"
                             })];
-                    case 8:
+                    case 9:
                         post = _a.sent();
                         console.log("--------post结束");
                         comments.forEach(function (comment, idx) { return __awaiter(_this, void 0, void 0, function () {

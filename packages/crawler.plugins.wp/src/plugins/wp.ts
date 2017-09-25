@@ -159,6 +159,9 @@ export class WpPlugin {
             await this.wpApi["dwqa-question"]().id(postExist[0].id).delete();
         }
         console.log("---------删除post结束");
+
+        await bluebird.delay(500);
+
         // this.wpApi["dwqa-question"]
         let post: any = await this.wpApi["dwqa-question"]().create({
             title: resouce.title,
