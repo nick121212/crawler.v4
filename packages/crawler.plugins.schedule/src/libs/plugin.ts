@@ -29,24 +29,6 @@ export class ExecutePluginService {
         }
 
         return await this.executePlugins(seneca, msgFlow, data || {});
-        // .then((data1: any) => {
-        //     seneca.actAsync("role:crawler.plugin.store.es,cmd:createResult", {
-        //         "esIndex": "test.result",
-        //         "esType": "success",
-        //         "result": Object.assign({}, { url: data.queueItem.url }, data1.result),
-        //         "_id": Date.now() + Math.random() + data.queueItem._id
-        //     }).catch(console.log);
-        //     // throw new Error("");
-
-        //     return data1;
-        // }).catch((err) => {
-        //     seneca.actAsync("role:crawler.plugin.store.es,cmd:createResult", {
-        //         "esIndex": "test.result",
-        //         "esType": "error",
-        //         "_id": Date.now() + Math.random() + data.queueItem._id,
-        //         "result": Object.assign({}, { url: data.queueItem.url }, { errMessage: err.message })
-        //     }).catch(console.log);
-        // });
     }
 
     /**
@@ -59,7 +41,12 @@ export class ExecutePluginService {
         let len = plugins.length, currentIndex = 0, currentPlugin;
 
         // 检测是否可以执行插件
-        this.checkParttens(seneca, plugins);
+        try {
+            this.checkParttens(seneca, plugins);
+        } catch (e) {
+            throw e;
+        }
+
         while (len > currentIndex) {
             currentPlugin = plugins[currentIndex++];
 

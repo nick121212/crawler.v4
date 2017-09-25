@@ -87,7 +87,12 @@ var ExecutePluginService = (function () {
                     case 0:
                         len = plugins.length, currentIndex = 0;
                         // 检测是否可以执行插件
-                        this.checkParttens(seneca, plugins);
+                        try {
+                            this.checkParttens(seneca, plugins);
+                        }
+                        catch (e) {
+                            throw e;
+                        }
                         _a.label = 1;
                     case 1:
                         if (!(len > currentIndex)) return [3 /*break*/, 14];

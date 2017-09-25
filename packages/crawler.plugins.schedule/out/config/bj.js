@@ -104,6 +104,14 @@ exports.default = {
                         "method": "get"
                     }
                 }, {
+                    "partten": "role:crawler.plugin.task,cmd:queueInfo",
+                    "force": true,
+                    "title": "获取queue信息",
+                    "config": {
+                        "key": "bijia"
+                    },
+                    "result": "$.result.{'consumerCount':$.consumerCount,'messageCount':$.messageCount}"
+                }, {
                     "partten": "role:crawler.plugin.downloader,cmd:interfaces",
                     "jsonata": ["$.result.{'params':{'fields':$.$string()}}"],
                     "force": true,
@@ -214,9 +222,18 @@ exports.default = {
                             }]
                     }
                 }, {
+                    "partten": "role:crawler.plugin.task,cmd:queueInfo",
+                    "config": {
+                        "key": "bijia"
+                    },
+                    "title": "获取queue信息",
+                    "force": true,
+                    "result": "$.result.{'consumerCount':$.consumerCount,'messageCount':$.messageCount}"
+                }, {
                     "partten": "role:crawler.plugin.downloader,cmd:interfaces",
                     "jsonata": ["$.result.{'params':{'fields':$.$string()}}"],
                     "title": "调用顺利接口",
+                    "force": true,
                     "data": {
                         "url": "http://10.11.29.196:8020",
                         "path": "/d-api/reptile/businessInfo",
