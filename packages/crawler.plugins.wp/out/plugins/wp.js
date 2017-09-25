@@ -248,7 +248,9 @@ var WpPlugin = (function () {
                         _a.label = 7;
                     case 7:
                         console.log("删除post结束", postExist);
-                        return [4 /*yield*/, this.wpApi["dwqa-question"]().create(postData)];
+                        return [4 /*yield*/, this.wpApi["dwqa-question"]().create(postData).catch(function (err) {
+                                throw err;
+                            })];
                     case 8:
                         post = _a.sent();
                         console.log("post结束");

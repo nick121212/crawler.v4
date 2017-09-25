@@ -177,7 +177,9 @@ export class WpPlugin {
 
         console.log("删除post结束", postExist);
 
-        let post: any = await this.wpApi["dwqa-question"]().create(postData);
+        let post: any = await this.wpApi["dwqa-question"]().create(postData).catch((err: Error) => {
+            throw err;
+        });
 
         console.log("post结束");
 
