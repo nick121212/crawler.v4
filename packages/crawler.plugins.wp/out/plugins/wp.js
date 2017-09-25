@@ -200,13 +200,12 @@ var WpPlugin = (function () {
     WpPlugin.prototype.qa = function (config, options) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
-            var resouce, promises, comments, category, tag, postData, post;
+            var resouce, promises, comments, category, tag, postData, postExist, post;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         resouce = config._source, promises = [];
                         comments = resouce.comments || [];
-                        console.log("开始导入wp的qa数据-------------", resouce);
                         if (!resouce.category) return [3 /*break*/, 2];
                         return [4 /*yield*/, this.getCategory("dwqa-question_category", resouce.category)];
                     case 1:
@@ -232,14 +231,25 @@ var WpPlugin = (function () {
                             comment_status: "open",
                             "dwqa-question_category": category ? [category.id] : null,
                             "dwqa-question_tag": tag ? [tag.id] : null,
-                            slug: "dwqa-question",
+                            slug: config._id,
                             content: _.trim(resouce.content),
                             status: "publish",
                             date: Moment().add(comments.length * 3 - 30, "day").format("YYYY-MM-DD hh:mm:ss"),
                             ping_status: "open"
                         };
-                        return [4 /*yield*/, this.wpApi["dwqa-question"]().create(postData)];
+                        console.log("创建post");
+                        return [4 /*yield*/, this.wpApi["dwqa-question"]().slug(config._id).get()];
                     case 5:
+                        postExist = _a.sent();
+                        if (!postExist.length) return [3 /*break*/, 7];
+                        return [4 /*yield*/, this.wpApi["dwqa-question"]().id(postExist[0].id).delete()];
+                    case 6:
+                        _a.sent();
+                        _a.label = 7;
+                    case 7:
+                        console.log("删除post结束", postExist);
+                        return [4 /*yield*/, this.wpApi["dwqa-question"]().create(postData)];
+                    case 8:
                         post = _a.sent();
                         console.log("post结束");
                         comments.forEach(function (comment, idx) { return __awaiter(_this, void 0, void 0, function () {
@@ -252,7 +262,7 @@ var WpPlugin = (function () {
                                             test: 1,
                                             menu_order: 2,
                                             author: 4,
-                                            slug: "dwqa-answer",
+                                            slug: config._id + "dwqa-answer" + idx,
                                             status: "publish",
                                             comment_status: "open",
                                             content: comment.content,

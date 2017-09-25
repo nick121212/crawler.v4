@@ -131,12 +131,12 @@ export class WpPlugin {
     }
 
     @Add(`role:${pluginName},cmd:qa`)
-    private async qa(config: { _source: string; }, options: any) {
+    private async qa(config: { _source: string; _id: string }, options: any) {
         let resouce: any = config._source, promises: Array<Promise<any>> = [];
         let comments = resouce.comments || [];
         let category, tag;
 
-        console.log("开始导入wp的qa数据-------------", resouce);
+        // console.log("开始导入wp的qa数据-------------", resouce);
         if (resouce.category) {
             category = await this.getCategory("dwqa-question_category", resouce.category);
 
@@ -160,12 +160,22 @@ export class WpPlugin {
             comment_status: "open",
             "dwqa-question_category": category ? [category.id] : null,
             "dwqa-question_tag": tag ? [tag.id] : null,
-            slug: "dwqa-question",
+            slug: config._id,
             content: _.trim(resouce.content),
             status: "publish",
             date: Moment().add(comments.length * 3 - 30, "day").format("YYYY-MM-DD hh:mm:ss"),
             ping_status: "open"
         };
+
+        console.log("创建post");
+
+        let postExist = await this.wpApi["dwqa-question"]().slug(config._id).get();
+
+        if (postExist.length) {
+            await this.wpApi["dwqa-question"]().id(postExist[0].id).delete();
+        }
+
+        console.log("删除post结束", postExist);
 
         let post: any = await this.wpApi["dwqa-question"]().create(postData);
 
@@ -178,7 +188,7 @@ export class WpPlugin {
                 test: 1,
                 menu_order: 2,
                 author: 4,
-                slug: "dwqa-answer",
+                slug: config._id + "dwqa-answer" + idx,
                 status: "publish",
                 comment_status: "open",
                 content: comment.content,
