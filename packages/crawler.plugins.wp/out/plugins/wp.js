@@ -237,7 +237,7 @@ var WpPlugin = (function () {
                             date: Moment().add(comments.length * 3 - 30, "day").format("YYYY-MM-DD hh:mm:ss"),
                             ping_status: "open"
                         };
-                        console.log("创建post");
+                        console.log("创建post", postData);
                         return [4 /*yield*/, this.wpApi["dwqa-question"]().slug(config._id).get()];
                     case 5:
                         postExist = _a.sent();

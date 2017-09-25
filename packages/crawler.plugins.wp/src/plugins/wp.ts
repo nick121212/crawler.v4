@@ -167,7 +167,7 @@ export class WpPlugin {
             ping_status: "open"
         };
 
-        console.log("创建post");
+        console.log("创建post", postData);
 
         let postExist = await this.wpApi["dwqa-question"]().slug(config._id).get();
 
