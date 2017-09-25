@@ -161,7 +161,7 @@ export class WpPlugin {
             "dwqa-question_category": category ? [category.id] : null,
             "dwqa-question_tag": tag ? [tag.id] : null,
             slug: config._id,
-            content: _.trim(resouce.content),
+            content: resouce.content,
             status: "publish",
             date: Moment().add(comments.length * 3 - 30, "day").format("YYYY-MM-DD hh:mm:ss"),
             ping_status: "open"
