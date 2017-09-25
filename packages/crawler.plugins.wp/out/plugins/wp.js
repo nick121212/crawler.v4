@@ -272,7 +272,7 @@ var WpPlugin = (function () {
                 switch (_b.label) {
                     case 0:
                         _a = this;
-                        return [4 /*yield*/, WpApi.discover("http://www.bebewiki.com").then(function (site) {
+                        return [4 /*yield*/, WpApi.discover("https://www.bebewiki.com").then(function (site) {
                                 return site.auth({
                                     username: "crawler",
                                     password: "crawler-1314"

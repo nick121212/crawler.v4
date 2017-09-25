@@ -185,7 +185,7 @@ export class WpPlugin {
 
     @Init()
     private async init(msg: any, options: any, globalOptions: any) {
-        this.wpApi = await WpApi.discover("http://www.bebewiki.com").then((site: any) => {
+        this.wpApi = await WpApi.discover("https://www.bebewiki.com").then((site: any) => {
             return site.auth({
                 username: "crawler",
                 password: "crawler-1314"
