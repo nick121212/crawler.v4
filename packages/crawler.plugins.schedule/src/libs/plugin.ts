@@ -41,12 +41,7 @@ export class ExecutePluginService {
         let len = plugins.length, currentIndex = 0, currentPlugin;
 
         // 检测是否可以执行插件
-        try {
-            this.checkParttens(seneca, plugins);
-        } catch (e) {
-            throw e;
-        }
-
+        this.checkParttens(seneca, plugins);
         while (len > currentIndex) {
             currentPlugin = plugins[currentIndex++];
 

@@ -115,19 +115,17 @@ var MQueueService = (function () {
                                         case 3: return [4 /*yield*/, bluebird.delay(config.delay || 1000)];
                                         case 4:
                                             _a.sent();
-                                            return [4 /*yield*/, consumeMsg({ config: config, data: msgData }).then(function (data) {
-                                                    console.log("爬取成功！");
-                                                    if (_this.channel) {
-                                                        _this.channel.ack(msg);
-                                                    }
-                                                }).catch(function (err) {
-                                                    console.log("爬取失败！", err.message);
-                                                    if (_this.channel) {
-                                                        _this.channel.nack(msg);
-                                                    }
-                                                })];
-                                        case 5:
-                                            _a.sent();
+                                            consumeMsg({ config: config, data: msgData }).then(function (data) {
+                                                console.log("爬取成功！");
+                                                if (_this.channel) {
+                                                    _this.channel.ack(msg);
+                                                }
+                                            }).catch(function (err) {
+                                                console.log("爬取失败！", err.message);
+                                                if (_this.channel) {
+                                                    _this.channel.nack(msg);
+                                                }
+                                            });
                                             return [2 /*return*/];
                                     }
                                 });
