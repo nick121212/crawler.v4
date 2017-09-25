@@ -1,7 +1,7 @@
 module.exports = {
     "options": {
         "senecaOptions": {
-            "timeout": 60000
+            "timeout": 120000
         }
     },
     "plugins": {
@@ -12,7 +12,7 @@ module.exports = {
                 "host": process.env.HOST,
                 "listen": [{
                     "pin": "role:crawler.plugin.wp,cmd:*",
-                    "timeout": 60000
+                    "timeout": 120000
                 }]
             }
         },
