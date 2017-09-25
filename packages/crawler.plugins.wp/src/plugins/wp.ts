@@ -29,8 +29,6 @@ const settings = {
     }]
 };
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-
 @Plugin(pluginName)
 @injectable()
 export class WpPlugin {
@@ -155,7 +153,14 @@ export class WpPlugin {
 
         console.log("---------tag结束", tag.id, category.id);
         console.log("---------title", _.trim(resouce.title));
-        let postData = {
+
+        let postExist = await this.wpApi["dwqa-question"]().slug(config._id).get();
+        if (postExist.length) {
+            await this.wpApi["dwqa-question"]().id(postExist[0].id).delete();
+        }
+        console.log("---------删除post结束");
+        // this.wpApi["dwqa-question"]
+        let post: any = await this.wpApi["dwqa-question"]().create({
             title: resouce.title,
             author: 5,
             comment_status: "open",
@@ -166,15 +171,7 @@ export class WpPlugin {
             status: "publish",
             date: Moment().add(comments.length * 3 - 30, "day").format("YYYY-MM-DD hh:mm:ss"),
             ping_status: "open"
-        };
-
-        let postExist = await this.wpApi["dwqa-question"]().slug(config._id).get();
-        if (postExist.length) {
-            await this.wpApi["dwqa-question"]().id(postExist[0].id).delete();
-        }
-        console.log("---------删除post结束");
-        // this.wpApi["dwqa-question"]
-        let post: any = await this.wpApi["dwqa-question"]().create(postData);
+        });
         console.log("--------post结束");
 
         comments.forEach(async (comment: any, idx: number) => {

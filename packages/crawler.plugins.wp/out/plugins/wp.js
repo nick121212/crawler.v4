@@ -71,7 +71,6 @@ var settings = {
             "enabled": true
         }]
 };
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 var WpPlugin = (function () {
     function WpPlugin() {
     }
@@ -201,7 +200,7 @@ var WpPlugin = (function () {
     WpPlugin.prototype.qa = function (config, options) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
-            var resouce, promises, comments, category, tag, postData, postExist, post;
+            var resouce, promises, comments, category, tag, postExist, post;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -227,18 +226,6 @@ var WpPlugin = (function () {
                     case 4:
                         console.log("---------tag结束", tag.id, category.id);
                         console.log("---------title", _.trim(resouce.title));
-                        postData = {
-                            title: resouce.title,
-                            author: 5,
-                            comment_status: "open",
-                            "dwqa-question_category": category ? [category.id] : null,
-                            "dwqa-question_tag": tag ? [tag.id] : null,
-                            slug: config._id,
-                            content: resouce.content,
-                            status: "publish",
-                            date: Moment().add(comments.length * 3 - 30, "day").format("YYYY-MM-DD hh:mm:ss"),
-                            ping_status: "open"
-                        };
                         return [4 /*yield*/, this.wpApi["dwqa-question"]().slug(config._id).get()];
                     case 5:
                         postExist = _a.sent();
@@ -249,7 +236,18 @@ var WpPlugin = (function () {
                         _a.label = 7;
                     case 7:
                         console.log("---------删除post结束");
-                        return [4 /*yield*/, this.wpApi["dwqa-question"]().create(postData)];
+                        return [4 /*yield*/, this.wpApi["dwqa-question"]().create({
+                                title: resouce.title,
+                                author: 5,
+                                comment_status: "open",
+                                "dwqa-question_category": category ? [category.id] : null,
+                                "dwqa-question_tag": tag ? [tag.id] : null,
+                                slug: config._id,
+                                content: resouce.content,
+                                status: "publish",
+                                date: Moment().add(comments.length * 3 - 30, "day").format("YYYY-MM-DD hh:mm:ss"),
+                                ping_status: "open"
+                            })];
                     case 8:
                         post = _a.sent();
                         console.log("--------post结束");
