@@ -13,7 +13,8 @@
     "store": "forever start ./packages/crawler.plugins.store/out/index.js ./packages/crawler.plugins.store/config.js --seneca.log.quiet",
     "transform": "forever start ./packages/crawler.plugins.transform/out/start.js ./packages/crawler.plugins.transform/config.js --seneca.log.quiet",
     "webapi": "forever start ./packages/crawler.plugins.webapi/out/server.js ./packages/crawler.plugins.webapi/config.js --seneca.log.quiet",
-
+    "wp": "forever start ./packages/crawler.plugins.wp/out/server.js ./packages/crawler.plugins.wp/config.js --seneca.log.quiet",
+    
     "basei": "cd packages/crawler.plugins.base && npm i",
     "downloaderi": "cd packages/crawler.plugins.downloader && npm i",
     "htmli": "cd packages/crawler.plugins.html && npm i",
