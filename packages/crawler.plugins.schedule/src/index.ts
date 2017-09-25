@@ -17,5 +17,7 @@ seneca.seneca
         console.log("crawler.plugins.schedule ready!");
         // await seneca.seneca.actAsync(`role:${pluginTaskName},cmd:add`, require("./config/milove").default);
         // await seneca.seneca.actAsync(`role:${pluginTaskName},cmd:add`, require("./config/milove.blog").default);
-        // await seneca.seneca.actAsync(`role:${pluginTaskName},cmd:add`, require("./config/bj").default);
+        // await seneca.seneca.actAsync(`role:${pluginTaskName},cmd:queueInfo`, { key: "bijia" }).catch(console.log);
+
+        await seneca.seneca.actAsync(`role:${pluginTaskName},cmd:forever`);
     });

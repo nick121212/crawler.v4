@@ -84,7 +84,7 @@ export class PluginPlugin {
 
             return rtn;
         } catch (e) {
-            console.log(data.__META__);
+            console.log("META:", data.__META__);
             throw e;
         }
         // return await this.pluginService.executePlugins(options.seneca, config.config.msgFlow, config.data || {});

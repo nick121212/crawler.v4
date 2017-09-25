@@ -66,8 +66,7 @@ var ExecutePluginService = (function () {
                         if (!msgFlow) {
                             return [2 /*return*/];
                         }
-                        return [4 /*yield*/, this.executePlugins(seneca, msgFlow, data || {})];
-                    case 2: return [2 /*return*/, _a.sent()];
+                        return [2 /*return*/, this.executePlugins(seneca, msgFlow, data || {})];
                 }
             });
         });
@@ -81,22 +80,20 @@ var ExecutePluginService = (function () {
     ExecutePluginService.prototype.executePlugins = function (seneca, plugins, data) {
         if (data === void 0) { data = {}; }
         return __awaiter(this, void 0, void 0, function () {
-            var len, currentIndex, currentPlugin, start, e_1, e_2, e_3;
+            var len, currentIndex, currentPlugin, checkParttens, start, e_1, e_2, e_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         len = plugins.length, currentIndex = 0;
+                        return [4 /*yield*/, this.checkParttens(seneca, plugins)];
+                    case 1:
+                        checkParttens = _a.sent();
                         if (!data.__META__) {
                             data.__META__ = {
                                 timer: [],
                                 retry: {}
                             };
                         }
-                        // 检测是否可以执行插件
-                        return [4 /*yield*/, this.checkParttens(seneca, plugins)];
-                    case 1:
-                        // 检测是否可以执行插件
-                        _a.sent();
                         _a.label = 2;
                     case 2:
                         if (!(len > currentIndex)) return [3 /*break*/, 15];
@@ -244,11 +241,10 @@ var ExecutePluginService = (function () {
             return __generator(this, function (_a) {
                 _.each(plugins, function (plugin) {
                     if (!seneca.has(plugin.partten)) {
-                        console.log("\u6CA1\u6709\u53D1\u73B0partten: " + plugin.partten);
                         throw new Error("\u6CA1\u6709\u627E\u5230partten:" + plugin.partten);
                     }
                 });
-                return [2 /*return*/];
+                return [2 /*return*/, true];
             });
         });
     };

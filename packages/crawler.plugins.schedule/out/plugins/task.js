@@ -126,12 +126,12 @@ var TaskPlugin = (function () {
      */
     TaskPlugin.prototype.addToTask = function (config, options, globalOptions) {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
             var queueName, mQueueService, task, instance;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         queueName = this.getUrlQueueName(config);
+                        // throw new Error("test");
                         // 如果已经存在，则忽略
                         if (this.has(queueName)) {
                             return [2 /*return*/];
@@ -142,16 +142,13 @@ var TaskPlugin = (function () {
                     case 1:
                         instance = _a.sent();
                         this.mqs.push(mQueueService);
-                        // 开始消费queue
-                        if (mQueueService.initConsume(globalOptions, queueName, options.seneca.actAsync.bind(options.seneca, config.startPartten), config)) {
-                            // 如果queue里面没有消息，则调用initFlow队列
-                            if (config.initFlow && config.initFlow.length) {
-                                setTimeout(function () {
-                                    _this.pluginService.executePlugins(options.seneca, config.initFlow, {}).catch(console.error);
-                                }, 500);
-                            }
-                        }
-                        return [2 /*return*/];
+                        if (!mQueueService.initConsume(globalOptions, queueName, options.seneca.actAsync.bind(options.seneca, config.startPartten), config)) return [3 /*break*/, 3];
+                        if (!(config.initFlow && config.initFlow.length)) return [3 /*break*/, 3];
+                        return [4 /*yield*/, this.pluginService.executePlugins(options.seneca, config.initFlow, {}).catch(console.error)];
+                    case 2:
+                        _a.sent();
+                        _a.label = 3;
+                    case 3: return [2 /*return*/];
                 }
             });
         });
@@ -220,19 +217,13 @@ var TaskPlugin = (function () {
                 mQueueServie = this.getQueueService({ key: key });
                 if (!mQueueServie) {
                     console.log("没有找到mqService");
-                    return [2 /*return*/];
+                    throw new Error("没有找到mqService");
                 }
                 return [2 /*return*/, mQueueServie.getQueueMessageCount(mQueueServie.queueName)];
             });
         });
     };
-    /**
-     * 启动未正常停止的队列
-     * @param msg
-     * @param options
-     * @param globalOptions
-     */
-    TaskPlugin.prototype.init = function (msg, options, globalOptions) {
+    TaskPlugin.prototype.forever = function (msg, options, globalOptions) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             var entity, tasks;
@@ -249,17 +240,34 @@ var TaskPlugin = (function () {
                                     switch (_a.label) {
                                         case 0:
                                             if (!(task.id && !this.mqs[task.id])) return [3 /*break*/, 2];
-                                            return [4 /*yield*/, this.addToTask(task, options, globalOptions)];
+                                            // await options.seneca.actAsync(`role:${pluginTaskName},cmd:add`, task);
+                                            return [4 /*yield*/, this.addToTask(task, options, globalOptions).catch(console.log)];
                                         case 1:
+                                            // await options.seneca.actAsync(`role:${pluginTaskName},cmd:add`, task);
                                             _a.sent();
                                             _a.label = 2;
                                         case 2: return [2 /*return*/];
                                     }
                                 });
                             }); });
-                        }, 60000);
-                        return [4 /*yield*/, bluebird.delay(200)];
-                    case 2:
+                        }, 600);
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * 启动未正常停止的队列
+     * @param msg
+     * @param options
+     * @param globalOptions
+     */
+    TaskPlugin.prototype.init = function (msg, options, globalOptions) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, bluebird.delay(200)];
+                    case 1:
                         _a.sent();
                         return [2 /*return*/];
                 }
@@ -308,6 +316,12 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], TaskPlugin.prototype, "getQueue", null);
+__decorate([
+    crawler_plugins_common_1.Add("role:" + constants_1.pluginTaskName + ",cmd:forever"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:returntype", Promise)
+], TaskPlugin.prototype, "forever", null);
 __decorate([
     crawler_plugins_common_1.Init(),
     __metadata("design:type", Function),

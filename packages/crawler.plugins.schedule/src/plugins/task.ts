@@ -97,6 +97,8 @@ export class TaskPlugin {
         ) {
         let queueName = this.getUrlQueueName(config);
 
+        // throw new Error("test");
+
         // 如果已经存在，则忽略
         if (this.has(queueName)) {
             return;
@@ -118,9 +120,7 @@ export class TaskPlugin {
         ) {
             // 如果queue里面没有消息，则调用initFlow队列
             if (config.initFlow && config.initFlow.length) {
-                setTimeout(() => {
-                    this.pluginService.executePlugins(options.seneca, config.initFlow, {}).catch(console.error);
-                }, 500);
+                await this.pluginService.executePlugins(options.seneca, config.initFlow, {}).catch(console.error);
             }
         }
     }
@@ -172,10 +172,25 @@ export class TaskPlugin {
 
         if (!mQueueServie) {
             console.log("没有找到mqService");
-            return;
+            throw new Error("没有找到mqService");
         }
 
         return mQueueServie.getQueueMessageCount(mQueueServie.queueName);
+    }
+
+    @Add(`role:${pluginTaskName},cmd:forever`)
+    private async forever(msg: any, options: any, globalOptions: any) {
+        let entity = options.seneca.make$("tasks");
+        let tasks = await entity.listAsync({});
+
+        setInterval(() => {
+            _.forEach(tasks, async (task: any) => {
+                if (task.id && !this.mqs[task.id]) {
+                    // await options.seneca.actAsync(`role:${pluginTaskName},cmd:add`, task);
+                    await this.addToTask(task, options, globalOptions).catch(console.log);
+                }
+            });
+        }, 600);
     }
 
     /**
@@ -186,17 +201,6 @@ export class TaskPlugin {
      */
     @Init()
     private async init(msg: any, options: any, globalOptions: any) {
-        let entity = options.seneca.make$("tasks");
-        let tasks = await entity.listAsync({});
-
-        setInterval(() => {
-            _.forEach(tasks, async (task: any) => {
-                if (task.id && !this.mqs[task.id]) {
-                    await this.addToTask(task, options, globalOptions);
-                }
-            });
-        }, 60000);
-
         await bluebird.delay(200);
     }
 }

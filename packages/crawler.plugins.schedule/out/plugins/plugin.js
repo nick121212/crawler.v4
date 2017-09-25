@@ -115,7 +115,7 @@ var PluginPlugin = (function () {
                         return [2 /*return*/, rtn];
                     case 3:
                         e_1 = _a.sent();
-                        console.log(data.__META__);
+                        console.log("META:", data.__META__);
                         throw e_1;
                     case 4: return [2 /*return*/];
                 }

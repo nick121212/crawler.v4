@@ -161,6 +161,7 @@ export class Seneca<T extends IConfig> {
         this._seneca.add(partten, options, async (msg: any, reply: any) => {
             try {
                 let result = await plugin[key](msg, Object.assign({ seneca: reply.seneca }, options, {}), globalOptions);
+
                 if (reply) {
                     reply(null, result);
                 }
