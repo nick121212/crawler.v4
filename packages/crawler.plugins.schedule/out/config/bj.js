@@ -30,7 +30,7 @@ exports.default = {
                     "title": "数据整理，返回result",
                     "jsonata": ["$.{'data':$.queueItem}"],
                     "data": {
-                        "expression": "$.{'pdt_sku':$.pdt_sku,'show_price':$.show_price,'business_id':$.business_id,'business_sku_url':$.business_sku_url}"
+                        "expression": "$.{'pdt_sku':$.pdt_sku,'show_price':$string($.show_price),'business_id':$.business_id,'business_sku_url':$.business_sku_url}"
                     },
                     "result": "$"
                 }, {
@@ -63,6 +63,7 @@ exports.default = {
                                                 "selector": [".quan-item .text"],
                                                 "removeSelector": [],
                                                 "methodInfo": { "text": [] },
+                                                "formats": [{ "key": "str", "settings": {} }],
                                                 "htmlStrategy": "jsdom",
                                                 "dealStrategy": "normal"
                                             }, {
@@ -78,6 +79,7 @@ exports.default = {
                                                 "selector": ["#choose-attr-1 .item.selected"],
                                                 "removeSelector": [],
                                                 "methodInfo": { "attr": ["data-value"] },
+                                                "formats": [{ "key": "str", "settings": {} }],
                                                 "dealStrategy": "normal"
                                             }, {
                                                 "key": "business_price",
@@ -198,6 +200,7 @@ exports.default = {
                                                 "title": "友商商品优惠信息,券",
                                                 "selector": [".quan-item .text"],
                                                 "removeSelector": [],
+                                                "formats": [{ "key": "str", "settings": {} }],
                                                 "methodInfo": { "text": [] },
                                                 "htmlStrategy": "jsdom",
                                                 "dealStrategy": "normal"
@@ -206,6 +209,7 @@ exports.default = {
                                                 "title": "友商商品规格",
                                                 "selector": ["#choose-attr-1 .item.selected"],
                                                 "removeSelector": [],
+                                                "formats": [{ "key": "str", "settings": {} }],
                                                 "methodInfo": { "attr": ["data-value"] },
                                                 "dealStrategy": "normal"
                                             }, {

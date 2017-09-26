@@ -193,7 +193,7 @@ var ExecutePluginService = (function () {
                         });
                         _a.label = 4;
                     case 4:
-                        console.log("\u5F00\u59CB\u6267\u884C\uFF1A" + (plugin.title || plugin.partten) + "-----");
+                        console.log("\u5F00\u59CB\u6267\u884C\uFF1A" + (plugin.title || plugin.partten) + "--");
                         retry = plugin.retry || 1, curRetryIndex = 0, isError = false;
                         // 最大5次重试
                         if (retry > 5) {

@@ -72,6 +72,10 @@ declare const _default: {
                                 "methodInfo": {
                                     "text": never[];
                                 };
+                                "formats": {
+                                    "key": string;
+                                    "settings": {};
+                                }[];
                                 "htmlStrategy": string;
                                 "dealStrategy": string;
                             } | {
@@ -91,6 +95,10 @@ declare const _default: {
                                 "methodInfo": {
                                     "attr": string[];
                                 };
+                                "formats": {
+                                    "key": string;
+                                    "settings": {};
+                                }[];
                                 "dealStrategy": string;
                             } | {
                                 "key": string;
