@@ -6,7 +6,7 @@ exports.default = {
     "purge": true,
     "delay": 500,
     "prefech": 3,
-    "startPartten": "role:crawler.plugin.plugin,cmd:testFlow",
+    "startPartten": "role:crawler.plugin.plugin,cmd:startNormalFlow",
     "initFlow": [{
             "partten": "role:crawler.plugin.store.es,cmd:scroll",
             "title": "开始循环遍历es",

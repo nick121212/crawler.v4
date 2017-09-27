@@ -9,6 +9,7 @@ declare const _default: {
     "msgFlow": {
         "partten": string;
         "title": string;
+        "force": boolean;
         "jsonata": string[];
         "data": {};
     }[];

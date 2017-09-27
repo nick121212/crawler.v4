@@ -1,11 +1,11 @@
 module.exports = {
     "options": {
         "crawler.plugin.mq": {
-            "url": process.env.RMQ || "amqp://nick:111111@123.59.43.166/crawler",
+            "url": process.env.RMQ || "amqp://nick:111111@123.59.44.152/crawler",
             "options": {}
         },
         "crawler.plugin.task": {
-            "url": process.env.RMQ || "amqp://nick:111111@123.59.43.166/crawler",
+            "url": process.env.RMQ || "amqp://nick:111111@123.59.44.152/crawler",
             "options": {}
         },
         "senecaOptions": {

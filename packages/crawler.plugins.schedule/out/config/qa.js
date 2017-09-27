@@ -11,6 +11,7 @@ exports.default = {
     "msgFlow": [{
             "partten": "role:crawler.plugin.wp,cmd:qa",
             "title": "调用保存qa的wp插件",
+            "force": true,
             "jsonata": ["$.hit"],
             "data": {}
         }]
