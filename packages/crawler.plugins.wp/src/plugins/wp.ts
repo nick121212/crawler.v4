@@ -190,7 +190,7 @@ export class WpPlugin {
                 status: "publish",
                 comment_status: "open",
                 content: comment.content,
-                date: Moment().add(idx * 10, "hour").format("YYYY-MM-DD hh:mm:ss"),
+                date: Moment().add(-idx * 10, "hour").format("YYYY-MM-DD hh:mm:ss"),
                 ping_status: "open"
             }));
         });
