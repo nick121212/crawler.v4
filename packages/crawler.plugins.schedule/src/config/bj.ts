@@ -58,12 +58,15 @@ export default {
                             }, {
                                 "key": "business_promotion",
                                 "title": "友商商品优惠信息,券",
-                                "selector": [".quan-item .text"],
-                                "removeSelector": [],
-                                "methodInfo": { "text": [] },
-                                "formats": [{ "key": "str", "settings": {} }],
+                                "selector": [".quan-item .text,#summary-promotion .prom-item em"],
+                                "data": [{
+                                    "methodInfo": { "text": [] },
+                                    "htmlStrategy": "jsdom",
+                                    "dealStrategy": "normal"
+                                }],
+                                "formats": [{ "key": "join", "settings": { "join": "、" } }],
                                 "htmlStrategy": "jsdom",
-                                "dealStrategy": "normal"
+                                "dealStrategy": "array"
                             }, {
                                 "key": "business_sku_subtitle",
                                 "title": "友商商品副标题",
@@ -97,6 +100,7 @@ export default {
             "jsonata": ["$.{'params':{'skuIds':'J_' & $match($.queueItem.path,/\\d+/)[0].match}}"],
             "result": "$.{'result':{'business_price':$jparse($.responseBody)[0].p}}",
             "retry": 2,
+            "condition": "$not($.result.business_price)",
             "title": "调用jd的获取价格接口",
             "data": {
                 "url": "https://p.3.cn/prices",
@@ -111,6 +115,14 @@ export default {
                 "key": "bijia"
             },
             "result": "$.{'result':{'consumerCount':$.consumerCount,'messageCount':$.messageCount}}"
+        }, {
+            "partten": "role:crawler.plugin.transform,cmd:single",
+            "title": "数据整理，返回result",
+            "jsonata": ["$.{'data':$.result}"],
+            "data": {
+                "expression": "$.{'business_promotion':$join($.business_promotion,'、')}"
+            },
+            "result": "$"
         }, {
             "partten": "role:crawler.plugin.downloader,cmd:interfaces",
             "jsonata": ["$.result.{'params':{'fields':$.$string()}}"],
