@@ -200,7 +200,7 @@ var WpPlugin = (function () {
     WpPlugin.prototype.qa = function (config, options) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
-            var resouce, promises, comments, category, tag, postExist, post;
+            var resouce, promises, comments, category, tag, postExist, post, promisese;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -252,29 +252,27 @@ var WpPlugin = (function () {
                     case 7:
                         post = _a.sent();
                         console.log("--------post结束");
+                        promisese = [];
                         comments.forEach(function (comment, idx) { return __awaiter(_this, void 0, void 0, function () {
-                            var com;
                             return __generator(this, function (_a) {
-                                switch (_a.label) {
-                                    case 0: return [4 /*yield*/, this.wpApi["dwqa-answer"]().create({
-                                            title: resouce.title,
-                                            post: post.id,
-                                            test: 1,
-                                            menu_order: 2,
-                                            author: 4,
-                                            slug: config._id + "dwqa-answer" + idx,
-                                            status: "publish",
-                                            comment_status: "open",
-                                            content: comment.content,
-                                            date: Moment().add(idx * 10, "hour").format("YYYY-MM-DD hh:mm:ss"),
-                                            ping_status: "open"
-                                        }).catch(console.log)];
-                                    case 1:
-                                        com = _a.sent();
-                                        return [2 /*return*/];
-                                }
+                                promisese.push(this.wpApi["dwqa-answer"]().create({
+                                    title: resouce.title,
+                                    post: post.id,
+                                    menu_order: 2,
+                                    author: 4,
+                                    slug: config._id + "dwqa-answer" + idx,
+                                    status: "publish",
+                                    comment_status: "open",
+                                    content: comment.content,
+                                    date: Moment().add(idx * 10, "hour").format("YYYY-MM-DD hh:mm:ss"),
+                                    ping_status: "open"
+                                }));
+                                return [2 /*return*/];
                             });
                         }); });
+                        return [4 /*yield*/, promisese];
+                    case 8:
+                        _a.sent();
                         console.log("---------component结束");
                         return [2 /*return*/];
                 }
@@ -296,8 +294,18 @@ var WpPlugin = (function () {
                             })];
                     case 1:
                         _a.wpApi = _b.sent();
+                        // this.wpApi = new WpApi({
+                        //     endpoint: "https://localhost/wp-json",
+                        //     username: "crawler",
+                        //     password: "crawler-1314"
+                        // });
                         return [4 /*yield*/, bluebird.delay(10)];
                     case 2:
+                        // this.wpApi = new WpApi({
+                        //     endpoint: "https://localhost/wp-json",
+                        //     username: "crawler",
+                        //     password: "crawler-1314"
+                        // });
                         _b.sent();
                         return [2 /*return*/];
                 }

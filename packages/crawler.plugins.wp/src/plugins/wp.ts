@@ -178,11 +178,12 @@ export class WpPlugin {
         });
         console.log("--------post结束");
 
+        let promisese: Promise<any>[] = [];
+
         comments.forEach(async (comment: any, idx: number) => {
-            let com = await this.wpApi["dwqa-answer"]().create({
+            promisese.push(this.wpApi["dwqa-answer"]().create({
                 title: resouce.title,
                 post: post.id,
-                test: 1,
                 menu_order: 2,
                 author: 4,
                 slug: config._id + "dwqa-answer" + idx,
@@ -191,8 +192,10 @@ export class WpPlugin {
                 content: comment.content,
                 date: Moment().add(idx * 10, "hour").format("YYYY-MM-DD hh:mm:ss"),
                 ping_status: "open"
-            }).catch(console.log);
+            }));
         });
+
+        await promisese;
 
         console.log("---------component结束");
     }
@@ -205,6 +208,12 @@ export class WpPlugin {
                 password: "crawler-1314"
             });
         });
+
+        // this.wpApi = new WpApi({
+        //     endpoint: "https://localhost/wp-json",
+        //     username: "crawler",
+        //     password: "crawler-1314"
+        // });
 
         await bluebird.delay(10);
     }

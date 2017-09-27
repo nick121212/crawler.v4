@@ -7,7 +7,7 @@ export default {
     "startPartten": "role:crawler.plugin.plugin,cmd:startNormalFlow",
     "initFlow": [{
         "partten": "role:crawler.plugin.store.es,cmd:scroll",
-        "title": "开始循环遍历es",
+        "title": "init--开始循环遍历es",
         "data": {
             "esIndex": "qa",
             "esType": "mamilove"
@@ -32,6 +32,7 @@ export default {
     "msgFlow": [{
         "partten": "role:crawler.plugin.store.es,cmd:scroll",
         "title": "开始循环遍历es",
+        "jsonata": ["$.{'scrollId':$.scrollId}"],
         "data": {
             "esIndex": "qa",
             "esType": "mamilove"
@@ -48,6 +49,7 @@ export default {
     }, {
         "partten": "role:crawler.plugin.task,cmd:addItemToQueue",
         "title": "把存储的数据放入queue",
+        "condition": "$not($.scroll.hits.hits)",
         "jsonata": ["$.{'items':[{'scrollId':$.scroll._scroll_id}]}"],
         "data": {
             "key": "scroll-qa"
