@@ -156,7 +156,8 @@ export class WpPlugin {
 
         let postExist = await this.wpApi["dwqa-question"]().slug(config._id).get();
         if (postExist.length) {
-            await this.wpApi["dwqa-question"]().id(postExist[0].id).delete();
+            return;
+            // await this.wpApi["dwqa-question"]().id(postExist[0].id).delete();
         }
         console.log("---------删除post结束");
 

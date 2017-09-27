@@ -229,15 +229,13 @@ var WpPlugin = (function () {
                         return [4 /*yield*/, this.wpApi["dwqa-question"]().slug(config._id).get()];
                     case 5:
                         postExist = _a.sent();
-                        if (!postExist.length) return [3 /*break*/, 7];
-                        return [4 /*yield*/, this.wpApi["dwqa-question"]().id(postExist[0].id).delete()];
-                    case 6:
-                        _a.sent();
-                        _a.label = 7;
-                    case 7:
+                        if (postExist.length) {
+                            return [2 /*return*/];
+                            // await this.wpApi["dwqa-question"]().id(postExist[0].id).delete();
+                        }
                         console.log("---------删除post结束");
                         return [4 /*yield*/, bluebird.delay(500)];
-                    case 8:
+                    case 6:
                         _a.sent();
                         return [4 /*yield*/, this.wpApi["dwqa-question"]().create({
                                 title: resouce.title,
@@ -251,7 +249,7 @@ var WpPlugin = (function () {
                                 date: Moment().add(comments.length * 3 - 30, "day").format("YYYY-MM-DD hh:mm:ss"),
                                 ping_status: "open"
                             })];
-                    case 9:
+                    case 7:
                         post = _a.sent();
                         console.log("--------post结束");
                         comments.forEach(function (comment, idx) { return __awaiter(_this, void 0, void 0, function () {
