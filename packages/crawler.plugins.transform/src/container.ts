@@ -16,6 +16,6 @@ export const container: inversify.interfaces.Container = new Container();
 container.bind<CombineFunc>(Types.FUNC).to(CombineFunc);
 container.bind<MomentFunc>(Types.FUNC).to(MomentFunc);
 container.bind<JparseFunc>(Types.FUNC).to(JparseFunc);
-container.bind<JparseFunc>(Types.FUNC).to(QsFunc);
+container.bind<QsFunc>(Types.FUNC).to(QsFunc);
 
 container.bind<PluginBase>(CommonTypes._plugin).to(TransformExexutePlugin).inSingletonScope().whenAnyAncestorNamed("TransformExexutePlugin");
