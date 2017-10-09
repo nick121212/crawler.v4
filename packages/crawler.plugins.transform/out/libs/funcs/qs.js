@@ -8,13 +8,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var inversify_1 = require("inversify");
 var qs = require("qs");
-var JparseFunc = /** @class */ (function () {
-    function JparseFunc() {
+var QsFunc = /** @class */ (function () {
+    function QsFunc() {
     }
-    JparseFunc.prototype.init = function (exp) {
+    QsFunc.prototype.init = function (exp) {
         exp.assign("qs", this.urlparse);
     };
-    JparseFunc.prototype.urlparse = function (objs, key) {
+    QsFunc.prototype.urlparse = function (objs, key) {
         if (!objs || objs.constructor !== String) {
             throw new Error("第一个参数有问题");
         }
@@ -24,10 +24,10 @@ var JparseFunc = /** @class */ (function () {
         }
         return noSparse;
     };
-    JparseFunc = __decorate([
+    QsFunc = __decorate([
         inversify_1.injectable()
-    ], JparseFunc);
-    return JparseFunc;
+    ], QsFunc);
+    return QsFunc;
 }());
-exports.JparseFunc = JparseFunc;
+exports.QsFunc = QsFunc;
 //# sourceMappingURL=qs.js.map

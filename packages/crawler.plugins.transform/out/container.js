@@ -6,10 +6,12 @@ var constants_1 = require("./constants");
 var combine_1 = require("./libs/funcs/combine");
 var moment_1 = require("./libs/funcs/moment");
 var jparse_1 = require("./libs/funcs/jparse");
+var qs_1 = require("./libs/funcs/qs");
 var execute_1 = require("./plugins/execute");
 exports.container = new inversify_1.Container();
 exports.container.bind(constants_1.Types.FUNC).to(combine_1.CombineFunc);
 exports.container.bind(constants_1.Types.FUNC).to(moment_1.MomentFunc);
 exports.container.bind(constants_1.Types.FUNC).to(jparse_1.JparseFunc);
+exports.container.bind(constants_1.Types.FUNC).to(qs_1.QsFunc);
 exports.container.bind(crawler_plugins_common_1.Types._plugin).to(execute_1.TransformExexutePlugin).inSingletonScope().whenAnyAncestorNamed("TransformExexutePlugin");
 //# sourceMappingURL=container.js.map

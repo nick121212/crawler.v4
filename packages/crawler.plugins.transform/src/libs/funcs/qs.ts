@@ -3,7 +3,7 @@ import * as jsonata from "jsonata";
 import * as qs from "qs";
 
 @injectable()
-export class JparseFunc {
+export class QsFunc {
     public init(exp: jsonata.Expression) {
         exp.assign("qs", this.urlparse);
     }
