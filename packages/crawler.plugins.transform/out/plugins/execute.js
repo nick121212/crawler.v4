@@ -52,16 +52,14 @@ var crawler_plugins_common_1 = require("crawler.plugins.common");
 var Joi = require("joi");
 var constants_1 = require("../constants");
 var index_1 = require("../index");
-var TransformExexutePlugin = (function () {
+var TransformExexutePlugin = /** @class */ (function () {
     function TransformExexutePlugin() {
     }
     /**
      * 启动一个任务
-     * @param param0
-     * @param options
-     * @param globalOptions
+     * @param param0 数据
      */
-    TransformExexutePlugin.prototype.single = function (_a, options, globalOptions) {
+    TransformExexutePlugin.prototype.single = function (_a) {
         var expression = _a.expression, data = _a.data;
         return __awaiter(this, void 0, void 0, function () {
             var exp;
@@ -75,9 +73,7 @@ var TransformExexutePlugin = (function () {
     };
     /**
      * 启动一个任务
-     * @param param0
-     * @param options
-     * @param globalOptions
+     * @param param0 数据
      */
     TransformExexutePlugin.prototype.muti = function (_a, options, globalOptions) {
         var expressions = _a.expressions, data = _a.data;
@@ -92,7 +88,7 @@ var TransformExexutePlugin = (function () {
                         switch (_c.label) {
                             case 0:
                                 _b = (_a = rets).push;
-                                return [4 /*yield*/, this.single({ expression: expression, data: data }, options, globalOptions)];
+                                return [4 /*yield*/, this.single({ expression: expression, data: data })];
                             case 1:
                                 _b.apply(_a, [(_c.sent()).result]);
                                 return [2 /*return*/];
@@ -103,31 +99,31 @@ var TransformExexutePlugin = (function () {
             });
         });
     };
+    __decorate([
+        crawler_plugins_common_1.Add("role:" + constants_1.pluginName + ",cmd:single"),
+        __param(0, crawler_plugins_common_1.Validate(Joi.object().keys({
+            expression: Joi.string().required().label("表达式"),
+            data: Joi.any().required().label("数组字段")
+        }), { allowUnknown: true })),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", Promise)
+    ], TransformExexutePlugin.prototype, "single", null);
+    __decorate([
+        crawler_plugins_common_1.Add("role:" + constants_1.pluginName + ",cmd:muti"),
+        __param(0, crawler_plugins_common_1.Validate(Joi.object().keys({
+            expressions: Joi.array().items(Joi.string().required().label("表达式")).required().label("表达式列表"),
+            data: Joi.any().required().label("数组字段")
+        }), { allowUnknown: true })),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object, Object, Object]),
+        __metadata("design:returntype", Promise)
+    ], TransformExexutePlugin.prototype, "muti", null);
+    TransformExexutePlugin = __decorate([
+        crawler_plugins_common_1.Plugin(constants_1.pluginName),
+        inversify_1.injectable()
+    ], TransformExexutePlugin);
     return TransformExexutePlugin;
 }());
-__decorate([
-    crawler_plugins_common_1.Add("role:" + constants_1.pluginName + ",cmd:single"),
-    __param(0, crawler_plugins_common_1.Validate(Joi.object().keys({
-        expression: Joi.string().required(),
-        data: Joi.any().required()
-    }), { allowUnknown: true })),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object]),
-    __metadata("design:returntype", Promise)
-], TransformExexutePlugin.prototype, "single", null);
-__decorate([
-    crawler_plugins_common_1.Add("role:" + constants_1.pluginName + ",cmd:muti"),
-    __param(0, crawler_plugins_common_1.Validate(Joi.object().keys({
-        expressions: Joi.array().items(Joi.string().required()).required(),
-        data: Joi.any().required()
-    }), { allowUnknown: true })),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object]),
-    __metadata("design:returntype", Promise)
-], TransformExexutePlugin.prototype, "muti", null);
-TransformExexutePlugin = __decorate([
-    crawler_plugins_common_1.Plugin(constants_1.pluginName),
-    inversify_1.injectable()
-], TransformExexutePlugin);
 exports.TransformExexutePlugin = TransformExexutePlugin;
 //# sourceMappingURL=execute.js.map

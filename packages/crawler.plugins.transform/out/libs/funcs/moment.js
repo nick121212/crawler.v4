@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var inversify_1 = require("inversify");
 var moment = require("moment");
-var MomentFunc = (function () {
+var MomentFunc = /** @class */ (function () {
     function MomentFunc() {
     }
     MomentFunc.prototype.init = function (exp) {
@@ -21,10 +21,10 @@ var MomentFunc = (function () {
         }
         return moment.apply(this, args);
     };
+    MomentFunc = __decorate([
+        inversify_1.injectable()
+    ], MomentFunc);
     return MomentFunc;
 }());
-MomentFunc = __decorate([
-    inversify_1.injectable()
-], MomentFunc);
 exports.MomentFunc = MomentFunc;
 //# sourceMappingURL=moment.js.map

@@ -21,6 +21,7 @@
     "jsonata": "^1.2.6",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
+    "qs": "^6.5.1",
     "reflect-metadata": "^0.1.10",
     "seneca": "^3.4.1",
     "seneca-consul-registry": "^0.1.0",
@@ -35,6 +36,7 @@
     "@types/lodash": "^4.14.71",
     "@types/moment": "^2.13.0",
     "@types/node": "^8.0.19",
+    "@types/qs": "^6.5.0",
     "@types/reflect-metadata": "0.0.5",
     "@types/seneca": "^2.1.7"
   }

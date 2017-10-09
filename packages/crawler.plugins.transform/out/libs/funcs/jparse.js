@@ -7,7 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var inversify_1 = require("inversify");
-var JparseFunc = (function () {
+var JparseFunc = /** @class */ (function () {
     function JparseFunc() {
     }
     JparseFunc.prototype.init = function (exp) {
@@ -19,10 +19,10 @@ var JparseFunc = (function () {
         }
         return JSON.parse(objs);
     };
+    JparseFunc = __decorate([
+        inversify_1.injectable()
+    ], JparseFunc);
     return JparseFunc;
 }());
-JparseFunc = __decorate([
-    inversify_1.injectable()
-], JparseFunc);
 exports.JparseFunc = JparseFunc;
 //# sourceMappingURL=jparse.js.map
