@@ -29,6 +29,10 @@ export class PluginPlugin {
         { queueItem, pages }: { queueItem: any, pages: Array<PageModel> }
         ): Array<any> | null {
 
+        if (!queueItem || !queueItem.url) {
+            console.log("queueItem 为空，或格式不正确！");
+            return [];
+        }
         console.log("开始爬取：------------", queueItem, queueItem.url);
 
         let rules = _.filter(pages, ({ path }) => {

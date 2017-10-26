@@ -1,4 +1,49 @@
 
+/**
+ * 有来医生，从疾病页入口爬取规则
+ *  1. 初始化队列
+ *      * 入口页地址queue化
+ *      * 保存入口页地址
+ *      * 入口也地址存入queue
+ *  2. 页面列表
+ *      * 一级科室的爬取
+ *          页面地址规则：/dise/pk_([3|4])_0_1.html
+ *          队列信息：
+ *              * 下载页面
+ *              * 分析页面中的地址
+ *              * 保存分析出的地址
+ *              * 将保存的地址存入queue
+ *              * 更新当前的地址信息
+ *      * 二级科室的爬取
+ *          页面地址规则：/dise/pk_([3|4])_([1-9]+)_1.html
+ *          队列信息：
+ *              * 下载页面
+ *              * 分析页面获取疾病信息（当前选中的一级科室，二级科室，以及疾病信息）
+ *              * 存储获取的疾病信息，存入es，index:youlai,type:dise
+ *              * 把疾病信息的地址queue化
+ *              * 存储疾病信息的地址
+ *              * 存储疾病信息的地址放入queue
+ *      * 疾病首页
+ *          地址规则：/dise/(\\d+).html
+ *          队列信息：
+ *              * 下载页面
+ *              * 分析页面中的文章列表地址
+ *              * 保存分析出的地址
+ *              * 将保存的地址存入queue
+ *      * 疾病文章列表
+ *          地址规则：/dise/articlelist/(\\d+)_(\\d+).html
+ *          队列信息：
+ *              * 下载页面
+ *              * 分析页面中的地址，包括文章列表和文章详情的地址
+ *              * 保存分析出的地址
+ *              * 将保存的地址存入queue
+ *      * 疾病文章详情
+ *          地址规则：/yyk/article/(\\d+).html（不知道会不会漏掉，目前看都是这种规则）
+ *          队列信息：
+ *              * 下载页面
+ *              * 分析页面，解析出文章的数据，content，createAt，tag，category，author，like，num
+ *              * 保存文章数据到es
+ */         
 
 export default {
     "key": "youlai.dise",
@@ -82,7 +127,7 @@ export default {
         }, {
             "partten": "role:crawler.plugin.store.es,cmd:saveResult",
             "title": "存储爬取的数据",
-            "jsonata": ["$.result.{'result':$merge([$,{'categories':$$.categories}])}", "$.queueItem._id.{'_id':$}"],
+            "jsonata": ["$.result.{'result':$merge([$,{'categories':$$.categories,'tags':$$.tags}])}", "$.queueItem._id.{'_id':$}"],
             "data": {
                 "esIndex": "youlai",
                 "esType": "article"
@@ -135,7 +180,7 @@ export default {
         }, {
             "partten": "role:crawler.plugin.task,cmd:addItemToQueue",
             "title": "把存储的url放入queue",
-            "jsonata": ["$.saveUrls{'items':[$.{'queueItem':$,'categories':$$.categories}]}"],
+            "jsonata": ["$.saveUrls{'items':[$.{'queueItem':$,'categories':$$.categories,'tags':$$.tags}]}"],
             "data": {
                 "key": "youlai.dise"
             }
@@ -187,14 +232,14 @@ export default {
         }, {
             "partten": "role:crawler.plugin.task,cmd:addItemToQueue",
             "title": "把存储的url放入queue",
-            "jsonata": ["$.saveUrls{'items':[$.{'queueItem':$,'categories':$$.categories}]}"],
+            "jsonata": ["$.saveUrls{'items':[$.{'queueItem':$,'categories':$$.categories,'tags':$$.tags}]}"],
             "data": {
                 "key": "youlai.dise"
             }
         }]
     }, {
         "path": "/dise/pk_([3|4])_([1-9]+)_1.html",
-        "title": "儿科、妇科的疾病信息",
+        "title": "儿科、妇科的二级科室信息",
         "msgFlow": [{
             "partten": "role:crawler.plugin.downloader,cmd:html",
             "title": "下载页面",
@@ -217,7 +262,17 @@ export default {
                         "none": {
                             "data": [{
                                 "key": "categories",
-                                "selector": [".article_l_top .cur"],
+                                "selector": [".article_l_top .cur:eq(0)"],
+                                "removeSelector": [],
+                                "dealStrategy": "array",
+                                "data": [{
+                                    "methodInfo": { "text": [] },
+                                    "htmlStrategy": "jsdom",
+                                    "dealStrategy": "normal"
+                                }]
+                            }, {
+                                "key": "tags",
+                                "selector": [".article_l_top .cur:eq(1)"],
                                 "removeSelector": [],
                                 "dealStrategy": "array",
                                 "data": [{
@@ -305,7 +360,7 @@ export default {
         }, {
             "partten": "role:crawler.plugin.task,cmd:addItemToQueue",
             "title": "把存储的url放入queue",
-            "jsonata": ["$.saveUrls{'items':[$.{'queueItem':$,'categories':$$.result.result.categories}]}"],
+            "jsonata": ["$.saveUrls{'items':[$.{'queueItem':$,'categories':$$.result.result.categories,'tags':$$.result.result.tags}]}"],
             "data": {
                 "key": "youlai.dise"
             }

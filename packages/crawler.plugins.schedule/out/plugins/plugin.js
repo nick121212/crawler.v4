@@ -64,6 +64,10 @@ var PluginPlugin = /** @class */ (function () {
     */
     PluginPlugin.prototype.getFieldFlow = function (_a) {
         var queueItem = _a.queueItem, pages = _a.pages;
+        if (!queueItem || !queueItem.url) {
+            console.log("queueItem 为空，或格式不正确！");
+            return [];
+        }
         console.log("开始爬取：------------", queueItem, queueItem.url);
         var rules = _.filter(pages, function (_a) {
             var path = _a.path;
