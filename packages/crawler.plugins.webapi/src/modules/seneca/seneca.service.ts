@@ -2,8 +2,9 @@ import * as Express from "express";
 import { Seneca } from "crawler.plugins.common";
 import * as inversify from "inversify";
 import * as path from "path";
-
 import { Component } from "@nestjs/common";
+
+import { container } from "./container";
 
 const wellknown = require("nodemailer-wellknown");
 
@@ -13,8 +14,7 @@ export abstract class SenecaService {
     public seneca: any;
 
     constructor() {
-        const container: inversify.interfaces.Container = new inversify.Container();
-        const seneca = new Seneca(container, {
+        const seneca = new Seneca<any>(container, {
             tag: "crawler.plugins.webapi"
         });
 

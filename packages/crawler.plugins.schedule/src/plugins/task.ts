@@ -151,6 +151,18 @@ export class TaskPlugin {
     }
 
     /**
+ * 删除一个任务
+ * @param param0
+ * @param options
+ * @param globalOptions
+ */
+    @Add(`role:${pluginTaskName},cmd:restart`)
+    private async restartTask(data: SettingModel, options: any, globalOptions: any) {
+        await options.seneca.actAsync(`role:${pluginTaskName},cmd:remove`, data);
+        await options.seneca.actAsync(`role:${pluginTaskName},cmd:add`, data);
+    }
+
+    /**
      * 列出所有
      * @param param0
      * @param options

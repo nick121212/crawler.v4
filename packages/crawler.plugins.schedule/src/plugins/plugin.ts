@@ -29,7 +29,7 @@ export class PluginPlugin {
         { queueItem, pages }: { queueItem: any, pages: Array<PageModel> }
         ): Array<any> | null {
 
-        console.log("开始爬取：------------", queueItem.url);
+        console.log("开始爬取：------------", queueItem, queueItem.url);
 
         let rules = _.filter(pages, ({ path }) => {
             let pathToReg = pathToRegexp(path.toString(), []);

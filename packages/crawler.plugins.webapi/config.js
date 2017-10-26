@@ -1,7 +1,7 @@
 module.exports = {
     "options": {
         "senecaOptions": {
-
+            "timeout": 30000
         }
     },
     "plugins": {
@@ -10,16 +10,16 @@ module.exports = {
             "mesh": {
                 "isbase": false,
                 "auto": true,
-                "host": process.env.HOST
+                "host": process.env.HOST,
+                "listen": [{
+                    "pin": "role:crawler.plugin.webapi,cmd:*",
+                }]
             }
         },
         "after": {
             "redis-store": {
                 "uri": process.env.REDIS || "redis://123.59.44.152:6379",
-                "options": {
-                    "password": "crawler"
-                },
-                "web": { "dump": true }
+                "options": {}
             },
             "user": { "confirm": true }
         }

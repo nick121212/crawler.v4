@@ -7,7 +7,7 @@ var qs = require("qs");
 var pathToRegexp = require("path-to-regexp");
 var md5 = require("blueimp-md5");
 var QUEUE_ITEM_INITIAL_DEPTH = 1;
-var Queue = (function () {
+var Queue = /** @class */ (function () {
     /**
      * 构造函数
      * @param settings {object}

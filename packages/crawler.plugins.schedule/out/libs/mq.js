@@ -47,7 +47,7 @@ var inversify_1 = require("inversify");
 /**
  * rabbitmq服务
  */
-var MQueueService = (function () {
+var MQueueService = /** @class */ (function () {
     function MQueueService() {
     }
     /**
@@ -284,10 +284,10 @@ var MQueueService = (function () {
             });
         });
     };
+    MQueueService = __decorate([
+        inversify_1.injectable()
+    ], MQueueService);
     return MQueueService;
 }());
-MQueueService = __decorate([
-    inversify_1.injectable()
-], MQueueService);
 exports.MQueueService = MQueueService;
 //# sourceMappingURL=mq.js.map

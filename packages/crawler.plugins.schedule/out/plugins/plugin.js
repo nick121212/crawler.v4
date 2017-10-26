@@ -54,7 +54,7 @@ var pathToRegexp = require("path-to-regexp");
 var Joi = require("joi");
 var constants_1 = require("../constants");
 var plugin_1 = require("../libs/plugin");
-var PluginPlugin = (function () {
+var PluginPlugin = /** @class */ (function () {
     function PluginPlugin() {
     }
     /**
@@ -64,7 +64,7 @@ var PluginPlugin = (function () {
     */
     PluginPlugin.prototype.getFieldFlow = function (_a) {
         var queueItem = _a.queueItem, pages = _a.pages;
-        console.log("开始爬取：------------", queueItem.url);
+        console.log("开始爬取：------------", queueItem, queueItem.url);
         var rules = _.filter(pages, function (_a) {
             var path = _a.path;
             var pathToReg = pathToRegexp(path.toString(), []);
@@ -151,43 +151,43 @@ var PluginPlugin = (function () {
             });
         });
     };
+    __decorate([
+        inversify_1.inject(plugin_1.ExecutePluginService),
+        __metadata("design:type", plugin_1.ExecutePluginService)
+    ], PluginPlugin.prototype, "pluginService", void 0);
+    __decorate([
+        crawler_plugins_common_1.Add("role:" + constants_1.pluginResultName + ",cmd:getFieldFlow"),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", Object)
+    ], PluginPlugin.prototype, "getFieldFlow", null);
+    __decorate([
+        crawler_plugins_common_1.Add("role:" + constants_1.pluginResultName + ",cmd:testFlow"),
+        __param(0, crawler_plugins_common_1.Validate(Joi.object().keys({
+            msgFlow: Joi.array().required(),
+            data: Joi.object().required()
+        }).required(), { allowUnknown: true })),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object, Object, Object]),
+        __metadata("design:returntype", Promise)
+    ], PluginPlugin.prototype, "testFlow", null);
+    __decorate([
+        crawler_plugins_common_1.Add("role:" + constants_1.pluginResultName + ",cmd:startNormalFlow"),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object, Object, Object]),
+        __metadata("design:returntype", Promise)
+    ], PluginPlugin.prototype, "startNormalFlow", null);
+    __decorate([
+        crawler_plugins_common_1.Add("role:" + constants_1.pluginResultName + ",cmd:startFlow"),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object, Object]),
+        __metadata("design:returntype", Promise)
+    ], PluginPlugin.prototype, "startFlow", null);
+    PluginPlugin = __decorate([
+        crawler_plugins_common_1.Plugin(constants_1.pluginResultName),
+        inversify_1.injectable()
+    ], PluginPlugin);
     return PluginPlugin;
 }());
-__decorate([
-    inversify_1.inject(plugin_1.ExecutePluginService),
-    __metadata("design:type", plugin_1.ExecutePluginService)
-], PluginPlugin.prototype, "pluginService", void 0);
-__decorate([
-    crawler_plugins_common_1.Add("role:" + constants_1.pluginResultName + ",cmd:getFieldFlow"),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Array)
-], PluginPlugin.prototype, "getFieldFlow", null);
-__decorate([
-    crawler_plugins_common_1.Add("role:" + constants_1.pluginResultName + ",cmd:testFlow"),
-    __param(0, crawler_plugins_common_1.Validate(Joi.object().keys({
-        msgFlow: Joi.array().required(),
-        data: Joi.object().required()
-    }).required(), { allowUnknown: true })),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object]),
-    __metadata("design:returntype", Promise)
-], PluginPlugin.prototype, "testFlow", null);
-__decorate([
-    crawler_plugins_common_1.Add("role:" + constants_1.pluginResultName + ",cmd:startNormalFlow"),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object]),
-    __metadata("design:returntype", Promise)
-], PluginPlugin.prototype, "startNormalFlow", null);
-__decorate([
-    crawler_plugins_common_1.Add("role:" + constants_1.pluginResultName + ",cmd:startFlow"),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", Promise)
-], PluginPlugin.prototype, "startFlow", null);
-PluginPlugin = __decorate([
-    crawler_plugins_common_1.Plugin(constants_1.pluginResultName),
-    inversify_1.injectable()
-], PluginPlugin);
 exports.PluginPlugin = PluginPlugin;
 //# sourceMappingURL=plugin.js.map

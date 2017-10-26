@@ -59,7 +59,7 @@ var _ = require("lodash");
 var constants_1 = require("../constants");
 var mq_1 = require("../libs/mq");
 var plugin_1 = require("../libs/plugin");
-var TaskPlugin = (function () {
+var TaskPlugin = /** @class */ (function () {
     function TaskPlugin() {
         /**
          * 当前正在执行的task列表
@@ -189,6 +189,27 @@ var TaskPlugin = (function () {
         });
     };
     /**
+ * 删除一个任务
+ * @param param0
+ * @param options
+ * @param globalOptions
+ */
+    TaskPlugin.prototype.restartTask = function (data, options, globalOptions) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, options.seneca.actAsync("role:" + constants_1.pluginTaskName + ",cmd:remove", data)];
+                    case 1:
+                        _a.sent();
+                        return [4 /*yield*/, options.seneca.actAsync("role:" + constants_1.pluginTaskName + ",cmd:add", data)];
+                    case 2:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
      * 列出所有
      * @param param0
      * @param options
@@ -280,63 +301,69 @@ var TaskPlugin = (function () {
             });
         });
     };
+    __decorate([
+        inversify_1.inject(plugin_1.ExecutePluginService),
+        __metadata("design:type", plugin_1.ExecutePluginService)
+    ], TaskPlugin.prototype, "pluginService", void 0);
+    __decorate([
+        crawler_plugins_common_1.Add("role:" + constants_1.pluginTaskName + ",cmd:getOne"),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", Object)
+    ], TaskPlugin.prototype, "getQueueService", null);
+    __decorate([
+        crawler_plugins_common_1.Add("role:" + constants_1.pluginTaskName + ",cmd:addItemToQueue"),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", Promise)
+    ], TaskPlugin.prototype, "addToQueue", null);
+    __decorate([
+        crawler_plugins_common_1.Add("role:" + constants_1.pluginTaskName + ",cmd:add"),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object, Object, Object]),
+        __metadata("design:returntype", Promise)
+    ], TaskPlugin.prototype, "addToTask", null);
+    __decorate([
+        crawler_plugins_common_1.Add("role:" + constants_1.pluginTaskName + ",cmd:remove"),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object, Object, Object]),
+        __metadata("design:returntype", Promise)
+    ], TaskPlugin.prototype, "removeFromTask", null);
+    __decorate([
+        crawler_plugins_common_1.Add("role:" + constants_1.pluginTaskName + ",cmd:restart"),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object, Object, Object]),
+        __metadata("design:returntype", Promise)
+    ], TaskPlugin.prototype, "restartTask", null);
+    __decorate([
+        crawler_plugins_common_1.Add("role:" + constants_1.pluginTaskName + ",cmd:list"),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object, Object, Object]),
+        __metadata("design:returntype", Promise)
+    ], TaskPlugin.prototype, "listTask", null);
+    __decorate([
+        crawler_plugins_common_1.Add("role:" + constants_1.pluginTaskName + ",cmd:queueInfo"),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object, Object]),
+        __metadata("design:returntype", Promise)
+    ], TaskPlugin.prototype, "getQueue", null);
+    __decorate([
+        crawler_plugins_common_1.Add("role:" + constants_1.pluginTaskName + ",cmd:forever"),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object, Object, Object]),
+        __metadata("design:returntype", Promise)
+    ], TaskPlugin.prototype, "forever", null);
+    __decorate([
+        crawler_plugins_common_1.Init(),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object, Object, Object]),
+        __metadata("design:returntype", Promise)
+    ], TaskPlugin.prototype, "init", null);
+    TaskPlugin = __decorate([
+        crawler_plugins_common_1.Plugin(constants_1.pluginTaskName),
+        inversify_1.injectable()
+    ], TaskPlugin);
     return TaskPlugin;
 }());
-__decorate([
-    inversify_1.inject(plugin_1.ExecutePluginService),
-    __metadata("design:type", plugin_1.ExecutePluginService)
-], TaskPlugin.prototype, "pluginService", void 0);
-__decorate([
-    crawler_plugins_common_1.Add("role:" + constants_1.pluginTaskName + ",cmd:getOne"),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", mq_1.MQueueService)
-], TaskPlugin.prototype, "getQueueService", null);
-__decorate([
-    crawler_plugins_common_1.Add("role:" + constants_1.pluginTaskName + ",cmd:addItemToQueue"),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Promise)
-], TaskPlugin.prototype, "addToQueue", null);
-__decorate([
-    crawler_plugins_common_1.Add("role:" + constants_1.pluginTaskName + ",cmd:add"),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object]),
-    __metadata("design:returntype", Promise)
-], TaskPlugin.prototype, "addToTask", null);
-__decorate([
-    crawler_plugins_common_1.Add("role:" + constants_1.pluginTaskName + ",cmd:remove"),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object]),
-    __metadata("design:returntype", Promise)
-], TaskPlugin.prototype, "removeFromTask", null);
-__decorate([
-    crawler_plugins_common_1.Add("role:" + constants_1.pluginTaskName + ",cmd:list"),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object]),
-    __metadata("design:returntype", Promise)
-], TaskPlugin.prototype, "listTask", null);
-__decorate([
-    crawler_plugins_common_1.Add("role:" + constants_1.pluginTaskName + ",cmd:queueInfo"),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", Promise)
-], TaskPlugin.prototype, "getQueue", null);
-__decorate([
-    crawler_plugins_common_1.Add("role:" + constants_1.pluginTaskName + ",cmd:forever"),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object]),
-    __metadata("design:returntype", Promise)
-], TaskPlugin.prototype, "forever", null);
-__decorate([
-    crawler_plugins_common_1.Init(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object]),
-    __metadata("design:returntype", Promise)
-], TaskPlugin.prototype, "init", null);
-TaskPlugin = __decorate([
-    crawler_plugins_common_1.Plugin(constants_1.pluginTaskName),
-    inversify_1.injectable()
-], TaskPlugin);
 exports.TaskPlugin = TaskPlugin;
 //# sourceMappingURL=task.js.map

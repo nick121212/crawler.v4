@@ -3,6 +3,7 @@ import { Plugin, Add, Wrap, Init } from "crawler.plugins.common";
 import * as bluebird from "bluebird";
 import * as _ from "lodash";
 import * as Moment from "moment";
+import * as pinyin from "pinyin";
 
 import { pluginName } from "../constants";
 
@@ -166,7 +167,7 @@ export class WpPlugin {
         // this.wpApi["dwqa-question"]
         let post: any = await this.wpApi["dwqa-question"]().create({
             title: resouce.title,
-            author: 5,
+            author: 2, //15-701,
             comment_status: "open",
             "dwqa-question_category": category ? [category.id] : null,
             "dwqa-question_tag": tag ? [tag.id] : null,
@@ -198,6 +199,34 @@ export class WpPlugin {
         await promisese;
 
         console.log("---------component结束");
+    }
+
+    @Add(`role:${pluginName},cmd:user`)
+    private async user(config: { names: Array<string> }, options: any) {
+        while (config.names.length) {
+            let element: string = config.names.pop() as string;
+
+            if (element) {
+                try {
+                    await this.wpApi.users().create({
+                        name: element,
+                        nickname: element,
+                        username: element,
+                        password: "111111",
+                        email: `${pinyin(element, {
+                            style: pinyin.STYLE_FIRST_LETTER,
+                            heteronym: false
+                        }).join("")}@bebewiki.com`
+                    });
+                } catch (e) {
+                    console.log(e, `${pinyin(element, {
+                        style: pinyin.STYLE_FIRST_LETTER,
+                        heteronym: false
+                    }).join("")}@bebewiki.com`);
+                }
+            }
+
+        }
     }
 
     @Init()

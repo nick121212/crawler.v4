@@ -39,7 +39,7 @@ export class SenecaController {
         res.send(data);
     }
 
-    @Post("find")
+    @Get("find")
     public async actTest2( @Res() res: Response, @Body("parttern") parttern: string) {
         let data = await this.senecaService.seneca.list(parttern);
 

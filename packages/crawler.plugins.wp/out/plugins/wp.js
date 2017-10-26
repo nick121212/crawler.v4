@@ -49,6 +49,7 @@ var crawler_plugins_common_1 = require("crawler.plugins.common");
 var bluebird = require("bluebird");
 var _ = require("lodash");
 var Moment = require("moment");
+var pinyin = require("pinyin");
 var constants_1 = require("../constants");
 var WpApi = require("wpapi");
 var settings = {
@@ -71,7 +72,7 @@ var settings = {
             "enabled": true
         }]
 };
-var WpPlugin = (function () {
+var WpPlugin = /** @class */ (function () {
     function WpPlugin() {
     }
     WpPlugin.prototype.blog = function (config, options) {
@@ -239,7 +240,7 @@ var WpPlugin = (function () {
                         _a.sent();
                         return [4 /*yield*/, this.wpApi["dwqa-question"]().create({
                                 title: resouce.title,
-                                author: 5,
+                                author: 2,
                                 comment_status: "open",
                                 "dwqa-question_category": category ? [category.id] : null,
                                 "dwqa-question_tag": tag ? [tag.id] : null,
@@ -279,6 +280,44 @@ var WpPlugin = (function () {
             });
         });
     };
+    WpPlugin.prototype.user = function (config, options) {
+        return __awaiter(this, void 0, void 0, function () {
+            var element, e_3;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!config.names.length) return [3 /*break*/, 5];
+                        element = config.names.pop();
+                        if (!element) return [3 /*break*/, 4];
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, this.wpApi.users().create({
+                                name: element,
+                                nickname: element,
+                                username: element,
+                                password: "111111",
+                                email: pinyin(element, {
+                                    style: pinyin.STYLE_FIRST_LETTER,
+                                    heteronym: false
+                                }).join("") + "@bebewiki.com"
+                            })];
+                    case 2:
+                        _a.sent();
+                        return [3 /*break*/, 4];
+                    case 3:
+                        e_3 = _a.sent();
+                        console.log(e_3, pinyin(element, {
+                            style: pinyin.STYLE_FIRST_LETTER,
+                            heteronym: false
+                        }).join("") + "@bebewiki.com");
+                        return [3 /*break*/, 4];
+                    case 4: return [3 /*break*/, 0];
+                    case 5: return [2 /*return*/];
+                }
+            });
+        });
+    };
     WpPlugin.prototype.init = function (msg, options, globalOptions) {
         return __awaiter(this, void 0, void 0, function () {
             var _a;
@@ -312,29 +351,35 @@ var WpPlugin = (function () {
             });
         });
     };
+    __decorate([
+        crawler_plugins_common_1.Add("role:" + constants_1.pluginName + ",cmd:blog"),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object, Object]),
+        __metadata("design:returntype", Promise)
+    ], WpPlugin.prototype, "blog", null);
+    __decorate([
+        crawler_plugins_common_1.Add("role:" + constants_1.pluginName + ",cmd:qa"),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object, Object]),
+        __metadata("design:returntype", Promise)
+    ], WpPlugin.prototype, "qa", null);
+    __decorate([
+        crawler_plugins_common_1.Add("role:" + constants_1.pluginName + ",cmd:user"),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object, Object]),
+        __metadata("design:returntype", Promise)
+    ], WpPlugin.prototype, "user", null);
+    __decorate([
+        crawler_plugins_common_1.Init(),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object, Object, Object]),
+        __metadata("design:returntype", Promise)
+    ], WpPlugin.prototype, "init", null);
+    WpPlugin = __decorate([
+        crawler_plugins_common_1.Plugin(constants_1.pluginName),
+        inversify_1.injectable()
+    ], WpPlugin);
     return WpPlugin;
 }());
-__decorate([
-    crawler_plugins_common_1.Add("role:" + constants_1.pluginName + ",cmd:blog"),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", Promise)
-], WpPlugin.prototype, "blog", null);
-__decorate([
-    crawler_plugins_common_1.Add("role:" + constants_1.pluginName + ",cmd:qa"),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", Promise)
-], WpPlugin.prototype, "qa", null);
-__decorate([
-    crawler_plugins_common_1.Init(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object]),
-    __metadata("design:returntype", Promise)
-], WpPlugin.prototype, "init", null);
-WpPlugin = __decorate([
-    crawler_plugins_common_1.Plugin(constants_1.pluginName),
-    inversify_1.injectable()
-], WpPlugin);
 exports.WpPlugin = WpPlugin;
 //# sourceMappingURL=wp.js.map

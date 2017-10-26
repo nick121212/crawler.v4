@@ -1,6 +1,18 @@
-@import "./modules/app/index.scss";
+@import 'animate.css';
 
 :global {
+
+    .card-has-scroll{
+        height: 100%;
+        overflow: hidden;
+
+        > .ant-card-body{
+          height: 100%;
+          overflow: auto;
+        }
+    }
+
+
     .root {
         display: flex;
         height: 100%;
@@ -12,4 +24,32 @@
     .ant-layout {
         background-color: transparent !important;
     }
+
+    .detail-page {
+        overflow: auto;
+        box-sizing: border-box;
+        padding: 20px;
+        height: 100vh;
+        background-color: #03a9f4;
+        transition: transform 0.5s, opacity 0.5s;
+      
+        &.transition-appear {
+          opacity: 0;
+          transform: translate3d(100%, 0, 0);
+        }
+      
+        &.transition-appear.transition-appear-active {
+          opacity: 1;
+          transform: translate3d(0, 0, 0);
+        }
+        &.transition-leave {
+          opacity: 1;
+          transform: translate3d(0, 0, 0);
+        }
+      
+        &.transition-leave.transition-leave-active {
+          opacity: 0;
+          transform: translate3d(100%, 0, 0);
+        }
+      }
 }

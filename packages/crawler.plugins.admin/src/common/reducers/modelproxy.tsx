@@ -1,6 +1,6 @@
 
 
-import { createAction, createReducer, EmptyActionCreator, SimpleActionCreator, ComplexActionCreator} from "redux-act";
+import { createAction, assignAll, createReducer, EmptyActionCreator, SimpleActionCreator, ComplexActionCreator } from "redux-act";
 import { ModelProxyMiddlewareMeta, ModelProxyAction } from "../middlewares/modelproxy";
 import { Reducer } from "redux";
 import { IExecute } from "modelproxy/out/models/execute";
@@ -30,6 +30,13 @@ export interface IModelProxyState<T> {
     error?: Error | null;
 }
 
+export interface ModelProxyActions<T> {
+    error: SimpleActionCreator<Error>;
+    execute: ComplexActionCreator<IExecute, ModelProxyMiddlewareMeta>;
+    loading: SimpleActionCreator<boolean>;
+    success: SimpleActionCreator<T>;
+}
+
 /**
  * 发起接口请求的reducer
  * actions
@@ -39,6 +46,8 @@ export interface IModelProxyState<T> {
  * execute 发起请求的action
  */
 export class ModelProxyReducer<T> {
+    private isInit = false;
+
     private loading: SimpleActionCreator<boolean> = createAction<boolean>("modelproxy开始loading的action");
     private success: SimpleActionCreator<T> = createAction<T>("modelproxy成功的action");
     private error: SimpleActionCreator<Error> = createAction<Error>("modelproxy失败的action");
@@ -49,7 +58,7 @@ export class ModelProxyReducer<T> {
      * 构造函数
      * @param initialState state的初始值
      */
-    constructor(private initialState: IModelProxyState<T> = {
+    constructor(protected initialState: IModelProxyState<T> = {
         data: null,
         error: null,
         loaded: false,
@@ -66,15 +75,27 @@ export class ModelProxyReducer<T> {
         yield takeEvery(this.execute.getType(), this.fetch.bind(this));
     }
 
+    public init(dispatch: any) {
+        if (this.isInit) {
+            return;
+        }
+
+        this.isInit = true;
+        for (let key in this.actions) {
+            if (this.actions.hasOwnProperty(key)) {
+                let element = this.actions[key];
+
+                if (!element.assigned() && ["success", "error"].indexOf(key) === -1) {
+                    element.assignTo(dispatch);
+                }
+            }
+        }
+    }
+
     /**
      * 返回当前的actions
      */
-    public get actions(): {
-        error: SimpleActionCreator<Error>,
-        execute: ComplexActionCreator<IExecute, ModelProxyMiddlewareMeta>,
-        loading: SimpleActionCreator<boolean>,
-        success: SimpleActionCreator<T>,
-    } {
+    public get actions(): ModelProxyActions<T> {
         return {
             error: this.error,
             execute: this.execute,
@@ -108,7 +129,8 @@ export class ModelProxyReducer<T> {
      * @param action 当前被拦截的action
      */
     private *fetch(action: ModelProxyAction) {
-        yield delay(2000);
+        console.log("execute action call;;;;");
+        // yield delay(2000);
         if (action.error) {
             yield put(this.error(action.payload));
         } else {

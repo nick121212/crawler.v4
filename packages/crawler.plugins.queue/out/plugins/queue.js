@@ -50,7 +50,7 @@ var _ = require("lodash");
 var constants_1 = require("../constants");
 var discover_1 = require("../libs/discover");
 var queue_1 = require("../libs/queue");
-var QueuePlugin = (function () {
+var QueuePlugin = /** @class */ (function () {
     function QueuePlugin() {
     }
     /**
@@ -70,6 +70,7 @@ var QueuePlugin = (function () {
                     case 1:
                         urls = _a.sent();
                         allowUrls = [];
+                        console.log(urls);
                         // url地址queue化
                         urls.forEach(function (url) {
                             var q = queue.queueURL(url, queueItem || {});
@@ -90,29 +91,30 @@ var QueuePlugin = (function () {
             var queue;
             return __generator(this, function (_a) {
                 queue = new queue_1.Queue(queueConfig);
+                console.log(urls);
                 return [2 /*return*/, _.map(urls, function (url) {
                         return queue.queueURL(url, queueItem);
                     })];
             });
         });
     };
+    __decorate([
+        crawler_plugins_common_1.Add("role:" + constants_1.pluginName + ",cmd:analyze"),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", Promise)
+    ], QueuePlugin.prototype, "getUrls", null);
+    __decorate([
+        crawler_plugins_common_1.Add("role:" + constants_1.pluginName + ",cmd:queue"),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", Promise)
+    ], QueuePlugin.prototype, "queueUrl", null);
+    QueuePlugin = __decorate([
+        crawler_plugins_common_1.Plugin(constants_1.pluginName),
+        inversify_1.injectable()
+    ], QueuePlugin);
     return QueuePlugin;
 }());
-__decorate([
-    crawler_plugins_common_1.Add("role:" + constants_1.pluginName + ",cmd:analyze"),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Promise)
-], QueuePlugin.prototype, "getUrls", null);
-__decorate([
-    crawler_plugins_common_1.Add("role:" + constants_1.pluginName + ",cmd:queue"),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Promise)
-], QueuePlugin.prototype, "queueUrl", null);
-QueuePlugin = __decorate([
-    crawler_plugins_common_1.Plugin(constants_1.pluginName),
-    inversify_1.injectable()
-], QueuePlugin);
 exports.QueuePlugin = QueuePlugin;
 //# sourceMappingURL=queue.js.map

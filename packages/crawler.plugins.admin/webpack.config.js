@@ -12,23 +12,25 @@ const env = process.env.NODE_ENV || "dev";
 
 const __DEV__ = env.toUpperCase() == "DEV" || env.toUpperCase() == "DEVELOPMENT";
 const __TEST__ = env.toUpperCase() == "UAT";
-const __PROD__ = env.toUpperCase() == "production";
+const __PROD__ = env.toUpperCase() == "PRODUCTION";
 const __STAG__ = env.toUpperCase() == "STG";
 
 module.exports = {
     entry: {
         index: ['./src/index.tsx'],
-        style: ['./src/index.scss', 'tachyons'],
+        style: ['./src/index.scss', 'tachyons', 'animate.css', './src/assets/iconfont/origin/iconfont.css', './src/assets/iconfont/crawler/iconfont.css'],
         vendor: ['react', 'antd', 'react-dom', 'redux-saga', 'react-router-dom', 'redux', 'react-router-redux', 'recompose']
     },
     devServer: {
         hot: true,
-        inline: true,
+        inline: false,
         stats: { colors: true, progress: true },
+        host: "127.0.0.1",
+        port: 8082,
         compress: false,
         quiet: false,
         clientLogLevel: 'info',
-        open: false
+        open: true
     },
     output: {
         path: path.resolve('./dist'),
@@ -94,12 +96,17 @@ module.exports = {
                 use: ['css-loader?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]', 'sass-loader']
             })
         }, {
+            test: /content\/.*\.svg$/,
+            loader: 'file-loader',
+        }, {
             test: /icons\/.*\.svg$/,
             loader: 'raw-loader!svgo-loader?{"plugins":[{"removeStyleElement":true}]}',
-        }, {
-            test: /\.md/,
-            loader: 'raw-loader',
-        }],
+        }, { test: /\.md/, loader: 'raw-loader' },
+        { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader?mimetype=image/svg+xml' },
+        { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "file-loader?mimetype=application/font-woff" },
+        { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: "file-loader?mimetype=application/font-woff" },
+        { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "file-loader?mimetype=application/octet-stream" },
+        { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file-loader" }],
     },
     plugins: [
         new webpack.DefinePlugin({
@@ -161,13 +168,10 @@ module.exports = {
         new webpack.optimize.CommonsChunkPlugin({
             names: ['vendor']
         }),
-        new ExtractTextPlugin("styles.css")
+        new ExtractTextPlugin("styles/[name].[contenthash:6].css")
     ],
     resolve: {
         extensions: ['.js', '.tsx']
     },
-    externals: __DEV__ ? {} : {
-        'react': 'React',
-        'react-dom': 'ReactDOM',
-    }
+    externals: {}
 }

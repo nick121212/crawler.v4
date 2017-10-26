@@ -13,9 +13,9 @@ export default {
     "initFlow": [],
     "msgFlow": [{
         "partten": "role:crawler.plugin.wp,cmd:user",
-        "title": "调用保存qa的wp插件",
+        "title": "调用保存user的wp插件",
         "force": true,
-        "jsonata": ["$.hit"],
+        "jsonata": ["$"],
         "data": {}
     }]
 };

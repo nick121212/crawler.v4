@@ -8,14 +8,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("@nestjs/common");
 const seneca_module_1 = require("../seneca/seneca.module");
-const module_1 = require("../website/module");
+// import { WebsiteModule } from "../website/module";
 let ApplicationModule = class ApplicationModule {
 };
 ApplicationModule = __decorate([
     common_1.Module({
         components: [],
         modules: [
-            module_1.WebsiteModule,
+            // WebsiteModule,
             seneca_module_1.SenecaModule
         ]
     })

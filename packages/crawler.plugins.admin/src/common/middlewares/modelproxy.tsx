@@ -1,6 +1,6 @@
 import React from "react";
-import { Dispatch, Action,  MiddlewareAPI } from "redux";
-import {  FluxStandardAction } from "flux-standard-action";
+import { Dispatch, Action, MiddlewareAPI } from "redux";
+import { FluxStandardAction } from "flux-standard-action";
 import { ModelProxy } from "modelproxy";
 
 export interface ModelProxyMiddlewareMeta {
@@ -19,14 +19,14 @@ export interface ModelProxyAction extends Action, FluxStandardAction<any, ModelP
 export default (settings: { proxy: ModelProxy }) => {
     return ({ dispatch }: MiddlewareAPI<any>) => {
         return (next: Dispatch<any>) => {
-            return <A extends Action>(action: A & ModelProxyAction) => {
+            return async <A extends Action>(action: A & ModelProxyAction) => {
                 let { ns, key, func = "", args = [], loading = false, loaded = false } = action.meta || { ns: "", key: "", func: "" };
 
                 if (ns && key && settings.proxy) {
                     let api: any = settings.proxy.getNs(ns).get(key);
 
                     if (loading) {
-                        return next(action);
+                        return await next(action);
                     }
 
                     if (loaded) {
@@ -35,7 +35,7 @@ export default (settings: { proxy: ModelProxy }) => {
 
                     action.meta.loading = true;
                     if (api && api[func]) {
-                        return dispatch({
+                        return await dispatch({
                             ...action as Object,
                             payload: new Promise((resolve) => {
                                 action.meta.loaded = true;
@@ -43,14 +43,13 @@ export default (settings: { proxy: ModelProxy }) => {
                             })
                         } as any);
                     } else {
-                        return dispatch({
+                        return await dispatch({
                             ...action as Object,
                             payload: settings.proxy.execute(ns, key, action.payload || {}).then((data: any) => {
                                 action.meta.loaded = true;
                                 return data;
                             }).catch((err: Error) => {
                                 action.meta.loaded = true;
-
                                 throw err;
                             })
                         } as any);

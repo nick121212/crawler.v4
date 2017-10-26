@@ -1,5 +1,5 @@
 import { createLogger } from "redux-logger";
-import { loggers } from "redux-act";
+// import { loggers } from "redux-act";
 import createSagaMiddleware from "redux-saga";
 import promise from "redux-promise";
 import thunk from "redux-thunk";
@@ -14,7 +14,7 @@ import mpMiddleware, { ModelProxyMiddlewareMeta } from "../common/middlewares/mo
  * logger中间件
  */
 export const logger = createLogger({
-    ...loggers.reduxLogger,
+    // ...loggers.reduxLogger,
     collapsed: true,
     duration: true,
     stateTransformer: (state) => {
@@ -31,4 +31,4 @@ export const sagaMiddleware = createSagaMiddleware();
 /**
  * 合并中间件
  */
-export default (history: any) => applyMiddleware(thunk, routerMiddleware(history), mpMiddleware({ proxy }), promise, sagaMiddleware, logger)(createStore);
+export default (history: any) => applyMiddleware(thunk, routerMiddleware(history), promise, mpMiddleware({ proxy }), sagaMiddleware, logger, promise)(createStore);

@@ -60,7 +60,7 @@ whitelistedMimeTypes = [
     /^image\//i,
     /^font\//i
 ];
-var DiscoverLinks = (function () {
+var DiscoverLinks = /** @class */ (function () {
     /**
      * 构造函数
      * @param settings  {object}

@@ -32,6 +32,7 @@ declare const _default: {
     "msgFlow": ({
         "partten": string;
         "title": string;
+        "jsonata": string[];
         "data": {
             "esIndex": string;
             "esType": string;
@@ -48,6 +49,7 @@ declare const _default: {
     } | {
         "partten": string;
         "title": string;
+        "condition": string;
         "jsonata": string[];
         "data": {
             "key": string;

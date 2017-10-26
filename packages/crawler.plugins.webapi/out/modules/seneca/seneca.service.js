@@ -18,14 +18,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const crawler_plugins_common_1 = require("crawler.plugins.common");
-const inversify = require("inversify");
 const path = require("path");
 const common_1 = require("@nestjs/common");
+const container_1 = require("./container");
 const wellknown = require("nodemailer-wellknown");
 let SenecaService = class SenecaService {
     constructor() {
-        const container = new inversify.Container();
-        const seneca = new crawler_plugins_common_1.Seneca(container, {
+        const seneca = new crawler_plugins_common_1.Seneca(container_1.container, {
             tag: "crawler.plugins.webapi"
         });
         this.seneca = seneca.seneca;

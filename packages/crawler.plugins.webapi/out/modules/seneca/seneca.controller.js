@@ -116,7 +116,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], SenecaController.prototype, "getMembers", null);
 __decorate([
-    common_1.Post("find"),
+    common_1.Get("find"),
     __param(0, common_1.Res()), __param(1, common_1.Body("parttern")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, String]),
