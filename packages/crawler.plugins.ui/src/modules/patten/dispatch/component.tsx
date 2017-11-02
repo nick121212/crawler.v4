@@ -23,7 +23,7 @@ export class Component extends BaseComponent<ContentProps, any> {
                             schemaFormOptions={schemaFormOptions}
                             schema={schema}
                             getCurrentState={(state) => {
-                                return schemaForm;
+                                return state.getIn(["modules", "partten", "test", "schemaForm"]);
                             }}
                             uiSchema={uiSchema}
                             globalOptions={globalOptions}>

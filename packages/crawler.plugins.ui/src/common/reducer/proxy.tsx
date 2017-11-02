@@ -31,10 +31,10 @@ export interface IModelProxyState<T> {
 }
 
 export interface ModelProxyActions<T> {
-    error: SimpleActionCreator<Error>;
+    error?: SimpleActionCreator<Error>;
     execute: ComplexActionCreator<IExecute, ModelProxyMiddlewareMeta>;
-    loading: SimpleActionCreator<boolean>;
-    success: SimpleActionCreator<T>;
+    loading?: SimpleActionCreator<boolean>;
+    success?: SimpleActionCreator<T>;
 }
 
 /**
@@ -82,10 +82,7 @@ export class ModelProxyReducer<T> {
      */
     public get actions(): ModelProxyActions<T> {
         return {
-            error: this.error,
-            execute: this.execute,
-            loading: this.loading,
-            success: this.success,
+            execute: this.execute
         };
     }
 
