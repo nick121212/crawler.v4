@@ -1,7 +1,6 @@
 import { IModelProxyState } from "../../../common/reducers/modelproxy";
 import { ICrudFormState } from "../../../common/reducers/form";
 import { defaultKeys } from "./index";
-
 import { globalOptions, ajv, schemaFormOptions } from "../../../common/schema.form";
 
 export interface CreateComponentProps {

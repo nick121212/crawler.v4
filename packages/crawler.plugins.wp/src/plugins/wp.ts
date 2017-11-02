@@ -116,7 +116,7 @@ export class WpPlugin {
         return post;
     }
 
-    private async getCategory(api: string, category: string) {
+    private async getCategory(api: string, category: string, parent = 0) {
         let categories = await this.wpApi[api]().search(category);
 
         if (categories.length) {
@@ -124,10 +124,22 @@ export class WpPlugin {
         }
 
         let newCategory = await this.wpApi[api]().create({
-            name: _.trim(category)
+            name: _.trim(category),
         });
 
         return newCategory;
+    }
+
+    private async getUser(api: string, data: any) {
+        let users = await this.wpApi[api]().search(data.name);
+
+        if (users.length) {
+            return users[0];
+        }
+
+        return await this.wpApi.users().create({
+            ...data
+        });
     }
 
     @Add(`role:${pluginName},cmd:qa`)
@@ -167,7 +179,7 @@ export class WpPlugin {
         // this.wpApi["dwqa-question"]
         let post: any = await this.wpApi["dwqa-question"]().create({
             title: resouce.title,
-            author: 2, //15-701,
+            author: Math.floor(Math.random() * 2500) + 15, //15-701,
             comment_status: "open",
             "dwqa-question_category": category ? [category.id] : null,
             "dwqa-question_tag": tag ? [tag.id] : null,
@@ -186,7 +198,7 @@ export class WpPlugin {
                 title: resouce.title,
                 post: post.id,
                 menu_order: 2,
-                author: 4,
+                author: Math.floor(Math.random() * 2500) + 15, //15-701,
                 slug: config._id + "dwqa-answer" + idx,
                 status: "publish",
                 comment_status: "open",
@@ -227,6 +239,109 @@ export class WpPlugin {
             }
 
         }
+    }
+
+    @Add(`role:${pluginName},cmd:ct`)
+    private async ct(config: any, options: any) {
+        let result = await options.seneca.actAsync("role:crawler.plugin.store.es,cmd:scroll", {
+            esIndex: "youlai", esType: "dise"
+        });
+        let next = await options.seneca.actAsync("role:crawler.plugin.store.es,cmd:scroll", {
+            esIndex: "youlai", esType: "dise", scrollId: result._scroll_id
+        });
+        let hits = result.hits.hits.concat(next.hits.hits);
+
+        let categories: Array<any> = _.map(hits, (h: any) => {
+            return h._source.result.categories;
+        }).join(",").split(",");
+        let tags = _.map(hits, (h: any) => {
+            return h._source.result.tags.map((tag: string) => {
+                return {
+                    tag,
+                    category: h._source.result.parent.name,
+                    dises: h._source.result.dises
+                };
+            });
+        });
+        let disess: any[] = [];
+        let dises = tags.map(([tag]) => {
+            disess = disess.concat(tag.dises)
+            return tag.dises;
+        });
+
+        // categories = await Promise.all(_.union(categories).map(async (cate: string) => {
+        //     return await this.getCategory("dwkb_category", cate);
+        // }));
+
+        // let categoriesMap = _.keyBy(categories, "name");
+
+        // let tagsMap = _.keyBy(await Promise.all(tags.map(([tag]) => {
+        //     return this.getCategory("dwkb_category", tag.tag, categoriesMap[tag.category] ? categoriesMap[tag.category].id : 0);
+        // })), "name");
+
+        console.log(disess.length);
+
+        while (disess.length) {
+            let dise = disess.pop();
+
+            await this.getCategory("dwkb_tag", dise.name);
+        }
+
+        console.log("导入完成");
+        // console.log(tagsMap);
+
+
+        // Promise.all(categories).then((categories) => {
+        //     // console.log(categories, tags);
+        // });
+
+
+    }
+
+    @Add(`role:${pluginName},cmd:yl`)
+    private async youlai(config: any, options: any) {
+        let oroginData = config._source;
+
+        if (!oroginData.content) return;
+
+        let user = await this.getUser("users", {
+            name: oroginData.author,
+            password: "111111",
+            nickname: oroginData.author,
+            username: oroginData.author,
+            email: `${pinyin(oroginData.author, {
+                style: pinyin.STYLE_FIRST_LETTER,
+                heteronym: false
+            }).join("")}@bebewiki.com`
+        });
+        let categories = [...(_.isArray(oroginData.categories) ? oroginData.categories : [oroginData.categories]), oroginData.tags[0]];
+        let tags = [oroginData.tags[1]];
+
+        categories = await Promise.all(categories.map(async (cate: string) => {
+            return await this.getCategory("dwkb_category", cate);
+        }));
+        tags = await Promise.all(tags.map(async (tag: string) => {
+            return await this.getCategory("dwkb_tag", tag);
+        }));
+        let post: any = await this.wpApi.dwkb().create({
+            title: oroginData.title,
+            content: oroginData.content,
+            status: "publish",
+            date: Moment(oroginData.createAt).format("YYYY-MM-DD hh:mm:ss"),
+            meta: {
+                dwkb_post_views_count: oroginData.num ? oroginData.num * 1 : 0
+            },
+            dwkb_category: categories.map((cate: any) => {
+                return cate.id;
+            }),
+            dwkb_tag: tags.map((tag: any) => {
+                return tag.id;
+            }),
+            author: user.id
+        });
+        console.log(post.id, user.id);
+
+        return post;
     }
 
     @Init()

@@ -1,4 +1,12 @@
 "use strict";
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -177,7 +185,8 @@ var WpPlugin = /** @class */ (function () {
             });
         });
     };
-    WpPlugin.prototype.getCategory = function (api, category) {
+    WpPlugin.prototype.getCategory = function (api, category, parent) {
+        if (parent === void 0) { parent = 0; }
         return __awaiter(this, void 0, void 0, function () {
             var categories, newCategory;
             return __generator(this, function (_a) {
@@ -189,11 +198,28 @@ var WpPlugin = /** @class */ (function () {
                             return [2 /*return*/, categories[0]];
                         }
                         return [4 /*yield*/, this.wpApi[api]().create({
-                                name: _.trim(category)
+                                name: _.trim(category),
                             })];
                     case 2:
                         newCategory = _a.sent();
                         return [2 /*return*/, newCategory];
+                }
+            });
+        });
+    };
+    WpPlugin.prototype.getUser = function (api, data) {
+        return __awaiter(this, void 0, void 0, function () {
+            var users;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.wpApi[api]().search(data.name)];
+                    case 1:
+                        users = _a.sent();
+                        if (users.length) {
+                            return [2 /*return*/, users[0]];
+                        }
+                        return [4 /*yield*/, this.wpApi.users().create(__assign({}, data))];
+                    case 2: return [2 /*return*/, _a.sent()];
                 }
             });
         });
@@ -240,7 +266,7 @@ var WpPlugin = /** @class */ (function () {
                         _a.sent();
                         return [4 /*yield*/, this.wpApi["dwqa-question"]().create({
                                 title: resouce.title,
-                                author: 2,
+                                author: Math.floor(Math.random() * 2500) + 15,
                                 comment_status: "open",
                                 "dwqa-question_category": category ? [category.id] : null,
                                 "dwqa-question_tag": tag ? [tag.id] : null,
@@ -260,7 +286,7 @@ var WpPlugin = /** @class */ (function () {
                                     title: resouce.title,
                                     post: post.id,
                                     menu_order: 2,
-                                    author: 4,
+                                    author: Math.floor(Math.random() * 2500) + 15,
                                     slug: config._id + "dwqa-answer" + idx,
                                     status: "publish",
                                     comment_status: "open",
@@ -318,6 +344,131 @@ var WpPlugin = /** @class */ (function () {
             });
         });
     };
+    WpPlugin.prototype.ct = function (config, options) {
+        return __awaiter(this, void 0, void 0, function () {
+            var result, next, hits, categories, tags, disess, dises, dise;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, options.seneca.actAsync("role:crawler.plugin.store.es,cmd:scroll", {
+                            esIndex: "youlai", esType: "dise"
+                        })];
+                    case 1:
+                        result = _a.sent();
+                        return [4 /*yield*/, options.seneca.actAsync("role:crawler.plugin.store.es,cmd:scroll", {
+                                esIndex: "youlai", esType: "dise", scrollId: result._scroll_id
+                            })];
+                    case 2:
+                        next = _a.sent();
+                        hits = result.hits.hits.concat(next.hits.hits);
+                        categories = _.map(hits, function (h) {
+                            return h._source.result.categories;
+                        }).join(",").split(",");
+                        tags = _.map(hits, function (h) {
+                            return h._source.result.tags.map(function (tag) {
+                                return {
+                                    tag: tag,
+                                    category: h._source.result.parent.name,
+                                    dises: h._source.result.dises
+                                };
+                            });
+                        });
+                        disess = [];
+                        dises = tags.map(function (_a) {
+                            var tag = _a[0];
+                            disess = disess.concat(tag.dises);
+                            return tag.dises;
+                        });
+                        // categories = await Promise.all(_.union(categories).map(async (cate: string) => {
+                        //     return await this.getCategory("dwkb_category", cate);
+                        // }));
+                        // let categoriesMap = _.keyBy(categories, "name");
+                        // let tagsMap = _.keyBy(await Promise.all(tags.map(([tag]) => {
+                        //     return this.getCategory("dwkb_category", tag.tag, categoriesMap[tag.category] ? categoriesMap[tag.category].id : 0);
+                        // })), "name");
+                        console.log(disess.length);
+                        _a.label = 3;
+                    case 3:
+                        if (!disess.length) return [3 /*break*/, 5];
+                        dise = disess.pop();
+                        return [4 /*yield*/, this.getCategory("dwkb_tag", dise.name)];
+                    case 4:
+                        _a.sent();
+                        return [3 /*break*/, 3];
+                    case 5:
+                        console.log("导入完成");
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    WpPlugin.prototype.youlai = function (config, options) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            var oroginData, user, categories, tags, post;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        oroginData = config._source;
+                        if (!oroginData.content)
+                            return [2 /*return*/];
+                        return [4 /*yield*/, this.getUser("users", {
+                                name: oroginData.author,
+                                password: "111111",
+                                nickname: oroginData.author,
+                                username: oroginData.author,
+                                email: pinyin(oroginData.author, {
+                                    style: pinyin.STYLE_FIRST_LETTER,
+                                    heteronym: false
+                                }).join("") + "@bebewiki.com"
+                            })];
+                    case 1:
+                        user = _a.sent();
+                        categories = (_.isArray(oroginData.categories) ? oroginData.categories : [oroginData.categories]).concat([oroginData.tags[0]]);
+                        tags = [oroginData.tags[1]];
+                        return [4 /*yield*/, Promise.all(categories.map(function (cate) { return __awaiter(_this, void 0, void 0, function () {
+                                return __generator(this, function (_a) {
+                                    switch (_a.label) {
+                                        case 0: return [4 /*yield*/, this.getCategory("dwkb_category", cate)];
+                                        case 1: return [2 /*return*/, _a.sent()];
+                                    }
+                                });
+                            }); }))];
+                    case 2:
+                        categories = _a.sent();
+                        return [4 /*yield*/, Promise.all(tags.map(function (tag) { return __awaiter(_this, void 0, void 0, function () {
+                                return __generator(this, function (_a) {
+                                    switch (_a.label) {
+                                        case 0: return [4 /*yield*/, this.getCategory("dwkb_tag", tag)];
+                                        case 1: return [2 /*return*/, _a.sent()];
+                                    }
+                                });
+                            }); }))];
+                    case 3:
+                        tags = _a.sent();
+                        return [4 /*yield*/, this.wpApi.dwkb().create({
+                                title: oroginData.title,
+                                content: oroginData.content,
+                                status: "publish",
+                                date: Moment(oroginData.createAt).format("YYYY-MM-DD hh:mm:ss"),
+                                meta: {
+                                    dwkb_post_views_count: oroginData.num ? oroginData.num * 1 : 0
+                                },
+                                dwkb_category: categories.map(function (cate) {
+                                    return cate.id;
+                                }),
+                                dwkb_tag: tags.map(function (tag) {
+                                    return tag.id;
+                                }),
+                                author: user.id
+                            })];
+                    case 4:
+                        post = _a.sent();
+                        console.log(post.id, user.id);
+                        return [2 /*return*/, post];
+                }
+            });
+        });
+    };
     WpPlugin.prototype.init = function (msg, options, globalOptions) {
         return __awaiter(this, void 0, void 0, function () {
             var _a;
@@ -369,6 +520,18 @@ var WpPlugin = /** @class */ (function () {
         __metadata("design:paramtypes", [Object, Object]),
         __metadata("design:returntype", Promise)
     ], WpPlugin.prototype, "user", null);
+    __decorate([
+        crawler_plugins_common_1.Add("role:" + constants_1.pluginName + ",cmd:ct"),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object, Object]),
+        __metadata("design:returntype", Promise)
+    ], WpPlugin.prototype, "ct", null);
+    __decorate([
+        crawler_plugins_common_1.Add("role:" + constants_1.pluginName + ",cmd:yl"),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object, Object]),
+        __metadata("design:returntype", Promise)
+    ], WpPlugin.prototype, "youlai", null);
     __decorate([
         crawler_plugins_common_1.Init(),
         __metadata("design:type", Function),
