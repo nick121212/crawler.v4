@@ -1,8 +1,9 @@
 import React, { SyntheticEvent } from "react";
-import { Input, Icon } from "antd";
-import { InputProps } from "antd/lib/input/Input";
 
-import { SchemaFormItemProps } from "fx-schema-form-antd";
+import TextBox, { TextBoxProps } from "react-uwp/TextBox";
+import Icon from "react-uwp/Icon";
+
+import { SchemaFormItemProps } from "fx-schema-form-react";
 
 export interface AntdInputWidgetProps extends SchemaFormItemProps {
 }
@@ -17,30 +18,26 @@ export class AntdInputWidget extends React.Component<AntdInputWidgetProps, any> 
         const { readonly = false } = uiSchema as any;
 
         return (
-            <Input
-                onBlur={() => {
-                    validate(formItemData);
+            <TextBox placeholder={mergeSchema.title}
+                onChangeValue={(val: string) => {
+                    updateItemData(val);
                 }}
-                onChange={(e: SyntheticEvent<HTMLInputElement>) => {
-                    updateItemData(e.currentTarget.value);
+                onBlur={(e: any) => {
+                    validate(e.target.value);
                 }}
-                disabled={readonly}
-                placeholder={mergeSchema.title}
                 {...input}
                 {...inputDefault}
-                {...this.setDefaultProps() }>
-            </Input>
+                {...this.setDefaultProps() } />
         );
     }
 
-    private setDefaultProps(): InputProps {
+    private setDefaultProps(): TextBoxProps {
         const { mergeSchema } = this.props;
-        const props: InputProps = {};
+        const props: any = {};
 
         if (this.props.formItemData !== undefined) {
             props.value = this.props.formItemData;
         } else {
-            // props.defaultValue = mergeSchema.default;
             props.value = "";
         }
 

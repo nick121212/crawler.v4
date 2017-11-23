@@ -1,7 +1,7 @@
 import React from "react";
-import { Row } from "antd";
-
-import { SchemaFormItemProps } from "fx-schema-form-antd";
+import { SchemaFormItemProps } from "fx-schema-form-react";
+import { Flex, Box } from "grid-styled";
+import classNames from "classnames";
 
 export interface AntdRowTempProps extends SchemaFormItemProps {
     tempKey: string;
@@ -13,9 +13,9 @@ export class AntdRowTemp extends React.Component<AntdRowTempProps, any> {
         const tempOptions = Object.assign({}, globalOptions[tempKey] || {}, uiSchemaOptions[tempKey] || {});
 
         return (
-            <Row {...tempOptions}>
+            <Flex {...tempOptions} className={classNames("relative", tempOptions.className)}>
                 {children}
-            </Row>
+            </Flex>
         );
     }
 }

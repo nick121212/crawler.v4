@@ -1,21 +1,21 @@
 import React from "react";
-import { Col } from "antd";
+import { SchemaFormItemProps } from "fx-schema-form-react";
+import { Flex, Box } from "grid-styled";
+import classNames from "classnames";
 
-import { SchemaFormItemProps } from "fx-schema-form-antd";
-
-export interface AntdColTempProps extends SchemaFormItemProps {
+export interface ColTempProps extends SchemaFormItemProps {
     tempKey: string;
 }
 
-export class AntdColTemp extends React.Component<AntdColTempProps, any> {
+export class ColTemp extends React.Component<ColTempProps, any> {
     public render(): JSX.Element {
         const { children, globalOptions, mergeSchema, tempKey, uiSchemaOptions } = this.props;
         const tempOptions = Object.assign({}, globalOptions[tempKey] || {}, uiSchemaOptions[tempKey] || {});
 
         return (
-            <Col {...tempOptions}>
+            <Box {...tempOptions} className={classNames("relative", tempOptions.className)}>
                 {children}
-            </Col>
+            </Box>
         );
     }
 }

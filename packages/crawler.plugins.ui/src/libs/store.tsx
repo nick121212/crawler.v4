@@ -1,5 +1,5 @@
 import { combineReducers } from "redux-immutable";
-import * as Immutable from "immutable";
+import Immutable from "immutable";
 import { syncHistoryWithStore } from "react-router-redux";
 import immutableDevTools from "immutable-devtools";
 import { EmptyActionCreator } from "redux-act";
@@ -8,21 +8,25 @@ import { historyInstance } from "./router";
 import applyMiddlewares, { sagaMiddleware } from "./middleware";
 import reactRouterReducer from "./router.reducer";
 
-// import { ModelProxyReducer } from "../common/reducers/modelproxy";
-// import { historyInstance } from "./routers";
+import * as settings from "../modules/settings";
 
-import * as partten from "../modules/patten";
 
-if (__DEV__) {
-    immutableDevTools(Immutable);
-}
+// if (__DEV__) {
+immutableDevTools(Immutable);
+// }
 
 let reducers = combineReducers({
     modules: combineReducers({
-        partten: partten.reducer
+        settings: settings.reducer
     }),
     routing: reactRouterReducer
 });
+
+// setTimeout(() => {
+//     messageModel.actions.push({ content: "测试错误信息1", status: "error" });
+//     messageModel.actions.push({ content: "测试错误信息2", status: "error" });
+//     messageModel.actions.push({ content: "测试错误信息3", status: "error" });
+// }, 2000);
 
 /**
  * 合并reducers
@@ -39,10 +43,10 @@ export const history = syncHistoryWithStore(historyInstance as any, store, {
     }
 });
 
-[...partten.sagas].forEach((saga) => {
+[].forEach((saga) => {
     sagaMiddleware.run(saga);
 });
 
-[...partten.actions].forEach((action: EmptyActionCreator) => {
+[...settings.actions].forEach((action: EmptyActionCreator) => {
     action.assignTo(store);
 });

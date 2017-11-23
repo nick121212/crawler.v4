@@ -1,5 +1,8 @@
 import React from "react";
+import Immutable from "immutable";
 
 export interface LayoutProps {
-    theme?: "light" | "dark";
+    themeSettings?: Immutable.Map<string, any>;
 }
+
+export const $InitialState = Immutable.fromJS({});

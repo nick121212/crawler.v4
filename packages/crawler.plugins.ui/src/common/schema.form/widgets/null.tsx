@@ -1,8 +1,5 @@
 import React, { SyntheticEvent } from "react";
-import { Switch } from "antd";
-import { SwitchProps } from "antd/lib/switch";
-
-import { SchemaFormItemProps } from "fx-schema-form-antd";
+import { SchemaFormItemProps } from "fx-schema-form-react";
 
 export class NullWidget extends React.Component<any, any> {
 

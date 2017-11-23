@@ -1,10 +1,11 @@
 import React from "react";
+import { TransitionGroup } from "react-transition-group";
 import { HashRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import * as Immutable from "immutable";
 import { createHashHistory, History } from "history";
 
-import { ComponentWithHoc } from "../modules/main";
-import { ComponentWithHoc as ParttenComponent } from "../modules/patten";
+import { MainLayoutComponent } from "../modules/main";
+import { SettingLayoutComponent } from "../modules/settings";
 
 /**
  * 返回history的实例
@@ -16,11 +17,11 @@ export const historyInstance: History = createHashHistory({ basename: "/" });
  */
 export default (
     <Router>
-        <ComponentWithHoc>
+        <MainLayoutComponent>
             <Switch>
-                <Route component={ParttenComponent} />
-                <Redirect from="/" to="/root/setting" />
+                <Route component={SettingLayoutComponent} />
+                <Redirect from="/" to="/" />
             </Switch>
-        </ComponentWithHoc>
+        </MainLayoutComponent>
     </Router>
 );

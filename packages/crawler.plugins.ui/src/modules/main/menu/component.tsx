@@ -1,55 +1,31 @@
 import React from "react";
-import { Menu, Icon, Layout } from "antd";
-import { Route, Link } from "react-router-dom";
 
-import { BaseComponent, MenusComponent } from "../../../common/component";
-import { MenuProps } from "./constant";
-import { hoc } from "./container";
-import { $$top, $$bottom } from "../../data";
+import { BaseComponent } from "../../../common/component/base";
+import { DefaultButton } from "office-ui-fabric-react/lib/Button";
+import { FocusZone, FocusZoneDirection } from "office-ui-fabric-react/lib/FocusZone";
+import { TextField } from "office-ui-fabric-react/lib/TextField";
 
-export class Component extends BaseComponent<MenuProps, any> {
+export class Component extends BaseComponent<any, any> {
+
+    constructor(props, context) {
+        super(props, context);
+        this.state = { showPanel: false };
+    }
+
     public render() {
-        let menuProps = {
-            collapsed: true,
-            openAll: true,
-            itemComponentRender: (key: string, currentNode: any, children: Array<JSX.Element>) => {
-                if (location.pathname === key) {
-                    return children;
-                }
-                return <Link to={{ pathname: key, state: currentNode }}>{children}</Link>;
-
-            },
-            mode: "inline",
-            theme: "dark"
-        };
         return (
-            <Route render={({ location, history }) => {
-                return (
-                    <Layout className="h-100">
-                        <Layout.Header className="pa0 pt3 tc">
-                            <Icon className="white f2" type="dingding" />
-                        </Layout.Header>
-
-                        <Layout.Content className="flex-auto h-100 overflow-auto">
-                            <MenusComponent
-                                location={location}
-                                history={history}
-                                className="h-100 pt4"
-                                nodes={$$top.toJS()}
-                                {...menuProps} />
-                        </Layout.Content>
-                        <Layout.Footer className="pa0">
-                            <MenusComponent
-                                location={location}
-                                history={history}
-                                nodes={$$bottom.toJS()}
-                                {...menuProps} />
-                        </Layout.Footer>
-                    </Layout>
-                );
-            }}></Route>
+            <FocusZone disabled={false} direction={FocusZoneDirection.bidirectional}>
+                <span>Enabled FocusZone: </span>
+                <DefaultButton>Button 1</DefaultButton>
+                <DefaultButton>Button 2</DefaultButton>
+                <TextField value="FocusZone TextField" className="ms-FocusZoneDisabledExample-textField" />
+                <DefaultButton>Button 3</DefaultButton>
+                <div className="ms-Row">
+                    <DefaultButton>Tabbable Element 1</DefaultButton>
+                </div>
+            </FocusZone>
         );
     }
 }
 
-export const ComponentWithHoc: React.ComponentClass<MenuProps> = hoc(Component);
+export const ComponentWithHoc = Component;

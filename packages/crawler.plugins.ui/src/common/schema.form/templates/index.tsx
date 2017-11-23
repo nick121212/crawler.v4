@@ -1,11 +1,19 @@
 import { AntdFormItemTemp } from "./formitem";
-import { AntdColTemp } from "./col";
+import { ColTemp } from "./col";
 import { AntdRowTemp } from "./row";
 import { AntdCardTemp } from "./card";
+import { TileGroupTemp } from "./tilegroup";
+import { TileTemp } from "./tile";
+import { ImageTemp } from "./image";
+import { DivTemp } from "./div";
 
 export default {
     formItem: AntdFormItemTemp,
-    col: AntdColTemp,
+    col: ColTemp,
     row: AntdRowTemp,
-    card: AntdCardTemp
+    card: AntdCardTemp,
+    "tile.group": TileGroupTemp,
+    tile: TileTemp,
+    image: ImageTemp,
+    div: DivTemp
 };
