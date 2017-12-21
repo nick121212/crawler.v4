@@ -8,6 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -48,15 +51,17 @@ var inversify_1 = require("inversify");
 var crawler_plugins_common_1 = require("crawler.plugins.common");
 var proxy_1 = require("../proxy");
 var constants_1 = require("../constants");
-var DownloadPlugin = (function () {
+var html_1 = require("../models/html");
+var inter_1 = require("../models/inter");
+var DownloadPlugin = /** @class */ (function () {
     function DownloadPlugin() {
     }
     /**
-     * 下载数据
+     * get请求
      * @param param0
      */
-    DownloadPlugin.prototype.html = function (_a, options) {
-        var queueItem = _a.queueItem, proxyInfo = _a.proxyInfo, _b = _a.save, save = _b === void 0 ? true : _b, _c = _a.header, header = _c === void 0 ? {} : _c, charset = _a.charset, _d = _a.engine, engine = _d === void 0 ? "superagent" : _d;
+    DownloadPlugin.prototype.html = function (_a) {
+        var queueItem = _a.queueItem, proxyInfo = _a.proxyInfo, _b = _a.header, header = _b === void 0 ? {} : _b, charset = _a.charset, _c = _a.engine, engine = _c === void 0 ? "superagent" : _c;
         return __awaiter(this, void 0, void 0, function () {
             var start, res;
             return __generator(this, function (_a) {
@@ -92,68 +97,84 @@ var DownloadPlugin = (function () {
                         res = _a.sent();
                         console.log(queueItem.url, "-----downloader 成功；耗时：", Date.now() - start, "ms");
                         return [2 /*return*/, {
-                                crawlerCount: 1 * queueItem.crawlerCount + 1,
-                                responseBody: save ? null : res.body,
+                                crawlerCount: 1 * (queueItem.crawlerCount || 0) + 1,
+                                header: res.headers,
+                                responseBody: res.body,
                                 statusCode: res.statusCode,
                             }];
                 }
             });
         });
     };
+    /**
+     * 调用接口
+     * @param params 参数
+     */
     DownloadPlugin.prototype.inter = function (_a) {
-        var url = _a.url, _b = _a.path, path = _b === void 0 ? "" : _b, params = _a.params, data = _a.data, header = _a.header, _c = _a.method, method = _c === void 0 ? "get" : _c, _d = _a.engine, engine = _d === void 0 ? "superagent" : _d, _e = _a._id, _id = _e === void 0 ? "" : _e;
-        var start = Date.now();
-        this.proxy.proxy.loadConfig({
-            "engine": engine,
-            "interfaces": [{
-                    "key": "interface",
-                    "method": method,
-                    "path": path,
-                    "title": ""
-                }],
-            "key": "download",
-            "state": "interface",
-            "states": {
-                "interface": url
-            },
-            "title": "download下载接口",
-        });
-        // console.log(url, "-----downloader 成功；耗时：", Date.now() - start, "ms");
-        /**
-         * 调用接口
-         */
-        return this.proxy.proxy.execute("/download/interface", {
-            data: data,
-            params: params,
-            settings: { header: header }
-        }).then(function (res) {
-            return {
-                responseBody: res.body,
-                statusCode: res.statusCode,
-            };
+        var url = _a.url, _b = _a.path, path = _b === void 0 ? "" : _b, params = _a.params, data = _a.data, header = _a.header, _c = _a.method, method = _c === void 0 ? "get" : _c, _d = _a.engine, engine = _d === void 0 ? "superagent" : _d;
+        return __awaiter(this, void 0, void 0, function () {
+            var start, rtn;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        start = Date.now();
+                        this.proxy.proxy.loadConfig({
+                            "engine": engine,
+                            "interfaces": [{
+                                    "key": "interface",
+                                    "method": method,
+                                    "path": path,
+                                    "title": ""
+                                }],
+                            "key": "download",
+                            "state": "interface",
+                            "states": {
+                                "interface": url
+                            },
+                            "title": "download下载接口",
+                        });
+                        return [4 /*yield*/, this.proxy.proxy.execute("/download/interface", {
+                                data: data,
+                                params: params,
+                                settings: { header: header }
+                            }).then(function (res) {
+                                return {
+                                    responseBody: res.body,
+                                    header: res.headers,
+                                    statusCode: res.statusCode,
+                                };
+                            })];
+                    case 1:
+                        rtn = _a.sent();
+                        console.log(url, "-----downloader 成功；耗时：", Date.now() - start, "ms");
+                        return [2 /*return*/, rtn];
+                }
+            });
         });
     };
+    __decorate([
+        inversify_1.inject(proxy_1.Proxy),
+        __metadata("design:type", proxy_1.Proxy)
+    ], DownloadPlugin.prototype, "proxy", void 0);
+    __decorate([
+        crawler_plugins_common_1.Add("role:" + constants_1.pluginName + ",cmd:html"),
+        __param(0, crawler_plugins_common_1.Validate(html_1.htmlJoi, { allowUnknown: true })),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", Promise)
+    ], DownloadPlugin.prototype, "html", null);
+    __decorate([
+        crawler_plugins_common_1.Add("role:" + constants_1.pluginName + ",cmd:interfaces"),
+        __param(0, crawler_plugins_common_1.Validate(inter_1.interJoi, { allowUnknown: true })),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", Promise)
+    ], DownloadPlugin.prototype, "inter", null);
+    DownloadPlugin = __decorate([
+        crawler_plugins_common_1.Plugin(constants_1.pluginName),
+        inversify_1.injectable()
+    ], DownloadPlugin);
     return DownloadPlugin;
 }());
-__decorate([
-    inversify_1.inject(proxy_1.Proxy),
-    __metadata("design:type", proxy_1.Proxy)
-], DownloadPlugin.prototype, "proxy", void 0);
-__decorate([
-    crawler_plugins_common_1.Add("role:" + constants_1.pluginName + ",cmd:html"),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", Promise)
-], DownloadPlugin.prototype, "html", null);
-__decorate([
-    crawler_plugins_common_1.Add("role:" + constants_1.pluginName + ",cmd:interfaces"),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], DownloadPlugin.prototype, "inter", null);
-DownloadPlugin = __decorate([
-    crawler_plugins_common_1.Plugin(constants_1.pluginName),
-    inversify_1.injectable()
-], DownloadPlugin);
 exports.DownloadPlugin = DownloadPlugin;
 //# sourceMappingURL=download.js.map

@@ -10,6 +10,10 @@ export interface ModelProxyMiddlewareMeta {
     func?: string;
     loaded?: boolean;
     loading?: boolean;
+
+    message?: string;
+    type?: string;
+    status?: string;
 }
 
 export interface ModelProxyAction extends Action, FluxStandardAction<any, ModelProxyMiddlewareMeta> {
@@ -35,6 +39,11 @@ export default (settings: { proxy: ModelProxy }) => {
                     }
 
                     action.meta.loading = true;
+
+                    action.meta.message = "loading";
+                    action.meta.type = "message";
+                    action.meta.status = "loading";
+
                     if (api && api[func]) {
                         return await dispatch({
                             ...action as Object,
@@ -56,6 +65,7 @@ export default (settings: { proxy: ModelProxy }) => {
                         } as any);
                     }
                 } else {
+                    // messageModel.actions.pop();
                     return next(action);
                 }
             };

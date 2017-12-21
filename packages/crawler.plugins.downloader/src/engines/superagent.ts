@@ -28,6 +28,8 @@ export class SuperAgentEngine extends modelProxy.BaseEngine {
             let { data = null, settings = {}, params = null } = ctx.executeInfo || {};
             let { timeout = 5000, header = {}, charset = "utf-8", proxyInfo = "" } = settings || {};
 
+            console.log(charset);
+
             try {
                 let curReq: any = request(method.toString() || "get", path);
 

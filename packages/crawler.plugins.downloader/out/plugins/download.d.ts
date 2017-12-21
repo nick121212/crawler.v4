@@ -1,20 +1,13 @@
 export declare class DownloadPlugin {
     private proxy;
     /**
-     * 下载数据
+     * get请求
      * @param param0
      */
-    html({queueItem, proxyInfo, save, header, charset, engine}: {
-        charset: string;
-        save: boolean;
-        header: any;
-        queueItem: any;
-        proxyInfo: any;
-        engine: string;
-    }, options: any): Promise<{
-        crawlerCount: number;
-        responseBody: any;
-        statusCode: number | undefined;
-    }>;
-    inter({url, path, params, data, header, method, engine, _id}: any): any;
+    private html({queueItem, proxyInfo, header, charset, engine});
+    /**
+     * 调用接口
+     * @param params 参数
+     */
+    private inter({url, path, params, data, header, method, engine});
 }

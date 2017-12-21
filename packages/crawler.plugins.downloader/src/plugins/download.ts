@@ -59,6 +59,7 @@ export class DownloadPlugin {
 
         return {
             crawlerCount: 1 * (queueItem.crawlerCount || 0) + 1,
+            header: res.headers,
             responseBody: res.body,
             statusCode: res.statusCode,
         };
@@ -100,6 +101,7 @@ export class DownloadPlugin {
         }).then((res: request.RequestResponse) => {
             return {
                 responseBody: res.body,
+                header: res.headers,
                 statusCode: res.statusCode,
             };
         });

@@ -74,7 +74,7 @@ export class ModelProxyReducer<T> {
      * 如果error=false，发起success
      */
     public * saga() {
-        yield takeEvery(this.execute.getType(), this.fetch.bind(this));
+        yield takeLatest(this.execute.getType(), this.fetch.bind(this));
     }
 
     /**
@@ -111,7 +111,7 @@ export class ModelProxyReducer<T> {
      * @param action 当前被拦截的action
      */
     private *fetch(action: ModelProxyAction) {
-        // yield delay(2000);
+        yield delay(2000);
         if (action.error) {
             yield put(this.error(action.payload));
         } else {

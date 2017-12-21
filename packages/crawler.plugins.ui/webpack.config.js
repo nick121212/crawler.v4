@@ -11,7 +11,7 @@ module.exports = (webpackConfig) => {
     // 起点或是应用程序的起点入口。从这个起点开始，应用程序启动执行。如果传递一个数组，那么数组的每一项都会执行。
     entry: {
       index: "./src/index.tsx",
-      style: ["./src/style.less"]
+      style: ["./src/style.scss"]
     },
     //防止将某些 import 的包(package)打包到 bundle 中，而是在运行时(runtime)再去从外部获取这些扩展依赖(external dependencies)。
     //例如，React 和 react-dom不打包到bundle中
@@ -23,10 +23,7 @@ module.exports = (webpackConfig) => {
   });
 
   retVal.babel.plugins.push("transform-runtime");
-  retVal.babel.plugins.push(["import", {
-    libraryName: "antd",
-    // style: false
-  }]);
+
   // 拷贝资源到指定目录下
   retVal.plugins.push(new CopyWebpackPlugin([
     { from: "src/assets", to: "assets" }
@@ -50,6 +47,7 @@ module.exports = (webpackConfig) => {
 
   // 处理html的loader，不然htmlwebpackplugin会有问题
   retVal.module.loaders = webpackConfig.module.loaders.map((loader) => {
+    // console.log(loader)
     if (loader.test.toString() === '/\\.html?$/') {
       loader.loader = 'html?attrs[]=img:src&attrs[]=a:href'; //配置img的src属性和a的href属性
     }
@@ -63,12 +61,18 @@ module.exports = (webpackConfig) => {
 
   retVal.module.loaders = [{
     enforce: 'pre',
-    test: /\.ts(x?)$/,
+    test: /\.tsx$/,
     loader: 'tslint-loader',
     exclude: /node_modules/,
   }, {
     test: require.resolve("react-addons-perf"),
     loader: "expose-loader?Perf"
+  }, {
+    test: /\.module\.scss$/,
+    loader: "style-loader!css-loader?modules&localIdentName=[name]__[local]___[hash:base64:5]!sass-loader"
+  }, {
+    test: /\.scss$/,
+    loader: "style-loader!css-loader"
   }].concat(retVal.module.loaders).concat([
     { test: /\.svg(\?(.*?))?$/, loader: 'file-loader?mimetype=image/svg+xml' },
     { test: /\.woff(\?(.*?))?$/, loader: "file-loader?mimetype=application/font-woff" },
@@ -78,6 +82,11 @@ module.exports = (webpackConfig) => {
   ]);
 
   retVal.output.publicPath = "/";
+
+  if (process.env.NODE_ENV === "production") {
+    retVal.output.publicPath = "./";
+  }
+
 
   delete retVal.ts;
 

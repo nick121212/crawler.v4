@@ -13,7 +13,7 @@ var inversify_1 = require("inversify");
 var modelproxy_1 = require("modelproxy");
 var constants_1 = require("./constants");
 var container_1 = require("./container");
-var Proxy = (function () {
+var Proxy = /** @class */ (function () {
     function Proxy() {
         this.init();
     }
@@ -35,11 +35,11 @@ var Proxy = (function () {
             var _a;
         });
     };
+    Proxy = __decorate([
+        inversify_1.injectable(),
+        __metadata("design:paramtypes", [])
+    ], Proxy);
     return Proxy;
 }());
-Proxy = __decorate([
-    inversify_1.injectable(),
-    __metadata("design:paramtypes", [])
-], Proxy);
 exports.Proxy = Proxy;
 //# sourceMappingURL=proxy.js.map

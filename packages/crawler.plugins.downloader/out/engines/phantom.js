@@ -58,7 +58,7 @@ var modelproxy_1 = require("modelproxy");
 var inversify_1 = require("inversify");
 var url_1 = require("url");
 var Horseman = require("node-horseman");
-var PhantomEngine = (function (_super) {
+var PhantomEngine = /** @class */ (function (_super) {
     __extends(PhantomEngine, _super);
     /**
      * 构造
@@ -154,6 +154,7 @@ var PhantomEngine = (function (_super) {
             horseman
                 .userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/538.1 (KHTML, like Gecko) Safari/538.")
                 .on("resourceReceived", function (res) {
+                console.log(res);
                 resources[res.url] = res;
             })
                 .on("resourceRequested", function (req) {
@@ -178,11 +179,11 @@ var PhantomEngine = (function (_super) {
             });
         });
     };
+    PhantomEngine = __decorate([
+        inversify_1.injectable(),
+        __metadata("design:paramtypes", [])
+    ], PhantomEngine);
     return PhantomEngine;
 }(modelproxy_1.modelProxy.BaseEngine));
-PhantomEngine = __decorate([
-    inversify_1.injectable(),
-    __metadata("design:paramtypes", [])
-], PhantomEngine);
 exports.PhantomEngine = PhantomEngine;
 //# sourceMappingURL=phantom.js.map

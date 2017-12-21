@@ -58,7 +58,8 @@ var request = require("superagent");
 var modelproxy_1 = require("modelproxy");
 var inversify_1 = require("inversify");
 require("superagent-charset")(request);
-var SuperAgentEngine = (function (_super) {
+require("superagent-proxy")(request);
+var SuperAgentEngine = /** @class */ (function (_super) {
     __extends(SuperAgentEngine, _super);
     /**
      * 构造
@@ -83,18 +84,36 @@ var SuperAgentEngine = (function (_super) {
                         _a = (ctx.instance || {}).method, method = _a === void 0 ? "" : _a;
                         _b = ctx.executeInfo || {}, _c = _b.data, data = _c === void 0 ? null : _c, _d = _b.settings, settings = _d === void 0 ? {} : _d, _e = _b.params, params = _e === void 0 ? null : _e;
                         _f = settings || {}, _g = _f.timeout, timeout = _g === void 0 ? 5000 : _g, _h = _f.header, header = _h === void 0 ? {} : _h, _j = _f.charset, charset = _j === void 0 ? "utf-8" : _j, _k = _f.proxyInfo, proxyInfo = _k === void 0 ? "" : _k;
+                        console.log(charset);
                         _m.label = 1;
                     case 1:
                         _m.trys.push([1, 3, , 4]);
                         curReq = request(method.toString() || "get", path);
-                        params && curReq.query(params);
-                        data && curReq.send(data);
-                        header && curReq.set(header);
+                        // 代理
+                        if (proxyInfo) {
+                            curReq.proxy("http://" + proxyInfo);
+                        }
+                        // 参数
+                        if (params) {
+                            curReq.query(params);
+                        }
+                        // 数据
+                        if (data) {
+                            curReq.send(data);
+                        }
+                        // headers
+                        if (header) {
+                            curReq.set(header);
+                        }
+                        // 超时时间
                         curReq.timeout({
-                            response: ~~timeout,
+                            response: timeout,
                             deadline: 60000
                         });
-                        charset && curReq.charset(charset);
+                        // 字符编码
+                        if (charset) {
+                            curReq.charset(charset);
+                        }
                         _l = ctx;
                         return [4 /*yield*/, curReq];
                     case 2:
@@ -141,11 +160,11 @@ var SuperAgentEngine = (function (_super) {
             });
         });
     };
+    SuperAgentEngine = __decorate([
+        inversify_1.injectable(),
+        __metadata("design:paramtypes", [])
+    ], SuperAgentEngine);
     return SuperAgentEngine;
 }(modelproxy_1.modelProxy.BaseEngine));
-SuperAgentEngine = __decorate([
-    inversify_1.injectable(),
-    __metadata("design:paramtypes", [])
-], SuperAgentEngine);
 exports.SuperAgentEngine = SuperAgentEngine;
 //# sourceMappingURL=superagent.js.map

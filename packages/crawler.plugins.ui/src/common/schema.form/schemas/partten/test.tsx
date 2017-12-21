@@ -1,13 +1,13 @@
 
 export default {
     "$async": true,
-    "id": "patten-test",
+    "id": "partten-test",
     "type": "object",
     "description": "用于测试模式",
     "title": "测试模式配置",
-    "required": ["partten", "title"],
+    "required": ["partten", "config"],
     "properties": {
-        "parttern": {
+        "partten": {
             "type": "string",
             "title": "需要调用的模式",
             "minLength": 1,

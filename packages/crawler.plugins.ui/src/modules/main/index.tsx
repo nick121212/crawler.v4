@@ -1,5 +1,5 @@
-import { ComponentWithHoc } from "./layout/component";
+import { initializeIcons } from "@uifabric/icons";
 
-export {
-    ComponentWithHoc
-};
+initializeIcons();
+
+export { default as MainLayoutComponent } from "./route";

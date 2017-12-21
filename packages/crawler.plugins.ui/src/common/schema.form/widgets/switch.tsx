@@ -1,8 +1,8 @@
 import React, { SyntheticEvent } from "react";
-import { Switch } from "antd";
-import { SwitchProps } from "antd/lib/switch";
+import { SchemaFormItemProps } from "fx-schema-form-react";
 
-import { SchemaFormItemProps } from "fx-schema-form-antd";
+import Toggle, { ToggleProps } from "react-uwp/Toggle";
+
 
 export interface AntdSwitchProps extends SchemaFormItemProps {
 }
@@ -16,26 +16,38 @@ export class AntdSwitchWidget extends React.Component<AntdSwitchProps, any> {
         const { uiSchema = {}, keys } = mergeSchema;
         const { readonly = false } = uiSchema as any;
 
+        // return (
+        //     <Switch onChange={(checked: boolean) => {
+        //         updateItemData(checked);
+        //         validate(checked);
+        //     }}
+        //         disabled={readonly}
+        //         {...switchDefault}
+        //         {...switcho}
+        //         {...this.setDefaultProps() }></Switch >
+        // );
+
         return (
-            <Switch onChange={(checked: boolean) => {
-                updateItemData(checked);
-                validate(checked);
-            }}
-                disabled={readonly}
+            <Toggle label={mergeSchema.title}
+                onToggle={(checked: boolean) => {
+                    updateItemData(checked);
+                    validate(checked);
+                }}
                 {...switchDefault}
                 {...switcho}
-                {...this.setDefaultProps() }></Switch >
+                {...this.setDefaultProps() } />
         );
     }
 
-    private setDefaultProps(): SwitchProps {
+    private setDefaultProps(): ToggleProps {
         const { mergeSchema } = this.props;
-        const props: SwitchProps = {};
+        const props: ToggleProps = {};
 
         if (this.props.formItemData !== undefined) {
             props.checked = this.props.formItemData;
+            props.defaultToggled = this.props.formItemData;
         } else {
-            props.defaultChecked = mergeSchema.default;
+            props.defaultToggled = mergeSchema.default;
         }
 
         return props;

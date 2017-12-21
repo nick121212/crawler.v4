@@ -10,7 +10,7 @@ export default {
     "mockDir": "./mocks/",
     "state": "dev",
     "states": {
-        "dev": "http://localhost:3001",
+        "dev": "http://47.92.126.120:3001",
         "prod": "http://localhost:3001"
     },
     "title": "webapi接口数据"

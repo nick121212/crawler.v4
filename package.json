@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "base": "forever start ./packages/crawler.plugins.base/out/index.js ./packages/crawler.plugins.base/config.js --seneca.log.quiet",
-    "downloader": "forever start ./packages/crawler.plugins.downloader/out/index.js ./packages/crawler.plugins.downloader/config.js --seneca.log.quiet",
+    "downloader": "forever start ./packages/crawler.plugins.downloader/out/index.js ./packages/crawler.plugins.downloader/config.js --seneca.log.quiet --watch",
     "html": "forever start ./packages/crawler.plugins.html/out/index.js ./packages/crawler.plugins.html/config.js --seneca.log.quiet",
     "queue": "forever start ./packages/crawler.plugins.queue/out/index.js ./packages/crawler.plugins.queue/config.js --seneca.log.quiet",
     "schedule": "forever start ./packages/crawler.plugins.schedule/out/index.js ./packages/crawler.plugins.schedule/config.js --seneca.log.quiet",
@@ -47,6 +47,7 @@
     "fx-schema-form-antd": "^1.0.6",
     "json-pointer": "^0.6.0",
     "lerna": "^2.0.0-rc.5",
+    "metro-dist": "^3.0.17",
     "rc-tween-one": "^1.5.3"
   }
 }

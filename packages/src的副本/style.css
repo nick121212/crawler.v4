@@ -1,6 +1,0 @@
-@import "~antd/dist/antd.css";
-@import "~tachyons/css/tachyons.css";
-.ant-layout-header {
-  height: 48px;
-  line-height: 48px;
-}

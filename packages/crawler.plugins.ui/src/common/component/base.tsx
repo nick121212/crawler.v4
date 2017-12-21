@@ -1,5 +1,13 @@
 import React from "react";
+import PropTypes from "react-proptypes";
 import { is } from "immutable";
+import { ValidationMap } from "react";
+import { ThemeType } from "react-uwp";
+
+export class UWPBaseCompnent<P, S> extends React.PureComponent<P, S> {
+    public static contextTypes = { theme: PropTypes.object };
+    public context: { theme: ThemeType };
+}
 
 /**
  * component的基类
@@ -7,9 +15,8 @@ import { is } from "immutable";
  * 减少rereder的次数，提高效率
  */
 export class BaseComponent<P, S> extends React.Component<P, S> {
-    constructor(props: P, context: S) {
-        super(props, context);
-    }
+    public static contextTypes = { theme: PropTypes.object };
+    public context: { theme: ThemeType };
 
     public shouldComponentUpdate(nextProps: P, nextState: S) {
         const thisProps: any = this.props || {};

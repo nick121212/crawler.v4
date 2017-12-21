@@ -85,15 +85,17 @@ export class PhantomEngine extends modelProxy.BaseEngine {
             let rtn = { statusCode: 0, body: "" };
 
             horseman = new Horseman(horsemanSetting);
+           
             horseman
                 .userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/538.1 (KHTML, like Gecko) Safari/538.")
                 .on("resourceReceived", (res: any) => {
+                    console.log(res);
                     resources[res.url] = res;
                 })
                 .on("resourceRequested", (req: any) => {
                     console.log("Request " + JSON.stringify(req, undefined, 4));
                 })
-                // .headers(headers)
+                .headers(headers)
                 .open(url)
                 .wait(500)
                 .status()

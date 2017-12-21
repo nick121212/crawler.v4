@@ -8,6 +8,7 @@ import his, { createBrowserHistory, createHashHistory, History } from "history";
 
 import proxy from "./proxy";
 import mpMiddleware, { ModelProxyMiddlewareMeta } from "../common/middlewares/proxy";
+import msgMiddleware, { MessageMiddlewareMeta } from "../common/middlewares/message";
 
 /**
  * logger中间件
@@ -28,6 +29,13 @@ export const sagaMiddleware = createSagaMiddleware();
 
 /**
  * 合并中间件
- * 
+ * thunk -> router -> promise -> msg -> proxy -> saga -> logger -> promise
  */
-export default (history: any) => applyMiddleware(thunk, routerMiddleware(history), promise, mpMiddleware({ proxy }), sagaMiddleware, logger, promise)(createStore);
+export default (history: any) => applyMiddleware(
+    thunk,
+    routerMiddleware(history),
+    promise,
+    mpMiddleware({ proxy }),
+    sagaMiddleware,
+    logger
+)(createStore);

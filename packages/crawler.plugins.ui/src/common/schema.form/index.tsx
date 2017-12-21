@@ -1,11 +1,17 @@
 import React from "react";
-import { SchemaForm, hocFactory, defaultTheme } from "fx-schema-form-antd/out";
+import { SchemaForm, hocFactory, defaultTheme } from "fx-schema-form-react";
 import Ajv, { Thenable, ValidateFunction, SchemaValidateFunction } from "ajv";
-import { Button, Popover, Popconfirm } from "antd";
 
 import templates from "./templates";
 import widgets from "./widgets";
 import schemas from "./schemas";
+import fields from "./fields";
+import hocs from "./hocs";
+import { ItemButtons, ItemChildButtons } from "../component/item";
+
+defaultTheme.fieldFactory.unLock("array");
+// defaultTheme.fieldFactory.("array");
+
 
 for (let key in widgets) {
     if (widgets.hasOwnProperty(key)) {
@@ -16,6 +22,17 @@ for (let key in widgets) {
 for (let key in templates) {
     if (templates.hasOwnProperty(key)) {
         defaultTheme.tempFactory.add(key, templates[key]);
+    }
+}
+for (let key in fields) {
+    if (fields.hasOwnProperty(key)) {
+        defaultTheme.fieldFactory.add(key, fields[key], true);
+    }
+}
+
+for (let key in hocs) {
+    if (hocs.hasOwnProperty(key)) {
+        hocFactory.add(key, hocs[key]);
     }
 }
 
@@ -38,53 +55,19 @@ const globalOptions = {
     },
     "hoc": {
         "array": {
-            createItemButtons: (props: any) => {
-                const { isShow = true } = props.meta;
-                return (
-                    <div>
-                        <Button style={{ marginRight: 5 }} type="primary" shape="circle" icon="plus" ghost={true}
-                            onClick={() => { props.addItem(); }}></Button>
-                        <Button type={!isShow ? "dashed" : "primary"}
-                            shape="circle" icon={isShow ? "shrink" : "arrows-alt"}
-                            onClick={() => { props.toggleItem(); }}></Button>
-                    </div>
-                );
-            },
-            createItemChildButtons: (props: any, idx: number, maxLength: number) => {
-                return (
-                    <Popover placement="topLeft" title={null} content={(
-                        <div>
-                            <Popconfirm
-                                style={{ marginRight: 5 }}
-                                title="Are you sure？"
-                                onConfirm={() => {
-                                    props.removeItem(idx);
-                                }}
-                                okText="Yes"
-                                cancelText="No">
-                                <Button ghost={true} type="danger" shape="circle" icon="delete"></Button>
-                            </Popconfirm>
-                            <Button style={{ marginRight: 5 }} ghost={false} type="dashed" shape="circle" icon="packup"
-                                onClick={() => { props.switchItem(idx, idx - 1); }}></Button>
-                            <Button ghost={false} type="dashed" shape="circle" icon="unfold"
-                                onClick={() => { props.switchItem(idx, idx + 1); }}></Button>
-                        </div>
-                    )} trigger="hover">
-                        <Button icon="switch" shape="circle"></Button>
-                    </Popover>
-                );
-            }
+            "ItemChildButtons": ItemChildButtons,
+            "ItemButtons": ItemButtons
         }
     },
     "formItem": {
-        "hasFeedback": true,
+        "hasFeedback": false,
         "labelCol": {
             "xs": { "span": 24 },
-            "sm": { "span": 3 },
+            "sm": { "span": 6 },
         },
         "wrapperCol": {
             "xs": { "span": 24 },
-            "sm": { "span": 19 },
+            "sm": { "span": 16 },
         }
     },
     "row": {
@@ -102,7 +85,7 @@ const globalOptions = {
         "ui:temp": ["card"]
     },
     "array": {
-        "ui:temp": ["row", "col", "card"]
+        "ui:temp": ["card"]
     }
 };
 

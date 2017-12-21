@@ -15,13 +15,24 @@ fetchEngine.use(async (ctx: IProxyCtx, next: Function) => {
     let text = await ctx.result.text();
 
     if (!text) {
-        ctx.result = {};
+        ctx.result = {
+            code: 200
+        };
     } else {
         ctx.result = JSON.parse(text);
     }
 
     await next();
 });
+
+fetchEngine.use(async (ctx: IProxyCtx, next: Function) => {
+    if (ctx.result.code !== undefined && ctx.result.code !== 200) {
+        throw new Error(ctx.result.error);
+    }
+
+    await next();
+});
+
 
 proxy.loadConfig(webapiConfig, { engine: "fetch" });
 

@@ -22,6 +22,7 @@
     "inversify": "^4.2.0",
     "modelproxy": "^0.5.19",
     "node-horseman": "^3.3.0",
+    "phantomjs": "^2.1.7+deprecated",
     "reflect-metadata": "^0.1.10",
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
