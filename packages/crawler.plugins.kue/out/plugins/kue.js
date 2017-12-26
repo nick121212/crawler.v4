@@ -8,9 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -49,83 +46,96 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var inversify_1 = require("inversify");
 var crawler_plugins_common_1 = require("crawler.plugins.common");
-var Joi = require("joi");
+var bluebird = require("bluebird");
 var constants_1 = require("../constants");
-var index_1 = require("../index");
-var TransformExexutePlugin = /** @class */ (function () {
-    function TransformExexutePlugin() {
+var kue_1 = require("../libs/kue");
+var KuePlugin = /** @class */ (function () {
+    function KuePlugin() {
     }
     /**
      * 启动一个任务
      * @param param0 数据
      */
-    TransformExexutePlugin.prototype.single = function (_a) {
-        var expression = _a.expression, data = _a.data;
+    KuePlugin.prototype.muti = function (config, options, globalOptions) {
         return __awaiter(this, void 0, void 0, function () {
-            var exp, res;
+            var type, data, removeOnComplete, every, priority, attempts, backoff, unique, ttl, progress, job, saveAsync;
             return __generator(this, function (_a) {
-                exp = index_1.jsonata(expression);
-                res = exp.evaluate(data);
-                console.log(res);
-                return [2 /*return*/, {
-                        result: res
-                    }];
+                switch (_a.label) {
+                    case 0:
+                        type = config.type, data = config.data, removeOnComplete = config.removeOnComplete, every = config.every, priority = config.priority, attempts = config.attempts, backoff = config.backoff, unique = config.unique, ttl = config.ttl, progress = config.progress;
+                        job = this.kue.queue.createJob(type || "seneca-schedule", data)
+                            .removeOnComplete(removeOnComplete);
+                        saveAsync = bluebird.promisify(job.save.bind(job));
+                        if (unique) {
+                            job.unique(unique);
+                        }
+                        if (priority) {
+                            job.priority(priority);
+                        }
+                        if (attempts) {
+                            job.attempts(attempts);
+                        }
+                        if (backoff) {
+                            job.backoff(backoff);
+                        }
+                        if (ttl) {
+                            job.ttl(ttl);
+                        }
+                        return [4 /*yield*/, saveAsync()];
+                    case 1:
+                        _a.sent();
+                        if (every) {
+                            this.kue.queue.every(every, job);
+                        }
+                        return [2 /*return*/, job];
+                }
             });
         });
     };
     /**
-     * 启动一个任务
-     * @param param0 数据
+     * 启动未正常停止的队列
+     * @param msg
+     * @param options
+     * @param globalOptions
      */
-    TransformExexutePlugin.prototype.muti = function (_a, options, globalOptions) {
-        var expressions = _a.expressions, data = _a.data;
+    KuePlugin.prototype.init = function (msg, options, globalOptions) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
-            var rets;
             return __generator(this, function (_a) {
-                rets = [];
-                expressions.forEach(function (expression) { return __awaiter(_this, void 0, void 0, function () {
-                    var _a, _b;
-                    return __generator(this, function (_c) {
-                        switch (_c.label) {
-                            case 0:
-                                _b = (_a = rets).push;
-                                return [4 /*yield*/, this.single({ expression: expression, data: data })];
-                            case 1:
-                                _b.apply(_a, [(_c.sent()).result]);
-                                return [2 /*return*/];
-                        }
+                this.kue = new kue_1.KueService(globalOptions);
+                this.kue.queue.on('job enqueue', function (id, type) {
+                    console.log('Job %s got queued of type %s', id, type);
+                }).on('job complete', function (id, result) {
+                    console.log("job completed ", id, result);
+                });
+                this.kue.queue.process("seneca-schedule", function (job, done) { return __awaiter(_this, void 0, void 0, function () {
+                    return __generator(this, function (_a) {
+                        options.seneca.actAsync(job.data.partten, job.data.data);
+                        done();
+                        return [2 /*return*/];
                     });
                 }); });
-                return [2 /*return*/, { result: rets }];
+                return [2 /*return*/];
             });
         });
     };
     __decorate([
-        crawler_plugins_common_1.Add("role:" + constants_1.pluginName + ",cmd:single"),
-        __param(0, crawler_plugins_common_1.Validate(Joi.object().keys({
-            expression: Joi.string().required().label("表达式"),
-            data: Joi.any().required().label("数组字段")
-        }), { allowUnknown: true })),
-        __metadata("design:type", Function),
-        __metadata("design:paramtypes", [Object]),
-        __metadata("design:returntype", Promise)
-    ], TransformExexutePlugin.prototype, "single", null);
-    __decorate([
-        crawler_plugins_common_1.Add("role:" + constants_1.pluginName + ",cmd:muti"),
-        __param(0, crawler_plugins_common_1.Validate(Joi.object().keys({
-            expressions: Joi.array().items(Joi.string().required().label("表达式")).required().label("表达式列表"),
-            data: Joi.any().required().label("数组字段")
-        }), { allowUnknown: true })),
+        crawler_plugins_common_1.Add("role:" + constants_1.pluginName + ",cmd:create"),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [Object, Object, Object]),
         __metadata("design:returntype", Promise)
-    ], TransformExexutePlugin.prototype, "muti", null);
-    TransformExexutePlugin = __decorate([
+    ], KuePlugin.prototype, "muti", null);
+    __decorate([
+        crawler_plugins_common_1.Init(),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object, Object, Object]),
+        __metadata("design:returntype", Promise)
+    ], KuePlugin.prototype, "init", null);
+    KuePlugin = __decorate([
         crawler_plugins_common_1.Plugin(constants_1.pluginName),
         inversify_1.injectable()
-    ], TransformExexutePlugin);
-    return TransformExexutePlugin;
+    ], KuePlugin);
+    return KuePlugin;
 }());
-exports.TransformExexutePlugin = TransformExexutePlugin;
-//# sourceMappingURL=execute.js.map
+exports.KuePlugin = KuePlugin;
+//# sourceMappingURL=kue.js.map

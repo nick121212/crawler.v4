@@ -1,12 +1,7 @@
 import "reflect-metadata";
-import { injectable, inject } from "inversify";
 import { Seneca } from "crawler.plugins.common";
 
 import { container } from "./container";
-import { pluginMqName, pluginTaskName } from "./constants";
-import { MQueueService } from "./libs/mq";
-
-// import config from "./config/test";
 
 let seneca = new Seneca(container, {
     tag: "crawler.plugins.schedule"
@@ -15,9 +10,18 @@ let seneca = new Seneca(container, {
 seneca.seneca
     .ready(async () => {
         console.log("crawler.plugins.schedule ready!");
-        // await seneca.seneca.actAsync(`role:${pluginTaskName},cmd:add`, require("./config/milove").default);
-        // await seneca.seneca.actAsync(`role:${pluginTaskName},cmd:add`, require("./config/milove.blog").default);
-        // await seneca.seneca.actAsync(`role:${pluginTaskName},cmd:queueInfo`, { key: "bijia" }).catch(console.log);
 
-        // await seneca.seneca.actAsync(`role:${pluginTaskName},cmd:forever`);
+        // seneca.seneca.act(`role:crawler.plugin.kue,cmd:create`, {
+        //     type: "schedule-1",
+        //     data: {
+        //         partten: "role:crawler.plugin.transform,cmd:single",
+        //         data: {
+        //             expression: "$$.a",
+        //             data: { a: 1 }
+        //         }
+        //     },
+        //     every: "2 seconds"
+        // }, (err: Error, res: any) => {
+        //     console.log(res);
+        // });
     });

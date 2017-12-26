@@ -1,12 +1,15 @@
 module.exports = {
     "options": {
-        "crawler.plugin.store.es": {
-            "host": process.env.ES || "www.bebewiki.com",
-            "httpAuth": "nick:13564548667",
-            "sniffInterval": 30000,
-            "requestTimeout": 20000
+        "crawler.plugin.kue": {
+            "redis": {
+                port: 6379,
+                host: process.env.REDIS || "123.59.44.152",
+                "options": {}
+            },
+            "db": 3,
+            "restore": true
         },
-        "seneca": {
+        "senecaOptions": {
             "timeout": 60000
         }
     },
@@ -17,7 +20,7 @@ module.exports = {
                 "auto": true,
                 "host": process.env.HOST,
                 "listen": [{
-                    "pin": "role:crawler.plugin.store.es,cmd:*",
+                    "pin": "role:crawler.plugin.kue,cmd:*",
                     "timeout": 60000
                 }]
             }

@@ -1,0 +1,43 @@
+{
+  "name": "crawler.plugins.kue",
+  "version": "0.1.23",
+  "description": "爬虫定时任务",
+  "main": "out/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "crawler",
+    "typescript",
+    "javascript"
+  ],
+  "types": "./out/index.d.ts",
+  "author": "NICK",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "crawler.plugins.common": "^0.1.23",
+    "inversify": "^4.2.0",
+    "inversify-binding-decorators": "^3.0.0",
+    "joi": "^10.6.0",
+    "kue": "^0.11.6",
+    "kue-scheduler": "^0.7.4",
+    "reflect-metadata": "^0.1.10",
+    "seneca": "^3.4.1",
+    "seneca-balance-client": "^0.6.1",
+    "seneca-consul-registry": "^0.1.0",
+    "seneca-entity": "^2.0.2",
+    "seneca-mesh": "^0.10.0",
+    "seneca-repl": "^1.1.2",
+    "seneca-transport": "^2.1.1"
+  },
+  "devDependencies": {
+    "@types/bluebird": "^3.5.8",
+    "@types/inversify-devtools": "^1.0.2",
+    "@types/joi": "^10.4.0",
+    "@types/kue": "^0.11.8",
+    "@types/node": "^8.0.14",
+    "@types/reflect-metadata": "0.0.5",
+    "@types/seneca": "^2.1.7"
+  }
+}

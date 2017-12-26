@@ -22,9 +22,11 @@ export class TransformExexutePlugin {
         }), { allowUnknown: true }) { expression, data }: { expression: string, data: any }) {
 
         let exp = jsonata(expression);
+        let res = exp.evaluate(data);
 
+        console.log(res);
         return {
-            result: exp.evaluate(data)
+            result: res
         };
     }
     /**

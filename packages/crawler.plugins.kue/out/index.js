@@ -36,16 +36,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
-require("reflect-metadata");
 var crawler_plugins_common_1 = require("crawler.plugins.common");
 var container_1 = require("./container");
 var seneca = new crawler_plugins_common_1.Seneca(container_1.container, {
-    tag: "crawler.plugins.schedule"
+    tag: "crawler.plugins.kue"
 });
-seneca.seneca
-    .ready(function () { return __awaiter(_this, void 0, void 0, function () {
+seneca.seneca.ready(function () { return __awaiter(_this, void 0, void 0, function () {
     return __generator(this, function (_a) {
-        console.log("crawler.plugins.schedule ready!");
+        console.log("crawler.plugins.kue ready!");
         return [2 /*return*/];
     });
 }); });
