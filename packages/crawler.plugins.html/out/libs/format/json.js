@@ -4,7 +4,7 @@ var _ = require("lodash");
 /**
  * 处理html文本策越
  */
-var Strategy = (function () {
+var Strategy = /** @class */ (function () {
     function Strategy() {
     }
     /**

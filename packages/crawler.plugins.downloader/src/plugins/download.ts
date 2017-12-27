@@ -71,7 +71,7 @@ export class DownloadPlugin {
      */
     @Add(`role:${pluginName},cmd:interfaces`)
     private async inter( @Validate(interJoi, { allowUnknown: true })
-    { url, path = "", params, data, header, method = "get", engine = "superagent" }: InterModel) {
+    { url, path = "", params, data, header, method = "get", engine = "superagent", charset = "utf-8" }: InterModel) {
         let start = Date.now();
 
         this.proxy.proxy.loadConfig({
@@ -91,13 +91,15 @@ export class DownloadPlugin {
 
         });
 
+        
+console.log("-----------");
         /**
          * 调用接口
          */
         let rtn = await this.proxy.proxy.execute("/download/interface", {
             data,
             params,
-            settings: { header }
+            settings: { header, charset }
         }).then((res: request.RequestResponse) => {
             return {
                 responseBody: res.body,

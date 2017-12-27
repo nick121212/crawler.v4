@@ -88,7 +88,7 @@ var SuperAgentEngine = /** @class */ (function (_super) {
                         _m.label = 1;
                     case 1:
                         _m.trys.push([1, 3, , 4]);
-                        curReq = request(method.toString() || "get", path);
+                        curReq = request(method.toString() || "get", path).withCredentials();
                         // 代理
                         if (proxyInfo) {
                             curReq.proxy("http://" + proxyInfo);

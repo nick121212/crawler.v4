@@ -160,6 +160,7 @@ var PhantomEngine = /** @class */ (function (_super) {
                 .on("resourceRequested", function (req) {
                 console.log("Request " + JSON.stringify(req, undefined, 4));
             })
+                .headers(headers)
                 .open(url)
                 .wait(500)
                 .status()

@@ -31,7 +31,7 @@ export class SuperAgentEngine extends modelProxy.BaseEngine {
             console.log(charset);
 
             try {
-                let curReq: any = request(method.toString() || "get", path);
+                let curReq: any = request(method.toString() || "get", path).withCredentials();
 
                 // 代理
                 if (proxyInfo) {

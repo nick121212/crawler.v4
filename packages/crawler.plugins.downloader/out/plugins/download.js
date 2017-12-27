@@ -111,7 +111,7 @@ var DownloadPlugin = /** @class */ (function () {
      * @param params 参数
      */
     DownloadPlugin.prototype.inter = function (_a) {
-        var url = _a.url, _b = _a.path, path = _b === void 0 ? "" : _b, params = _a.params, data = _a.data, header = _a.header, _c = _a.method, method = _c === void 0 ? "get" : _c, _d = _a.engine, engine = _d === void 0 ? "superagent" : _d;
+        var url = _a.url, _b = _a.path, path = _b === void 0 ? "" : _b, params = _a.params, data = _a.data, header = _a.header, _c = _a.method, method = _c === void 0 ? "get" : _c, _d = _a.engine, engine = _d === void 0 ? "superagent" : _d, _e = _a.charset, charset = _e === void 0 ? "utf-8" : _e;
         return __awaiter(this, void 0, void 0, function () {
             var start, rtn;
             return __generator(this, function (_a) {
@@ -133,10 +133,11 @@ var DownloadPlugin = /** @class */ (function () {
                             },
                             "title": "download下载接口",
                         });
+                        console.log("-----------");
                         return [4 /*yield*/, this.proxy.proxy.execute("/download/interface", {
                                 data: data,
                                 params: params,
-                                settings: { header: header }
+                                settings: { header: header, charset: charset }
                             }).then(function (res) {
                                 return {
                                     responseBody: res.body,

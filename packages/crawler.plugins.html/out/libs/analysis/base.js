@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var _ = require("lodash");
 var format_1 = require("../format");
-var Base = (function () {
+var Base = /** @class */ (function () {
     function Base() {
         this.deals = {};
     }

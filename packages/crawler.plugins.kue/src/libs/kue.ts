@@ -23,8 +23,8 @@ export class KueService {
             jobEvents: true,
             ...config
         });
-       
-        this.queue.inactive((err:any,ids:number[])=>{
+
+        this.queue.inactive((err: any, ids: number[]) => {
             console.log(ids);
         });
 
@@ -36,6 +36,14 @@ export class KueService {
             console.log(err);
         });
 
-        KueSchedule.app.listen(3000);
+        KueSchedule.app.listen(3002);
+    }
+
+    public async remove(id: any) {
+        let removeAsync: any = bluebird.promisify(this.queue.remove.bind(this.queue));
+
+        return removeAsync({
+            unique: id
+        });
     }
 }

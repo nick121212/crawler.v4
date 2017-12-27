@@ -56,7 +56,7 @@ var KuePlugin = /** @class */ (function () {
      * 启动一个任务
      * @param param0 数据
      */
-    KuePlugin.prototype.muti = function (config, options, globalOptions) {
+    KuePlugin.prototype.create = function (config, options, globalOptions) {
         return __awaiter(this, void 0, void 0, function () {
             var type, data, removeOnComplete, every, priority, attempts, backoff, unique, ttl, progress, job, saveAsync;
             return __generator(this, function (_a) {
@@ -93,6 +93,25 @@ var KuePlugin = /** @class */ (function () {
         });
     };
     /**
+    * 启动一个任务
+    * @param param0 数据
+    */
+    KuePlugin.prototype.remove = function (config, options, globalOptions) {
+        return __awaiter(this, void 0, void 0, function () {
+            var unique;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        unique = config.unique;
+                        return [4 /*yield*/, this.kue.remove(unique)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/, null];
+                }
+            });
+        });
+    };
+    /**
      * 启动未正常停止的队列
      * @param msg
      * @param options
@@ -124,7 +143,13 @@ var KuePlugin = /** @class */ (function () {
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [Object, Object, Object]),
         __metadata("design:returntype", Promise)
-    ], KuePlugin.prototype, "muti", null);
+    ], KuePlugin.prototype, "create", null);
+    __decorate([
+        crawler_plugins_common_1.Add("role:" + constants_1.pluginName + ",cmd:remove"),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object, Object, Object]),
+        __metadata("design:returntype", Promise)
+    ], KuePlugin.prototype, "remove", null);
     __decorate([
         crawler_plugins_common_1.Init(),
         __metadata("design:type", Function),

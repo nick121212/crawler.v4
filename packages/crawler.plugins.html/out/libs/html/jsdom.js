@@ -39,7 +39,7 @@ var _ = require("lodash");
 var jsdom = require("jsdom");
 var _fs = require("fs");
 var jquery = _fs.readFileSync(__dirname + "/../../../node_modules/jquery/dist/jquery.min.js", "utf-8");
-var JsDomDealStrategy = (function () {
+var JsDomDealStrategy = /** @class */ (function () {
     function JsDomDealStrategy() {
     }
     /**

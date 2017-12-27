@@ -9,5 +9,5 @@ export declare class DownloadPlugin {
      * 调用接口
      * @param params 参数
      */
-    private inter({url, path, params, data, header, method, engine});
+    private inter({url, path, params, data, header, method, engine, charset});
 }

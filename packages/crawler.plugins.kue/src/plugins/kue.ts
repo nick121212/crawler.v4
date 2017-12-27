@@ -16,7 +16,7 @@ export class KuePlugin {
      * @param param0 数据
      */
     @Add(`role:${pluginName},cmd:create`)
-    private async muti(config: any, options?: any, globalOptions?: any) {
+    private async create(config: any, options?: any, globalOptions?: any) {
         let { type, data, removeOnComplete, every, priority, attempts, backoff, unique, ttl, progress } = config;
         let job = this.kue.queue.createJob(type || "seneca-schedule", data)
             .removeOnComplete(removeOnComplete);
@@ -45,6 +45,19 @@ export class KuePlugin {
         }
 
         return job;
+    }
+
+    /**
+    * 启动一个任务
+    * @param param0 数据
+    */
+    @Add(`role:${pluginName},cmd:remove`)
+    private async remove(config: any, options?: any, globalOptions?: any) {
+        let { unique } = config;
+
+        await this.kue.remove(unique);
+        
+        return null;
     }
 
     /**

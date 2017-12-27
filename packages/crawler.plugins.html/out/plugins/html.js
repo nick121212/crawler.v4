@@ -56,7 +56,7 @@ var analysis_1 = require("../libs/analysis");
 var constants_1 = require("../constants");
 // const Pool = require("threads").Pool;
 // const pool = new Pool();
-var HtmlPlugin = (function () {
+var HtmlPlugin = /** @class */ (function () {
     function HtmlPlugin() {
     }
     HtmlPlugin.prototype.html = function (_a, options) {
@@ -98,25 +98,25 @@ var HtmlPlugin = (function () {
             });
         });
     };
+    __decorate([
+        crawler_plugins_common_1.Add("role:" + constants_1.pluginName + ",cmd:html"),
+        __param(0, crawler_plugins_common_1.Validate(joi.object().keys({
+            queueItem: joi.object().keys({
+                path: joi.string().required().label("路径")
+            }).required(),
+            pages: joi.array().required().min(1).items(joi.object().keys({
+                path: joi.string().required()
+            }))
+        }), { allowUnknown: true })),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object, Object]),
+        __metadata("design:returntype", Promise)
+    ], HtmlPlugin.prototype, "html", null);
+    HtmlPlugin = __decorate([
+        crawler_plugins_common_1.Plugin(constants_1.pluginName),
+        inversify_1.injectable()
+    ], HtmlPlugin);
     return HtmlPlugin;
 }());
-__decorate([
-    crawler_plugins_common_1.Add("role:" + constants_1.pluginName + ",cmd:html"),
-    __param(0, crawler_plugins_common_1.Validate(joi.object().keys({
-        queueItem: joi.object().keys({
-            path: joi.string().required().label("路径")
-        }).required(),
-        pages: joi.array().required().min(1).items(joi.object().keys({
-            path: joi.string().required()
-        }))
-    }), { allowUnknown: true })),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", Promise)
-], HtmlPlugin.prototype, "html", null);
-HtmlPlugin = __decorate([
-    crawler_plugins_common_1.Plugin(constants_1.pluginName),
-    inversify_1.injectable()
-], HtmlPlugin);
 exports.HtmlPlugin = HtmlPlugin;
 //# sourceMappingURL=html.js.map

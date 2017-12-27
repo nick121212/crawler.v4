@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var _ = require("lodash");
-var Strategy = (function () {
+var Strategy = /** @class */ (function () {
     function Strategy() {
     }
     /**

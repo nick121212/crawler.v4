@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var requireDir = require("require-directory");
 var _ = require("lodash");
-var FormatStrategy = (function () {
+var FormatStrategy = /** @class */ (function () {
     function FormatStrategy() {
         var _this = this;
         this.formats = {};

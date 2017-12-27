@@ -4,7 +4,7 @@ var _ = require("lodash");
 /**
  * string值处理
  */
-var Strategy = (function () {
+var Strategy = /** @class */ (function () {
     function Strategy() {
     }
     /**
@@ -21,7 +21,9 @@ var Strategy = (function () {
                 result = _.trimEnd(result);
             }
             if (settings.middle) {
-                result = result.replace(/\r\n/gi, "");
+                // result = result.replace(/\ +/g, ""); //去掉空格
+                // result = result.replace(/[ ]/g, "");    //去掉空格
+                result = result.replace(/[\r\n]/g, ""); //去掉回车换行
             }
         }
         return result;

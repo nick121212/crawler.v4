@@ -4,7 +4,12 @@ export declare class KuePlugin {
      * 启动一个任务
      * @param param0 数据
      */
-    private muti(config, options?, globalOptions?);
+    private create(config, options?, globalOptions?);
+    /**
+    * 启动一个任务
+    * @param param0 数据
+    */
+    private remove(config, options?, globalOptions?);
     /**
      * 启动未正常停止的队列
      * @param msg

@@ -51,7 +51,7 @@ var requireDir = require("require-directory");
 /**
  * 处理html文本策越
  */
-var Strategy = (function (_super) {
+var Strategy = /** @class */ (function (_super) {
     __extends(Strategy, _super);
     /**
      * 构造函数

@@ -8,4 +8,5 @@ export declare class KueService {
      * @param configFactory 配置文件服务类
      */
     constructor(config: any);
+    remove(id: any): Promise<any>;
 }

@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var _ = require("lodash");
 var jsdom_1 = require("../html/jsdom");
-var Strategy = (function () {
+var Strategy = /** @class */ (function () {
     function Strategy() {
     }
     /**

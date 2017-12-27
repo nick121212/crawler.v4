@@ -6,8 +6,8 @@ exports.interJoi = joi.object().keys({
     proxyInfo: joi.string().label("代理信息"),
     engine: joi.string().label("调用接口的引擎").allow("superagent", "request", "phantom"),
     header: joi.object().label("http头信息"),
-    url: joi.object().required().label("请求的地址"),
-    path: joi.object().required().label("请求的路径"),
-    method: joi.object().required().label("请求的方法")
+    url: joi.string().required().label("请求的地址"),
+    path: joi.string().required().label("请求的路径"),
+    method: joi.string().required().label("请求的方法")
 });
 //# sourceMappingURL=inter.js.map

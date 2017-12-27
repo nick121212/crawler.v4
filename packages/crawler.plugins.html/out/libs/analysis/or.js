@@ -12,7 +12,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var _ = require("lodash");
 var base_1 = require("./base");
-var Strategy = (function (_super) {
+var Strategy = /** @class */ (function (_super) {
     __extends(Strategy, _super);
     /**
      * 构造函数

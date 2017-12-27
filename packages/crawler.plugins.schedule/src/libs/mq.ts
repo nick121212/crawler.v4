@@ -52,15 +52,15 @@ export class MQueueService {
 
             // 1. 序列化queue的消息
             // 2. 调用消费方法
-            this.consume = await this.channel.consume(queue.queue, async (msg: amqplib.Message) => {
+            this.consume = await this.channel.consume(queue.queue, async (msg: amqplib.Message | null) => {
                 let msgData: any;
 
                 // 如果queue的msg不能正常序列化，则丢弃掉当前消息
                 try {
-                    msgData = await this.getQueueItemFromMsg(msg);
+                    msgData = await this.getQueueItemFromMsg(msg as any);
                 } catch (e) {
                     if (this.channel) {
-                        this.channel.nack(msg);
+                        this.channel.nack(msg as any);
                     }
 
                     return;
@@ -73,15 +73,15 @@ export class MQueueService {
 
                     console.log("爬取成功！");
                     if (this.channel) {
-                        this.channel.ack(msg);
+                        this.channel.ack(msg as any);
                     }
                 } catch (err) {
                     console.log("爬取失败！", err.message);
                     if (this.channel) {
-                        this.channel.nack(msg);
+                        this.channel.nack(msg as any);
                     }
                 }
-
+                return null;
             }, { noAck: false, exclusive: false });
         } catch (e) {
             console.log(e.message);
