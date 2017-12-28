@@ -20,8 +20,7 @@ export class DownloadPlugin {
      * @param param0
      */
     @Add(`role:${pluginName},cmd:html`)
-    private async html( @Validate(htmlJoi, { allowUnknown: true })
-    { queueItem, proxyInfo, header = {}, charset, engine = "superagent" }: HtmlModel) {
+    private async html({ queueItem, proxyInfo, header = {}, charset, engine = "superagent" }: HtmlModel) {
         let start = Date.now();
 
         /**
@@ -91,8 +90,8 @@ export class DownloadPlugin {
 
         });
 
-        
-console.log("-----------");
+
+        console.log("-----------");
         /**
          * 调用接口
          */
