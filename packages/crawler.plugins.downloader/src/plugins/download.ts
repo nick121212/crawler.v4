@@ -90,8 +90,6 @@ export class DownloadPlugin {
 
         });
 
-
-        console.log("-----------");
         /**
          * 调用接口
          */

@@ -191,20 +191,6 @@ export class EsStorePlugin {
         return {};
     }
 
-    @Init()
-    private async init(msg: any, options: any, globalOptions: any) {
-        this.client = new Client(globalOptions);
-        this.client.ping({
-            requestTimeout: 1000
-        }).then(() => {
-            console.log("elasticsearh as well");
-        }, (err: Error) => {
-            console.log("elasticsearch cluster is down!", err.message);
-        });
-
-        await bluebird.delay(200);
-    }
-
     /**
      * 获取单个数据
      * @param param0
@@ -238,6 +224,20 @@ export class EsStorePlugin {
             type: esType,
             scroll: "300s"
         });
+    }
+
+    @Init()
+    private async init(msg: any, options: any, globalOptions: any) {
+        this.client = new Client(globalOptions);
+        this.client.ping({
+            requestTimeout: 1000
+        }).then(() => {
+            console.log("elasticsearh as well");
+        }, (err: Error) => {
+            console.log("elasticsearch cluster is down!", err.message);
+        });
+
+        await bluebird.delay(200);
     }
 
     /**

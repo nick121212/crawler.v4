@@ -4,17 +4,15 @@
 
 > 下载策略
 
-1.request） nodejs中http请求的模块。
-2.phantomjs）载入js，不加载image和css。
-3.(superagent) nodejs中http请求的模块。
+1. request:nodejs中http请求的模块。
+2. phantomjs:载入js，不加载image和css。速度稍慢。
+3. superagent:nodejs中http请求的模块。
 
 > 当前支持的模式
 
 1. 调用页面
 
 partten: **role:crawler.plugin.downloader,cmd:html**
-
-测试地址：http://172.16.112.215:9001/act POST
 
 返回数据结构:
 
@@ -31,9 +29,9 @@ partten: **role:crawler.plugin.downloader,cmd:html**
                 "title":"页面的html字符串",
                 "type":"string"
             },
-            "crawlerCount":{
-                "title":"当前页面爬取的次数",
-                "type":"number"
+            "header":{
+                "title":"当前爬取返回的头部信息",
+                "type":"object"
             }
         }
     }
@@ -60,19 +58,26 @@ partten: **role:crawler.plugin.downloader,cmd:html**
                     "hostname":{"type":"string","title":"下载链接的域名",
                     "depth":{"type":"number","title":"下载链接深度"},
                 }
+            },
+            proxyInfo:{
+                type:"string",
+                title:"代理信息",
+                description:"http://127.0.0.1:8080"
+            },
+            header:{
+                type:"object",
+                title:"头信息",
+            },
+            charset:{
+                type:"string",
+                default:"utf-8",
+                title:"字符集编码"
+            },
+            engine:{
+                type:"string",
+                enum:["superagent","request","phantom"],
+                title:"引擎"
             }
-        }
-    }
-```
-
-测试数据
-
-``` 
-    {
-        role:"crawler.plugin.downloader",
-        cmd:"html",
-        queueItem: { 
-            url: "http://www.baidu.com" 
         }
     }
 ```
@@ -80,8 +85,6 @@ partten: **role:crawler.plugin.downloader,cmd:html**
 2. 调用接口
 
 partten: **role:crawler.plugin.downloader,cmd:interface**
-
-测试地址：http://172.16.112.215:9001/act POST
 
 返回数据结构:
 
@@ -93,10 +96,14 @@ partten: **role:crawler.plugin.downloader,cmd:interface**
             "statusCode":{
                 "title":"http的status code",
                 "type":"number"
-            }，
+            },
             "responseBody":{
                 "title":"接口数据字符串",
                 "type":"string"
+            },
+            "header":{
+                "title":"当前爬取返回的头部信息",
+                "type":"object"
             }
         }
     }
@@ -115,23 +122,17 @@ partten: **role:crawler.plugin.downloader,cmd:interface**
             "params":{"type":"object","title":"所需的参数"},
             "data":{"type":"string","title":"所需的数据"},
             "method":{"type":"string","title":"请求类型"},
-            "header":{"type":"object","title":"请求头部"}
+            "header":{"type":"object","title":"请求头部"},
+            charset:{
+                type:"string",
+                default:"utf-8",
+                title:"字符集编码"
+            },
+            engine:{
+                type:"string",
+                enum:["superagent","request","phantom"],
+                title:"引擎"
+            }
         }
     }
-```
-
-测试数据
-
-```
-{
-    role:"crawler.plugin.downloader",
-    cmd:"interface",
-    url: "http://47.92.126.120:9200",
-    path:"/index/_analyze",
-    method: "get",
-    params: {
-        text: "中华人民共和国MN",
-        tokenizer: "ik_smart"
-    }
-}
 ```

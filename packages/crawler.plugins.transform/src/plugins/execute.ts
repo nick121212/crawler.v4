@@ -24,7 +24,6 @@ export class TransformExexutePlugin {
         let exp = jsonata(expression);
         let res = exp.evaluate(data);
 
-        console.log(res);
         return {
             result: res
         };

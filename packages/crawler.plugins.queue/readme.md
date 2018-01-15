@@ -7,7 +7,6 @@
 1. 分析页面
 
 partten: **role:crawler.plugin.queue,cmd:analyze**
-测试地址：http://172.16.112.215:9003/act POST
 
 返回数据结构:
 
@@ -48,7 +47,7 @@ partten: **role:crawler.plugin.queue,cmd:analyze**
                     "maxDepth":{"type":"number","title":"最大深度"},
                     "fetchWhitelistedMimeTypesBelowMaxDepth":{"type":"boolean","title":"是否开启最大深度过滤"},
                     "whitePathList":{"type":"array","title":"路径白名单","items":{
-                        "type":"object"
+                        "type":"object",
                         "title":"单个路径规则",
                         "properties":{
                             "path":{
