@@ -75,14 +75,14 @@ var PhantomEngine = /** @class */ (function (_super) {
     PhantomEngine.prototype.init = function () {
         var _this = this;
         this.use(function (ctx, next) { return __awaiter(_this, void 0, void 0, function () {
-            var path, _a, method, _b, _c, data, _d, settings, _e, params, _f, _g, timeout, _h, headers, _j, proxyInfo, searchParams, _k, e_1;
+            var path, _a, method, _b, _c, data, _d, settings, _e, params, _f, _g, timeout, _h, header, _j, proxyInfo, searchParams, _k, e_1;
             return __generator(this, function (_l) {
                 switch (_l.label) {
                     case 0:
                         path = this.getFullPath(ctx.instance || {}, ctx.executeInfo || {});
                         _a = (ctx.instance || {}).method, method = _a === void 0 ? "" : _a;
                         _b = ctx.executeInfo || {}, _c = _b.data, data = _c === void 0 ? null : _c, _d = _b.settings, settings = _d === void 0 ? {} : _d, _e = _b.params, params = _e === void 0 ? {} : _e;
-                        _f = settings || {}, _g = _f.timeout, timeout = _g === void 0 ? 5000 : _g, _h = _f.headers, headers = _h === void 0 ? {} : _h, _j = _f.proxyInfo, proxyInfo = _j === void 0 ? "" : _j;
+                        _f = settings || {}, _g = _f.timeout, timeout = _g === void 0 ? 5000 : _g, _h = _f.header, header = _h === void 0 ? {} : _h, _j = _f.proxyInfo, proxyInfo = _j === void 0 ? "" : _j;
                         searchParams = new url_1.URLSearchParams();
                         Object.keys(params).forEach(function (key) {
                             if (params[key] !== undefined) {
@@ -93,7 +93,7 @@ var PhantomEngine = /** @class */ (function (_super) {
                     case 1:
                         _l.trys.push([1, 3, , 4]);
                         _k = ctx;
-                        return [4 /*yield*/, this.house(path + (searchParams.toString() ? "?" + searchParams.toString() : ""), headers, proxyInfo)];
+                        return [4 /*yield*/, this.house(path + (searchParams.toString() ? "?" + searchParams.toString() : ""), header, proxyInfo)];
                     case 2:
                         _k.result = _l.sent();
                         return [3 /*break*/, 4];

@@ -23,7 +23,7 @@ export class PhantomEngine extends modelProxy.BaseEngine {
             let path = this.getFullPath(ctx.instance || {}, ctx.executeInfo || {});
             let { method = "" } = ctx.instance || {};
             let { data = null, settings = {}, params = {} } = ctx.executeInfo || {};
-            let { timeout = 5000, headers = {}, proxyInfo = "" } = settings || {};
+            let { timeout = 5000, header = {}, proxyInfo = "" } = settings || {};
             let searchParams = new URLSearchParams();
 
             Object.keys(params).forEach((key) => {
@@ -33,7 +33,7 @@ export class PhantomEngine extends modelProxy.BaseEngine {
             });
 
             try {
-                ctx.result = await this.house(path + (searchParams.toString() ? "?" + searchParams.toString() : ""), headers, proxyInfo);
+                ctx.result = await this.house(path + (searchParams.toString() ? "?" + searchParams.toString() : ""), header, proxyInfo);
             } catch (e) {
                 ctx.err = e;
                 ctx.isError = true;

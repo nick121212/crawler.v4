@@ -51,7 +51,6 @@ var inversify_1 = require("inversify");
 var crawler_plugins_common_1 = require("crawler.plugins.common");
 var proxy_1 = require("../proxy");
 var constants_1 = require("../constants");
-var html_1 = require("../models/html");
 var inter_1 = require("../models/inter");
 var DownloadPlugin = /** @class */ (function () {
     function DownloadPlugin() {
@@ -133,7 +132,6 @@ var DownloadPlugin = /** @class */ (function () {
                             },
                             "title": "download下载接口",
                         });
-                        console.log("-----------");
                         return [4 /*yield*/, this.proxy.proxy.execute("/download/interface", {
                                 data: data,
                                 params: params,
@@ -159,7 +157,6 @@ var DownloadPlugin = /** @class */ (function () {
     ], DownloadPlugin.prototype, "proxy", void 0);
     __decorate([
         crawler_plugins_common_1.Add("role:" + constants_1.pluginName + ",cmd:html"),
-        __param(0, crawler_plugins_common_1.Validate(html_1.htmlJoi, { allowUnknown: true })),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [Object]),
         __metadata("design:returntype", Promise)

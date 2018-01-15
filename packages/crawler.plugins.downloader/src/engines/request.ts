@@ -22,7 +22,7 @@ export class RequestEngine extends modelProxy.BaseEngine {
             let path = this.getFullPath(ctx.instance || {}, ctx.executeInfo || {});
             let { method = "" } = ctx.instance || {};
             let { data = null, settings = {}, params = {} } = ctx.executeInfo || {};
-            let { timeout = 5000, headers = {}, charset = "utf-8", proxyInfo = "" } = settings || {};
+            let { timeout = 5000, header = {}, charset = "utf-8", proxyInfo = "" } = settings || {};
             let searchParams = new URLSearchParams();
 
             Object.keys(params).forEach((key) => {
@@ -38,7 +38,7 @@ export class RequestEngine extends modelProxy.BaseEngine {
                     proxy: proxyInfo ? `http://${proxyInfo}` : null,
                     charset: charset || "auto",
                     json: true,
-                    headers: headers,
+                    headers: header,
                     resolveWithFullResponse: true,
                     timeout: timeout
                 }, undefined);

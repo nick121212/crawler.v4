@@ -75,14 +75,14 @@ var RequestEngine = /** @class */ (function (_super) {
     RequestEngine.prototype.init = function () {
         var _this = this;
         this.use(function (ctx, next) { return __awaiter(_this, void 0, void 0, function () {
-            var path, _a, method, _b, _c, data, _d, settings, _e, params, _f, _g, timeout, _h, headers, _j, charset, _k, proxyInfo, searchParams, _l, e_1;
+            var path, _a, method, _b, _c, data, _d, settings, _e, params, _f, _g, timeout, _h, header, _j, charset, _k, proxyInfo, searchParams, _l, e_1;
             return __generator(this, function (_m) {
                 switch (_m.label) {
                     case 0:
                         path = this.getFullPath(ctx.instance || {}, ctx.executeInfo || {});
                         _a = (ctx.instance || {}).method, method = _a === void 0 ? "" : _a;
                         _b = ctx.executeInfo || {}, _c = _b.data, data = _c === void 0 ? null : _c, _d = _b.settings, settings = _d === void 0 ? {} : _d, _e = _b.params, params = _e === void 0 ? {} : _e;
-                        _f = settings || {}, _g = _f.timeout, timeout = _g === void 0 ? 5000 : _g, _h = _f.headers, headers = _h === void 0 ? {} : _h, _j = _f.charset, charset = _j === void 0 ? "utf-8" : _j, _k = _f.proxyInfo, proxyInfo = _k === void 0 ? "" : _k;
+                        _f = settings || {}, _g = _f.timeout, timeout = _g === void 0 ? 5000 : _g, _h = _f.header, header = _h === void 0 ? {} : _h, _j = _f.charset, charset = _j === void 0 ? "utf-8" : _j, _k = _f.proxyInfo, proxyInfo = _k === void 0 ? "" : _k;
                         searchParams = new url_1.URLSearchParams();
                         Object.keys(params).forEach(function (key) {
                             if (params[key] !== undefined) {
@@ -99,7 +99,7 @@ var RequestEngine = /** @class */ (function (_super) {
                                 proxy: proxyInfo ? "http://" + proxyInfo : null,
                                 charset: charset || "auto",
                                 json: true,
-                                headers: headers,
+                                headers: header,
                                 resolveWithFullResponse: true,
                                 timeout: timeout
                             }, undefined)];
