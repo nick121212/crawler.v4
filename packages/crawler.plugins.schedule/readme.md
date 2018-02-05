@@ -19,7 +19,7 @@ partten: role:crawler.plugin.plugin,cmd:getFieldFlow
 
 ``` json
     {
-        "type":"object",
+        "type":"array",
         "$id":"msgFlow",
         "description":"参数数据结构",
         "items":{
@@ -87,7 +87,7 @@ partten: role:crawler.plugin.plugin,cmd:startNormalFlow
     {
         "type":"object",
         "description":"参数数据结构",
-        "items":{
+        "properties":{
             "type":"object",
             "properties":{
                 "title":{"type":"string","title":"说明文字"},
@@ -195,7 +195,7 @@ partten: role:crawler.plugin.task,cmd:addItemToQueue
     }
 ```
 
-6. 启动一个任务,根据不同的startPartten开决定参数
+6. 启动一个任务
 
 partten: role:crawler.plugin.task,cmd:add
 
@@ -266,7 +266,7 @@ partten: role:crawler.plugin.task,cmd:remove
 
 partten: role:crawler.plugin.task,cmd:list
 
-返回数据结构: 
+返回数据结构:
 
 ``` json
     {
