@@ -83,12 +83,20 @@ export default {
             }]
         }
     }, {
+        "partten": "role:crawler.plugin.transform,cmd:single",
+        "jsonata": ["${'data':$$.result.images}"],
+        "condition": "!$not($$.result.images)",
+        "data": {
+            "expression": "${'images':$$.$join('--------')}"
+        },
+        "result": "$"
+    }, {
         "partten": "role:crawler.plugin.task,cmd:addItemToQueue",
         "title": "把解析到的数据存入到mq中",
         "jsonata": ["$.{'items':[$.result]}"],
         "data": {
             "key": "doubanList",
-            "routingKey": "lait.tv.result"
+            "routingKey": "crawler.url.lait.tv.result"
         }
     }]
 };

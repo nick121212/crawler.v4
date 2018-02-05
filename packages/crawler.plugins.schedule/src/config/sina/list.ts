@@ -72,10 +72,12 @@ export default {
                                 "selector": [".subinfo_box a:eq(1)"],
                                 "methodInfo": { "text": [] },
                                 "htmlStrategy": "jsdom",
+                                "formats": [{ "key": "trim", "settings": { "start": true, "middle": true, "end": true } }],
                                 "dealStrategy": "normal"
                             }, {
                                 "key": "authorUrl",
                                 "selector": [".subinfo_box a:eq(0)"],
+                                "formats": [{ "key": "trim", "settings": { "start": true, "middle": true, "end": true } }],
                                 "methodInfo": { "attr": ["href"] },
                                 "htmlStrategy": "jsdom",
                                 "dealStrategy": "normal"

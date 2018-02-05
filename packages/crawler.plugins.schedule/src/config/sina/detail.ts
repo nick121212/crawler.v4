@@ -91,7 +91,7 @@ export default {
         "jsonata": ["$.{'items':[$.result]}"],
         "data": {
             "key": "weiboRealDetail",
-            "routingKey": "crawler.url.weiboRealDetail1	"
+            "routingKey": "crawler.url.weiboRealDetail1"
         }
     }]
 };

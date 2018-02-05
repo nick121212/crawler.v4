@@ -63,8 +63,8 @@ var DownloadPlugin = /** @class */ (function () {
         var queueItem = _a.queueItem, proxyInfo = _a.proxyInfo, _b = _a.header, header = _b === void 0 ? {} : _b, charset = _a.charset, _c = _a.engine, engine = _c === void 0 ? "superagent" : _c;
         return __awaiter(this, void 0, void 0, function () {
             var start, res;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            return __generator(this, function (_d) {
+                switch (_d.label) {
                     case 0:
                         start = Date.now();
                         /**
@@ -93,7 +93,7 @@ var DownloadPlugin = /** @class */ (function () {
                                 }
                             })];
                     case 1:
-                        res = _a.sent();
+                        res = _d.sent();
                         console.log(queueItem.url, "-----downloader 成功；耗时：", Date.now() - start, "ms");
                         return [2 /*return*/, {
                                 crawlerCount: 1 * (queueItem.crawlerCount || 0) + 1,
@@ -113,8 +113,8 @@ var DownloadPlugin = /** @class */ (function () {
         var url = _a.url, _b = _a.path, path = _b === void 0 ? "" : _b, params = _a.params, data = _a.data, header = _a.header, _c = _a.method, method = _c === void 0 ? "get" : _c, _d = _a.engine, engine = _d === void 0 ? "superagent" : _d, _e = _a.charset, charset = _e === void 0 ? "utf-8" : _e;
         return __awaiter(this, void 0, void 0, function () {
             var start, rtn;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            return __generator(this, function (_f) {
+                switch (_f.label) {
                     case 0:
                         start = Date.now();
                         this.proxy.proxy.loadConfig({
@@ -131,7 +131,7 @@ var DownloadPlugin = /** @class */ (function () {
                                 "interface": url
                             },
                             "title": "download下载接口",
-                        });
+                        }, { state: "interface" });
                         return [4 /*yield*/, this.proxy.proxy.execute("/download/interface", {
                                 data: data,
                                 params: params,
@@ -144,7 +144,7 @@ var DownloadPlugin = /** @class */ (function () {
                                 };
                             })];
                     case 1:
-                        rtn = _a.sent();
+                        rtn = _f.sent();
                         console.log(url, "-----downloader 成功；耗时：", Date.now() - start, "ms");
                         return [2 /*return*/, rtn];
                 }

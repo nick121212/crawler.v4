@@ -94,8 +94,17 @@ export default {
     }, {
         "partten": "role:crawler.plugin.transform,cmd:single",
         "jsonata": ["${'data':$$.result.images}"],
+        "condition":"!$not($$.result.images)",
         "data": {
             "expression": "${'images':$$.$replace('thumb150','mw1024')}"
+        },
+        "result": "$"
+    }, {
+        "partten": "role:crawler.plugin.transform,cmd:single",
+        "jsonata": ["${'data':$$.result.images}"],
+        "condition":"!$not($$.result.images)",
+        "data": {
+            "expression": "${'images':$$.$join('--------')}"
         },
         "result": "$"
     }, {
@@ -104,7 +113,7 @@ export default {
         "jsonata": ["$.{'items':[$.result]}"],
         "data": {
             "key": "weiboRealDetail1",
-            "routingKey": "lait.tv.result"
+            "routingKey": "crawler.url.lait.tv.result"
         }
     }]
 };

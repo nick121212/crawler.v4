@@ -87,8 +87,7 @@ export class DownloadPlugin {
                 "interface": url
             },
             "title": "download下载接口",
-
-        });
+        }, { state: "interface" });
 
         /**
          * 调用接口

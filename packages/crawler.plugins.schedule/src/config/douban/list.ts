@@ -8,8 +8,7 @@ export default {
     "delay": 100,
     "prefech": 1,
     "startPartten": "role:crawler.plugin.plugin,cmd:startNormalFlow",
-    "initFlow": [],
-    "msgFlow": [{
+    "initFlow": [{
         "key": "queue",
         "partten": "role:crawler.plugin.queue,cmd:queue",
         "title": "把地址queue化",
