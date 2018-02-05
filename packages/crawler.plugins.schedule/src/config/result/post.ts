@@ -7,23 +7,22 @@ export default {
     "startPartten": "role:crawler.plugin.plugin,cmd:startNormalFlow",
     "initFlow": [],
     "msgFlow": [{
-        "partten": "role:crawler.plugin.downloader,cmd:interface",
+        "partten": "role:crawler.plugin.downloader,cmd:interfaces",
         "title": "导入到mysql",
         "jsonata": ["$.{'data':$$}"],
         "data": {
-            "url": "http://www.lait.tv",
+            "url": "https://www.lait.tv",
             "path": "/posts/import",
             "method": "post"
-        },
-        "result": "${'queueItem':$}"
+        }
     }, {
         "partten": "role:crawler.plugin.store.es,cmd:saveResult",
+        "condition": "false",
         "title": "导入到es",
         "jsonata": ["$.{'result':$$}"],
         "data": {
             "esIndex": "lait.tv",
             "esType": "posts"
-        },
-        "result": "${'queueItem':$}"
+        }
     }]
 };

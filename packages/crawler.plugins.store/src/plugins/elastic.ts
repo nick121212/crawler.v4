@@ -230,7 +230,7 @@ export class EsStorePlugin {
     private async init(msg: any, options: any, globalOptions: any) {
         this.client = new Client(globalOptions);
         this.client.ping({
-            requestTimeout: 1000
+            requestTimeout: 3000
         }).then(() => {
             console.log("elasticsearh as well");
         }, (err: Error) => {

@@ -1,10 +1,11 @@
 module.exports = {
     "options": {
         "crawler.plugin.store.es": {
-            "host": process.env.ES || "www.bebewiki.com",
+            "host": process.env.ES || "www.bebewiki.com:9600",
             "httpAuth": "nick:13564548667",
             "sniffInterval": 30000,
-            "requestTimeout": 20000
+            "requestTimeout": 20000,
+            "keepAlive": true
         },
         "seneca": {
             "timeout": 60000

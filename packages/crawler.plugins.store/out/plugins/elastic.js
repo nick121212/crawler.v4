@@ -68,7 +68,7 @@ var _fields = [
     "status",
     "updatedAt"
 ];
-var EsStorePlugin = (function () {
+var EsStorePlugin = /** @class */ (function () {
     function EsStorePlugin() {
     }
     /**
@@ -82,8 +82,8 @@ var EsStorePlugin = (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             var urlsById, docs, resources, newUrls, urlsResult;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
                         urlsById = _.keyBy(urls, "_id");
                         docs = [];
@@ -106,7 +106,7 @@ var EsStorePlugin = (function () {
                                 storedFields: ["statusCode"]
                             })];
                     case 1:
-                        resources = _a.sent();
+                        resources = _b.sent();
                         newUrls = _.filter(resources.docs, function (doc) {
                             if (doc.error && doc.error.type === "index_not_found_exception") {
                                 return true;
@@ -135,7 +135,7 @@ var EsStorePlugin = (function () {
                                 body: docs
                             })];
                     case 2:
-                        urlsResult = _a.sent();
+                        urlsResult = _b.sent();
                         return [2 /*return*/, urlsResult.items.map(function (url) {
                                 if (url.create && url.create.created) {
                                     return urlsById[url.create._id];
@@ -157,8 +157,8 @@ var EsStorePlugin = (function () {
         var queueItem = _a.queueItem, esIndex = _a.esIndex, esType = _a.esType;
         return __awaiter(this, void 0, void 0, function () {
             var docs;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
                         docs = [];
                         if (!(queueItem && queueItem._id)) return [3 /*break*/, 2];
@@ -175,7 +175,7 @@ var EsStorePlugin = (function () {
                         return [4 /*yield*/, this.client.bulk({
                                 body: docs
                             })];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 1: return [2 /*return*/, _b.sent()];
                     case 2: return [2 /*return*/, {}];
                 }
             });
@@ -191,8 +191,8 @@ var EsStorePlugin = (function () {
         var result = _a.result, _id = _a._id, esIndex = _a.esIndex, esType = _a.esType;
         return __awaiter(this, void 0, void 0, function () {
             var docs;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
                         docs = [];
                         if (!result) return [3 /*break*/, 2];
@@ -208,7 +208,7 @@ var EsStorePlugin = (function () {
                         return [4 /*yield*/, this.client.bulk({
                                 body: docs
                             })];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 1: return [2 /*return*/, _b.sent()];
                     case 2: return [2 /*return*/, {}];
                 }
             });
@@ -224,8 +224,8 @@ var EsStorePlugin = (function () {
         var result = _a.result, esIndex = _a.esIndex, esType = _a.esType, _id = _a._id;
         return __awaiter(this, void 0, void 0, function () {
             var docs;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
                         docs = [];
                         if (!result) return [3 /*break*/, 2];
@@ -235,29 +235,8 @@ var EsStorePlugin = (function () {
                                 id: _id,
                                 body: result
                             })];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 1: return [2 /*return*/, _b.sent()];
                     case 2: return [2 /*return*/, {}];
-                }
-            });
-        });
-    };
-    EsStorePlugin.prototype.init = function (msg, options, globalOptions) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        this.client = new elasticsearch_1.Client(globalOptions);
-                        this.client.ping({
-                            requestTimeout: 1000
-                        }).then(function () {
-                            console.log("elasticsearh as well");
-                        }, function (err) {
-                            console.log("elasticsearch cluster is down!", err.message);
-                        });
-                        return [4 /*yield*/, bluebird.delay(200)];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
                 }
             });
         });
@@ -272,14 +251,14 @@ var EsStorePlugin = (function () {
     EsStorePlugin.prototype.getItem = function (_a) {
         var _id = _a._id, esIndex = _a.esIndex, esType = _a.esType;
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0: return [4 /*yield*/, this.client.get({
                             id: _id,
                             index: esIndex,
                             type: esType
                         })];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 1: return [2 /*return*/, _b.sent()];
                 }
             });
         });
@@ -287,8 +266,8 @@ var EsStorePlugin = (function () {
     EsStorePlugin.prototype.scroll = function (_a) {
         var esIndex = _a.esIndex, esType = _a.esType, scrollId = _a.scrollId;
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
                         console.log("------------------------", scrollId, esIndex, esType);
                         if (!scrollId) return [3 /*break*/, 2];
@@ -296,13 +275,34 @@ var EsStorePlugin = (function () {
                                 scrollId: scrollId,
                                 scroll: "300s"
                             })];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 1: return [2 /*return*/, _b.sent()];
                     case 2: return [4 /*yield*/, this.client.search({
                             index: esIndex,
                             type: esType,
                             scroll: "300s"
                         })];
-                    case 3: return [2 /*return*/, _a.sent()];
+                    case 3: return [2 /*return*/, _b.sent()];
+                }
+            });
+        });
+    };
+    EsStorePlugin.prototype.init = function (msg, options, globalOptions) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        this.client = new elasticsearch_1.Client(globalOptions);
+                        this.client.ping({
+                            requestTimeout: 3000
+                        }).then(function () {
+                            console.log("elasticsearh as well");
+                        }, function (err) {
+                            console.log("elasticsearch cluster is down!", err.message);
+                        });
+                        return [4 /*yield*/, bluebird.delay(200)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
                 }
             });
         });
@@ -322,53 +322,53 @@ var EsStorePlugin = (function () {
         });
         return res;
     };
+    __decorate([
+        crawler_plugins_common_1.Add("role:" + constants_1.pluginEsName + ",cmd:saveUrls"),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", Promise)
+    ], EsStorePlugin.prototype, "saveUrls", null);
+    __decorate([
+        crawler_plugins_common_1.Add("role:" + constants_1.pluginEsName + ",cmd:saveQueueItem"),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", Promise)
+    ], EsStorePlugin.prototype, "saveQueueItem", null);
+    __decorate([
+        crawler_plugins_common_1.Add("role:" + constants_1.pluginEsName + ",cmd:saveResult"),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", Promise)
+    ], EsStorePlugin.prototype, "saveResult", null);
+    __decorate([
+        crawler_plugins_common_1.Add("role:" + constants_1.pluginEsName + ",cmd:createResult"),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", Promise)
+    ], EsStorePlugin.prototype, "createResult", null);
+    __decorate([
+        crawler_plugins_common_1.Add("role:" + constants_1.pluginEsName + ",cmd:getItem"),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", Promise)
+    ], EsStorePlugin.prototype, "getItem", null);
+    __decorate([
+        crawler_plugins_common_1.Add("role:" + constants_1.pluginEsName + ",cmd:scroll"),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", Promise)
+    ], EsStorePlugin.prototype, "scroll", null);
+    __decorate([
+        crawler_plugins_common_1.Init(),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object, Object, Object]),
+        __metadata("design:returntype", Promise)
+    ], EsStorePlugin.prototype, "init", null);
+    EsStorePlugin = __decorate([
+        crawler_plugins_common_1.Plugin(constants_1.pluginEsName),
+        inversify_1.injectable()
+    ], EsStorePlugin);
     return EsStorePlugin;
 }());
-__decorate([
-    crawler_plugins_common_1.Add("role:" + constants_1.pluginEsName + ",cmd:saveUrls"),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Promise)
-], EsStorePlugin.prototype, "saveUrls", null);
-__decorate([
-    crawler_plugins_common_1.Add("role:" + constants_1.pluginEsName + ",cmd:saveQueueItem"),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Promise)
-], EsStorePlugin.prototype, "saveQueueItem", null);
-__decorate([
-    crawler_plugins_common_1.Add("role:" + constants_1.pluginEsName + ",cmd:saveResult"),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Promise)
-], EsStorePlugin.prototype, "saveResult", null);
-__decorate([
-    crawler_plugins_common_1.Add("role:" + constants_1.pluginEsName + ",cmd:createResult"),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Promise)
-], EsStorePlugin.prototype, "createResult", null);
-__decorate([
-    crawler_plugins_common_1.Init(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object]),
-    __metadata("design:returntype", Promise)
-], EsStorePlugin.prototype, "init", null);
-__decorate([
-    crawler_plugins_common_1.Add("role:" + constants_1.pluginEsName + ",cmd:getItem"),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Promise)
-], EsStorePlugin.prototype, "getItem", null);
-__decorate([
-    crawler_plugins_common_1.Add("role:" + constants_1.pluginEsName + ",cmd:scroll"),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Promise)
-], EsStorePlugin.prototype, "scroll", null);
-EsStorePlugin = __decorate([
-    crawler_plugins_common_1.Plugin(constants_1.pluginEsName),
-    inversify_1.injectable()
-], EsStorePlugin);
 exports.EsStorePlugin = EsStorePlugin;
 //# sourceMappingURL=elastic.js.map

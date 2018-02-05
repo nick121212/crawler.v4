@@ -28,7 +28,6 @@ export declare class EsStorePlugin {
   * @param esType  类型
   */
     private createResult({result, esIndex, esType, _id});
-    private init(msg, options, globalOptions);
     /**
      * 获取单个数据
      * @param param0
@@ -38,6 +37,7 @@ export declare class EsStorePlugin {
      */
     private getItem({_id, esIndex, esType});
     private scroll({esIndex, esType, scrollId});
+    private init(msg, options, globalOptions);
     /**
      * pick 字段
      * @param result 数据
