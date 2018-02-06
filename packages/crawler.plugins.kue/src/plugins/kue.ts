@@ -76,9 +76,15 @@ export class KuePlugin {
         });
 
         this.kue.queue.process("seneca-schedule", async (job: any, done: Function) => {
-            options.seneca.actAsync(job.data.partten, job.data.data).catch((e: Error) => {
-                console.log(e);
-            });
+
+            try{
+                options.seneca.actAsync(job.data.partten, job.data.data).catch((e: Error) => {
+                    console.log(e.message);
+                });
+            }catch(e){
+                console.log(e.message);
+            }
+         
             done();
         });
     }
