@@ -129,7 +129,9 @@ var KuePlugin = /** @class */ (function () {
                 });
                 this.kue.queue.process("seneca-schedule", function (job, done) { return __awaiter(_this, void 0, void 0, function () {
                     return __generator(this, function (_a) {
-                        options.seneca.actAsync(job.data.partten, job.data.data);
+                        options.seneca.actAsync(job.data.partten, job.data.data).catch(function (e) {
+                            console.log(e);
+                        });
                         done();
                         return [2 /*return*/];
                     });

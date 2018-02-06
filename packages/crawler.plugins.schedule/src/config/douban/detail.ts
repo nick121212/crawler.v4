@@ -87,7 +87,7 @@ export default {
         "jsonata": ["${'data':$$.result.images}"],
         "condition": "!$not($$.result.images)",
         "data": {
-            "expression": "${'images':$$.$join('--------')}"
+            "expression": "${'images':$$.result.images.$join('--------')}"
         },
         "result": "$"
     }, {

@@ -56,7 +56,7 @@ export class KuePlugin {
         let { unique } = config;
 
         await this.kue.remove(unique);
-        
+
         return null;
     }
 
@@ -76,7 +76,9 @@ export class KuePlugin {
         });
 
         this.kue.queue.process("seneca-schedule", async (job: any, done: Function) => {
-            options.seneca.actAsync(job.data.partten, job.data.data);
+            options.seneca.actAsync(job.data.partten, job.data.data).catch((e: Error) => {
+                console.log(e);
+            });
             done();
         });
     }
