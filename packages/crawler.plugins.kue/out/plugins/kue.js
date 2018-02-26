@@ -130,6 +130,9 @@ var KuePlugin = /** @class */ (function () {
                 this.kue.queue.process("seneca-schedule", function (job, done) {
                     console.log(new Date(), "--开始执行job");
                     try {
+                        if (!options.seneca.has(job.data.partten)) {
+                            return;
+                        }
                         options.seneca.act(job.data.partten, job.data.data);
                     }
                     catch (e) {

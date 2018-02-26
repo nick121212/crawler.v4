@@ -78,6 +78,9 @@ export class KuePlugin {
         this.kue.queue.process("seneca-schedule", (job: any, done: Function) => {
             console.log(new Date(), "--开始执行job");
             try {
+                if (!options.seneca.has(job.data.partten)) {
+                    return;
+                }
                 options.seneca.act(job.data.partten, job.data.data);
             } catch (e) {
                 console.log(e.message);
