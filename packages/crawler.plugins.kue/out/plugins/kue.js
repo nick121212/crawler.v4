@@ -129,14 +129,14 @@ var KuePlugin = /** @class */ (function () {
                 // });
                 this.kue.queue.process("seneca-schedule", function (job, done) {
                     console.log(new Date(), "--开始执行job");
-                    done();
                     try {
-                        options.seneca.actAsync(job.data.partten, job.data.data).catch(function (e) {
-                            console.log(e.message);
-                        });
+                        options.seneca.act(job.data.partten, job.data.data);
                     }
                     catch (e) {
                         console.log(e.message);
+                    }
+                    finally {
+                        done();
                     }
                 });
                 return [2 /*return*/];

@@ -77,14 +77,12 @@ export class KuePlugin {
 
         this.kue.queue.process("seneca-schedule", (job: any, done: Function) => {
             console.log(new Date(), "--开始执行job");
-
-            done();
             try {
-                options.seneca.actAsync(job.data.partten, job.data.data).catch((e: Error) => {
-                    console.log(e.message);
-                });
+                options.seneca.act(job.data.partten, job.data.data);
             } catch (e) {
                 console.log(e.message);
+            } finally {
+                done();
             }
         });
     }
