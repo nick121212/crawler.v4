@@ -75,7 +75,7 @@ var KueService = /** @class */ (function () {
         }).on("scheduler unknown job expiry key", function (err) {
             console.log(err);
         });
-        KueSchedule.app.listen(3002);
+        // KueSchedule.app.listen(3002);
     }
     KueService.prototype.remove = function (id) {
         return __awaiter(this, void 0, void 0, function () {

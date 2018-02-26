@@ -36,7 +36,7 @@ export class KueService {
             console.log(err);
         });
 
-        KueSchedule.app.listen(3002);
+        // KueSchedule.app.listen(3002);
     }
 
     public async remove(id: any) {
