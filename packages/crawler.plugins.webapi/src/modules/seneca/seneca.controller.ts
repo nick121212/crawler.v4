@@ -46,6 +46,14 @@ export class SenecaController {
         res.send(data);
     }
 
+    /**
+     * 比价系统爬取链接加入队列接口
+     * @param pdt_sku           sku
+     * @param business_id       天猫或者京东
+     * @param business_sku_url  详细地址
+     * @param show_price        当前的价格
+     * @param res               response对象
+     */
     @Post("addBusiness")
     @UsePipes(new JoiValidatorPipe(Joi.string().label("pdt_sku").required(), ({ data }) => data === "pdt_sku"))
     @UsePipes(new JoiValidatorPipe(Joi.number().label("business_id").required(), ({ data }) => data === "business_id"))

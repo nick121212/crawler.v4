@@ -10,7 +10,7 @@ import { KueService } from "../libs/kue";
 @Plugin(pluginName)
 @injectable()
 export class KuePlugin {
-    private kue: KueService;
+    private kue: KueService = null;
     /**
      * 启动一个任务
      * @param param0 数据
@@ -76,15 +76,15 @@ export class KuePlugin {
         });
 
         this.kue.queue.process("seneca-schedule", async (job: any, done: Function) => {
-
-            try{
+            console.log(new Date(), "--开始执行job");
+            try {
                 options.seneca.actAsync(job.data.partten, job.data.data).catch((e: Error) => {
                     console.log(e.message);
                 });
-            }catch(e){
+            } catch (e) {
                 console.log(e.message);
             }
-         
+
             done();
         });
     }

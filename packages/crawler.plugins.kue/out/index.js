@@ -44,6 +44,9 @@ var seneca = new crawler_plugins_common_1.Seneca(container_1.container, {
 seneca.seneca.ready(function () { return __awaiter(_this, void 0, void 0, function () {
     return __generator(this, function (_a) {
         console.log("crawler.plugins.kue ready!");
+        seneca.seneca.act("role:crawler.plugin.kue,cmd:create", {}, function (err, res) {
+            // console.log(res);
+        });
         return [2 /*return*/];
     });
 }); });

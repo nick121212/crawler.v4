@@ -51,6 +51,7 @@ var constants_1 = require("../constants");
 var kue_1 = require("../libs/kue");
 var KuePlugin = /** @class */ (function () {
     function KuePlugin() {
+        this.kue = null;
     }
     /**
      * 启动一个任务
@@ -129,6 +130,7 @@ var KuePlugin = /** @class */ (function () {
                 });
                 this.kue.queue.process("seneca-schedule", function (job, done) { return __awaiter(_this, void 0, void 0, function () {
                     return __generator(this, function (_a) {
+                        console.log(new Date(), "--开始执行job");
                         try {
                             options.seneca.actAsync(job.data.partten, job.data.data).catch(function (e) {
                                 console.log(e.message);
