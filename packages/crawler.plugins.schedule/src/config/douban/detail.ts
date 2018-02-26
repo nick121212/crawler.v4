@@ -60,7 +60,7 @@ export default {
                             "key": "content",
                             "title": "文章详情内容",
                             "selector": ["#link-report"],
-                            "methodInfo": { "html": [] },
+                            "methodInfo": { "text": [] },
                             "htmlStrategy": "jsdom",
                             "dealStrategy": "normal",
                             "formats": [{ "key": "trim", "settings": { "start": true, "middle": true, "end": true } }]
