@@ -120,29 +120,25 @@ var KuePlugin = /** @class */ (function () {
      */
     KuePlugin.prototype.init = function (msg, options, globalOptions) {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
             return __generator(this, function (_a) {
                 this.kue = new kue_1.KueService(globalOptions);
-                this.kue.queue.on('job enqueue', function (id, type) {
-                    console.log('Job %s got queued of type %s', id, type);
-                }).on('job complete', function (id, result) {
-                    console.log("job completed ", id, result);
-                });
-                this.kue.queue.process("seneca-schedule", function (job, done) { return __awaiter(_this, void 0, void 0, function () {
-                    return __generator(this, function (_a) {
-                        console.log(new Date(), "--开始执行job");
-                        try {
-                            options.seneca.actAsync(job.data.partten, job.data.data).catch(function (e) {
-                                console.log(e.message);
-                            });
-                        }
-                        catch (e) {
+                // this.kue.queue.on('job enqueue', function (id: number, type: string) {
+                //     console.log('Job %s got queued of type %s', id, type);
+                // }).on('job complete', (id: number, result: any) => {
+                //     console.log("job completed ", id, result);
+                // });
+                this.kue.queue.process("seneca-schedule", function (job, done) {
+                    console.log(new Date(), "--开始执行job");
+                    done();
+                    try {
+                        options.seneca.actAsync(job.data.partten, job.data.data).catch(function (e) {
                             console.log(e.message);
-                        }
-                        done();
-                        return [2 /*return*/];
-                    });
-                }); });
+                        });
+                    }
+                    catch (e) {
+                        console.log(e.message);
+                    }
+                });
                 return [2 /*return*/];
             });
         });

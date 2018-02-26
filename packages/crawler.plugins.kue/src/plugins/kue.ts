@@ -69,14 +69,16 @@ export class KuePlugin {
     @Init()
     private async init(msg: any, options: any, globalOptions: any) {
         this.kue = new KueService(globalOptions);
-        this.kue.queue.on('job enqueue', function (id: number, type: string) {
-            console.log('Job %s got queued of type %s', id, type);
-        }).on('job complete', (id: number, result: any) => {
-            console.log("job completed ", id, result);
-        });
+        // this.kue.queue.on('job enqueue', function (id: number, type: string) {
+        //     console.log('Job %s got queued of type %s', id, type);
+        // }).on('job complete', (id: number, result: any) => {
+        //     console.log("job completed ", id, result);
+        // });
 
-        this.kue.queue.process("seneca-schedule", async (job: any, done: Function) => {
+        this.kue.queue.process("seneca-schedule", (job: any, done: Function) => {
             console.log(new Date(), "--开始执行job");
+
+            done();
             try {
                 options.seneca.actAsync(job.data.partten, job.data.data).catch((e: Error) => {
                     console.log(e.message);
@@ -84,8 +86,6 @@ export class KuePlugin {
             } catch (e) {
                 console.log(e.message);
             }
-
-            done();
         });
     }
 }
